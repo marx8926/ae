@@ -64,12 +64,3 @@ swiftmailer:
  #   authentication_provider_class: Escape\WSSEAuthenticationBundle\Security\Core\Authentication\Provider\Provider
   #  authentication_listener_class: Escape\WSSEAuthenticationBundle\Security\Http\Firewall\Listener
     
-knp_snappy:
-    pdf:
-        enabled:    true
-        binary:     /usr/local/wkhtmltopdf/bin/wkhtmltopdf
-        options:    []
-    image:
-        enabled:    true
-        binary:     /usr/local/wkhtmltopdf/bin/wkhtmltoimage
-        options:    []
