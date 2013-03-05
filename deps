@@ -1,0 +1,3 @@
+[FileUploaderBundle]
+    git=http://github.com/punkave/symfony2-file-uploader-bundle.git
+    target=/bundles/PunkAve/FileUploaderBundle

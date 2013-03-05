@@ -1,0 +1,7 @@
+parameters:
+#    ae_servicios.example.class: AE\ServiciosBundle\Example
+
+services:
+#    ae_servicios.example:
+#        class: %ae_servicios.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

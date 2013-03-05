@@ -1,0 +1,64 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TemaCurso
+ *
+ * @ORM\Table(name="tema_curso")
+ * @ORM\Entity
+ */
+class TemaCurso
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="tema_curso_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=false)
+     */
+    private $activo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_creacion", type="date", nullable=false)
+     */
+    private $fechaCreacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", nullable=false)
+     */
+    private $descripcion;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo", type="smallint", nullable=false)
+     */
+    private $tipo;
+
+    /**
+     * @var \Curso
+     *
+     * @ORM\ManyToOne(targetEntity="Curso")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_curso", referencedColumnName="id")
+     * })
+     */
+    private $idCurso;
+
+
+}

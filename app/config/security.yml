@@ -1,0 +1,59 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+        AE\DataBundle\Entity\Usuario: 
+          algorithm: sha512
+          encode-as-base64: true
+          iterations: 10
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER]
+     
+
+    providers:
+       user_db:
+         entity: {class: AE\DataBundle\Entity\Usuario, property: nombre}
+    firewalls:
+       ## wsse_secured:
+         ## pattern:   /api/.*
+          ##wsse:      { nonce_dir: null, lifetime: 300, realm: null, profile: UsernameToken } 
+
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+          pattern: /.*
+          form_login:
+            login_path: /ingreso
+            check_path: /ingreso_check
+            remember_me: true
+            default_target_path: /main
+          logout:
+            path: /salir
+            target: /
+
+          remember_me:
+            key: MiPassphrase
+            lifetime: 1800
+            path: /.*
+            domain: ~
+          security: true
+          anonymous: true
+        
+            #anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    access_control:
+        - { path: ^/ingreso, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - {path: /user, roles: ROLE_USER }
+        - {path: /admin, roles: ROLE_ADMIN}
+        - {path: /.*, roles: ROLE_ADMIN ,requires_channel: https }
+   #     - { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+  
+
+    

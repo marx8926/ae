@@ -1,0 +1,13 @@
+ingreso:
+  pattern: /ingreso
+  defaults: {_controller: AEloginBundle:Default:login }
+  
+ingreso_check:
+  pattern: /ingreso_check
+  
+salir:
+  pattern: /salir
+  
+main:
+  pattern: /main
+  defaults: {_controller: AEloginBundle:Default:main}

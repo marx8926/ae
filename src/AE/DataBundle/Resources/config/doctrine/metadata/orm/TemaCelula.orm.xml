@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TemaCelula" table="tema_celula">
+    <id name="id" type="integer" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="titutlo" type="string" column="titutlo" length="100" nullable="false"/>
+    <field name="autor" type="string" column="autor" length="70" nullable="false"/>
+    <field name="descripcion" type="text" column="descripcion" nullable="false"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,71 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Encargado
+ *
+ * @ORM\Table(name="encargado")
+ * @ORM\Entity
+ */
+class Encargado
+{
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_obtencion", type="date", nullable=false)
+     */
+    private $fechaObtencion;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=true)
+     */
+    private $activo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="date", nullable=true)
+     */
+    private $fechaFin;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AreaVision", inversedBy="idEncargado")
+     * @ORM\JoinTable(name="many_encargado_has_many_area_vision",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_encargado", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_area_vision", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $idAreaVision;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * })
+     */
+    private $id;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idAreaVision = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

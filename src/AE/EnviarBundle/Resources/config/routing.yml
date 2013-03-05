@@ -1,0 +1,9 @@
+enviar_celula:
+  pattern: /celula
+  defaults: {_controller: AEEnviarBundle:Default:celula}
+  
+enviar_addcelula:
+  pattern: /regcelula
+  defaults: {_controller: AEEnviarBundle:Default:addcelula}
+  requirements:
+    _method: POST

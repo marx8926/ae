@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<html lang="es">
+    
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>AE</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Le styles -->
+        
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <!-- Scripts -->
+        {% endblock %}
+            </head>
+    
+    <body>
+   
+        
+        <div class="container">
+              <style>
+
+    /* GLOBAL STYLES
+    -------------------------------------------------- */
+    /* Padding below the footer and lighter body text */
+
+    body {
+      padding-bottom: 40px;
+      color: #5a5a5a;
+    }
+
+
+
+    /* CUSTOMIZE THE NAVBAR
+    -------------------------------------------------- */
+
+    /* Special class on .container surrounding .navbar, used for positioning it into place. */
+    .navbar-wrapper {
+      position: relative;
+      z-index: 10;
+      margin-top: 20px;
+      margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+    }
+
+    /* Remove border and change up box shadow for more contrast */
+    .navbar .navbar-inner {
+      border: 0;
+      -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+         -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+              box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    }
+
+    /* Downsize the brand/project name a bit */
+    .navbar .brand {
+      padding: 14px 20px 16px; /* Increase vertical padding to match navbar links */
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+    }
+
+    /* Navbar links: increase padding for taller navbar */
+    .navbar .nav > li > a {
+      padding: 15px 20px;
+    }
+    /* Offset the responsive button for proper vertical alignment */
+    .navbar .btn-navbar {
+      margin-top: 10px;
+    }
+    /* CUSTOMIZE THE NAVBAR
+    -------------------------------------------------- */
+
+    /* Carousel base class */
+    .carousel {
+      margin-bottom: 60px;
+    }
+
+    .carousel .container {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .carousel-control {
+      background-color: transparent;
+      border: 0;
+      font-size: 120px;
+      margin-top: 0;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+    }
+
+    .carousel .item {
+      height: 500px;
+    }
+    .carousel img {
+      min-width: 100%;
+      height: 500px;
+    }
+
+    .carousel-caption {
+      background-color: transparent;
+      position: static;
+      max-width: 550px;
+      padding: 0 20px;
+      margin-bottom: 100px;
+    }
+    .carousel-caption h1,
+    .carousel-caption .lead {
+      margin: 0;
+      line-height: 1.25;
+      color: #fff;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+    }
+    .carousel-caption .btn {
+      margin-top: 10px;
+    }
+
+    /* MARKETING CONTENT
+    -------------------------------------------------- */
+
+    /* Center align the text within the three columns below the carousel */
+    .marketing .span4 {
+      text-align: center;
+    }
+    .marketing h2 {
+      font-weight: normal;
+    }
+    .marketing .span4 p {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    /* Featurettes
+    ------------------------- */
+
+    .featurette-divider {
+      margin: 80px 0; /* Space out the Bootstrap <hr> more */
+    }
+    .featurette {
+      padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
+      overflow: hidden; /* Vertically center images part 2: clear their floats. */
+    }
+    .featurette-image {
+      margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+    }
+
+    /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+    .featurette-image.pull-left {
+      margin-right: 40px;
+    }
+    .featurette-image.pull-right {
+      margin-left: 40px;
+    }
+
+    /* Thin out the marketing headings */
+    .featurette-heading {
+      font-size: 50px;
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+
+
+    /* RESPONSIVE CSS
+    -------------------------------------------------- */
+
+    @media (max-width: 979px) {
+
+      .container.navbar-wrapper {
+        margin-bottom: 0;
+        width: auto;
+      }
+      .navbar-inner {
+        border-radius: 0;
+        margin: -20px 0;
+      }
+
+      .carousel .item {
+        height: 500px;
+      }
+      .carousel img {
+        width: auto;
+        height: 500px;
+      }
+
+      .featurette {
+        height: auto;
+        padding: 0;
+      }
+      .featurette-image.pull-left,
+      .featurette-image.pull-right {
+        display: block;
+        float: none;
+        max-width: 40%;
+        margin: 0 auto 20px;
+      }
+    }
+
+
+    @media (max-width: 767px) {
+
+      .navbar-inner {
+        margin: -20px;
+      }
+
+      .carousel {
+        margin-left: -20px;
+        margin-right: -20px;
+      }
+      .carousel .container {
+
+      }
+      .carousel .item {
+        height: 300px;
+      }
+      .carousel img {
+        height: 300px;
+      }
+      .carousel-caption {
+        width: 65%;
+        padding: 0 70px;
+        margin-bottom: 40px;
+      }
+      .carousel-caption h1 {
+        font-size: 30px;
+      }
+      .carousel-caption .lead,
+      .carousel-caption .btn {
+        font-size: 18px;
+      }
+
+      .marketing .span4 + .span4 {
+        margin-top: 40px;
+      }
+
+      .featurette-heading {
+        font-size: 30px;
+      }
+      .featurette .lead {
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+    }
+    </style>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+            <a class="brand" href="#"> CLM-Net </a>
+                <ul class="nav pull-left">
+                            <li class="active"><a href="#">Inicio</a></li>
+                            <li ><a href="#">Sobre</a></li>
+                            <li ><a href="#">Contacto</a></li>             
+                </ul>
+            
+ 
+                <ul class="navbar-form pull-right">
+                    
+              
+ 
+                    <form action="{{ path('ingreso_check') }}" method="post">
+   
+                        <input id="username" type="text" name="_username" value="{{ last_username }}" />
+         
+                        <input id="password" type="password" name="_password" />
+                        <input class="btn btn-small btn-primary" type="submit" name="login" />
+                    </form>
+                        
+                </ul>
+               
+            </div>            
+        </div>
+</div>
+
+  
+    <body>
+        
+        <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide">
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="{{asset('images/slide-01.jpg')}}" alt="">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Example headline.</h1>
+              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <a class="btn btn-large btn-primary" href="#">Sign up today</a>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="{{asset('images/slide-02.jpg')}}" alt="">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Another example headline.</h1>
+              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <a class="btn btn-large btn-primary" href="#">Learn more</a>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="{{asset('images/slide-03.jpg')}}" alt="">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>One more for good measure.</h1>
+              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <a class="btn btn-large btn-primary" href="#">Browse gallery</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div><!-- /.carousel -->
+    
+    
+   
+    
+    <div class="container">
+        
+        
+
+  <div class="marketing">
+
+    <h1>CLM-Net</h1>
+    <p class="marketing-byline">Porqué mi congregación no crece? Look no further.</p>
+
+    <div class="row-fluid">
+      <div class="span4">
+        <img src="{{asset('images/bs-docs-twitter-github.png')}}">
+        <h2>By nerds, for nerds.</h2>
+        <p>Built at Twitter by <a href="http://twitter.com/mdo">@mdo</a> and <a href="http://twitter.com/fat">@fat</a>, Bootstrap utilizes <a href="http://lesscss.org">LESS CSS</a>, is compiled via <a href="http://nodejs.org">Node</a>, and is managed through <a href="http://github.com">GitHub</a> to help nerds do awesome stuff on the web.</p>
+      </div>
+      <div class="span4">
+        <img src="{{asset('images/bs-docs-responsive-illustrations.png')}}">
+        <h2>Made for everyone.</h2>
+        <p>Bootstrap was made to not only look and behave great in the latest desktop browsers (as well as IE7!), but in tablet and smartphone browsers via <a href="./scaffolding.html#responsive">responsive CSS</a> as well.</p>
+      </div>
+      <div class="span4">
+        <img src="{{asset('images/bs-docs-bootstrap-features.png')}}">
+        <h2>Packed with features.</h2>
+        <p>A 12-column responsive <a href="./scaffolding.html#grid">grid</a>, dozens of components, <a href="./javascript.html">JavaScript plugins</a>, typography, form controls, and even a <a href="./customize.html">web-based Customizer</a> to make Bootstrap your own.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <hr class="soften">
+
+    <h1>Congregaciones soportadas</h1>
+    <p class="marketing-byline">Iglesias con el soporte de CLM-Net, <a href="http://builtwithbootstrap.tumblr.com/" target="_blank">visit the unofficial Tumblr</a> or <a href="./getting-started.html#examples">browse the examples</a>.</p>
+    <div class="row-fluid">
+      <ul class="thumbnails example-sites">
+        <li class="span3">
+          <a class="thumbnail" href="http://soundready.fm/" target="_blank">
+            <img src="{{asset('images/example-sites/soundready.png')}}" alt="SoundReady.fm">
+          </a>
+        </li>
+        <li class="span3">
+          <a class="thumbnail" href="http://kippt.com/" target="_blank">
+            <img src="{{asset('images/example-sites/kippt.png')}}" alt="Kippt">
+          </a>
+        </li>
+        <li class="span3">
+          <a class="thumbnail" href="http://www.gathercontent.com/" target="_blank">
+            <img src="{{asset('images/example-sites/gathercontent.png')}}" alt="Gather Content">
+          </a>
+        </li>
+        
+      </ul>
+     </div>
+
+    
+   
+    </body>            <hr>
+        </div> <!-- /container -->        
+        <div>
+             <footer>
+                <p align="center">&copy; 2012 por CLM Developers All rights reserved.                </p>
+                <p align="center">
+                    <a href="http://www.w3.org/html/logo/">
+                    <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
+                    </a> 
+                </p>
+            </footer>
+        </div>
+            
+     {%block javascripts %}    
+        <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/bootstrap-carousel.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/bootstrap-button.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/bootstrap-scrollspy.js')}}"></script>
+        
+         <script>
+      !function ($) {
+        $(function(jQuery){
+          // carousel demo
+          $('#myCarousel').carousel();
+        });
+      }(window.jQuery);
+    </script>
+<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
+    {%endblock%}
+</body>
+</html>
+

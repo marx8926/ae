@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>
+            {% block title%}
+            AE
+            {% endblock%}
+            </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Le styles -->
+        
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
+        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
+                 <!-- Scripts -->
+        {% endblock %}
+
+        {%block javascripts %}    
+                 
+              
+            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>            
+            <script src="https://maps.google.com/maps/api/js?sensor=false"></script>            
+            <script type="text/javascript" src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js
+')}}" > </script>
+<script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js
+')}}"> </script>
+            
+            <script type="text/javascript" src="{{asset('js/html5.js')}}"></script>
+         
+     {%endblock%}
+        
+             <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+            <a class="brand" href="#"> {{ app.user.username }} </a>
+                       
+         
+                <ul class="nav secondary-nav pull-right"> 
+                   
+                     <li></li>
+                    <li><a href="#accounts/settings/profile/">Settings</a></li>
+                    <li><a href="{{path('salir')}}">Salir</a></li> 
+                </ul> 
+ 
+               </ul>
+               
+            </div>            
+        </div>
+</div>
+    <body>
+        <div class="row-fluid">
+            <div class="span3">
+            
+            </div><!--/row-->
+            
+            
+            <div class="span9" id="registro_form">
+    <form class="form-horizontal" action="{{path('administrar_updateiglesia')}}"  method="POST" id="myForm">
+        
+         <h4>{{id}} </h4>
+        <legend>Registro de Iglesia</legend>
+       
+        <fieldset> 
+            <div class="control-group">
+                <label class="control-label" >Nombre </label>
+                <div class="controls">
+                    <input type="text" id="inputNom" name="inputNom" placeholder="Nombre" class="input-xxlarge" required="nombre"
+                           pattern="^[a-zA-Z]'?([a-zA-Z]|\.| |-)+$" autofocus="true" maxlength="200">
+                </div>
+            </div>
+                
+            <div class="control-group">
+                <label class="control-label" >Telefono   </label>
+                <div class="controls">
+                    <input type="text" id="inputTelef" name="inputTelef" placeholder="Telefono" class="input-xxlarge"
+                           pattern="[0-9]+" required="telefono" autofocus="true">
+                </div>
+            </div>
+                
+           
+        </fieldset>
+        
+        <fieldset>
+        <legend>Ubicación</legend>
+        
+        <div class="control-group">
+            <label class="control-label">Dirección</label>
+            <div class="controls">
+                <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required="direccion" autofocus="true">
+                
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Referencia</label>
+            <div class="controls" >
+                <input type="text" class="input-xxlarge" id="inputReferencia" name="inputReferencia" required="referencia" autofocus="true">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" > Departamento</label>
+            <div class="controls">
+                <select name="departamento_lista" id="departamento_lista" >
+                    
+                </select>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" >Provincia</label>
+            <div class="controls">
+                <select name="provincia_lista" id="provincia_lista">
+                   
+                </select>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label">Distrito</label>
+            <div class="controls">
+                <select name="distrito_lista" id="distrito_lista">
+                    
+                </select>
+            </div>
+        
+        </div>
+        
+         <div class="control-group">
+            
+            <label>Ubicación</label>
+            
+         
+            
+                   <div class='input'>
+                       <label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/>   <br/>
+		
+                       <label>Latitud:      </label> <input id="lat" name="latitud" value="-8.116752"> <br/>
+                       <label>Longitud:      </label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+    </div>
+    <div id="map"></div>
+   
+        </div>
+            
+            <div class="control-group">
+                  <label></label>
+                  <div class="controls">
+                       <input class="btn btn-small btn-primary" type="submit" name="reg" id="reg"/>
+                  </div>
+              </div>
+        </fieldset>
+    </form>
+         <div id="output"></div>
+</div>
+         
+        </div>         
+    </body>
+
+                   <div>
+             <footer>
+                 <p align="center">&copy; 2012 por CLM Developers 
+                </p>
+                <p align="center">
+                    <a href="http://www.w3.org/html/logo/">
+                    <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
+                    </a> 
+                </p>
+            </footer>
+        </div>
+     
+   {%block javascript %}
+           <script type="text/javascript">
+            
+            
+               $(document).ready(function(){
+           
+                var codigo = {{id}}; 
+                var url = '{{path('servicio_iglesia_id',{'id':'cod'})}}';
+                var path = url.replace('cod',codigo);
+               
+    
+                $.ajax(
+                    {url : path,
+                     dataType:"json",
+                     type: "POST",
+                     async: false,
+                    }
+                    ).done(iglesia);
+               // $.getJSON(path,iglesia);
+    
+              //lista de departamentos
+                 
+    
+                  //cambio de departamento
+                   $("#departamento_lista").change(recarga_provincias);
+                  
+                  //cambio de provincia
+                  $("#provincia_lista").change(recarga_distritos);
+                  
+                  
+                  var x =$("reg");
+                    x.click();
+           
+                    $("#myForm").submit(function(){
+                    //get the url for the form
+                    var url=$("#myForm").attr("action");
+   
+                    
+                    $.post(url,{
+                        formName:$("#myForm").serialize(),
+                        other:{{id}}
+                    },function(data){
+                    //the response is in the data variable
+
+                    if(data.responseCode==200 ){           
+                      
+                        alert('Modificación completada');
+                        var href="{{path('main')}}";
+                   
+                       $(location).attr('href',href); 
+          
+                    }
+                    else if(data.responseCode==400){//bad request
+             
+                       alert('Error');
+                        }
+                    else{
+                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Solo se puede registrar una iglesia');
+                        }
+                        //if we got to this point we know that the controller
+                        //did not return a json_encoded array. We can assume that           
+                        //an unexpected PHP error occured
+                        else alert("An unexpeded error occured.");
+
+                        }
+                    }
+       
+                    );
+
+                    return false;});
+                    
+                      
+                $(function() {
+		
+		var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+		  elements: {
+		    map:      "#map",
+		    lat:      "#lat",
+		    lng:      "#lng"
+		  }
+		});
+		var gmarker = addresspickerMap.addresspicker( "marker");
+		gmarker.setVisible(true);
+		addresspickerMap.addresspicker( "updatePosition");
+		
+                });
+
+                });
+                
+                function iglesia(dato)
+                {
+                    $('#inputNom').val(dato.nombre);
+                    $('#inputTelef').val(dato.telefono);
+                    
+                    var url = '{{path('servicio_ubicacion_id',{'id':'cod'})}}';
+                    var path = url.replace('cod',dato.id_ubicacion);
+                    
+                    $.ajax(
+                        {   url : path,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(direccion);
+   
+                }
+                
+                //direccion
+                function direccion(dato)
+                {
+                    $("#inputDireccion").val(dato.direccion);
+                    $("#inputReferencia").val(dato.referencia);
+                    $("#lat").val(dato.latitud);
+		    $("#lng").val(dato.longitud);
+                    
+                    $("#lat").text(dato.latitud);
+		    $("#lng").text(dato.longitud);
+                    
+                    var url = '{{path('servicio_ubigeo',{'id':'cod'})}}';
+                    var path = url.replace('cod',dato.id_ubigeo);
+                    
+                     $.ajax(
+                        {   url : path,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(ubigeo);
+                                       
+                }
+                
+                function ubigeo(dato)
+                {
+
+                    $.ajax(
+                        {   url : '{{path('servicio_region')}}',
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(departamento);
+               
+                    $('#departamento_lista').val(dato[0].coddepartamento);
+                    
+                    var id = $("#departamento_lista option:selected").val();              
+                    var route = '{{path('servicio_provincia',{'id': 'nom'})}}';            
+                    var rutas = route.replace('nom',id);         
+            
+                    $.ajax(
+                        {   url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(provincia);
+     
+                    $('#provincia_lista').val(dato[0].codprovincia);
+                     recarga_distritos();
+                     
+                    $('#distrito_lista').val(dato[0].id);
+
+                }
+                function departamento(datos)
+                {
+                    for(var i=0; i<datos.length ; i++)
+                    {
+                        $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
+                    } 
+                }
+                
+                function departamentos(datos)
+                {
+                    for(var i=0; i<datos.length ; i++)
+                    {
+                        $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
+                    } 
+                    
+                    recarga_provincias();
+                }
+    
+                function recarga_provincias()
+                {
+                 var id = $("#departamento_lista option:selected").val();              
+                 var route = '{{path('servicio_provincia',{'id': 'nom'})}}';            
+                 var rutas = route.replace('nom',id);         
+            
+                 $.ajax(
+                        {   url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(provincias);
+                }
+            
+                function provincias(dato)
+                {
+                     $("#provincia_lista").empty();
+                     for(var i=0;i<dato.length;i++)
+                    {
+                        $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
+                    }
+                    
+                    recarga_distritos();
+                }
+                
+                function provincia(dato)
+                {
+                     $("#provincia_lista").empty();
+                     for(var i=0;i<dato.length;i++)
+                    {
+                        $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
+                    }
+
+                }
+                
+                function recarga_distritos()
+                {
+                    var dep=$("#departamento_lista option:selected").val();
+                    var prov = $("#provincia_lista option:selected").val();
+   
+                    var route = '{{path('servicio_distrito',{'dep':'id1','prov':'id2'})}}';
+                    
+                    var rutas = route.replace('id1', dep);                    
+                    rutas = rutas.replace('id2', prov);
+                    
+                     $.ajax(
+                        {   url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(distrito);
+                    
+                   
+                }
+                function distrito(dato)
+                {
+                   
+                     $("#distrito_lista").empty();
+                     for(var i=0;i<dato.length;i++)
+                    {
+                        $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
+                    }
+                }
+            
+            </script>            
+           {%endblock%}  
+</html>

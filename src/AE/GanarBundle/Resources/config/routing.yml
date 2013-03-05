@@ -1,0 +1,64 @@
+ae_ganar_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AEGanarBundle:Default:index }
+    
+ganar_persona:
+  pattern: /nuevo
+  defaults: {_controller: AEGanarBundle:Default:persona}
+  
+ganar_addpersona:
+  pattern: /regnuevo
+  defaults: {_controller: AEGanarBundle:Default:addpersona}
+  requirements:
+    _method: POST
+    
+ganar_busqueda:
+  pattern: /ganarbusqueda
+  defaults: {_controller: AEGanarBundle:Default:busqueda}
+  
+  
+ganar_actualizarmiembro:
+  pattern: /ganaractualizarmiembro
+  defaults: {_controller: AEGanarBundle:Default:actualizarmiembro}
+  requirements:
+    _method: POST
+
+ganar_vistamiembro:
+  pattern: /ganarvista/{id}
+  defaults: {_controller: AEGanarBundle:Default:vista}
+  
+ganar_print:
+  pattern: /ganarprint
+  defaults: {_controller: AEGanarBundle:Default:print}
+  
+ganar_file:
+  pattern: /ganarfile
+  defaults: {_controller: AEGanarBundle:Default:file}
+  
+ganar_edit:
+  pattern: /edit
+  defaults: {_controller: AEGanarBundle:Default:edit}
+  
+ganar_upload:
+  pattern: /upload
+  defaults: {_controller: AEGanarBundle:Default:upload}
+  
+ganar_modificar:
+  pattern: /ganarmodificar/{id}
+  defaults: {_controller: AEGanarBundle:Default:modificar}
+  
+ganar_modificar_actualizar:
+  pattern: /ganarmodificaractualizar
+  defaults: {_controller: AEGanarBundle:Default:modificaractualizar}
+  requirements:
+    _method: POST
+  
+ganar_asignar_red:
+  pattern: /ganarasignar
+  defaults: {_controller: AEGanarBundle:Default:asignar}
+  
+ganar_asignar_red_actualizar:
+  pattern: /ganarasignarupdate/
+  defaults: {_controller: AEGanarBundle:Default:asignarupdate}
+  requirements:
+    _method: POST

@@ -1,0 +1,50 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CriterioEvaluacion
+ *
+ * @ORM\Table(name="criterio_evaluacion")
+ * @ORM\Entity
+ */
+class CriterioEvaluacion
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="criterio_evaluacion_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Estudiante", mappedBy="idCriterioEvaluacion")
+     */
+    private $idPersonaEstudiante;
+
+    /**
+     * @var \CursoImpartido
+     *
+     * @ORM\ManyToOne(targetEntity="CursoImpartido")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_curso_impartido", referencedColumnName="id")
+     * })
+     */
+    private $idCursoImpartido;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idPersonaEstudiante = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

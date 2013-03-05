@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Ubigeo" table="ubigeo">
+    <id name="id" type="integer" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="coddepartamento" type="smallint" column="coddepartamento" nullable="true"/>
+    <field name="codprovincia" type="smallint" column="codprovincia" nullable="true"/>
+    <field name="coddistrito" type="smallint" column="coddistrito" nullable="true"/>
+    <field name="departamento" type="string" column="departamento" length="70" nullable="true"/>
+    <field name="provincia" type="string" column="provincia" length="70" nullable="true"/>
+    <field name="distrito" type="string" column="distrito" length="70" nullable="true"/>
+    <field name="lat" type="float" column="lat" nullable="true"/>
+    <field name="long" type="float" column="long" nullable="true"/>
+  </entity>
+</doctrine-mapping>

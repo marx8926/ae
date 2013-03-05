@@ -1,0 +1,11 @@
+ae_data_homepage:
+    pattern:  /ae
+    defaults: { _controller: AEDataBundle:Default:index }
+    
+ae_data_usuario:
+  pattern: /usuario/{user}/{pass}
+  defaults: {_controller: AEDataBundle:Default:usuario}
+  
+ae_data_log:
+  pattern: /log
+  defaults: {_controller: AEDataBundle:Default:log}

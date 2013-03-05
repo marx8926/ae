@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Persona" table="persona">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="150" nullable="false"/>
+    <field name="apellidos" type="string" column="apellidos" length="100" nullable="false"/>
+    <field name="estadoCivil" type="smallint" column="estado_civil" nullable="false"/>
+    <field name="edad" type="smallint" column="edad" nullable="false"/>
+    <field name="telefono" type="string" column="telefono" length="20" nullable="true"/>
+    <field name="celular" type="string" column="celular" length="20" nullable="true"/>
+    <field name="fechaNacimiento" type="date" column="fecha_nacimiento" nullable="false"/>
+    <field name="email" type="string" column="email" length="100" nullable="true"/>
+    <field name="website" type="string" column="website" length="100" nullable="true"/>
+    <field name="sexo" type="smallint" column="sexo" nullable="false"/>
+    <many-to-one field="idIglesia" target-entity="Iglesia">
+      <join-columns>
+        <join-column name="id_iglesia" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idUbicacion" target-entity="Ubicacion">
+      <join-columns>
+        <join-column name="id_ubicacion" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,128 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Consolida
+ *
+ * @ORM\Table(name="consolida")
+ * @ORM\Entity
+ */
+class Consolida
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="consolida_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_inicio", type="date", nullable=false)
+     */
+    private $fechaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="date", nullable=true)
+     */
+    private $fechaFin;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="pausa", type="boolean", nullable=false)
+     */
+    private $pausa;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_pausa", type="date", nullable=true)
+     */
+    private $fechaPausa;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_reanudacion", type="date", nullable=true)
+     */
+    private $fechaReanudacion;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="termino", type="boolean", nullable=true)
+     */
+    private $termino;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="TemaLeche", inversedBy="idConsolida")
+     * @ORM\JoinTable(name="many_consolidacion_has_many_tema_leche",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_consolida", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_tema_leche", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $idTemaLeche;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Herramienta", mappedBy="idConsolida")
+     */
+    private $idHerramienta;
+
+    /**
+     * @var \NuevoConvertido
+     *
+     * @ORM\ManyToOne(targetEntity="NuevoConvertido")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_nuevo_convertido", referencedColumnName="id")
+     * })
+     */
+    private $idNuevoConvertido;
+
+    /**
+     * @var \Miembro
+     *
+     * @ORM\ManyToOne(targetEntity="Miembro")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_miembro", referencedColumnName="id")
+     * })
+     */
+    private $idMiembro;
+
+    /**
+     * @var \Consolidador
+     *
+     * @ORM\ManyToOne(targetEntity="Consolidador")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_consolidador", referencedColumnName="id")
+     * })
+     */
+    private $idConsolidador;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idTemaLeche = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idHerramienta = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

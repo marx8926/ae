@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="EventoRealizado" table="evento_realizado">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="fechaInicio" type="datetime" column="fecha_inicio" nullable="false"/>
+    <field name="fechaFin" type="datetime" column="fecha_fin" nullable="false"/>
+    <many-to-one field="idUbicacion" target-entity="Ubicacion">
+      <join-columns>
+        <join-column name="id_ubicacion" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idEvento" target-entity="Evento">
+      <join-columns>
+        <join-column name="id_evento" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idPersona" target-entity="Persona">
+      <join-columns>
+        <join-column name="id_persona" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

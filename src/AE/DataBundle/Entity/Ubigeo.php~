@@ -1,0 +1,82 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Ubigeo
+ *
+ * @ORM\Table(name="ubigeo")
+ * @ORM\Entity
+ */
+class Ubigeo
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="ubigeo_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="coddepartamento", type="smallint", nullable=true)
+     */
+    private $coddepartamento;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="codprovincia", type="smallint", nullable=true)
+     */
+    private $codprovincia;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="coddistrito", type="smallint", nullable=true)
+     */
+    private $coddistrito;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="departamento", type="string", length=70, nullable=true)
+     */
+    private $departamento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="provincia", type="string", length=70, nullable=true)
+     */
+    private $provincia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="distrito", type="string", length=70, nullable=true)
+     */
+    private $distrito;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="lat", type="float", nullable=true)
+     */
+    private $lat;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="long", type="float", nullable=true)
+     */
+    private $long;
+
+
+}

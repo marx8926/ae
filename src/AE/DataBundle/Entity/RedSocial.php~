@@ -1,0 +1,50 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * RedSocial
+ *
+ * @ORM\Table(name="red_social")
+ * @ORM\Entity
+ */
+class RedSocial
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="red_social_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="enlace", type="string", length=100, nullable=false)
+     */
+    private $enlace;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="string", length=30, nullable=false)
+     */
+    private $tipo;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\ManyToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_persona", referencedColumnName="id")
+     * })
+     */
+    private $idPersona;
+
+
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Red" table="red">
+    <id name="id" type="string" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="tipo" type="smallint" column="tipo" nullable="false"/>
+    <field name="inicio" type="date" column="inicio" nullable="true"/>
+    <field name="activo" type="boolean" column="activo" nullable="true"/>
+    <many-to-one field="idPastorAsociado" target-entity="PastorAsociado">
+      <join-columns>
+        <join-column name="id_pastor_asociado" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idLiderRed" target-entity="LiderRed">
+      <join-columns>
+        <join-column name="id_lider_red" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idIglesia" target-entity="Iglesia">
+      <join-columns>
+        <join-column name="id_iglesia" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idUbicacion" target-entity="Ubicacion">
+      <join-columns>
+        <join-column name="id_ubicacion" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

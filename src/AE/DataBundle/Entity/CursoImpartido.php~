@@ -1,0 +1,73 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CursoImpartido
+ *
+ * @ORM\Table(name="curso_impartido")
+ * @ORM\Entity
+ */
+class CursoImpartido
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="curso_impartido_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_creacion", type="date", nullable=false)
+     */
+    private $fechaCreacion;
+
+    /**
+     * @var \Curso
+     *
+     * @ORM\ManyToOne(targetEntity="Curso")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_curso", referencedColumnName="id")
+     * })
+     */
+    private $idCurso;
+
+    /**
+     * @var \Docente
+     *
+     * @ORM\ManyToOne(targetEntity="Docente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_persona_docente", referencedColumnName="id_persona")
+     * })
+     */
+    private $idPersonaDocente;
+
+    /**
+     * @var \Local
+     *
+     * @ORM\ManyToOne(targetEntity="Local")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id")
+     * })
+     */
+    private $idLocal;
+
+    /**
+     * @var \Horario
+     *
+     * @ORM\ManyToOne(targetEntity="Horario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_horario", referencedColumnName="id")
+     * })
+     */
+    private $idHorario;
+
+
+}

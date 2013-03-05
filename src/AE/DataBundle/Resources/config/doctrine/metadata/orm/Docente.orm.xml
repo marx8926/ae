@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Docente" table="docente">
+    <field name="fechaInicio" type="date" column="fecha_inicio" nullable="false"/>
+    <field name="descripcion" type="text" column="descripcion" nullable="false"/>
+    <field name="activo" type="boolean" column="activo" nullable="true"/>
+    <field name="fechaFin" type="date" column="fecha_fin" nullable="true"/>
+    <one-to-one field="idPersona" target-entity="Persona">
+      <join-columns>
+        <join-column name="id_persona" referenced-column-name="id"/>
+      </join-columns>
+    </one-to-one>
+  </entity>
+</doctrine-mapping>

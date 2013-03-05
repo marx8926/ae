@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CursoImpartido" table="curso_impartido">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="fechaCreacion" type="date" column="fecha_creacion" nullable="false"/>
+    <many-to-one field="idHorario" target-entity="Horario">
+      <join-columns>
+        <join-column name="id_horario" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idLocal" target-entity="Local">
+      <join-columns>
+        <join-column name="id_local" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idPersonaDocente" target-entity="Docente">
+      <join-columns>
+        <join-column name="id_persona_docente" referenced-column-name="id_persona"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idCurso" target-entity="Curso">
+      <join-columns>
+        <join-column name="id_curso" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

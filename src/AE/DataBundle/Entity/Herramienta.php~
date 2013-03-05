@@ -1,0 +1,62 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Herramienta
+ *
+ * @ORM\Table(name="herramienta")
+ * @ORM\Entity
+ */
+class Herramienta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="herramienta_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=20, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tiempo_optimo", type="string", nullable=false)
+     */
+    private $tiempoOptimo;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Consolida", inversedBy="idHerramienta")
+     * @ORM\JoinTable(name="many_herramienta_has_many_consolidacion",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_herramienta", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_consolida", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $idConsolida;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idConsolida = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

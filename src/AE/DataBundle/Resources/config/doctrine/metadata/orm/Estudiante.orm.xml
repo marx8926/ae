@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Estudiante" table="estudiante">
+    <field name="fechaInicio" type="date" column="fecha_inicio" nullable="true"/>
+    <field name="activo" type="boolean" column="activo" nullable="true"/>
+    <field name="fechaFin" type="date" column="fecha_fin" nullable="true"/>
+    <one-to-one field="id" target-entity="Persona">
+      <join-columns>
+        <join-column name="id" referenced-column-name="id"/>
+      </join-columns>
+    </one-to-one>
+    <many-to-many field="idClaseCurso" target-entity="ClaseCurso" inversed-by="idPersonaEstudiante">
+      <join-table name="asistencia_clase_curso">
+        <join-columns>
+          <join-column name="id_persona_estudiante" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="id_clase_curso" referenced-column-name="id"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+    <many-to-many field="idCriterioEvaluacion" target-entity="CriterioEvaluacion" inversed-by="idPersonaEstudiante">
+      <join-table name="evaluacion">
+        <join-columns>
+          <join-column name="id_persona_estudiante" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="id_criterio_evaluacion" referenced-column-name="id"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>

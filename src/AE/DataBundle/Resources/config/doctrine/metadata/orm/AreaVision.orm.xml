@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AreaVision" table="area_vision">
+    <id name="id" type="string" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="20" nullable="false"/>
+    <many-to-many field="idEncargado" target-entity="Encargado" mapped-by="idAreaVision"/>
+    <many-to-many field="idIglesia" target-entity="Iglesia" mapped-by="idAreaVision"/>
+  </entity>
+</doctrine-mapping>

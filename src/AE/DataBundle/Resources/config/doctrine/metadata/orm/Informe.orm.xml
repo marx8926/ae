@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Informe" table="informe">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="idLiderRedReceptor" type="string" column="id_lider_red_receptor" nullable="true"/>
+    <field name="idPastorAsociadoReceptor" type="string" column="id_pastor_asociado_receptor" nullable="true"/>
+    <field name="idEncargadoReceptor" type="string" column="id_encargado_receptor" nullable="true"/>
+    <field name="idMisioneroReceptor" type="string" column="id_misionero_receptor" nullable="true"/>
+    <field name="fecha" type="date" column="fecha" nullable="true"/>
+    <many-to-one field="idLider" target-entity="Lider">
+      <join-columns>
+        <join-column name="id_lider" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idPastorEjecutivo" target-entity="PastorEjecutivo">
+      <join-columns>
+        <join-column name="id_pastor_ejecutivo" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idEncargado" target-entity="Encargado">
+      <join-columns>
+        <join-column name="id_encargado" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idMisionero" target-entity="Misionero">
+      <join-columns>
+        <join-column name="id_misionero" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idPastorAsociado" target-entity="PastorAsociado">
+      <join-columns>
+        <join-column name="id_pastor_asociado" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idLiderRed" target-entity="LiderRed">
+      <join-columns>
+        <join-column name="id_lider_red" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

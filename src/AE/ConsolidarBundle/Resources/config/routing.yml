@@ -1,0 +1,57 @@
+ae_consolidar_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AEConsolidarBundle:Default:index }
+
+consolidar_registro:
+  pattern: /registro
+  defaults: {_controller: AEConsolidarBundle:Default:registro}
+  
+consolidar_registro_update:
+  pattern: /registroupdate/{id}
+  defaults: {_controller: AEConsolidarBundle:Default:registroupdate}
+  requirements:
+    _method: POST
+    
+consolidar_modificar:
+  pattern: /modificar
+  defaults: {_controller: AEConsolidarBundle:Default:modificar}
+  
+consolidar_modificar_activar:
+  pattern: /modificar_activar/{id}
+  defaults: {_controller: AEConsolidarBundle:Default:modificar_activar}
+  requirements:
+    _method: POST
+  
+consolidar_modificar_desactivar:
+  pattern: /modificar_desactivar/{id}
+  defaults: {_controller: AEConsolidarBundle:Default:modificar_desactivar}
+  requirements:
+    _method: POST
+    
+consolidar_busqueda:
+  pattern: /busqueda
+  defaults: {_controller: AEConsolidarBundle:Default:busqueda}
+  
+  
+consolidar_asignar_consolidar:
+  pattern: /asignar_consolidar
+  defaults: {_controller: AEConsolidarBundle:Default:asignar_consolidar}
+ 
+consolidar_registrar_asignacion:
+   pattern: /registrar_asignacion
+   defaults: {_controller: AEConsolidarBundle:Default:registrar_asignacion}
+   
+consolidar_lista_consolidador:
+  pattern: /lista_consolidador
+  defaults: {_controller: AEConsolidarBundle:Default:lista_consolidar}
+  
+consolidar_seguir:
+  pattern: /seguir/{id}
+  defaults: {_controller: AEConsolidarBundle:Default:seguir}
+  
+consolidar_seguir_update:
+  pattern: /seguir_update
+  defaults: {_controller: AEConsolidarBundle:Default:seguir_update}
+  requirements:
+    _method: POST
+ 

@@ -1,0 +1,372 @@
+{% extends "CLMDataBundle::layout.html.twig" %}
+
+{% block body %}
+
+ <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+            <a class="brand" href="#"> {{name}} </a>
+                       
+         
+                <ul class="nav secondary-nav pull-right"> 
+                   
+                     <li></li>
+                    <li><a href="#accounts/settings/profile/">Settings</a></li>
+                    <li><a href="#logout/">Logout</a></li> 
+                </ul> 
+ 
+               </ul>
+               
+            </div>            
+        </div>
+</div>
+
+
+{%block sidebar%}
+                 
+            <div class="row-fluid">
+        <div class="span3">
+          <div class="sidebar-nav ">
+              
+                            
+           <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                        Ganar
+                    </a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                        <ul class="nav nav-list">
+                              <li ><a href="{{path('clm_data_reg',{'name':'admin' })}}">Registrar</a></li>
+                            <li><a href="{{path('clm_ganar_busqueda',{'name':'admin'})}}">Buscar</a></li>
+                            
+                            <li><a href="{{path('clm_ganar_informes')}}">Informes</a></li>
+                       
+                        </ul>
+                    </div>
+                </div>
+          </div>
+                   
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                    Consolidar
+                </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <ul class="nav nav-list">
+                       <li class="active"><a href="{{path('clm_regcons',{'name':'admin'})}}">Registrar consolidador</a></li>
+                        <li> <a href="{{path('clm_busq_consol',{'name':'admin'})}}">Busqueda consolidados </a> </li>
+               
+                    </ul>
+                </div>
+            </div>
+       </div>
+                   
+                   
+       <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                    Discipular
+                </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <ul class="nav nav-list">
+                        <li class="active"><a href="#">Registrar personal</a></li>
+                        <li><a href="#">Registrar cursos</a></li>
+                        <li><a href="#">Matricular</a></li>
+                        <li><a href="#">Asignar personal</a></li>
+                        <li><a href="#">Registrar calificación</a></li>
+                        <li><a href="#">Registrar asistencia</a></li>
+                        <li><a href="#">Registro de ofrendas</a></li>
+                        <li><a href="#">Liderazgo</a></li>
+                        <li><a href="#">Informes</a></li>
+                        <li><a href="#">Inf Notas</a></li>
+                        <li><a href="#">Inf Asistencia</a></li>
+                        <li><a href="#">Inf Ofrendas</a></li>                        
+
+
+                    </ul>
+                </div>
+            </div>
+       </div>
+                   
+       <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                    Enviar
+                </a>
+            </div>
+            <div id="collapseFour" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <ul class="nav nav-list">
+                        <li class="active"><a href="#">Link</a></li>
+                        <li><a href="#">Nueva Célula</a></li>
+                        <li><a href="#">Modificación Célula</a></li>
+                        <li><a href="#">Eliminar Célula</a></li>
+                        <li><a href="#">Clase Célula</a></li>
+                        <li><a href="#">Registro asistencia</a></li>
+                        <li><a href="#">Informes</a></li>
+                    </ul>
+                </div>
+            </div>
+       </div>
+                   
+       <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
+                    Comunicar
+                </a>
+            </div>
+            <div id="collapseFive" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <ul class="nav nav-list">
+                        <li class="active"><a href="#">Pastores</a></li>
+                        <li><a href="#">Encargados</a></li>
+                        <li><a href="#">Lideres Red</a></li>
+                        <li><a href="#">Lideres Célula</a></li>
+                        <li><a href="#">Otros</a></li>
+
+                    </ul>
+                </div>
+            </div>
+       </div>
+                   
+       <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">
+                    Administrar
+                </a>
+            </div>
+            <div id="collapseSix" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <ul class="nav nav-list">
+                        <li class="active"><a href="{{path('clm_regred')}}">Crear Red</a></li>
+                        <li> <a href="{{path('clm_regcel')}}">Crear Célula </a></li>
+                        <li> <a href="{{path('clm_regigle')}}">Crear Iglesia </a></li>
+                        <li> <a href="{{path('clm_regdocente')}}">Registro Docente </a> </li>
+			 <li> <a href="{{path('clm_permisos')}}">Permisos</a> </li>
+			 <li> <a href="{{path('clm_regleche')}}"> Leche Espiritual </a></li>
+			 <li> <a href="{{path('clm_regencargado')}}"> Encargado Area </a> </li>
+			 <li> <a href="{{path('clm_areav')}}"> Area Visión </a> </li>
+                  
+                    </ul>
+                </div>
+            </div>
+       </div>
+</div>
+ 
+        </div><!--/span-->
+       
+      </div><!--/row-->
+            
+       
+                 
+                 {%endblock%}
+
+<div class="span5" id="registro_form">
+    <form class="form-horizontal" action="{{path('clm_regcel')}}"  method="post" >
+        <legend>Registro de Celulas</legend>
+        
+        <fieldset> 
+            <div class="control-group">
+                <label class="control-label" >Familia</label>
+                <div class="controls">
+                    <input type="text" id="inputFam" name="inputFam" placeholder="Familia" class="input-xxlarge">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" >Telefono</label>
+                <div class="controls">
+                    <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge">
+                </div>
+            </div>
+                
+            <div class="control-group">
+                <label class="control-label" >Tipo de Célula  </label>
+                <div class="controls">
+                    <select id="tipo_cell" name="tipo_cell" >
+                        <option value="0">Evangelistica</option>
+                        <option value="1">Mentoreo</option>
+                    </select>
+                </div>
+            </div>
+                
+            <div class="control-group">
+                <label class="control-label" for="iglesia">Iglesia</label>
+                <div class="controls">
+                    <select id="iglesia_lista" name="iglesia_lista" >
+                   
+                    </select>
+                </div>
+            </div>
+                
+            <div class="control-group">
+                <label class="control-label" for="red">Red</label>
+                <div class="controls">
+                    <select id="red_lista" name="red_lista" >
+                   
+                    </select>
+                </div>
+            </div>
+                
+           
+        </fieldset>
+        
+        <fieldset>
+        <legend>Ubicación</legend>
+        
+        <div class="control-group">
+            <label class="control-label">Dirección</label>
+            <div class="controls">
+                <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion">
+                
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Referencia</label>
+            <div class="controls" >
+                <input type="text" class="input-xxlarge" id="inputReferencia" name="inputReferencia">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="paises" > Pais</label>
+            <div class="controls">
+                <select name="paises_lista" id="paises_lista" name="paises_lista">
+                    
+                </select>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="region">Región</label>
+            <div class="controls">
+                <select name="region_lista" id="region_lista" name="region_lista">
+                   
+                </select>
+            </div>
+        </div>
+        
+         <div class="control-group">
+            
+            <label>Ubicación</label>
+            
+         
+            
+                   <div class='input'>
+                       <label>Address : </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/>   <br/>
+		
+			<label>Latitud:      </label> <input id="lat" name="latitud" > <br/>
+			<label>Longitud:      </label> <input id="lng" name="longitud"> <br/>
+    </div>
+    <div id="map"></div>
+   
+        </div>
+            
+            <div class="control-group">
+                  <label></label>
+                  <div class="controls">
+                       <input class="btn btn-small btn-primary" type="submit" name="login" />
+                  </div>
+              </div>
+    
+    </form>
+        
+         {%block javascript %}
+           <script>
+                $(function() {
+		
+		var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+		  elements: {
+		    map:      "#map",
+		    lat:      "#lat",
+		    lng:      "#lng"
+		  }
+		});
+		var gmarker = addresspickerMap.addresspicker( "marker");
+		gmarker.setVisible(true);
+		addresspickerMap.addresspicker( "updatePosition");
+		
+                });
+            </script>
+            
+             <script type="text/javascript">
+                
+    
+                $(document).ready(function(){
+           
+                var le = $.getJSON('{{path('clm_paises')}}',paises);
+                $("#paises_lista").change(recarga_regiones);
+                
+                var l = $.getJSON('{{path('clm_iglesia')}}',iglesias);
+                 $.getJSON('{{path('clm_redes')}}',redes);
+
+                });
+                function redes(dato)
+                {        
+                     $('#red_lista').empty();
+                    for(var i=0;i<dato.length;i++)
+                    {
+               
+                    
+                        $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#red_lista');
+                    }    
+          
+                }
+                
+                 function iglesias(datos)
+                {
+                    for(var i=0; i<datos.length ; i++)
+                    {
+                        $('<option value='+datos[i].id+'>'+datos[i].nombre+'</option>').appendTo('#iglesia_lista');
+                    } 
+                }
+                
+                function paises(datos)
+                {
+                    for(var i=0; i<datos.length ; i++)
+                    {
+                        $('<option value='+datos[i].id+'>'+datos[i].nombre+'</option>').appendTo('#paises_lista');
+                    } 
+                }
+                
+    
+                function recarga_regiones()
+                {
+                 var name = $("#paises_lista option:selected").text();  
+            
+                 var route = '{{path('clm_regiones',{'name': 'nom'})}}';
+            
+                 var rutas = route.replace('nom',name);
+         
+            
+                 $.getJSON(rutas,regiones);
+                }
+            
+                function regiones(dato)
+                {
+                     $("#region_lista").empty();
+            
+                    for(var i=0;i<dato.length;i++)
+                    {
+                        $('<option value='+dato[i].id+'>'+dato[i].nombre+'</option>').appendTo('#region_lista');
+                    }
+                }
+            
+            </script>
+            
+           {%endblock%}
+            
+              
+</div>
+{% endblock %}

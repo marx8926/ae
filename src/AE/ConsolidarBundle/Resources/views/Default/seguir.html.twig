@@ -1,0 +1,310 @@
+<html lang="es">
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>
+            AE - Seguir persona
+        </title>
+ 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Le styles -->
+        
+
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+               
+        
+            <style type="text/css">
+                .row-highlight
+                {
+                    background-color: Yellow;
+                }
+                .row-hidden
+                {
+                    display: none;
+                }
+            </style>
+        <!-- Scripts -->
+                 
+        {% endblock %}
+
+        {%block javascripts %}    
+            
+            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script> 
+            <script src="https://www.google.com/jsapi"></script>
+
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            
+     {%endblock%}                  
+</head>
+
+<body>
+     <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+            <a class="brand" href="#"> {{app.user.username}} </a>
+                       
+         
+                <ul class="nav secondary-nav pull-right"> 
+                   
+                     <li></li>
+                    <li><a href="#accounts/settings/profile/">Settings</a></li>
+                    <li><a href="{{path('salir')}}">Salir</a></li> 
+                </ul> 
+ 
+            </div>            
+        </div>
+</div>
+
+
+<div class="span9" >
+    <fieldset>
+        <legend>Datos</legend>
+        
+       <div class="control-group">
+            <label class="control-label">ID</label>
+            <div class="controls">
+                <label  class="input-xlarge" id="code" name="code" > </label>
+            </div>
+       </div>
+        
+       <div class="control-group">
+            <label class="control-label">Nombres</label>
+            <div class="controls">
+                <label class="control-label input-xxlarge" id="nombre" name="nombre" ></label>
+            </div>
+       </div>
+        
+       <div class="control-group">
+            <label class="control-label">Fecha Inicio</label>
+            <div class="controls">
+                <label class="control-label input-xxlarge" id="fecha_inicio" name="fecha_inicio" ></label>
+            </div>
+       </div>
+        
+       <div class="control-group">
+            <label class="control-label">Fecha Fin</label>
+            <div class="controls">
+                <label class="control-label input-xxlarge" id="fecha_fin" name="fecha_fin" ></label>
+            </div>
+       </div>
+        
+       <div class="control-group">
+            <label class="control-label">Consolidador</label>
+            <div class="controls">
+                <label class="control-label input-xxlarge" id="consolidador" name="consolidador" ></label>
+            </div>
+       </div>
+        
+    </fieldset>
+        
+        <form method="POST" id="myForm" name="myForm" class="form-horizontal" action="{{path('consolidar_seguir_update')}}">
+
+    <fieldset>
+        <legend>Temas</legend>
+        <div id="temas" name="temas">
+            
+           
+        </div>
+               <div class="control-group" >
+                  <label class="control-label"></label>
+                  <div class="controls">
+                      <input class="btn btn-small btn-primary" type="submit" name="login" title="Guardar" value="Guardar" />
+                  </div>
+              </div>
+    </fieldset>
+   </form>
+
+</div>    
+     
+</body>
+
+<div>
+    <footer>
+        <p align="center">&copy; 2012 por CLM Developers </p>
+        <p align="center">
+            <a href="http://www.w3.org/html/logo/">
+                <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
+            </a> 
+        </p>
+    </footer>
+</div>
+      
+ {%block javascript %}
+    <script type="text/javascript">
+
+        var code = {{id}};
+        var num_temas = 0;
+        
+        var ids = new Array();
+               
+        function recarga_tema(dato)
+        {
+            $('#temas').empty();
+            num_temas = dato.length;
+            
+            for(var i=0;i<dato.length; i++)
+            {   
+                ids[i] = dato[i].leche;
+                $(
+                "<div class='control-group'>"+
+                "<div class='form-inline' id='inline"+i+"' name='inline"+i+"'>"+
+                    "<label class='control-label' >"+dato[i].id+"  </label>"+
+                    "<label class='control-label'></label>"+
+                 
+                    "<label class='control-label' id='tema' name='tema'>"+dato[i].titulo+"</label>"+
+                    "<label class='control-labe'></label>"+
+                 
+                    "<input type='datetime' id='fecha"+i+"' name='fecha"+i+"' >"+
+                    "<label class='control-label'></label>"+
+
+                    "<label class='checkbox'>"+
+                        "<input type='checkbox' id='check"+i+"' name='check"+i+"'> Terminado"+
+                    "</label>               "+
+                    "<input type='datetime' id='fecha_fin"+i+"' name='fecha_fin"+i+"' >"+
+                "</div>"+
+                "</div>").appendTo('#temas');
+                if(dato[i].fin!=null)
+                {
+                    var es = 'check'+i;
+                    document.getElementById(es).checked=true;
+                    
+                    document.getElementById('fecha_fin'+i).value = dato[i].fin;
+                    
+                     document.getElementById('fecha_fin'+i).disabled = true;
+                     document.getElementById('check'+i).disabled= true;
+                    
+                    //$(es).attr('checked', true); 
+                  
+                }
+                document.getElementById('fecha'+i).value = dato[i].limite;
+            }
+        }
+        function tema(id)
+        {
+             var route = '{{path('servicio_temas_id',{'cons': 'nom'})}}';
+   
+            var rutas = route.replace('nom',id);
+                   
+             console.log(rutas);
+            $.ajax(
+                  {url : rutas,
+                   dataType:"json",   
+                   type: "POST",
+                  async: false,
+                  }
+            ).done(recarga_tema);
+        
+        }
+                   
+        function cargar_consolidador(dato)
+        {
+
+            $('#consolidador').val(dato.nombre+' '+dato.apellidos);
+            $('#consolidador').text(dato.nombre+' '+dato.apellidos);
+
+        }
+        
+        
+         
+        function consolidador(id)
+        {
+            //ruta de consolidador
+             var route = '{{path('servicio_consolidador_id',{'id': 'nom'})}}';
+   
+            var rutas = route.replace('nom',id);
+                   
+            $.ajax(
+                  {url : rutas,
+                   dataType:"json",   
+                   type: "POST",
+                  async: false,
+                  }
+            ).done(cargar_consolidador);
+        }
+        function consolidado(dato)
+        {
+           
+            $('#code').val(dato.id); $('#code').text(dato.id);
+            $('#nombre').val(dato.nombre+' '+dato.apellidos); $('#nombre').text(dato.nombre+' '+dato.apellidos);
+            $('#fecha_inicio').val(dato.inicio); $('#fecha_inicio').text(dato.inicio);
+            $('#fecha_fin').val(dato.fin); $('#fecha_fin').text(dato.fin);
+            
+            tema(dato.code);
+            
+        }
+	$(document).ready(function() {
+                 
+            //recuperar noombres de consolida
+            var route = '{{path('servicio_consolidado',{'id': 'nom'})}}';
+   
+            var rutas = route.replace('nom',code);                  
+                    
+            $.ajax(
+                  {url : rutas,
+                   dataType:"json",   
+                   type: "POST",
+                  async: false,
+                  }
+            ).done(consolidado);
+           
+    
+            $("#myForm").submit(function(){
+            //get the url for the form
+            var url=$("#myForm").attr("action");
+            
+            
+            console.log($("#myForm").serialize());
+
+            $.post(url,{
+             formName:$("#myForm").serialize(),
+                other:"attributes",
+                num: num_temas,
+                list: ids
+             },function(data){
+                    //the response is in the data variable
+                    console.log(data);
+              if(data.responseCode==200 ){           
+                      
+                 alert('Registro Completado');
+                 var href="/sym/web/app_dev.php/main";
+                   
+              //   $(location).attr('href',href); 
+          
+               }
+               else if(data.responseCode==400){//bad request
+                       alert('Error');
+                        }
+                    else{
+                        if(data.responseCode==500)
+                        {
+                            alert('Solo se puede registrar una iglesia');
+                        }
+                        //if we got to this point we know that the controller
+                        //did not return a json_encoded array. We can assume that           
+                        //an unexpected PHP error occured
+                        else 
+                            if(data.responseCode==600)
+                                alert('Ingrese su ID');
+                            else alert("An unexpeded error occured.");
+                   }
+             }
+             );
+
+            return false;}); 
+	 });
+         
+            
+       </script>
+{%endblock %}
+       
+</html>  

@@ -1,0 +1,110 @@
+ae_administrar_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AEAdministrarBundle:Default:index }
+administrar_iglesia:
+    pattern: /iglesias
+    defaults: {_controller: AEAdministrarBundle:Default:igle}
+    
+administrar_addigle:
+    pattern: /regigle
+    defaults: {_controller: AEAdministrarBundle:Default:addigle}
+    requirements:
+          _method: POST
+    
+administrar_modiglesia:
+  pattern: /modiglesia
+  defaults: {_controller: AEAdministrarBundle:Default:modiglesia}
+  
+administrar_updateiglesia:
+  pattern: /updateiglesia
+  defaults: {_controller: AEAdministrarBundle:Default:updateiglesia}
+  requirements:
+      _method: POST
+
+administrar_permisos:
+  pattern: /permisos
+  defaults: {_controller: AEAdministrarBundle:Default:permiso}
+ 
+administrar_reg_permisos:
+  pattern: /regpermi
+  defaults: {_controller: AEAdministrarBundle:Default:regpermiso}
+  requirements:
+    _method: POST
+  
+administrar_mod_permisos:
+  pattern: /modpermisos
+  defaults: {_controller: AEAdministrarBundle:Default:modpermiso}
+  
+administrar_mod_permiso_update:
+  pattern: /modpermisoupdate
+  defaults: {_controller: AEAdministrarBundle:Default:modpermisoupdate}
+  requirements:
+    _method: POST
+  
+administrar_red:
+  pattern: /red
+  defaults: {_controller: AEAdministrarBundle:Default:red}
+  
+administrar_addred:
+  pattern: /regred
+  defaults: {_controller: AEAdministrarBundle:Default:addred}
+  requirements:
+    _method: POST
+    
+    
+administrar_asignarlider:
+  pattern: /asignar_lider_red
+  defaults: {_controller: AEAdministrarBundle:Default:asignared}
+  
+administrar_add_asignar_lider:
+  pattern: /add_lider_red
+  defaults: {_controller: AEAdministrarBundle:Default:addasignarlider}
+  
+  
+administrar_lista_pastor_asociado:
+  pattern: /lista_pastor_asociado
+  defaults: {_controller: AEAdministrarBundle:Default:lista_pastor_asociado}
+  
+administrar_lista_pastor_ejecutivo:
+  pattern: /lista_pastor_ejecutivo
+  defaults: {_controller: AEAdministrarBundle:Default:lista_pastor_ejecutivo}
+  
+administrar_lista_lider_red:
+  pattern: /lista_lider_red
+  defaults: {_controller: AEAdministrarBundle:Default:lista_lider_red}
+  
+administrar_lista_misionero:
+  pattern: /lista_misionero
+  defaults: {_controller: AEAdministrarBundle:Default:lista_misionero}
+  
+administrar_lista_miembros:
+  pattern: /lista_miembros
+  defaults: {_controller: AEAdministrarBundle:Default:lista_miembros}
+  
+administrar_lista_miembros_all:
+  pattern: /lista_miembros_all
+  defaults: {_controller: AEAdministrarBundle:Default:lista_miembros_all}
+  
+administrar_lista_usuario:
+  pattern: /lista_usuarios
+  defaults: {_controller: AEAdministrarBundle:Default:lista_usuarios}
+ 
+administrar_clase:
+  pattern: /clase
+  defaults: {_controller: AEAdministrarBundle:Default:clase}
+  
+administrar_clase_registrar:
+  pattern: /clase_reg
+  defaults: {_controller: AEAdministrarBundle:Default:clase_reg}
+  requirements:
+    _method: POST
+    
+administrar_tema_leche:
+  pattern: /temas_leche
+  defaults: {_controller: AEAdministrarBundle:Default:temas_leche}
+  requirements:
+    _method: POST
+    
+administrar_file_leche:
+  pattern: /file_leche
+  defaults: {_controller: AEAdministrarBundle:Default:file_leche}

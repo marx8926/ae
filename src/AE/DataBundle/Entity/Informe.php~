@@ -1,0 +1,121 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Informe
+ *
+ * @ORM\Table(name="informe")
+ * @ORM\Entity
+ */
+class Informe
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="informe_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_lider_red_receptor", type="string", nullable=true)
+     */
+    private $idLiderRedReceptor;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_pastor_asociado_receptor", type="string", nullable=true)
+     */
+    private $idPastorAsociadoReceptor;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_encargado_receptor", type="string", nullable=true)
+     */
+    private $idEncargadoReceptor;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_misionero_receptor", type="string", nullable=true)
+     */
+    private $idMisioneroReceptor;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
+
+    /**
+     * @var \LiderRed
+     *
+     * @ORM\ManyToOne(targetEntity="LiderRed")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_lider_red", referencedColumnName="id")
+     * })
+     */
+    private $idLiderRed;
+
+    /**
+     * @var \PastorAsociado
+     *
+     * @ORM\ManyToOne(targetEntity="PastorAsociado")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_pastor_asociado", referencedColumnName="id")
+     * })
+     */
+    private $idPastorAsociado;
+
+    /**
+     * @var \Misionero
+     *
+     * @ORM\ManyToOne(targetEntity="Misionero")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_misionero", referencedColumnName="id")
+     * })
+     */
+    private $idMisionero;
+
+    /**
+     * @var \Encargado
+     *
+     * @ORM\ManyToOne(targetEntity="Encargado")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_encargado", referencedColumnName="id")
+     * })
+     */
+    private $idEncargado;
+
+    /**
+     * @var \Lider
+     *
+     * @ORM\ManyToOne(targetEntity="Lider")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_lider", referencedColumnName="id")
+     * })
+     */
+    private $idLider;
+
+    /**
+     * @var \PastorEjecutivo
+     *
+     * @ORM\ManyToOne(targetEntity="PastorEjecutivo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_pastor_ejecutivo", referencedColumnName="id")
+     * })
+     */
+    private $idPastorEjecutivo;
+
+
+}

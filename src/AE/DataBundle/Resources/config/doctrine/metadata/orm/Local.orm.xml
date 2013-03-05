@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Local" table="local">
+    <id name="id" type="string" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="nombe" type="string" column="nombe" length="20" nullable="false"/>
+    <field name="tipo" type="smallint" column="tipo" nullable="false"/>
+  </entity>
+</doctrine-mapping>

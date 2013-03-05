@@ -1,0 +1,289 @@
+<html>
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>
+            AE
+            </title>
+ 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Le styles -->
+        
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+                 
+        <!-- Scripts -->
+                 
+        {% endblock %}
+
+        {%block javascripts %}    
+            
+            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+            <script type="text/javascript" language="javascript" src="{{asset('js/media/js/jquery.dataTables.js')}}"></script>
+
+            <script type="text/javascript" src="{{asset('js/bootstrap-typeahead.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/bootstrap-collapse.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/bootstrap-button.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/bootstrap-tooltip.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/bootstrap-tab.js')}}"></script>
+           
+
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>                  
+            <!--[if lt IE 9]> <script type="text/javascript" src="{{asset('js/html5.js')}}"></script><![endif]-->              
+     {%endblock%}                  
+</head>
+                                   
+<body>
+ <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+            <a class="brand" href="#"> {{ app.user.username}} </a>
+   
+                <ul class="nav secondary-nav pull-right"> 
+                   
+                     <li></li>
+                    <li><a href="#accounts/settings/profile/">Settings</a></li>
+                    <li><a href="{{path('salir')}}">Salir</a></li> 
+                </ul> 
+ 
+               </ul>
+               
+            </div>            
+        </div>
+</div>
+        
+{%block body%}
+
+      <div class="span9" id="registro_form">
+            
+          <fieldset>  
+                  <legend>Permisos</legend>
+                  <div class="form-horizontal">
+                  <div class="control-group">
+                    <label class="control-label" ></label>
+                    <div class="controls">
+                        <input class="btn-success" type="button" name="load" id="load" value="Cargar"  onclick="cargar();"/>
+                    </div>
+                  </div>
+                  </div>
+                  
+                  
+          <form id="myForm" name="myForm" class="form-horizontal"  method="POST" action="{{path('administrar_mod_permiso_update')}}" >
+         
+              
+                  
+                  <div class="control-group">
+                    <label class="control-label" >ID</label>
+                    <div class="controls">
+                      <input class="input-large" type="text" name="code" id="code" />
+                    </div>
+                  </div>
+                  <div class="control_group">
+                      <label class="control-label"></label>
+                      <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="celula" id="celula" value="celula"> Lider de Célula
+                        </label>
+                      </div>
+                   </div>
+                  
+                  <div class="control-group">
+                      <label class="control-label"></label>
+                      <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="lider_red" id="lider_red" value="lider_red"> Lider de Red
+                        </label>
+                       </div>
+                  </div>
+                  
+                  <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="pastor_asoc" id="pastor_asoc" value="pastor_asoc"> Pastor Asociado
+                        </label>
+                    </div>
+                  </div>
+              
+                  <div class="control-group">
+                      <label class="control-label"></label>
+
+                      <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" name="misionero" id="misionero" value="misionero"> Misionero
+                            </label>
+                      </div>
+                  </div>
+                  
+                  
+                  <div class="control-group">
+                  
+                      <label class="control-label"></label>
+                      <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="pastor_eje" id="pastor_eje" value="pastor_eje"> Pastor Ejecutivo
+                        </label>
+                      </div>
+                  </div>
+                  
+                  <div class="control-group">
+                       <label class="control-label"></label>
+
+                      <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="estudiante" id="estudiante" value="estudiante">Estudiante                          
+                        </label>
+                      </div>
+                  </div>
+                  
+                  <div class="control-group">
+                      <label class="control-label"></label>
+                      <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="consolidador" id="consolidador" value="consolidador">Consolidador
+                        </label>
+                       </div>
+                  </div>
+               
+              <div class="control-group">
+                  <label class="control-label"></label>
+                  <div class="controls">
+                      <input class="btn btn-small btn-primary" type="submit" name="login" title="Guardar" value="Guardar" />
+                  </div>
+              </div>
+          
+        </form>
+                
+       </fieldset>
+              
+        
+
+</div>
+
+      
+               
+      {%block javascript %}
+      <script type="text/javascript">
+          
+    
+        function permiso(dato)
+        {
+             if(dato.consolidador == true)
+                $('#consolidador').attr('checked', true); 
+             
+             if(dato.estudiante==true)
+               $('#estudiante').attr('checked', true); 
+
+             if(dato.lider==true)
+                $('#celula').attr('checked', true); 
+
+             
+             if(dato.lider_red == true)
+                $('#lider_red').attr('checked', true); 
+
+             if(dato.misionero == true)
+                $('#misionero').attr('checked', true); 
+
+             
+             if(dato.pastor_asociado==true)
+                $('#pastor_asoc').attr('checked', true); 
+
+             
+             if(dato.pastor_ejecutivo==true)
+                $('#pastor_eje').attr('checked', true); 
+
+             
+        }
+        function cargar()
+        {
+                var id = $("#code").val();
+
+                 var route = '{{path('servicio_permiso_id',{'id': 'nom'})}}';            
+                 var rutas = route.replace('nom',id); 
+                 
+                 if(id.length > 0)   
+                 $.ajax(
+                        {   url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(permiso);
+                    
+        }
+       
+		
+	$(document).ready(function() {
+            
+            
+				
+           $("#myForm").submit(function(){
+            //get the url for the form
+            var url=$("#myForm").attr("action");
+
+            $.post(url,{
+             formName:$("#myForm").serialize(),
+                other:"attributes"
+             },function(data){
+                    //the response is in the data variable
+
+               if(data.responseCode==200 ){           
+                      
+                 alert('Registro Completado');
+                 var href="{{path('main')}}";
+                   
+              //   $(location).attr('href',href); 
+          
+               }
+               else if(data.responseCode==400){//bad request
+                       alert('Error');
+                        }
+                    else{
+                        if(data.responseCode==500)
+                        {
+                            alert('Solo se puede registrar una iglesia');
+                        }
+                        //if we got to this point we know that the controller
+                        //did not return a json_encoded array. We can assume that           
+                        //an unexpected PHP error occured
+                        else 
+                            if(data.responseCode==600)
+                                alert('Ingrese su ID');
+                            else alert("An unexpeded error occured.");
+                   }
+             }
+             );
+
+            return false;});              
+        } );
+
+       </script>
+      {%endblock %}
+      
+  
+
+{%endblock%}
+
+
+</body>
+ <div>
+      <footer>
+                 <p align="center">&copy; 2012 por CLM Developers 
+                </p>
+                <p align="center">
+                    <a href="http://www.w3.org/html/logo/">
+                    <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
+                    </a> 
+                </p>
+      </footer>
+</div>      
+       
+</html>

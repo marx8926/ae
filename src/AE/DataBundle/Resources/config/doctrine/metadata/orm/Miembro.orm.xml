@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Miembro" table="miembro">
+    <field name="aptoConsolidar" type="boolean" column="apto_consolidar" nullable="false"/>
+    <field name="fechaObtencion" type="date" column="fecha_obtencion" nullable="false"/>
+    <field name="activo" type="boolean" column="activo" nullable="true"/>
+    <one-to-one field="id" target-entity="Persona">
+      <join-columns>
+        <join-column name="id" referenced-column-name="id"/>
+      </join-columns>
+    </one-to-one>
+    <many-to-one field="idRed" target-entity="Red">
+      <join-columns>
+        <join-column name="id_red" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idCelula" target-entity="Celula">
+      <join-columns>
+        <join-column name="id_celula" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="idClaseCell" target-entity="ClaseCell" mapped-by="idMiembro"/>
+  </entity>
+</doctrine-mapping>

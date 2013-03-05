@@ -1,0 +1,87 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Estudiante
+ *
+ * @ORM\Table(name="estudiante")
+ * @ORM\Entity
+ */
+class Estudiante
+{
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_inicio", type="date", nullable=true)
+     */
+    private $fechaInicio;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=true)
+     */
+    private $activo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="date", nullable=true)
+     */
+    private $fechaFin;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CriterioEvaluacion", inversedBy="idPersonaEstudiante")
+     * @ORM\JoinTable(name="evaluacion",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_criterio_evaluacion", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $idCriterioEvaluacion;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ClaseCurso", inversedBy="idPersonaEstudiante")
+     * @ORM\JoinTable(name="asistencia_clase_curso",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_clase_curso", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $idClaseCurso;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * })
+     */
+    private $id;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idCriterioEvaluacion = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idClaseCurso = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

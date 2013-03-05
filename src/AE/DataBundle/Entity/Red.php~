@@ -1,0 +1,87 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Red
+ *
+ * @ORM\Table(name="red")
+ * @ORM\Entity
+ */
+class Red
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id", type="string", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="red_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo", type="smallint", nullable=false)
+     */
+    private $tipo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="inicio", type="date", nullable=true)
+     */
+    private $inicio;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=true)
+     */
+    private $activo;
+
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
+
+    /**
+     * @var \Iglesia
+     *
+     * @ORM\ManyToOne(targetEntity="Iglesia")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_iglesia", referencedColumnName="id")
+     * })
+     */
+    private $idIglesia;
+
+    /**
+     * @var \LiderRed
+     *
+     * @ORM\ManyToOne(targetEntity="LiderRed")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_lider_red", referencedColumnName="id")
+     * })
+     */
+    private $idLiderRed;
+
+    /**
+     * @var \PastorAsociado
+     *
+     * @ORM\ManyToOne(targetEntity="PastorAsociado")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_pastor_asociado", referencedColumnName="id")
+     * })
+     */
+    private $idPastorAsociado;
+
+
+}

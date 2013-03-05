@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TemaLeche" table="tema_leche">
+    <id name="id" type="integer" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="titulo" type="string" column="titulo" length="100" nullable="true"/>
+    <many-to-one field="idLecheEspiritual" target-entity="LecheEspiritual">
+      <join-columns>
+        <join-column name="id_leche_espiritual" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="idConsolida" target-entity="Consolida" mapped-by="idTemaLeche"/>
+  </entity>
+</doctrine-mapping>

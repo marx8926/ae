@@ -1,0 +1,72 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Iglesia
+ *
+ * @ORM\Table(name="iglesia")
+ * @ORM\Entity
+ */
+class Iglesia
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="iglesia_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=30, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono", type="string", length=20, nullable=true)
+     */
+    private $telefono;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AreaVision", inversedBy="idIglesia")
+     * @ORM\JoinTable(name="iglesia_area",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_iglesia", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_area_vision", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $idAreaVision;
+
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idAreaVision = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

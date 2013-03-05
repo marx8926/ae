@@ -1,0 +1,57 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TemaLeche
+ *
+ * @ORM\Table(name="tema_leche")
+ * @ORM\Entity
+ */
+class TemaLeche
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="tema_leche_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titulo", type="string", length=100, nullable=true)
+     */
+    private $titulo;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Consolida", mappedBy="idTemaLeche")
+     */
+    private $idConsolida;
+
+    /**
+     * @var \LecheEspiritual
+     *
+     * @ORM\ManyToOne(targetEntity="LecheEspiritual")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_leche_espiritual", referencedColumnName="id")
+     * })
+     */
+    private $idLecheEspiritual;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idConsolida = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

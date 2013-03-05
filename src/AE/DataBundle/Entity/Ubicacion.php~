@@ -1,0 +1,64 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Ubicacion
+ *
+ * @ORM\Table(name="ubicacion")
+ * @ORM\Entity
+ */
+class Ubicacion
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="ubicacion_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="direccion", type="string", length=150, nullable=false)
+     */
+    private $direccion;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="latitud", type="float", nullable=false)
+     */
+    private $latitud;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="longitud", type="float", nullable=false)
+     */
+    private $longitud;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="referencia", type="text", nullable=true)
+     */
+    private $referencia;
+
+    /**
+     * @var \Ubigeo
+     *
+     * @ORM\ManyToOne(targetEntity="Ubigeo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubigeo", referencedColumnName="id")
+     * })
+     */
+    private $idUbigeo;
+
+
+}

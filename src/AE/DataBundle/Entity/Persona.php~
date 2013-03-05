@@ -1,0 +1,116 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Persona
+ *
+ * @ORM\Table(name="persona")
+ * @ORM\Entity
+ */
+class Persona
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="persona_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="apellidos", type="string", length=100, nullable=false)
+     */
+    private $apellidos;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado_civil", type="smallint", nullable=false)
+     */
+    private $estadoCivil;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="edad", type="smallint", nullable=false)
+     */
+    private $edad;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono", type="string", length=20, nullable=true)
+     */
+    private $telefono;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="celular", type="string", length=20, nullable=true)
+     */
+    private $celular;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_nacimiento", type="date", nullable=false)
+     */
+    private $fechaNacimiento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="website", type="string", length=100, nullable=true)
+     */
+    private $website;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="sexo", type="smallint", nullable=false)
+     */
+    private $sexo;
+
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
+
+    /**
+     * @var \Iglesia
+     *
+     * @ORM\ManyToOne(targetEntity="Iglesia")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_iglesia", referencedColumnName="id")
+     * })
+     */
+    private $idIglesia;
+
+
+}

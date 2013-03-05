@@ -1,0 +1,83 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Miembro
+ *
+ * @ORM\Table(name="miembro")
+ * @ORM\Entity
+ */
+class Miembro
+{
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="apto_consolidar", type="boolean", nullable=false)
+     */
+    private $aptoConsolidar;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_obtencion", type="date", nullable=false)
+     */
+    private $fechaObtencion;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=true)
+     */
+    private $activo;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ClaseCell", mappedBy="idMiembro")
+     */
+    private $idClaseCell;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * })
+     */
+    private $id;
+
+    /**
+     * @var \Celula
+     *
+     * @ORM\ManyToOne(targetEntity="Celula")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
+     * })
+     */
+    private $idCelula;
+
+    /**
+     * @var \Red
+     *
+     * @ORM\ManyToOne(targetEntity="Red")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
+     * })
+     */
+    private $idRed;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idClaseCell = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

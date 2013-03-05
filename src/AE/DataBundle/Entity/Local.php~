@@ -1,0 +1,40 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Local
+ *
+ * @ORM\Table(name="local")
+ * @ORM\Entity
+ */
+class Local
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id", type="string", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="local_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombe", type="string", length=20, nullable=false)
+     */
+    private $nombe;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo", type="smallint", nullable=false)
+     */
+    private $tipo;
+
+
+}

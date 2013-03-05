@@ -1,0 +1,73 @@
+<html>
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>
+            AE
+        </title>
+
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Le styles -->
+        
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+     
+                 <!-- Scripts -->
+        {% endblock %}
+                 
+        {% block javascripts   %} 
+                 
+            <script type="text/javascript" src="{{asset('js/jquery-1.8.2.min.js')}}" > </script>
+            <script type="text/javascript" src="{{asset('js/jquery-ui.min.js')}}" > </script>
+            <script type="text/javascript" src="{{asset('js/underscore-min.js')}}" > </script>
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>        
+            <script type="text/javascript" src="{{asset('js/FileUploader/jquery.fileupload.js')}}"> </script>
+           <script type="text/javascript" src="{{asset('js/FileUploader/FileUploader.js')}}"> </script>
+
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            
+     {% endblock %} 
+            
+      
+</head>
+
+
+<body>
+   <form class="edit-form" action="{{ path('edit', { id: posting.id, editId: editId }) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+
+    {# Hydrated by javascript #}
+    <div class="file-uploader"></div>
+
+    <button class="btn btn-primary" type="submit">{{ isNew ? "Save New Listing" : "Save Changes" }}</button> 
+    <a class="btn" href="{{ cancel }}">Cancel</a>
+    {% if not isNew %}
+        <a class="btn btn-danger" href="{{ path('delete', { id: posting.id } ) }}">Delete</a>
+    {% endif %}
+
+</form>
+
+<script type="text/javascript">
+
+// Enable the file uploader
+
+$(function() {
+    new PunkAveFileUploader({ 
+        'uploadUrl': {{ path('upload', { editId: editId }) | json_encode | raw }},
+        'viewUrl': {{ '/uploads/tmp/attachments/' ~ editId | json_encode | raw }},
+        'el': '.file-uploader',
+        'existingFiles': {{ existingFiles | json_encode | raw }},
+        'delaySubmitWhileUploading': '.edit-form'
+    });
+});
+</script>
+
+</body>
+
+</html>
+
+
+

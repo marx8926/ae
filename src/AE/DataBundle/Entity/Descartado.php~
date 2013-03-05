@@ -1,0 +1,42 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Descartado
+ *
+ * @ORM\Table(name="descartado")
+ * @ORM\Entity
+ */
+class Descartado
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cometario", type="text", nullable=true)
+     */
+    private $cometario;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_descarte", type="date", nullable=false)
+     */
+    private $fechaDescarte;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * })
+     */
+    private $id;
+
+
+}

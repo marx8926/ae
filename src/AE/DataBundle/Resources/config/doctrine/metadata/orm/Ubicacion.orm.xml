@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Ubicacion" table="ubicacion">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="direccion" type="string" column="direccion" length="150" nullable="false"/>
+    <field name="latitud" type="float" column="latitud" nullable="false"/>
+    <field name="longitud" type="float" column="longitud" nullable="false"/>
+    <field name="referencia" type="text" column="referencia" nullable="true"/>
+    <many-to-one field="idUbigeo" target-entity="Ubigeo">
+      <join-columns>
+        <join-column name="id_ubigeo" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

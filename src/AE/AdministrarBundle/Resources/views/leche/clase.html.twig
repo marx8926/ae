@@ -1,0 +1,299 @@
+<html>
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>
+            AE - Leche Espiritual
+        </title>
+ 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Le styles -->
+
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/default.css')}}" media="screen" />
+       
+        
+            <style type="text/css">
+                .row-highlight
+                {
+                    background-color: Yellow;
+                }
+                .row-hidden
+                {
+                    display: none;
+                }
+               
+            </style>
+        <!-- Scripts -->
+                 
+        {% endblock %}
+
+        {%block javascripts %}    
+            
+            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script> 
+            <script src="https://www.google.com/jsapi"></script>
+
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            <script type="text/javascript" src="{{asset('js/FileAPI.js')}}"></script>
+ 
+            <script type="text/javascript" charset="utf-8">
+            </script>
+     {%endblock%}                  
+</head>
+
+<body>
+     <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+            <a class="brand" href="#"> {{app.user.username}} </a>
+                       
+         
+                <ul class="nav secondary-nav pull-right"> 
+                   
+                     <li></li>
+                    <li><a href="#accounts/settings/profile/">Settings</a></li>
+                    <li><a href="{{path('salir')}}">Salir</a></li> 
+                </ul> 
+ 
+            </div>            
+        </div>
+</div>
+
+
+<div class="span9" >
+    
+            
+    <form class="form-horizontal" method="POST" id="myForm" name="myForm" action="{{path('administrar_clase_registrar')}}">
+
+              <fieldset> 
+                  <legend>Leche Espiritual</legend>
+                  <div class="control-group">
+                    <label>Nombre</label>
+                    <div class="controls">
+                        <input class="input-xxlarge" type="text" name="nombre" id="nombre"/>
+                    </div>
+                  </div>
+    
+                  <div class="control-group">
+                    <label>Descripción</label>
+                    <div class="controls">
+                     
+                    <textarea rows="5" id="inputDescripcion" name="inputDescripcion" class="input-xxlarge"> </textarea>
+                    <p class="help-block">Descripción del docente</p>
+                    
+                    </div>
+                  </div> 
+                  
+                  
+                  <div class="control-group">
+                  
+                      <label>Fecha Creación</label>
+                      <div class="controls">
+                        <input type= "date" class="input-medium" id="inputFecha" name="inputFecha"/>
+                      </div>
+                  </div>
+               
+                  
+               <div class="control-group">
+                  <label>Número de clases</label>
+                  <div class="controls">
+                      <input class="input-medium" type="text" id="inputClases" name="inputClases"  value="0" pattern="[0-9]+" />
+ 
+                  </div>
+              </div>
+  
+              <div class="control-group">
+                  <label>Guardar Cambio</label>
+                  <div class="controls">
+                      <input class="btn btn-small btn-primary" type="submit" name="login" value="Crear Leche" />
+                  </div>
+              </div>
+                  
+              </fieldset>
+              
+              </form>
+    
+            <form id="leche" name="leche" action="{{path('administrar_tema_leche')}}" method="POST">
+                <fieldset>
+                    <div id="temas">
+                  
+                    </div>
+                </fieldset>
+            </form>
+    
+    
+    <div id="wrap" name="wrap" >
+
+            <h1>Escoja multiples archivos o arrestraelos hacia la zona de abajo</h1>
+
+            <form id="uploadfile" action="" method="post" enctype="multipart/form-data" >
+                <input type="file" id="fileField" name="fileField" multiple />
+            </form>
+
+            <div id="fileDrop">
+                <p>Arrastre los archivos aquí</p>
+            </div>
+
+            <div id="files">
+                <h2>Lista de archivos</h2>
+                <a id="reset" href="#" title="Remover todos los archivos de la lista">Borre la lista</a>
+                <ul id="fileList"></ul>
+                <a id="upload" href="#" title="Cargar todos los archivos en lista">Cargar archivos</a>
+               
+            </div>
+            
+            <label id="lechesp" name="lechesp"></label>
+        </div>
+              
+        
+ </div>    
+    
+</body>
+
+<div>
+    <footer>
+        <p align="center">&copy; 2013 por CLM Developers </p>
+        <p align="center">
+            <a href="http://www.w3.org/html/logo/">
+                <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
+            </a> 
+        </p>
+    </footer>
+</div>
+      
+ {%block javascript %}
+    <script type="text/javascript">
+
+        var ident = -1;
+         
+	$(document).ready(function() {
+            
+            $("#wrap").css({"display":"none"});
+          
+            $("#myForm").submit(function(){
+                             
+                    //get the url for the form
+                    var url=$("#myForm").attr("action");
+                     
+                    console.log($("#myForm").serialize());
+                    //start send the post request
+                    $.post(url,{
+                        formName:$("#myForm").serialize(),
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
+               
+                    if(data.responseCode==300 ){           
+                      
+                        
+                        var href="{{path('main')}}";
+                        
+                        iden = data.id ;
+                        
+                        $("#lechesp").text(iden); $("#lechesp").val(iden);
+                        
+    
+                        $('#nombre').attr('disabled', '');
+                        $('#inputDescripcion').attr('disabled', '');
+                        $('#inputFecha').attr('disabled', '');
+                        $('#inputClases').attr('disabled', '');
+
+                        add_lines();
+             
+                        //$(location).attr('href',href); 
+                    }
+                    else if(data.responseCode==400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    return false;});
+        });
+        
+        $("#leche").submit(function(){
+                       
+                    //get the url for the form
+                    var url=$("#leche").attr("action");
+                     
+                    console.log($("#leche").serialize());
+                    //start send the post request
+                    $.post(url,{
+                        formName:$("#leche").serialize(),
+                        id: iden ,
+                        num: $('#inputClases').val(),
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
+               
+                    if(data.responseCode==300 ){           
+
+                        var href="{{path('main')}}";
+                        $("#wrap").css({"display":"block"});
+
+                        
+                        //$(location).attr('href',href); 
+                    }
+                    else if(data.responseCode==400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    return false;
+        });
+        
+        function add_lines()
+        {
+             var num = $('#inputClases').val();
+                        var real = parseInt(num);
+                        if(real==0)
+                            alert("Ingrese número de clases");
+                        else
+                        {
+                            $('#temas').empty();
+                            for(var i=0;i<real;i++)
+                            {
+                                
+                              $("<div class='control-group'>"+               
+                                    "<label>Tema"+i+"</label>"+
+                                    "<div class='controls'>"+
+                                "<input type= 'text' class='input-xxlarge' id='tema"+i+"' name='tema"+i+"'/> </div></div>"
+                                ).appendTo('#temas');
+                            }
+                            
+                            $("<div class='control-group'>"+
+                                    " <label>Subir temas</label>"+
+                                    "<div class='controls'>"+
+                                    "<input class='btn btn-small btn-primary' type='submit' name='tema' id='tema' value='Subir tema' /> </div></div>").appendTo('#temas');
+       
+                        }
+
+        }
+       
+       </script>
+{%endblock %}
+       
+</html>  

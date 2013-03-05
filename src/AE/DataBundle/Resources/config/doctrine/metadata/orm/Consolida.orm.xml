@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Consolida" table="consolida">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="fechaInicio" type="date" column="fecha_inicio" nullable="false"/>
+    <field name="fechaFin" type="date" column="fecha_fin" nullable="true"/>
+    <field name="pausa" type="boolean" column="pausa" nullable="false"/>
+    <field name="fechaPausa" type="date" column="fecha_pausa" nullable="true"/>
+    <field name="fechaReanudacion" type="date" column="fecha_reanudacion" nullable="true"/>
+    <field name="termino" type="boolean" column="termino" nullable="true"/>
+    <many-to-one field="idConsolidador" target-entity="Consolidador">
+      <join-columns>
+        <join-column name="id_consolidador" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idMiembro" target-entity="Miembro">
+      <join-columns>
+        <join-column name="id_miembro" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idNuevoConvertido" target-entity="NuevoConvertido">
+      <join-columns>
+        <join-column name="id_nuevo_convertido" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="idHerramienta" target-entity="Herramienta" mapped-by="idConsolida"/>
+    <many-to-many field="idTemaLeche" target-entity="TemaLeche" inversed-by="idConsolida">
+      <join-table name="many_consolidacion_has_many_tema_leche">
+        <join-columns>
+          <join-column name="id_consolida" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="id_tema_leche" referenced-column-name="id"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>

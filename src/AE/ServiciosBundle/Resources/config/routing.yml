@@ -1,0 +1,220 @@
+ae_servicios_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AEServiciosBundle:Default:index }
+    
+servicio_region:
+  pattern: /servicioregion
+  defaults: {_controller: AEServiciosBundle:Default:region}
+  requirements:
+    _method: POST
+  
+servicio_provincia:
+  pattern: /servicioprovincia/{id}
+  defaults: {_controller: AEServiciosBundle:Default:provincia}
+  requirements:
+    _method: POST
+  
+servicio_distrito:
+  pattern: /serviciodistrito/{dep}/{prov}
+  defaults: {_controller: AEServiciosBundle:Default:distrito}
+  requirements:
+    _method: POST
+  
+servicio_ubigeo:
+  pattern: /servicioubigeo/{id}
+  defaults: {_controller: AEServiciosBundle:Default:ubigeo}
+ ## requirements:
+  ##  _method: POST
+  
+servicio_ubicacion_id:
+  pattern: /servicioubicacionid/{id}
+  defaults: {_controller: AEServiciosBundle:Default:ubicacionid}
+  requirements:
+    _method: POST
+  
+servicio_iglesia:
+  pattern: /servicioiglesia
+  defaults: {_controller: AEServiciosBundle:Default:iglesia}
+  
+servicio_iglesia_id:
+  pattern: /servicioiglesiaid/{id}
+  defaults: {_controller: AEServiciosBundle:Default:iglesiaid}
+  requirements:
+    _method: POST
+  
+  
+servicio_red:
+  pattern: /serviciored
+  defaults: {_controller: AEServiciosBundle:Default:red}
+  requirements:
+    _method: POST  
+  
+servicio_red_id:
+  pattern: /servicioredid/{id}
+  defaults: {_controller: AEServiciosBundle:Default:redid}
+  
+servicio_celula:
+  pattern: /serviciocelula/{id}
+  defaults: {_controller: AEServiciosBundle:Default:celula}
+  requirements:
+    _method: POST
+  
+servicio_celula_id:
+  pattern: /serviciocelulaid/{red}/{id}
+  defaults: {_controller: AEServiciosBundle:Default:celulaid}
+  
+servicio_lugar:
+  pattern: /serviciolugar
+  defaults: {_controller: AEServiciosBundle:Default:lugar}
+ 
+servicio_lugar_id:
+  pattern: /serviciolugarid/{id}
+  defaults: {_controller: AEServiciosBundle:Default:lugarid}
+  
+servicio_persona_lista:
+  pattern: /listapersona
+  defaults: {_controller: AEServiciosBundle:Default:listapersona}
+  
+servicio_persona_asignar:
+  pattern: /asignarpersona
+  defaults: {_controller: AEServiciosBundle:Default:asignarpersona}
+  
+servicio_persona_id:
+  pattern: /persona/{id}
+  defaults: {_controller: AEServiciosBundle:Default:persona}
+  requirements:
+    _method: POST
+  
+servicio_miembro_id:
+  pattern: /miembro/{id}
+  defaults: {_controller: AEServiciosBundle:Default:miembro}
+  
+servicio_nuevo_convertido_id:
+  pattern: /nuevoconvertido/{id}
+  defaults: {_controller: AEServiciosBundle:Default:nuevoconvertido}
+  requirements:
+    _method: POST
+    
+servicio_nuevo_convertido_all:
+  pattern: /lista_convertidos
+  defaults: {_controller: AEServiciosBundle:Default:listaconvertidos}
+ ## requirements:
+  ##  _method: POST
+  
+servicio_usuario:
+  pattern: /serviciousuario
+  defaults: {_controller: AEServiciosBundle:Default:usuario}
+  
+servicio_usuario_id:
+  pattern: /serviciousuarioid/{id}
+  defaults: {_controller: AEServiciosBundle:Default:usuarioid}
+  requirements:
+    _method: POST
+  
+servicio_red_social:
+  pattern: /servicioredsocial/{id}
+  defaults: {_controller: AEServiciosBundle:Default:redsocial}
+  requirements:
+    _method: POST
+  
+  
+servicio_miembro_all:
+  pattern: /serviciomiembro
+  defaults: {_controller: AEServiciosBundle:Default:miembroall}
+  
+servicio_miembro_red:
+  pattern: /serviciomiembrored/{red}
+  defaults: {_controller: AEServiciosBundle:Default:miembrored}
+  
+servicio_pastor_asoc:
+  pattern: /serviciopastorasoc
+  defaults: {_controller: AEServiciosBundle:Default:pastorasoc}
+  
+servicio_pastor_eje:
+  pattern: /serviciopastorejec
+  defaults: {_controller: AEServiciosBundle:Default:pastorejec}
+
+servicio_liderred:
+  pattern: /servicioliderred
+  defaults: {_controller: AEServiciosBundle:Default:lider_red}
+  
+servicio_misionero:
+  pattern: /serviciomisionero
+  defaults: {_controller: AEServiciosBundle:Default:misioneros}
+  
+  
+servicio_lista_usuario:
+  pattern: /servicio_lista_usuario
+  defaults: {_controller: AEServiciosBundle:Default:listausuario}
+#  requirements:
+#    _method: POST
+#servicio permisos
+
+servicio_permiso_id:
+  pattern: /serviciopermisoid/{id}
+  defaults: {_controller: AEServiciosBundle:Default:permisoid}
+  requirements:
+    _method: POST 
+
+
+servicio_lista_lideres:
+  pattern: /lista_lider
+  defaults: {_controller: AEServiciosBundle:Default:lista_lider}
+  requirements:
+    _method: POST
+  
+servicio_lista_pastor_asoc:
+  pattern: /lista_pastor_asoc
+  defaults: {_controller: AEServiciosBundle:Default:lista_pastor_asoc}
+  requirements:
+    _method: POST
+    
+    
+servicio_nuevos_consolidadores:
+  pattern: /nuevos_consolidadores
+  defaults: {_controller: AEServiciosBundle:Default:nuevos_consolidadores}
+  
+
+#consolidadores activos y no activos
+servicio_consolidadores:
+  pattern: /lconsolidadores
+  defaults: {_controller: AEServiciosBundle:Default:lconsolidadores}
+  
+#consolidadores activos
+servicio_consolidadores_act:
+  pattern: /l_act_consolidadores
+  defaults: {_controller: AEServiciosBundle:Default:l_act_consolidadores}
+  requirements:
+    _method: POST
+
+ 
+#leche espirituales
+servicio_leche_espiritual:
+  pattern: /leche_espiritual
+  defaults: {_controller: AEServiciosBundle:Default:lista_espiritual}
+  requirements:
+    _method: POST
+
+#leche espiritual temas
+
+servicio_leche_esp_temas:
+  pattern: /leche_esp_temas/{id}
+  defaults: {_controller: AEServiciosBundle:Default:leche_esp_temas}
+  
+servicio_consolidado:
+  pattern: /consolidado/{id}
+  defaults: {_controller: AEServiciosBundle:Default:consolidado}
+  requirements:
+    _method: POST
+  
+servicio_temas_id:
+  pattern: /temas/{cons}
+  defaults: {_controller: AEServiciosBundle:Default:temas}
+  requirements:
+    _method: POST
+  
+servicio_consolidador_id:
+  pattern: /consolidador/{id}
+  defaults: {_controller: AEServiciosBundle:Default:consolidador}
+  requirements:
+    _method: POST

@@ -1,0 +1,501 @@
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>AE</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Le styles -->
+        
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
+        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
+                 <!-- Scripts -->
+        {% endblock %}
+
+        {%block javascripts %}      
+            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>         
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>            
+            <script src="https://maps.google.com/maps/api/js?sensor=false"></script>            
+            <script type="text/javascript" src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js
+')}}" > </script>
+            <script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js
+')}}"> </script>
+            
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
+         
+     {%endblock%}
+        
+      <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+           <a class="brand" href="#"> {{ app.user.username}} </a>
+                <ul class="nav secondary-nav pull-right">                     
+                     <li></li>
+                    <li><a href="#accounts/settings/profile/">Settings</a></li>
+                    <li><a href="{{path('salir')}}">Salir</a></li> 
+                </ul>                
+        </div>            
+      </div>
+      </div>
+<body>
+    <div class="row-fluid">
+        <div class="span3">
+            
+        </div><!--/row-->
+            
+            
+        <div class="span9" id="registro_form">
+            <form class="form-horizontal" action="{{path('administrar_addred')}}"  method="POST" id="myForm" name="myForm">
+                 <legend>Registro de Red</legend>
+        
+                <fieldset> 
+                    <div class="control-group">
+                        <label class="control-label" >Abreviatura</label>
+                        <div class="controls">
+                            <input type="text" id="inputNom" name="inputNom" placeholder="Nombre" class="input-xxlarge">
+                        </div>
+                    </div>
+                
+                    <div class="control-group">
+                        <label class="control-label" >Tipo de Red  </label>
+                        <div class="controls">
+                            <select id="tipo_red" name="tipo_red" >
+                                <option value="0">Mixta</option>
+                                <option value="1">Hombres</option>
+                                <option value="2">Mujeres</option>
+                                <option value="3">Hombres Jovenes</option>
+                                <option value="4">Mujeres Jovenes</option>
+                            </select>
+                        </div>
+                    </div>
+                
+                    <div class="control-group">
+                        <label class="control-label" for="iglesia">Iglesia</label>
+                        <div class="controls">
+                            <select id="iglesia_lista" name="iglesia_lista" >
+                   
+                            </select>
+                        </div>
+                    </div>
+            </fieldset>
+        
+            <fieldset>
+                <legend>Ubicación</legend>
+        
+                <div class="control-group">
+                    <label class="control-label">Dirección</label>
+                    <div class="controls">
+                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Referencia</label>
+                    <div class="controls" >
+                        <input type="text" class="input-xxlarge" id="inputReferencia" name="inputReferencia">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" > Departamento</label>
+                    <div class="controls">
+                        <select name="departamento_lista" id="departamento_lista" >
+                    
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="control-group">
+                    <label class="control-label" >Provincia</label>
+                    <div class="controls">
+                        <select name="provincia_lista" id="provincia_lista">
+                   
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="control-group">
+                    <label class="control-label">Distrito</label>
+                    <div class="controls">
+                        <select name="distrito_lista" id="distrito_lista">
+                    
+                        </select>
+                    </div>        
+                </div>
+        
+                <div class="control-group">
+            
+                    <label>Ubicación</label>
+            
+         
+            
+                   <div class='input'>
+                       <label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/>   <br/>
+		
+                       <label>Latitud:      </label> <input id="lat" name="latitud" value="-8.116752"> <br/>
+                       <label>Longitud:      </label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+                    </div>
+                <div id="map"></div>
+   
+                </div>
+                
+                
+
+            </fieldset>
+                 
+             <fieldset> 
+                <legend>Lider</legend>
+                <div class="control-group">
+                <label>Añadir</label>
+                    <div class="controls">
+                         <select id="tip_red" name="tip_red" >
+                                <option value="0">Lider de red</option>
+                                <option value="1">Pastor asociado</option>
+                            </select>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label>ID</label>
+                    <div class="controls">
+                        <select id="ids" name="ids" >
+                        
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="control-group" >
+                    <label class="control-label"> Nombres </label>
+                    <div class="controls">
+                        <input type="text" id="inputNombres" name="inputNombres" placeholder="Nombres" class="input-xxlarge">
+                    </div>
+                </div>
+        
+                <div class="control-group" >
+                    <label class="control-label">Apellidos</label>
+                    <div class="controls">
+                        <input type="text" id="inputApellidos" name="inputApellidos" placeholder="Apellidos" class="input-xxlarge">
+                    </div>
+                </div>
+                
+                
+            </fieldset>
+                <div class="control-group">
+                    <label></label>
+                    <div class="controls">
+                        <input class="btn btn-small btn-primary" type="submit" name="login" id="login" />
+                    </div>
+                </div>
+            
+            </form>
+            <div id="output"></div>
+        
+            </div>
+         
+    </div>               
+</body>
+    
+
+   <div>
+    <footer>
+        <p align="center">&copy; 2012 por CLM Developers</p>
+        <p align="center">
+           <a href="http://www.w3.org/html/logo/">
+           <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
+           </a> 
+        </p>
+    </footer>
+   </div>
+     
+   {%block javascript %}
+        <script type="text/javascript">
+            $(function() {
+		
+                var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+		  elements: {
+		    map:      "#map",
+		    lat:      "#lat",
+		    lng:      "#lng"
+		  }
+		});
+		var gmarker = addresspickerMap.addresspicker( "marker");
+		gmarker.setVisible(true);
+		addresspickerMap.addresspicker( "updatePosition");
+                });
+        </script>
+            
+             <script type="text/javascript">
+                
+    
+                $(document).ready(function(){
+           
+              
+                
+                $.getJSON('{{path('servicio_iglesia')}}',iglesias);
+                
+                 //lista de departamentos
+                  $.ajax(
+                    {url : '{{path('servicio_region')}}',
+                     dataType:"json",
+                     type: "POST",
+                     async: false,
+                    }
+                    ).done(departamentos);
+                
+                 //cambio de departamento
+                 $("#departamento_lista").change(recarga_provincias);
+                  
+                  //cambio de provincia
+                 $("#provincia_lista").change(recarga_distritos);
+                 
+    
+                //lideres
+                var route = '{{path('servicio_lista_lideres')}}';            
+                       
+                        $.ajax(
+                            {   url : route,
+                                dataType:"json",
+                                type: "POST",
+                                async: false,
+                            }
+                        ).done(lideres);
+                            
+                 //persona
+                 $('#ids').change(persona);
+                 
+    
+                 $("#tip_red").change(recarga_id);
+                 
+    
+                 var x =$("login");
+                    x.click();
+           
+                    $("#myForm").submit(function(){
+                    //get the url for the form
+                    var url=$("#myForm").attr("action");
+                    
+                    console.log(url);
+                    console.log($("#myForm").serialize());
+   
+                    //start send the post request
+                    $.post(url,{
+                        formName:$("#myForm").serialize(),
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
+                    console.log(data);
+                    if(data.responseCode==200 ){           
+                       // $('#output').html(data.greeting);
+                        //$('#output').css("color","red");
+                        alert('Registro Completado');
+                        var href="{{path('main')}}";
+                   
+                       $(location).attr('href',href); 
+          
+
+                    }
+                    else if(data.responseCode==400){//bad request
+                       // $('#output').html(data.greeting);
+                       // $('#output').css("color","red");
+                       alert('Error');
+                        }
+                    else{
+                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Solo se puede registrar una iglesia');
+                        }
+                        //if we got to this point we know that the controller
+                        //did not return a json_encoded array. We can assume that           
+                        //an unexpected PHP error occured
+                        else alert("An unexpeded error occured.");
+
+                        //if you want to print the error:
+                        //$('#output').html(data);
+                        }
+                    }
+       
+                    );
+
+
+                    //It is silly. But you should not write 'json' or any thing as the fourth parameter. It should be undefined. I'll explain it futher down
+
+                    //we dont what the browser to submit the form
+                    return false;});
+
+
+                });
+                
+                function recarga_id()
+                {
+                    var id = $("#tip_red option:selected").val();
+          
+                    
+                    if(id=='0')
+                    {
+                        var route = '{{path('servicio_lista_lideres')}}';            
+                       
+                        $.ajax(
+                            {   url : route,
+                                dataType:"json",
+                                type: "POST",
+                                async: false,
+                            }
+                        ).done(lideres);
+                    }
+                    else
+                    {
+               
+                        var route = '{{path('servicio_lista_pastor_asoc')}}';            
+                       
+                        $.ajax(
+                            {   url : route,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                            }
+                        ).done(pastor_asoc);
+                    }
+                   
+                }
+  
+                function lideres(dat)
+                {
+                   
+                    $('#ids').empty();
+                    
+                    $('<option value= '+'-1>'+'-'+'</option>').appendTo('#ids');
+
+                    for(var i=0;i<dat.length;i++)
+                    {
+                      $('<option value='+dat[i].id+'>'+dat[i].id+'</option>').appendTo('#ids');
+
+                    }
+                     persona();
+                }
+                
+                function persona()
+                {
+                    var id = $("#ids option:selected").val();
+                    if(id!=null && id!='-1')
+                    {
+                                  
+                        var route = '{{path('servicio_persona_id',{'id': 'nom'})}}';            
+                        var rutas = route.replace('nom',id);         
+                        $.ajax(
+                            {   url : rutas,
+                                dataType:"json",
+                                type: "GET",
+                                async: false,
+                            }
+                        ).done(personal);
+                    }
+
+                }
+                //funcion que recarga los datos personales
+                function personal(dato)
+                {
+                    $('#inputNombres').text(dato.nombre);
+                    $('#inputNombres').val(dato.nombre);
+                    
+        
+                    $('#inputApellidos').text(dato.apellidos);
+                    $('#inputApellidos').val(dato.apellidos);
+                    
+        
+                }
+
+                function pastor_asoc(dat)
+                {
+                    
+                    $('#ids').empty();
+                    
+                    $('<option value= '+'-1>'+'-'+'</option>').appendTo('#ids');
+
+                    for(var i=0;i<dat.length;i++)
+                    {
+                      $('<option value='+dat[i].id+'>'+dat[i].id+'</option>').appendTo('#ids');
+
+                    }
+                     persona();
+                }
+                
+                 function iglesias(datos)
+                {
+                        $('<option value='+datos.id+'>'+datos.nombre+'</option>').appendTo('#iglesia_lista');
+                }
+                
+                  
+                function departamentos(datos)
+                {
+                    for(var i=0; i<datos.length ; i++)
+                    {
+                        $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
+                    } 
+                    
+                    recarga_provincias();
+                }
+    
+                function recarga_provincias()
+                {
+                 var id = $("#departamento_lista option:selected").val();              
+                 var route = '{{path('servicio_provincia',{'id': 'nom'})}}';            
+                 var rutas = route.replace('nom',id);         
+                 $.ajax(
+                        {   url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(provincias);
+                }
+            
+                function provincias(dato)
+                {
+                     $("#provincia_lista").empty();
+                     for(var i=0;i<dato.length;i++)
+                    {
+                        $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
+                    }
+                    
+                    recarga_distritos();
+                }
+                
+                function recarga_distritos()
+                {
+                    var dep=$("#departamento_lista option:selected").val();
+                    var prov = $("#provincia_lista option:selected").val();
+   
+                    var route = '{{path('servicio_distrito',{'dep':'id1','prov':'id2'})}}';
+                    
+                    var rutas = route.replace('id1', dep);                    
+                    rutas = rutas.replace('id2', prov);
+                    
+                     $.ajax(
+                        {   url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(distrito);
+                }
+                function distrito(dato)
+                {
+                   
+                     $("#distrito_lista").empty();
+                     for(var i=0;i<dato.length;i++)
+                    {
+                        $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
+                    }
+                }
+            
+            </script>
+            
+    {%endblock%}
+             
+</html>

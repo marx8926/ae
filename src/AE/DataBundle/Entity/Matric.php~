@@ -1,0 +1,60 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Matric
+ *
+ * @ORM\Table(name="matric")
+ * @ORM\Entity
+ */
+class Matric
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="matric_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=true)
+     */
+    private $activo;
+
+    /**
+     * @var \Estudiante
+     *
+     * @ORM\ManyToOne(targetEntity="Estudiante")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
+     * })
+     */
+    private $idPersonaEstudiante;
+
+    /**
+     * @var \CursoImpartido
+     *
+     * @ORM\ManyToOne(targetEntity="CursoImpartido")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_curso_impartido", referencedColumnName="id")
+     * })
+     */
+    private $idCursoImpartido;
+
+
+}

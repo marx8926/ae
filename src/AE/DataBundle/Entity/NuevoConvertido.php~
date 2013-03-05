@@ -1,0 +1,79 @@
+<?php
+
+namespace AE\DataBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * NuevoConvertido
+ *
+ * @ORM\Table(name="nuevo_convertido")
+ * @ORM\Entity
+ */
+class NuevoConvertido
+{
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_conversion", type="date", nullable=false)
+     */
+    private $fechaConversion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="peticion", type="text", nullable=false)
+     */
+    private $peticion;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="consolidado", type="boolean", nullable=true)
+     */
+    private $consolidado;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * })
+     */
+    private $id;
+
+    /**
+     * @var \Celula
+     *
+     * @ORM\ManyToOne(targetEntity="Celula")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
+     * })
+     */
+    private $idCelula;
+
+    /**
+     * @var \Red
+     *
+     * @ORM\ManyToOne(targetEntity="Red")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
+     * })
+     */
+    private $idRed;
+
+    /**
+     * @var \Lugar
+     *
+     * @ORM\ManyToOne(targetEntity="Lugar")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_lugar", referencedColumnName="id")
+     * })
+     */
+    private $idLugar;
+
+
+}
