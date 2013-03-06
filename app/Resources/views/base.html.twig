@@ -1,59 +1,320 @@
-<html>
-
+<!doctype html>
+<html lang="es">
 <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>
-            {% block title%}
-            CLM NET
-            {% endblock%}
-            </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Le styles -->
-        
-        {% block stylesheets %}
-        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-                 <!-- Scripts -->
-        {% endblock %}
+<meta charset="utf-8">
+<title>Neat Admin Template</title>
+<meta name="description" content="">
 
-        {%block javascripts %}    
-            <script type="text/javascript" src="{{asset('js/bootstrap-typeahead.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-carousel.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-collapse.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-button.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-tooltip.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-tab.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-scrollspy.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-dropdown.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-modal.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-transition.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
-            
-            
-            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
-         
-     {%endblock%}
-        
-         <body>
-             {% block  body%}
-        
-        <div class="container">
-            <hr>
-        </div> <!-- /container -->        
-        <div>
-             <footer>
-                 <p align="center">&copy; 2012 por CLM Developers 
-                </p>
-                <p align="center">
-                    <a href="http://www.w3.org/html/logo/">
-                    <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
-                    </a> 
-                </p>
-            </footer>
-        </div>
-        
-            {% endblock%}
-    </body>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
+<link rel="stylesheet" href="{{asset('css/bootstrap-responsive.css')}}">
+<link rel="stylesheet" href="{{asset('css/jquery.fancybox.css')}}">
+<link rel="stylesheet" href="{{asset('css/style.css')}}">
+</head>
+<body>
+<div class="topbar">
+	<div class="container-fluid">
+		<a href="dashboard.html" class='company'>Administración Eclesiástica</a>
+		<form action="#">
+			<input type="text" value="Buscar aquí...">
+		</form>
+		<ul class='mini'>
+			<li>
+				<a href="#">
+					<img src="{{asset('img/icons/fugue/help.png')}}" alt="">
+					Ayuda
+				</a>
+			</li>
+			<li>
+				<a href="index.html">
+					<img src="{{asset('img/icons/fugue/control-power.png')}}" alt="">
+					Cerrar Sesión
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="breadcrumbs">
+	<div class="container-fluid">
+		<ul class="bread pull-left">
+			<li>
+				<a href="dashboard.html"><i class="icon-home icon-white"></i></a>
+			</li>
+			<li>
+				<a href="dashboard.html">
+					Dashboard
+				</a>
+			</li>
+		</ul>
+
+	</div>
+</div>
+<div class="main">
+	<div class="navi">
+		<ul class='main-nav'>
+			<li class='active'>
+				<a href="dashboard.html" class='light'>
+					<div class="ico"><i class="icon-home icon-white"></i></div>
+					Home
+				</a>
+			</li>
+			<li>
+				<a href="forms.html" class='light'>
+					Ganar
+				</a>
+				<ul class='collapsed-nav closed'>
+					<li>
+						<a href="datatables.html">
+							Registrar
+						</a>
+					</li>
+					<li>
+						<a href="plaintables.html">
+							Buscar
+						</a>
+					</li>
+					<li>
+						<a href="mediatables.html">
+							Filtrar
+						</a>
+					</li>
+					<li>
+						<a href="mediatables.html">
+							Asignar Red
+						</a>
+					</li>
+					<li>
+						<a href="mediatables.html">
+							Informes
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#" class='light toggle-collapsed'>
+					Tables
+				</a>
+				<ul class='collapsed-nav closed'>
+					<li>
+						<a href="datatables.html">
+							Registrar Consolidador
+						</a>
+					</li>
+					<li>
+						<a href="plaintables.html">
+							Asignar Consolidador
+						</a>
+					</li>
+					<li>
+						<a href="mediatables.html">
+							Seguimiento de Red
+						</a>
+					</li>
+					<li>
+						<a href="mediatables.html">
+							Seguimiento de Consolidador
+						</a>
+					</li>
+					<li>
+						<a href="mediatables.html">
+							Descartar
+						</a>
+					</li>
+					<li>
+						<a href="mediatables.html">
+							Informes
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#" class='light toggle-collapsed'>
+					Discipular
+				</a>
+				<ul class='collapsed-nav closed'>
+					<li>
+						<a href="buttons.html">
+							Registrar Personal
+						</a>
+					</li>
+					<li>
+						<a href="sliders.html">
+							Registrar Cursos
+						</a>
+					</li>
+					<li>
+						<a href="tooltips.html">
+							Matricular
+						</a>
+					</li>
+					<li>
+						<a href="tabs.html">
+							Asignar Personal
+						</a>
+					</li>
+					<li>
+						<a href="tabs.html">
+							Registrar Calificación
+						</a>
+					</li>
+					<li>
+						<a href="tabs.html">
+							Registrar Asistencia
+						</a>
+					</li>
+					<li>
+						<a href="tabs.html">
+							Registro de Ofrendas
+						</a>
+					</li>
+					<li>
+						<a href="tabs.html">
+							Liderazgo
+						</a>
+					</li>
+					<li>
+						<a href="tabs.html">
+							Informes
+						</a>
+						<ul class='collapsed-nav closed'>
+							<li>
+								<a href="tabs.html">
+									Notas
+								</a>
+							</li>
+							<li>
+								<a href="tabs.html">
+									Asistencia
+								</a>
+							</li>
+							<li>
+								<a href="tabs.html">
+									Ofrendas
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="statistics.html" class='light'>
+					Enviar
+				</a>
+				<ul class='collapsed-nav closed'>
+					<li>
+						<a href="404.html">
+							Crear Célula
+						</a>
+					</li>
+					<li>
+						<a href="500.html">
+							Modificar Célula
+						</a>
+					</li>
+					<li>
+						<a href="500.html">
+							Eliminar Célula
+						</a>
+					</li>
+					<li>
+						<a href="500.html">
+							Clases en Célula
+						</a>
+					</li>
+					<li>
+						<a href="500.html">
+							Registro de Asistencia
+						</a>
+					</li>
+					<li>
+						<a href="500.html">
+							Informes
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#" class='light toggle-collapsed'>
+					Comunicar
+				</a>
+				<ul class='collapsed-nav closed'>
+					<li>
+						<a href="403.html">
+							Pastores
+						</a>
+					</li>
+					<li>
+						<a href="404.html">
+							Encargados
+						</a>
+					</li>
+					<li>
+						<a href="500.html">
+							Líderes de Red
+						</a>
+					</li>
+					<li>
+						<a href="500.html">
+							Líderes de Célula
+						</a>
+					</li>
+					<li>
+						<a href="500.html">
+							Otros
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#" class='light toggle-collapsed'>
+					Administrar
+				</a>
+				<ul class='collapsed-nav closed'>
+					<li>
+						<a href="gallery.html">
+							Líderes de Red
+						</a>
+					</li>
+					<li>
+						<a href="messages.html">
+							Consolidadores
+						</a>
+					</li>
+					<li>
+						<a href="userprofile.html">
+							Pastores
+						</a>
+					</li>
+					<li>
+						<a href="index.html">
+							Encargados de Área
+						</a>
+					</li>
+					<li>
+						<a href="results.html">
+							Crear Red
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="container-fluid">
+		<div class="content">
+			{% block content %}
+			
+			{% endblock %}
+		</div>
+	</div>
+</div>	
+<script src="{{asset('js/jquery.js')}}"></script>
+<script src="{{asset('js/less.js')}}"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/jquery.peity.js')}}"></script>
+<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+<script src="{{asset('js/jquery.flot.js')}}"></script>
+<script src="{{asset('js/jquery.color.js')}}"></script>
+<script src="{{asset('js/jquery.flot.resize.js')}}"></script>
+<script src="{{asset('js/custom.js')}}"></script>
+</body>
 </html>
