@@ -2,6 +2,7 @@
 <body>
 	<fieldset>
 			<legend>Crear Curso</legend>
+			<form id="registrar_curso" method="POST" action="">
 			<div>
 				<label>Nombre</label>
 				<input type="text">
@@ -9,6 +10,14 @@
 				<input type="text">
 			</div>	
 			<div>
+			<div>
+				<label>Prerequisito</label>
+				<select>
+					<option value="">Ninguno</option>
+					<option value="1">Curso1</option>
+					<option value="2">Curso2</option>
+				</select>	
+			
 				<label>Estado</label>
 				<select>
 					<option>Activado</option>
@@ -18,7 +27,9 @@
 			<div>
 				<label>Descripcion</label>
 				<textarea rows="15" cols="50"></textarea>
-			</div>			
+			</div>
+			<input type="button" value="Crear">
+			</form>			
 		</fieldset>
 	<fieldset>
 	<div>
