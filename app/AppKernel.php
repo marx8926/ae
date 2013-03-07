@@ -28,8 +28,6 @@ class AppKernel extends Kernel
             new AE\GanarBundle\AEGanarBundle(),
             new AE\ConsolidarBundle\AEConsolidarBundle(),
             new AE\DiscipularBundle\AEDiscipularBundle(),
-           new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-            new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle(),
 
         );
 
