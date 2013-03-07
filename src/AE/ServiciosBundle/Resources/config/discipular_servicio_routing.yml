@@ -1,0 +1,3 @@
+_lista_cursos:
+  pattern: /_lista_cursos
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCursosOption }
