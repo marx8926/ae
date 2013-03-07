@@ -2,14 +2,16 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>Neat Admin Template</title>
+<title>Administración Eclesiástica</title>
 <meta name="description" content="">
-
 <meta name="viewport" content="width=device-width">
+
+{% block stylesheets %}
 <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
 <link rel="stylesheet" href="{{asset('css/bootstrap-responsive.css')}}">
 <link rel="stylesheet" href="{{asset('css/jquery.fancybox.css')}}">
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
+{% endblock %}
 </head>
 <body>
 <div class="topbar">
@@ -305,8 +307,19 @@
 			
 			{% endblock %}
 		</div>
-	</div>
+	</div>	
+</div>
+<div>
+	<footer>
+		<p align="center">&copy; 2012 por CLM Developers</p>
+		<p align="center">
+			<a href="http://www.w3.org/html/logo/">
+            	<img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
+            </a> 
+        </p>
+	</footer>
 </div>	
+{% block javascript %}
 <script src="{{asset('js/jquery.js')}}"></script>
 <script src="{{asset('js/less.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -316,5 +329,6 @@
 <script src="{{asset('js/jquery.color.js')}}"></script>
 <script src="{{asset('js/jquery.flot.resize.js')}}"></script>
 <script src="{{asset('js/custom.js')}}"></script>
+{% endblock %}
 </body>
 </html>
