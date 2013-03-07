@@ -1,6 +1,6 @@
 ae_discipular:
     resource: "@AEDiscipularBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /discipular/
 
 ae_consolidar:
     resource: "@AEConsolidarBundle/Resources/config/routing.yml"
