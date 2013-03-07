@@ -221,3 +221,7 @@ servicio_consolidador_id:
 
 discipular_servicio_routing:
     resource: "@AEServiciosBundle/Resources/config/discipular_servicio_routing.yml"
+    
+servicio_por_descartar:
+  pattern: /pordescartar
+  defaults: {_controller: AEServiciosBundle:Default:pordescartar}

@@ -903,5 +903,20 @@ class DefaultController extends Controller
         
         return new JsonResponse($todo); 
    }
+   
+     public function pordescartarAction()
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+
+
+        $sql = "select * from descartar";
+          
+        $smt = $em->getConnection()->prepare($sql);
+        $smt->execute();
+        
+        $todo = $smt->fetchAll();
+        
+        return new JsonResponse(array('aaData'=>$todo)); 
+   }
  
 }
