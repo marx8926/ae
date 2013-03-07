@@ -55,3 +55,10 @@ consolidar_seguir_update:
   requirements:
     _method: POST
  
+consolidar_descartar:
+  pattern: /descartar
+  defaults: {_controller: AEConsolidarBundle:Default:descartar}
+  
+consolidar_descartar_update:
+  pattern: /descartar_update
+  defaults: {_controller: AEConsolidarBundle:Default:descartar_update}
