@@ -1067,7 +1067,7 @@
 }
 html,
 body {
-  background: url('../img/bg2.png') repeat;
+  background: url('../img/subtlenet2.png') repeat;
   height: 100%;
 }
 .style-toggler {
@@ -2216,7 +2216,7 @@ body {
 }
 .dataTables_wrapper {
   *zoom: 1;
-  background: #f1f1f1;
+  /*background: #f1f1f1;*/
 }
 .dataTables_wrapper:before,
 .dataTables_wrapper:after {
