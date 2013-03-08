@@ -1,7 +1,7 @@
 parameters:
   database_driver: pdo_pgsql
-  database_host: 192.168.0.20
-  database_port: null
+  database_host: 127.0.0.1
+  database_port: 5433
   database_name: AE_DB_T_v3
   database_user: postgres
   database_password: '260489'
