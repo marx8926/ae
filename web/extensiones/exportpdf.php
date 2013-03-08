@@ -23,7 +23,9 @@ border-bottom: 1px solid #cef; }
 </style>
 	<page >
     <table>
+    		
     ".$tabla."
+    		
     </table>
     </page>
     ";
@@ -31,7 +33,7 @@ border-bottom: 1px solid #cef; }
 
 
     require_once(dirname(__FILE__).'/html2pdf/html2pdf.class.php');
-    $html2pdf = new HTML2PDF('P','A4','fr');
+    $html2pdf = new HTML2PDF('P','A4','es');
     $html2pdf->WriteHTML($content);
     $html2pdf->Output('exemple.pdf');
 ?>

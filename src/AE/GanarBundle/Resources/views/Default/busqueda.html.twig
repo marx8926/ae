@@ -213,15 +213,16 @@
             
         
             $("#pdfbutton").click(function(event) {
+            	$("#content").val($("#persona").html());
                 $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
-		$("#form").submit();
+		 $("#form").submit();
             });
 
             $("#excelbutton").click(function(event) {
+            	$("#content").val($("#persona").html());
 		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
 		$("#form").submit();
             });
-            
         
             $('#persona tbody').click(function(event){
                 $(oTable.fnSettings().aoData).each(function(){
@@ -314,6 +315,7 @@
            
             } );
             */
+            
 	 });
          
         /* Get the rows which are currently selected */
