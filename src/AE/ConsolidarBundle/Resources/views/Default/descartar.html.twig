@@ -25,15 +25,17 @@
 <div class="span9" >
     <table cellpadding="0" cellspacing="0" border="0" class="display"  id="persona" name="persona">
         <thead>
-            <tr>
-                
+            <tr>                              
                  <th>ID</th>
-		<th>Nombres</th>
+                 <th>Inicio Leche</th>
+                 <th>Convertido</th>
+                 <th>Red</th>
+                 <th>Célula</th>
+                 <th>Codigo</th>
+                <th>Nombres</th>
 		<th>Apellidos</th>
                 <th>Edad</th>
-                <th>Red</th>
-                <th>Célula</th>
-                <th>Conversión</th>
+                <th>Telefono</th>
             </tr>
 	</thead>
 	<tbody id="tablas1" name="tablas1" >
@@ -276,13 +278,16 @@
                 "sAjaxSource": '{{path('servicio_nuevo_convertido_all')}}',
 
                 "aoColumns": [
-                    { "mData": "id" },
-                    { "mData": "nombres" },
-                    { "mData": "apellidos" },
-                    { "mData": "edad" },
-                    { "mData": "red" },
-                    { "mData": "celula"},
-                    { "mData":"conversion"}
+                    { "mDataProp": "id" },
+                    { "mDataProp": "inicio_leche" },
+                    { "mDataProp": "convertido" },
+                    {"mDataProp": "red"},
+                    { "mDataProp": "celula"},
+                    { "mDataProp": "codigo"},
+                    { "mDataProp": "nombre"},
+                    { "mDataProp": "apellidos"},
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "telefono" }
                 ],
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
