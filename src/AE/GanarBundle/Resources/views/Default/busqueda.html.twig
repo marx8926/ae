@@ -219,7 +219,7 @@
             });
 
             $("#excelbutton").click(function(event) {
-            	$("#content").val($("#persona").html());
+            	$("#content").val("<table>" + $("#persona").html() + "</table>");
 		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
 		$("#form").submit();
             });
