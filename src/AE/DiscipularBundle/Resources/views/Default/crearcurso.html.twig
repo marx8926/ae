@@ -1,34 +1,87 @@
 <html>
+<head>
+{%block javascripts %}    
+            
+            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script> 
+            <script src="https://www.google.com/jsapi"></script>
+
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->  
+ 
+            <script type="text/javascript" charset="utf-8">
+
+            $(document).ready(function() {
+            	var data = $.ajax({
+                url: "{{ path('_lista_cursos') }}",
+                async: false
+                }).responseText;
+            	$('#select_curso').html(data);
+            });
+
+            $("#registrar_curso").submit(function(){
+                
+                //get the url for the form
+                var url=$("#registrar_curso").attr("action");
+                 
+                console.log($("#registrar_curso").serialize());
+                //start send the post request
+                $.post(url,{
+                    formRegCurso:$("#registrar_curso").serialize(),
+                    other:"attributes"
+                },function(data){
+                //the response is in the data variable
+           
+           
+                if(data.responseCode==300 ){           
+                	console.log("ok");
+                }
+                else if(data.responseCode==400){//bad request
+                   alert('Error bad request');
+                    }
+                else{                        
+                    if(data.responseCode==500)
+                    {
+                        alert('Error bad request');
+                    }
+                    else alert("An unexpeded error occured.");
+                    }
+                }
+                );
+                return false;});
+
+
+            </script>
+            
+            
+     {%endblock%}  
+</head>
 <body>
 	<fieldset>
 			<legend>Crear Curso</legend>
-			<form id="registrar_curso" method="POST" action="">
+			<form id="registrar_curso" method="POST" action="{{path( 'dicipular_registrar_curso') }}">
 			<div>
-				<label>Nombre</label>
-				<input type="text">
-				<label>Numero de Sesiones</label>
-				<input type="text">
+				<label >Titulo</label>
+				<input name="titulo" type="text">
+				<label >Numero de Sesiones</label>
+				<input name="numsesiones"type="text">
 			</div>	
 			<div>
 			<div>
 				<label>Prerequisito</label>
-				<select>
-					<option value="">Ninguno</option>
-					<option value="1">Curso1</option>
-					<option value="2">Curso2</option>
-				</select>	
+				<div id="select_curso">
+				</div>
 			
 				<label>Estado</label>
-				<select>
-					<option>Activado</option>
-					<option>Desactivado</option>
+				<select name="estado">
+					<option value="true">Activado</option>
+					<option value="false">Desactivado</option>
 				</select>
 			</div>	
 			<div>
 				<label>Descripcion</label>
-				<textarea rows="15" cols="50"></textarea>
+				<textarea name="descripcion" rows="15" cols="50"></textarea>
 			</div>
-			<input type="button" value="Crear">
+			<input type="submit" value="Crear">
 			</form>			
 		</fieldset>
 	<fieldset>

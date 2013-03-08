@@ -1,3 +1,9 @@
 discipular_crearcurso:
     pattern:  /crearcurso
     defaults: { _controller: AEDiscipularBundle:CrearCurso:index }
+    
+dicipular_registrar_curso:
+    pattern:  /registrarcurso
+    defaults: { _controller: AEDiscipularBundle:CrearCurso:RegistrarCurso }
+    requirements:
+          _method: POST
