@@ -1011,13 +1011,11 @@ class DefaultController extends Controller
     
     public function clase_regAction()
     {
-        
-         
         $request = $this->get('request');
         $name=$request->request->get('formName');
         
         $datos = array();
-
+		// se copian los datos serializados de name a datos
         parse_str($name,$datos);
         $nombre = NULL;
         $descripcion = NULL;
@@ -1026,7 +1024,7 @@ class DefaultController extends Controller
 
        if($name!=NULL){
                 
-           if(strpos($name, 'nombre')!==false)
+           if(strpos($name, 'nombre')!=false)
            {
                $nombre = $datos['nombre'];           
            }
@@ -1051,7 +1049,7 @@ class DefaultController extends Controller
             $this->getDoctrine()->getEntityManager()->beginTransaction();
             try
             {
-                $leche = new LecheEspiritual();
+                $curso = new LecheEspiritual();
            
                 if($fecha ==NULL)
                     $leche->setFechaCreacion(new \DateTime());
