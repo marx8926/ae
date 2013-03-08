@@ -2342,6 +2342,13 @@ b.error {
 .table-with-action .dataTables_wrapper {
   border-bottom: 1px solid #bbb;
 }
+.table.display tr.even.row_selected td {
+	background-color: yellow;
+}
+
+.table.display tr.odd.row_selected td {
+	background-color: yellow;
+}
 .login_body {
   background: url(../img/bg2.png) repeat;
 }

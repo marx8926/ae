@@ -356,7 +356,7 @@ class DefaultController extends Controller
 
     public function listaconvertidosAction()
     {
-        $sql = "select persona.id, persona.nombre as nombres, persona.apellidos, persona.edad, nuevo_convertido.id_red as red, nuevo_convertido.id_celula as celula, nuevo_convertido.fecha_conversion as conversion from nuevo_convertido inner join persona on nuevo_convertido.id=persona.id where nuevo_convertido.consolidado =false";
+        $sql = "select *from nuevos_convertidos";
         
         $em = $this->getDoctrine()->getEntityManager();
         $smt = $em->getConnection()->prepare($sql);

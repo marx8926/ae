@@ -1,21 +1,6 @@
-<html>
+{% extends "::base.html.twig" %}
 
-<head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>
-            AE - Registro Consolidador
-        </title>
- 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <!-- Le styles -->
-        
-         <style type="text/css">
-            @import "/sym/web/js/media/css/demo_page.css";
-            @import "/sym/web/js/media/css/demo_table.css";    
-        </style>
-        
-        {% block stylesheets %}
+{% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -33,16 +18,79 @@
                     display: none;
                 }
             </style>
-        <!-- Scripts -->
                  
-        {% endblock %}
+{% endblock %}                 
 
-        {%block javascripts %}    
+{% block content %} 
+<div class="span9" >
+    <table cellpadding="0" cellspacing="0" border="0" class="display"  id="persona" name="persona">
+        <thead>
+            <tr>
+                
+                 <th>ID</th>
+		<th>Nombres</th>
+		<th>Apellidos</th>
+                <th>Edad</th>
+                <th>Red</th>
+                <th>Célula</th>
+                <th>Conversión</th>
+            </tr>
+	</thead>
+	<tbody id="tablas1" name="tablas1" >
+	
+	</tbody>
+	
+    </table>
+        
+    <div  class="span2">
+            <fieldset>
+                <div>
+                    <label>ID</label>
+                    <label id="nombre" name="nombre"></label>
+                </div>
+                
+                <div>
+                    <label>Fecha Pausa</label>
+                    <input type="date" id="pausa" >
+                </div>
+            </fieldset>
+        </div>
+        
+        <form  method="POST" id="myForm">
+        <div class="form-horizontal">
+        
+            <button class="btn-success" id="registro" name="registro"> Registro</button>
+        </div>
+        </form>
+ </div>    
+                 
+{% endblock %}
+      
+ {%block javascript %}
+ 	<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+             
+            <script src="http://www.google.com/jsapi"></script>
             
-            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-            <script type="text/javascript" language="javascript" src="{{asset('js/media/js/jquery.dataTables.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script> 
-            <script src="https://www.google.com/jsapi"></script>
+            <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+			<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -157,94 +205,8 @@
 				} );
 			} );*/
 		</script>
-     {%endblock%}                  
-</head>
-
-<body>
-     <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-            <a class="brand" href="#"> {{app.user.username}} </a>
-                       
-         
-                <ul class="nav secondary-nav pull-right"> 
-                   
-                     <li></li>
-                    <li><a href="#accounts/settings/profile/">Settings</a></li>
-                    <li><a href="{{path('salir')}}">Salir</a></li> 
-                </ul> 
  
-            </div>            
-        </div>
-</div>
-
-
-<div class="span9" >
-    <table cellpadding="0" cellspacing="0" border="0" class="display"  id="persona" name="persona">
-        <thead>
-            <tr>
-                <th>ID</th>
-		<th>Inicio Leche</th>
-		<th>Convertido</th>
-                <th>Red</th>
-                <th>Célula</th>
-                <th>Codigo</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-		<th>Edad</th>
-                <th>Telefono</th>
-            </tr>
-	</thead>
-	<tbody id="tablas1" name="tablas1" >
-	
-	</tbody>
-	
-    </table>
-        
-        <div  class="span2">
-            <fieldset>
-                <div>
-                    <label>ID</label>
-                    <label id="nombre" name="nombre"></label>
-                </div>
-                
-                <div>
-                    <label>Fecha Pausa</label>
-                    <input type="date" id="pausa" >
-                </div>
-            </fieldset>
-        </div>
-        
-        <form  method="POST" id="myForm">
-        <div class="form-horizontal">
-        
-            <button class="btn-success" id="registro" name="registro"> Registro</button>
-        </div>
-        </form>
- </div>    
-                 
-
-      
-      
-</body>
-
-<div>
-    <footer>
-        <p align="center">&copy; 2012 por CLM Developers </p>
-        <p align="center">
-            <a href="http://www.w3.org/html/logo/">
-                <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
-            </a> 
-        </p>
-    </footer>
-</div>
-      
- {%block javascript %}
+ 
     <script type="text/javascript">
           
           
@@ -263,8 +225,6 @@
          
 	$(document).ready(function() {
             
-            
-            
         
             $('#persona tbody').click(function(event){
                 $(oTable.fnSettings().aoData).each(function(){
@@ -279,36 +239,28 @@
   
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
-                }); 
-                
+                });               
             });
             
             //click handler para eliminar
-            $('#registro').click(function(){
+            $('#vista').click(function(){
                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
                 if(anSelected.length !=0)
                 {
+                    console.log(anSelected);
                     var tds = $(anSelected).find('td');
                     var val = [];
                     $.each(tds, function(index, item) {
                     val.push(item.innerHTML); 
   
                       }); 
-                    var route = '{{path('consolidar_registro_update',{'id': 'nom'})}}';
-                    
+                    var route = '{{path('ganar_vistamiembro',{'id': 'nom'})}}';
             
                     var rutas = route.replace('nom',val[0]);
-                    $("#myForm").attr('action',rutas);
                     
-                    $.ajax(
-                        {url : rutas,
-                        
-                        type: "POST",
-                        async: false,
-                        }
-                        );
-                    
+                    console.log(rutas);
+                    window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
                
                 }
             });
@@ -321,19 +273,16 @@
                                     
                 "bProcessing": true,
 //iv                "bServerSide": true,
-                "sAjaxSource": '{{path('servicio_por_descartar')}}',
+                "sAjaxSource": '{{path('servicio_nuevo_convertido_all')}}',
 
                 "aoColumns": [
                     { "mData": "id" },
-                    { "mData": "inicio_leche" },
-                    {"mData":"convertido"},
-                    { "mData": "red" },
-                    {"mData": "celula"},
-                    {"mData": "codigo"},
-                    {"mData": "nombre"},
+                    { "mData": "nombres" },
                     { "mData": "apellidos" },
                     { "mData": "edad" },
-                    { "mData":"telefono"}
+                    { "mData": "red" },
+                    { "mData": "celula"},
+                    { "mData":"conversion"}
                 ],
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
@@ -387,6 +336,7 @@ function fnGetSelected( oTableLocal )
 }
        
        </script>
-{%endblock %}
-       
-</html>  
+{%endblock %} 
+
+
+

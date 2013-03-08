@@ -6,8 +6,7 @@
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         
         <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">  
-        
-        
+    
             <style type="text/css">
                 .row-highlight
                 {
@@ -23,24 +22,38 @@
 
 {% block content %} 
 <div class="span9" >
-    <table cellpadding="0" cellspacing="0" border="0" class="display"  id="persona" name="persona">
-        <thead>
-            <tr>
-                <th>ID</th>
-		<th>Nombres</th>
-		<th>Apellidos</th>
-		<th>Edad</th>
-		<th>Red</th>
-                <th>Célula</th>
-                <th>Conversión</th>
-            </tr>
+    
+    <div class="box">
+        <div class="box-head tabs">
+            <h3>Nuevos Convertidos</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+            <form id='form' method='POST'>
+                <input id='content' type='hidden' name='content' >
+		<input id='pdfbutton' type='button' value='PDF' class="btn-success">
+		<input id='excelbutton' type='button' value='Excel' class="btn-success">
+            
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped dataTable table-bordered"  id="persona" name="persona">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Edad</th>
+                    <th>Red</th>
+                    <th>Célula</th>
+                    <th>Conversión</th>
+                </tr>
 	</thead>
 	<tbody id="tablas1" name="tablas1" >
 	
 	</tbody>
 	
     </table>
-        
+   </form>
+        </div>
+    </div>
         <div class="form-horizontal">
         
             <button class="btn-success" id="vista" name="vista"> Vista</button>
@@ -209,6 +222,17 @@
 	$(document).ready(function() {
             
         
+            $("#pdfbutton").click(function(event) {
+                $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+		$("#form").submit();
+            });
+
+            $("#excelbutton").click(function(event) {
+		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+		$("#form").submit();
+            });
+            
+        
             $('#persona tbody').click(function(event){
                 $(oTable.fnSettings().aoData).each(function(){
                     $(this.nTr).removeClass('row_selected');
@@ -226,6 +250,7 @@
             });
             
             //click handler para eliminar
+            /*
             $('#vista').click(function(){
                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
@@ -246,7 +271,7 @@
                     window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
                
                 }
-            });
+            });*/
             
             //click handler para vista
             
@@ -255,17 +280,17 @@
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
-//iv                "bServerSide": true,
+                "bServerSide": false,
+                "bDestroy": true,
                 "sAjaxSource": '{{path('servicio_nuevo_convertido_all')}}',
-
                 "aoColumns": [
-                    { "mData": "id" },
-                    { "mData": "nombres" },
-                    { "mData": "apellidos" },
-                    { "mData": "edad" },
-                    { "mData": "red" },
-                    { "mData": "celula"},
-                    { "mData":"conversion"}
+                    { "mDataProp": "id" },
+                    { "mDataProp": "nombres" },
+                    { "mDataProp": "apellidos" },
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "red" },
+                    { "mDataProp": "celula"},
+                    { "mDataProp":"conversion"}
                 ],
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
