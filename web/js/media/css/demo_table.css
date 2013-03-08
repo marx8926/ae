@@ -569,9 +569,16 @@ table.display tr.gradeU {
 }
 
 div.box {
-	height: 100px;
+	/*height: 100px;*/
 	padding: 10px;
 	overflow: auto;
 	border: 1px solid #8080FF;
 	background-color: #E5E5FF;
+}
+table tr.odd.row_selected td{
+	background: yellow;
+}
+
+table tr.even.row_selected td {
+	background-color: yellow;
 }

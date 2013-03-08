@@ -1,7 +1,4 @@
-<html>
-
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title> AE </title> 
+{% extends "::base.html.twig" %}
   {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -9,41 +6,9 @@
         <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
         <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">           <!-- Scripts -->
  {% endblock %}
-              
-  {%block javascripts %}    
-   
-    <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>            
-    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js
-')}}" > </script>
 
-    <script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js
-')}}"> </script>                  
-     {%endblock%}
             
-            
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-                <a class="brand" href="#"> {{app.user.username}} </a>
-                       
-                <ul class="nav secondary-nav pull-right"> 
-                    <li></li>
-                    <li><a href="#accounts/settings/profile/">Settings</a></li>
-                    <li><a href="{{path('salir')}}">Salir</a></li> 
-                </ul>                
-            </div>            
-        </div>
-    </div>
-
-  
-<body>
+{% block content %}
 
    
     <div class="span9" id="registro_form">
@@ -129,7 +94,7 @@
                 <div class="control-group">
                     <label class="control-label" >Fecha nacimiento</label>
                     <div class="controls">
-                        <input type= "date" class="input-medium" id="inputFechaNacimiento" name="inputFechaNacimiento"/>
+                        <input type= "text" class="mask_date input-medium" id="inputFechaNacimiento" name="inputFechaNacimiento"/>
                         <p class="help-block">Año/Mes/Día</p>  
                     </div>
                 </div>
@@ -206,7 +171,7 @@
             
             <label>Ubicación</label>
                    <div class='input'>
-                       <label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/>   <br/>
+                       <div style="display: none;"><label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/></div>   <br/>
 		
                        <label>Latitud:      </label> <input id="lat" name="latitud" value="-8.116752"> <br/>
                        <label>Longitud:      </label> <input id="lng" name="longitud" value="-79.019616"> <br/>
@@ -238,7 +203,7 @@
         <div class="control-group">
             <label class="control-label">Fecha</label>
             <div class="controls">
-                <input type= "date" class="input-medium" id="inputFechaConversion" name="inputFechaConversion"/>
+                <input type= "text" class="mask_date input-medium" id="inputFechaConversion" name="inputFechaConversion"/>
                 <p class="help-block">Año/Mes/Día</p>  
             </div>
         </div>
@@ -306,22 +271,26 @@
 
 </div>
 
-</body>
-<div>
-             <footer>
-                 <p align="center">&copy; 2012 por CLM Developers 
-                </p>
-                <p align="center">
-                    <a href="http://www.w3.org/html/logo/">
-                    <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="150" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
-                    </a> 
-                </p>
-            </footer>
-        </div>
+{% endblock %}
                 
       {%block javascript %}
            
-            
+                <script src="{{asset('js/jquery.js')}}"></script>
+				<script src="{{asset('js/less.js')}}"></script>
+				<script src="{{asset('js/bootstrap.js')}}"></script>
+				<script src="{{asset('js/bootstrap.min.js')}}"></script>
+				<script src="{{asset('js/jquery.peity.js')}}"></script>
+				<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+				<script src="{{asset('js/jquery.flot.js')}}"></script>
+				<script src="{{asset('js/jquery.color.js')}}"></script>
+				<script src="{{asset('js/jquery.flot.resize.js')}}"></script>
+				<script src="{{asset('js/custom.js')}}"></script>            
+			    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+			    <script src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
+			    <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
+			    <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			  	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+  	
             <script type="text/javascript">
                  
                     var ubiqeo = 0;
@@ -733,9 +702,4 @@
             
             </script>
         
-      {% endblock %}
-        
-        
-        
-      
-</html>        
+      {% endblock %} 
