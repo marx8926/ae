@@ -25,12 +25,12 @@ class DiscipularServicioController extends Controller
 		
 		$todo = $smt->fetchAll();
 		
-		$result = "hola";
+		$result = "<select multiple name='prerequisitos[]'><option value=''>Ninguno</option>";
 	
 	    foreach ($todo as $key => $val){
-	        $result = $result.$val['titulo'];
+	        $result = $result."<option value='".$val['id']."'>".$val['titulo']."</option>";
 	    }
-		
+	    $result = $result."</select>";
 		return new Response($result);
 	}
 }
