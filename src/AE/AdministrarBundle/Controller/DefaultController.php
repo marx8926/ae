@@ -1022,6 +1022,12 @@ class DefaultController extends Controller
         $fecha = NULL;
         $clases = NULL;
 
+         $return = array("responseCode"=>200, "greeting"=>$name);
+                          
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+    /*
        if($name!=NULL){
                 
            if(strpos($name, 'nombre')!=false)
@@ -1084,7 +1090,7 @@ class DefaultController extends Controller
         $return=json_encode($return);//jscon encode the array
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-    
+    */
     }
     
     public function temas_lecheAction()
