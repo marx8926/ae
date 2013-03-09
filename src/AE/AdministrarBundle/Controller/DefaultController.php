@@ -1011,26 +1011,22 @@ class DefaultController extends Controller
     
     public function clase_regAction()
     {
+        
+         
         $request = $this->get('request');
         $name=$request->request->get('formName');
         
         $datos = array();
-		// se copian los datos serializados de name a datos
+
         parse_str($name,$datos);
         $nombre = NULL;
         $descripcion = NULL;
         $fecha = NULL;
         $clases = NULL;
 
-         $return = array("responseCode"=>200, "greeting"=>$name);
-                          
-        $return=json_encode($return);//jscon encode the array
-        
-        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-    /*
        if($name!=NULL){
                 
-           if(strpos($name, 'nombre')!=false)
+           if(strpos($name, 'nombre')!==false)
            {
                $nombre = $datos['nombre'];           
            }
@@ -1055,7 +1051,7 @@ class DefaultController extends Controller
             $this->getDoctrine()->getEntityManager()->beginTransaction();
             try
             {
-                $curso = new LecheEspiritual();
+                $leche = new LecheEspiritual();
            
                 if($fecha ==NULL)
                     $leche->setFechaCreacion(new \DateTime());
@@ -1090,7 +1086,7 @@ class DefaultController extends Controller
         $return=json_encode($return);//jscon encode the array
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-    */
+    
     }
     
     public function temas_lecheAction()

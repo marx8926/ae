@@ -15,7 +15,7 @@ class CrearCursoController extends Controller{
 		$request = $this->get('request');
 		$form=$request->request->get('formRegCurso');
 		
-		
+		/*
 		$return = array("responseCode"=>200, "greeting"=>$form);
 		
 		
@@ -23,7 +23,7 @@ class CrearCursoController extends Controller{
 		$return=json_encode($return);//jscon encode the array
 		
 		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
-		
+		*/
 	
 		$datos = array();
 	
