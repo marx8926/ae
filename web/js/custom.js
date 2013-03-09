@@ -319,11 +319,11 @@ $(document).ready(function() {
 	if($(this).parent().find('.collapsed-nav').is(":visible")){
 		$(this).parent().removeClass("open");
 		$(this).parent().find('.collapsed-nav').slideUp();
-		$(this).find('img').attr("src", 'img/toggle-subnav-down.png');
+		//$(this).find('img').attr("src", 'ae/web/img/toggle-subnav-down.png');
 	} else {
 		$(this).parent().addClass("active open");
 		$(this).parent().find('.collapsed-nav').slideDown();
-		$(this).find('img').attr("src", 'img/toggle-subnav-up-white.png');
+		//$(this).find('img').attr("src", 'ae/web/img/toggle-subnav-up-white.png');
 	}
 	});
 

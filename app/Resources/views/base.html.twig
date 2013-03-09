@@ -18,7 +18,7 @@
 	<div class="container-fluid">
 		<a href="dashboard.html" class='company'>Administración Eclesiástica</a>
 		<form action="#">
-			<input type="text" value="Buscar aquí...">
+			<input type="text" placeholder="Buscar aquí...">
 		</form>
 		<ul class='mini'>
 			<li>
@@ -61,8 +61,9 @@
 				</a>
 			</li>
 			<li>
-				<a href="#" class='light'>
+				<a href="#" class='light toggle-collapsed'>
 					Ganar
+					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
@@ -95,6 +96,7 @@
 			<li>
 				<a href="#" class='light toggle-collapsed'>
 					Tables
+					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
@@ -132,6 +134,7 @@
 			<li>
 				<a href="#" class='light toggle-collapsed'>
 					Discipular
+					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
@@ -175,8 +178,9 @@
 						</a>
 					</li>
 					<li>
-						<a href="tabs.html">
+						<a href="#">
 							Informes
+							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 						</a>
 						<ul class='collapsed-nav closed'>
 							<li>
@@ -199,8 +203,9 @@
 				</ul>
 			</li>
 			<li>
-				<a href="statistics.html" class='light'>
+				<a href="#" class='light toggle-collapsed'>
 					Enviar
+					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
@@ -238,6 +243,7 @@
 			<li>
 				<a href="#" class='light toggle-collapsed'>
 					Comunicar
+					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
@@ -270,6 +276,7 @@
 			<li>
 				<a href="#" class='light toggle-collapsed'>
 					Administrar
+					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
@@ -323,6 +330,7 @@
 <script src="{{asset('js/jquery.js')}}"></script>
 <script src="{{asset('js/less.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 <script src="{{asset('js/jquery.peity.js')}}"></script>
 <script src="{{asset('js/jquery.fancybox.js')}}"></script>
 <script src="{{asset('js/jquery.flot.js')}}"></script>
