@@ -1,15 +1,21 @@
-<html>
-<head>
-{%block javascripts %}    
-            
-            <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script> 
-            <script src="https://www.google.com/jsapi"></script>
-
-            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->  
+{% extends "::base.html.twig" %}
+  {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
+        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">           <!-- Scripts -->
+ {% endblock %}
+         
+  {%block javascript %}
+  	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+  	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
  
-            <script type="text/javascript" charset="utf-8">
-
+            
+    <script type="text/javascript">
             $(document).ready(function() {
             	var data = $.ajax({
                 url: "{{ path('_lista_cursos') }}",
@@ -18,21 +24,22 @@
             	$('#select_curso').html(data);
             });
 
-            $("#registrar_curso").submit(function(){
+            $("#myForm").submit(function(){
                 
                 //get the url for the form
-                var url=$("#registrar_curso").attr("action");
+                var url=$("#myForm").attr("action");
                  
-                console.log($("#registrar_curso").serialize());
+                console.log($("#myForm").serialize());
                 //start send the post request
                 $.post(url,{
-                    formRegCurso:$("#registrar_curso").serialize(),
+                    formName:$("#myForm").serialize(),
                     other:"attributes"
                 },function(data){
                 //the response is in the data variable
            
-           
-                if(data.responseCode==300 ){           
+                console.log(data);
+                
+                if(data.responseCode==200 ){           
                 	console.log("ok");
                 }
                 else if(data.responseCode==400){//bad request
@@ -47,18 +54,16 @@
                     }
                 }
                 );
-                return false;});
-
-
-            </script>
+                return false;});               
+    </script>             
+{%endblock%}
             
             
-     {%endblock%}  
-</head>
-<body>
-	<fieldset>
+{% block content %}
+    <div class="span9" id="registro_form">
+     <fieldset>
 			<legend>Crear Curso</legend>
-			<form id="registrar_curso" method="POST" action="{{path( 'dicipular_registrar_curso') }}">
+                        <form id="myForm" name="myForm" method="POST" action="{{path( 'dicipular_registrar_curso') }}">
 			<div>
 				<label >Titulo</label>
 				<input name="titulo" type="text">
@@ -116,5 +121,5 @@
 				</ul>
 			</div>
 	</fieldset>
-</body>
-</html>
+    </div>
+{% endblock %}      
