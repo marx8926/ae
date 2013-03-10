@@ -4,26 +4,23 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        
+        <link href="{{asset('js/media/css/demo_table.css')}}" media="screen" rel="stylesheet" type="text/css">
+
         <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">  
-        
-        
-            <style type="text/css">
-                .row-highlight
-                {
-                    background-color: Yellow;
-                }
-                .row-hidden
-                {
-                    display: none;
-                }
-            </style>
-                 
+             
 {% endblock %}                 
 
 {% block content %} 
 <div class="span9" >
-    <table cellpadding="0" cellspacing="0" border="0" class="display"  id="persona" name="persona">
+   
+    <div class="box">
+        <div class="box-head tabs">
+            <h3>Descartar</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+        	
+    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped dataTable table-bordered"  id="persona" name="persona">
         <thead>
             <tr>                              
                  <th>ID</th>
@@ -51,19 +48,17 @@
                     <label id="nombre" name="nombre"></label>
                 </div>
                 
-                <div>
-                    <label>Fecha Pausa</label>
-                    <input type="date" id="pausa" >
-                </div>
             </fieldset>
         </div>
         
-        <form  method="POST" id="myForm">
+            <form  method="POST" id="myForm" name="myForm" action="{{path('consolidar_descartar_update')}}">
         <div class="form-horizontal">
         
             <button class="btn-success" id="registro" name="registro"> Registro</button>
         </div>
         </form>
+        </div>
+        </div>
  </div>    
                  
 {% endblock %}
@@ -92,7 +87,6 @@
 			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
-			<script src="{{asset('js/custom.js')}}"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -241,11 +235,12 @@
   
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
-                });               
+                }); 
+                 $('#nombre').text(values[0]);
             });
             
             //click handler para eliminar
-            $('#vista').click(function(){
+            $('#myForm').submit(function(){
                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
                 if(anSelected.length !=0)
@@ -257,14 +252,47 @@
                     val.push(item.innerHTML); 
   
                       }); 
-                    var route = '{{path('ganar_vistamiembro',{'id': 'nom'})}}';
+                      
+                    var id = $('#nombre').val();
+                    console.log(id);
+                   /* 
             
                     var rutas = route.replace('nom',val[0]);
                     
                     console.log(rutas);
                     window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-               
+               */
+              
+                    var url=$("#registro").attr("action");
+                     
+                    //start send the post request
+                    $.post(url,{
+                        formName:id,
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
+                        console.log(data);
+                        
+                    if(data.responseCode==200 ){           
+                      
+                        alert('Registro Completado');
+
+                    }
+                    else if(data.responseCode==400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    
                 }
+                return false;
             });
             
             //click handler para vista
@@ -274,8 +302,9 @@
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
-//iv                "bServerSide": true,
-                "sAjaxSource": '{{path('servicio_nuevo_convertido_all')}}',
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": '{{path('servicio_por_descartar')}}',
 
                 "aoColumns": [
                     { "mDataProp": "id" },

@@ -62,3 +62,5 @@ consolidar_descartar:
 consolidar_descartar_update:
   pattern: /descartar_update
   defaults: {_controller: AEConsolidarBundle:Default:descartar_update}
+  requirements:
+    _method: POST

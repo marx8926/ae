@@ -441,68 +441,11 @@ class DefaultController extends Controller
      {
                  $request = $this->get('request');
         $name=$request->request->get('formName');
-        $num = $request->request->get('num');
-        $ids = $request->request->get('list');
-        
-        $numero = intval($num);
+       
+        $return=array("responseCode"=>200, "greeting"=>$name);
   
-         $datos = array();
-
-        parse_str($name,$datos);
-        
-        $check = array();
-        $fechas = array();
-        
-        
-        if($name!=NULL)
-        {
-            for($i=0;$i < $numero; $i++)
-            {
-                $var = "check".strval($i);
-                if(strpos($name, $var)!==false)
-                {
-                    $check[$var]=$datos[$var];
-                    
-                    $temp = "fecha_fin".strval($i);
-                    
-                    $fechas[$temp] = $datos[$temp];
-                    
-                    if(strlen($fechas[$temp])>=0)
-                    {
-                        //consultar si ya actualizo las fechas
-                        
-                          $this->getDoctrine()->getEntityManager()->beginTransaction();
-                        try
-                        {
-                
-                            $this->getDoctrine()->getEntityManager()->commit();
-
-                            $return=array("responseCode"=>200,  "greeting"=>$ids); 
-                        }catch(Exception $e)
-                        {
-                            $this->getDoctrine()->getEntityManager()->rollback();
-                            $this->getDoctrine()->getEntityManager()->close();
-                
-                            $return=array("responseCode"=>400, "greeting"=>"Bad");
-
-                            throw $e;
-               
-                        }
-                        
-                    }
-                    else $return=array("responseCode"=>500, "greeting"=>'bad');
-                }
-            }
-            
-            // $return=array("responseCode"=>200, "greeting"=>$check);
-        }
-        else  $return=array("responseCode"=>400, "greeting"=>$name);
-            
-        
-      
         $return=json_encode($return);//jscon encode the array
      
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-  
      }
 }
