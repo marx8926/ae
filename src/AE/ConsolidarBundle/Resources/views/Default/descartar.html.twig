@@ -245,7 +245,6 @@
                 //oTable.fnDeleteRow(anSelected[0]);
                 if(anSelected.length !=0)
                 {
-                    console.log(anSelected);
                     var tds = $(anSelected).find('td');
                     var val = [];
                     $.each(tds, function(index, item) {
@@ -263,7 +262,7 @@
                     window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
                */
               
-                    var url=$("#registro").attr("action");
+                    var url=$("#myForm").attr("action");
                      
                     //start send the post request
                     $.post(url,{
