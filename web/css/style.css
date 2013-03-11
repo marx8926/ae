@@ -1600,6 +1600,9 @@ body {
 .navi .main-nav > li .collapsed-nav li {
   margin: 0;
 }
+.navi .main-nav > li .collapsed-nav .dentro {
+  margin-left: 5px;
+}
 .navi .main-nav > li .collapsed-nav li.active a {
   font-weight: bold;
 }
