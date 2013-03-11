@@ -381,6 +381,12 @@ class DefaultController extends Controller
         $fechas = array();
         
         
+                        
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $this->getDoctrine()->getEntityManager()->beginTransaction();
+
         if($name!=NULL)
         {
             for($i=0;$i < $numero; $i++)
@@ -398,13 +404,16 @@ class DefaultController extends Controller
                     {
                         //consultar si ya actualizo las fechas
                         
-                          $this->getDoctrine()->getEntityManager()->beginTransaction();
                         try
                         {
                 
-                            $this->getDoctrine()->getEntityManager()->commit();
+                            $sql = "select update_consolida_leche(:leche,:fin)";
+                            
+                            $smt = $em->getConnection()->prepare($sql);
+                            
+                            $smt->execute(array(':fin'=>$fechas[$temp], ':leche'=>$ids[$i]));
 
-                            $return=array("responseCode"=>200,  "greeting"=>$ids); 
+                           // $return=array("responseCode"=>200,  "greeting"=>$ids); 
                         }catch(Exception $e)
                         {
                             $this->getDoctrine()->getEntityManager()->rollback();
@@ -412,6 +421,10 @@ class DefaultController extends Controller
                 
                             $return=array("responseCode"=>400, "greeting"=>"Bad");
 
+                            $return=json_encode($return);//jscon encode the array
+     
+                            return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+                            
                             throw $e;
                
                         }
@@ -420,8 +433,10 @@ class DefaultController extends Controller
                     else $return=array("responseCode"=>500, "greeting"=>'bad');
                 }
             }
+           $this->getDoctrine()->getEntityManager()->commit();
+
             
-            // $return=array("responseCode"=>200, "greeting"=>$check);
+            $return=array("responseCode"=>200, "greeting"=>'Ok');
         }
         else  $return=array("responseCode"=>400, "greeting"=>$name);
             
@@ -431,6 +446,7 @@ class DefaultController extends Controller
      
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
   
+        //falta cambiar a proce
      }
       public function descartarAction()
      {

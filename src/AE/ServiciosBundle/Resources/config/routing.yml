@@ -217,7 +217,7 @@ servicio_consolidador_id:
   pattern: /consolidador/{id}
   defaults: {_controller: AEServiciosBundle:Default:consolidador}
   requirements:
-    _method: POST
+   _method: POST
 
 discipular_servicio_routing:
     resource: "@AEServiciosBundle/Resources/config/discipular_servicio_routing.yml"
