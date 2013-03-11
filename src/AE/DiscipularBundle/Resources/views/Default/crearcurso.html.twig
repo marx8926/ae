@@ -22,6 +22,43 @@
                 async: false
                 }).responseText;
             	$('#select_curso').html(data);
+
+            	$('#number').change(function() {
+                	var num = $('#number').val();
+                	$("#sesiones").html("");
+                	for(i=0; i<num;i++){
+					var li = document.createElement('li');
+                	
+                	var select = document.createElement('select');                	
+                	select.name = "estado"+i;
+                	li.appendChild(select);
+            			
+            		var option0 = document.createElement('option');
+            		var t = document.createTextNode("Sesion");
+            		option0.value = "sesion";
+            		option0.appendChild(t);
+            		select.appendChild(option0);
+
+            		var option1 = document.createElement('option');
+            		var t = document.createTextNode("Extra");
+            		option1.value = "extra";
+            		option1.appendChild(t);
+            		select.appendChild(option1);
+
+            		var detall = document.createElement('input');
+            		detall.type = "text";
+            		detall.name = "detalle"+i;
+            		detall.placeholder = 'Detalle de sesion';
+            		li.appendChild(detall);
+
+            		var file = document.createElement('input');
+            		file.type = "file";
+            		file.name = "file"+i;
+            		li.appendChild(file);
+
+            		document.getElementById("sesiones").appendChild(li);
+                	}
+            	});
             });
 
             $("#myForm").submit(function(){
@@ -39,7 +76,7 @@
            
                 console.log(data);
                 
-                if(data.responseCode==200 ){           
+                if(data.responseCode==300 ){           
                 	console.log("ok");
                 }
                 else if(data.responseCode==400){//bad request
@@ -61,14 +98,13 @@
             
 {% block content %}
     <div class="span9" id="registro_form">
-     <fieldset>
+    <form id="myForm" name="myForm" method="POST" action="{{path( 'dicipular_registrar_curso') }}">
+     		<fieldset>
 			<legend>Crear Curso</legend>
-                        <form id="myForm" name="myForm" method="POST" action="{{path( 'dicipular_registrar_curso') }}">
+            
 			<div>
 				<label >Titulo</label>
 				<input name="titulo" type="text">
-				<label >Numero de Sesiones</label>
-				<input name="numsesiones"type="text">
 			</div>	
 			<div>
 			<div>
@@ -86,40 +122,22 @@
 				<label>Descripcion</label>
 				<textarea name="descripcion" rows="15" cols="50"></textarea>
 			</div>
-			<input type="submit" value="Crear">
-			</form>			
+			
+					
 		</fieldset>
-	<fieldset>
-	<div>
-				<ul>
-				<li>
-					<div>
-						<label>1</label>
-						<select>
-							<option>Sesion</option>
-							<option>Extra</option>
-						</select>
-						<input type="text" placeholder="Detalle de sesion">
-						<label>Archivo</label>
-						<a href="#">Descargar</a>
-						<a href="#">Eliminar</a>
-					</div>
-				</li>
-				<li>
-					<div>
-						<label>2</label>
-					<select>
-						<option>Sesion</option>
-						<option>Extra</option>
-					</select>
-					<input type="text" placeholder="Detalle de sesion">
-					<label>Archivo</label>
-					<a href="#">Descargar</a>
-					<a href="#">Eliminar</a>
-					</div>
-					</li>
+		<fieldset>
+			<legend>Detalles de Sesiones</legend>
+			<div>
+				<label >Numero de Sesiones</label>
+				<input id="number" name="numsesiones" type="number">
+			</div>
+			<br>
+			<div>
+				<ul id = "sesiones">				
 				</ul>
 			</div>
-	</fieldset>
-    </div>
+		</fieldset>
+		<input type="submit" value="Enviar">
+		</form>	
+	    </div>
 {% endblock %}      

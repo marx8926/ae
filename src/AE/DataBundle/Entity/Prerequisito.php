@@ -66,4 +66,29 @@ class Prerequisito
     {
         return $this->idCurso1;
     }
+    
+    /**
+     * Set idCurso2
+     *
+     * @param \AE\DataBundle\Entity\Curso $idCurso2
+     * @return Prerequisito
+     */
+    public function setIdCurso2(\AE\DataBundle\Entity\Curso $idCurso2 = null)
+    {
+    	$this->idCurso2 = $idCurso2;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get idCurso2
+     *
+     * @return \AE\DataBundle\Entity\Curso
+     */
+    public function getIdCurso2()
+    {
+    	return $this->idCurso2;
+    }
+    
+    
 }

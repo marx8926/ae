@@ -3,6 +3,9 @@ namespace AE\DiscipularBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use AE\DataBundle\Entity\Curso;
+use Doctrine\ORM\TransactionRequiredException;
+use AE\DataBundle\Entity\Prerequisito;
 
 class CrearCursoController extends Controller{
 
@@ -15,16 +18,17 @@ class CrearCursoController extends Controller{
 		$request = $this->get('request');
 		$form=$request->request->get('formName');
 		
+		/*
 		
-		$return = array("responseCode"=>200, "greeting"=>$form);
+		$datos = array();
 		
+		parse_str($form,$datos);
 		
-			
 		$return=json_encode($return);//jscon encode the array
 		
 		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
 		
-                /*
+                */
 		$datos = array();
 	
 		parse_str($form,$datos);
@@ -37,36 +41,14 @@ class CrearCursoController extends Controller{
 		$fecha = NULL;
 	
 		if($form!=NULL){
-	
-			if(strpos($form,'titulos')!=false)
-			{
-				$titulo = $datos['titulos'];
-			}
-	
-			if(strpos($form, 'descripcion')!=false)
-			{
+				$titulo = $datos['titulo'];
 				$descripcion = $datos['descripcion'];
-			}
-
-			if(strpos($form,'inputFecha')!=false)
-			{
-				$fecha = $datos['inputFecha'];
-			}
-
-			if(strpos($form,'prerequisitos')!=false)
-			{
-				$fecha = $datos['prerequisitos'];
-			}
-	
-			if(strpos($form, 'numsesiones')!=false)
-			{
 				$numsesiones = $datos['numsesiones'];
-			}
-			
-			if(strpos($form, 'estado')!=false)
-			{
-				$estado = $datos['estado'];
-			}
+				if(strcmp($datos['estado'],"true")==0)
+					$estado = true;
+				else
+					$estado = false;
+
 	
 			$em = $this->getDoctrine()->getEntityManager();
 	
@@ -75,22 +57,29 @@ class CrearCursoController extends Controller{
 			{
 				$curso = new Curso();
 					
-				if($fecha ==NULL)
-					$curso->setFechaCreacion(new \DateTime());
-				else
+				//if($fecha ==NULL)
+					//$curso->setFechaCreacion(new \DateTime());
+				//else
 					$curso->setFechaCreacion(new \DateTime($fecha));
 					
 				$curso->setTitulo($titulo);
 				$curso->setDescripcion($descripcion);
 				$curso->setActivo($estado);
-				$curso->setActivo($estado);
 				$curso->setNumeroSesiones($numsesiones);
 					
-				$em->persist($leche);
+				$em->persist($curso);
 				$em->flush();
-					
-				$this->getDoctrine()->getEntityManager()->commit();
-				$return=array("responseCode"=>300, "id"=>$leche->getId() );
+				
+				$num = count($datos);
+				for($i=0;$i<$num;i++){
+					$this->getDoctrine()->getEntityManager()->commit();
+				}
+				
+				$pre = new Prerequisito();
+				
+				$return=array("responseCode"=>300, "id"=>$curso->getId() );
+				
+				
 	
 	
 			}catch(Exception $e)
@@ -111,6 +100,5 @@ class CrearCursoController extends Controller{
 		$return=json_encode($return);//jscon encode the array
 	
 		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
-                */
 	}
 }
