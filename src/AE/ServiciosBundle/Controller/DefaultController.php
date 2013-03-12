@@ -918,5 +918,35 @@ class DefaultController extends Controller
         
         return new JsonResponse(array('aaData'=>$todo)); 
    }
+   
+   public function lista_descartadosAction()
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+
+
+        $sql = "select * from lista_descartar";
+          
+        $smt = $em->getConnection()->prepare($sql);
+        $smt->execute();
+        
+        $todo = $smt->fetchAll();
+        
+        return new JsonResponse(array('aaData'=>$todo)); 
+   }
  
+   public function consolida_idAction($id)
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+
+
+        $sql = "select * from consolida where id=:id";
+          
+        $smt = $em->getConnection()->prepare($sql);
+        $smt->execute(array(':id'=>$id));
+        
+        $todo = $smt->fetchAll();
+        
+        return new JsonResponse(array('aaData'=>$todo)); 
+       
+   }
 }
