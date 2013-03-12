@@ -225,3 +225,12 @@ discipular_servicio_routing:
 servicio_por_descartar:
   pattern: /pordescartar
   defaults: {_controller: AEServiciosBundle:Default:pordescartar}
+  
+servicio_lista_descartados:
+  pattern: /lista_descartados
+  defaults: {_controller: AEServiciosBundle:Default:lista_descartados}
+  
+  
+servicio_consolida_id:
+  pattern: /consolida_id/{id}
+  defaults: {_controller: AEServiciosBundle:Default:consolida_id}

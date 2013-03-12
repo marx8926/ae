@@ -18,17 +18,6 @@ class CrearCursoController extends Controller{
 		$request = $this->get('request');
 		$form=$request->request->get('formName');
 		
-		/*
-		
-		$datos = array();
-		
-		parse_str($form,$datos);
-		
-		$return=json_encode($return);//jscon encode the array
-		
-		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
-		
-                */
 		$datos = array();
 	
 		parse_str($form,$datos);
@@ -41,18 +30,17 @@ class CrearCursoController extends Controller{
 		$fecha = NULL;
 	
 		if($form!=NULL){
-				$titulo = $datos['titulo'];
-				$descripcion = $datos['descripcion'];
-				$numsesiones = $datos['numsesiones'];
-				$prerequisitos = $datos["prerequisitos"];
-				if(strcmp($datos['estado'],"true")==0)
-					$estado = true;
-				else
-					$estado = false;
-
+			
+			$titulo = $datos['titulo'];
+			$descripcion = $datos['descripcion'];
+			$numsesiones = $datos['numsesiones'];
+			$prerequisitos = $datos["prerequisitos"];
+			if(strcmp($datos['estado'],"true")==0)
+				$estado = true;
+			else
+				$estado = false;
 	
-			$em = $this->getDoctrine()->getEntityManager();
-	
+			$em = $this->getDoctrine()->getEntityManager();	
 			$this->getDoctrine()->getEntityManager()->beginTransaction();
 			try
 			{
@@ -70,20 +58,16 @@ class CrearCursoController extends Controller{
 					
 				$em->persist($curso);
 				$em->flush();
-				
 				$num = count($prerequisitos);
 				for($i=0;$i<$num;$i++){
-					$this->getDoctrine()->getEntityManager()->commit();
-					$pre = new Prerequisitos();
-					$pre->setCurso1($curso->getId());
-					$pre->setCurso2($prerequisitos[$i]);
-					$em->persist($pre);
-					$em->flush();
+						$pre = new Prerequisito();
+						$pre->setIdCurso1($curso);
+						$pre->setIdCurso2($prerequisitos[$i]);
+						$em->persist($pre);
+						$em->flush();
 				}
 				
-				$return=array("responseCode"=>300, "id"=>$curso->getId() );
 				
-	
 			}catch(Exception $e)
 			{
 				$this->getDoctrine()->getEntityManager()->rollback();
@@ -92,11 +76,11 @@ class CrearCursoController extends Controller{
 					
 				throw $e;
 			}
+			$this->getDoctrine()->getEntityManager()->commit();
+			$return=array("responseCode"=>300, "id"=>$prerequisitos );
 		}
-		else
-		{
+		else{
 			$return = array("responseCode"=>400, "greeting"=>"Bad");
-	
 		}
 			
 		$return=json_encode($return);//jscon encode the array

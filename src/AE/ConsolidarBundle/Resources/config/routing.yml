@@ -64,3 +64,12 @@ consolidar_descartar_update:
   defaults: {_controller: AEConsolidarBundle:Default:descartar_update}
   requirements:
     _method: POST
+    
+    
+consolidar_lista_descartar:
+  pattern: /lista_descartar
+  defaults: {_controller: AEConsolidarBundle:Default:lista_descartar}
+  
+consolidar_vista:
+  pattern: /vista/{id}
+  defaults: {_controller: AEConsolidarBundle:Default:vista}

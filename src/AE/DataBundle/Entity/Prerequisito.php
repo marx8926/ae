@@ -32,13 +32,12 @@ class Prerequisito
      */
     private $idCurso1;
     
+  
+    
     /**
-     * @var \Curso
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Curso")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_curso2", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="id_curso2", type="bigint", nullable=false)
      */
     private $idCurso2;
 
@@ -80,10 +79,10 @@ class Prerequisito
     /**
      * Set idCurso2
      *
-     * @param \AE\DataBundle\Entity\Curso $idCurso2
+     * @param integer $idCurso2
      * @return Prerequisito
      */
-    public function setIdCurso2(\AE\DataBundle\Entity\Curso $idCurso2 = null)
+    public function setIdCurso2( $idCurso2 = null)
     {
     	$this->idCurso2 = $idCurso2;
     
@@ -93,7 +92,7 @@ class Prerequisito
     /**
      * Get idCurso2
      *
-     * @return \AE\DataBundle\Entity\Curso
+     * @return integer
      */
     public function getIdCurso2()
     {
