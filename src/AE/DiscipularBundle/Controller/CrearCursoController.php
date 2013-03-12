@@ -44,6 +44,7 @@ class CrearCursoController extends Controller{
 				$titulo = $datos['titulo'];
 				$descripcion = $datos['descripcion'];
 				$numsesiones = $datos['numsesiones'];
+				$prerequisitos = $datos["prerequisitos"];
 				if(strcmp($datos['estado'],"true")==0)
 					$estado = true;
 				else
@@ -70,17 +71,18 @@ class CrearCursoController extends Controller{
 				$em->persist($curso);
 				$em->flush();
 				
-				$num = count($datos);
-				for($i=0;$i<$num;i++){
+				$num = count($prerequisitos);
+				for($i=0;$i<$num;$i++){
 					$this->getDoctrine()->getEntityManager()->commit();
+					$pre = new Prerequisitos();
+					$pre->setCurso1($curso->getId());
+					$pre->setCurso2($prerequisitos[$i]);
+					$em->persist($pre);
+					$em->flush();
 				}
-				
-				$pre = new Prerequisito();
 				
 				$return=array("responseCode"=>300, "id"=>$curso->getId() );
 				
-				
-	
 	
 			}catch(Exception $e)
 			{

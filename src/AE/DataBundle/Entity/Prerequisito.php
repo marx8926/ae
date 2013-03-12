@@ -31,6 +31,16 @@ class Prerequisito
      * })
      */
     private $idCurso1;
+    
+    /**
+     * @var \Curso
+     *
+     * @ORM\ManyToOne(targetEntity="Curso")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_curso2", referencedColumnName="id")
+     * })
+     */
+    private $idCurso2;
 
 
 
