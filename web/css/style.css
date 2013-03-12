@@ -2530,6 +2530,9 @@ ul.steps li.active span {
   font-weight: normal;
   color: #333;
 }
+#map {
+	height: 300px;
+}
 @media (max-width: 1282px) {
   .topbar form {
     display: none;

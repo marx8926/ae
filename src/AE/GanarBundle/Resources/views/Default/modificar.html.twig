@@ -1,11 +1,13 @@
 {% extends "::base.html.twig" %}
-  {% block stylesheets %}
+
+{% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">           <!-- Scripts -->
- {% endblock %}
+        <link href="{{asset('css/DT_bootstrap.css')}}">
+        <link href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
+        <link href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
+{% endblock %}
 
             
 {% block content %}
