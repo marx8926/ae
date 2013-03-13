@@ -939,7 +939,7 @@ class DefaultController extends Controller
        $em = $this->getDoctrine()->getEntityManager();
 
        
-        $sql = " select consolida.fecha_inicio, consolida.fecha_fin, consolida.fecha_pausa, consolida.fecha_reanudacion, consolida.id_consolidador, persona.nombre, 
+        $sql = " select consolida.fecha_inicio, consolida.fecha_fin, consolida.fecha_pausa, consolida.fecha_reanudacion, consolida.id_consolidador, consolida.id, persona.nombre, 
 persona.apellidos from consolida left join persona on persona.id=consolida.id_consolidador where consolida.id_miembro=:id";
          
        
@@ -964,7 +964,42 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        $smt->execute(array(':id'=>$id));
        
        $leche = $smt->fetchAll();
+       
+       $n = count($leche);
+       
+       $cadena = "";
+       
+       for($i=0; $i<$n; $i++)
+       {
+           $temp = " <tr>";
+           
+           $temp = $temp." <td> ".$leche[$i]['titulo']."</td>";
+           $temp = $temp." <td> ".$leche[$i]['fecha_hora_inicio']."</td>";
+           $temp = $temp." <td> ".$leche[$i]['fecha_hora_fin']."</td>";
+           $temp = $temp." <td> ".$leche[$i]['fecha_hora_limite']."</td>";
+           $temp = $temp."</tr> ";
+           $cadena = $cadena.$temp;
+       }
   
-       return new JsonResponse($leche);
+      // return new Response("<table> <thead> <tr> <td>uno</td> <td>dos</td> <td>tres</td> <td>cuatro</td> </tr> </thead> <tbody>".$cadena." </tbody> </table>");
+       
+       return new Response($cadena);
+
+   }
+
+   
+   public function lider_red_idAction($id)
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       $sql = "select red.id as redid,persona.id , persona.nombre, persona.apellidos from red inner join persona on persona.id = red.id_lider_red where red.id =  :id";
+   
+       $smt = $em->getConnection()->prepare($sql);
+       
+       $smt->execute(array(':id'=>$id));
+       
+       $todo = $smt->fetch();
+       
+       return new JsonResponse($todo);
    }
 }
