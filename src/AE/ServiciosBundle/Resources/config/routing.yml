@@ -234,3 +234,9 @@ servicio_lista_descartados:
 servicio_consolida_id:
   pattern: /consolida_id/{id}
   defaults: {_controller: AEServiciosBundle:Default:consolida_id}
+  requirements:
+    _method: POST
+  
+servicio_leche_consolida:
+  pattern: /leche_consolida/{id}
+  defaults: {_controller: AEServiciosBundle:Default:leche_consolida}

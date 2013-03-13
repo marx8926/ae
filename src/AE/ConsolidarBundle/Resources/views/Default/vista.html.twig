@@ -132,7 +132,7 @@
 			<h2>Mapa</h2>
 			<article class="map">
                              <div id="ubicacionexacta" name="ubicacionexacta">
-
+                                
                             </div>
 			</article>
                         
@@ -140,10 +140,41 @@
                             <h2>Leche Espiritual</h2>
                             <div id="leche_espiritual" name="leche_espiritual">
                             
-                                
+                                <div class="en-linea-2">
+                                    <li>
+                                        <label for="fecha_ini">Fecha Inicio</label>
+                                        <input type="date" name="fecha_ini" id="fecha_ini" />
+                                    </li>
+                                    <li>
+                                        <label for="fecha_pausa">Fecha Pausa</label>
+                                        <input type="date" name="fecha_pausa" id="fecha_pausa" />
+                                    </li>
+                                    <li>
+                                        <label for="fecha_fin">Fecha Fin</label>
+                                        <input type="date" name="fecha_fin" id="fecha_fin" />
+                                    </li>
+                                    <li>
+                                        <label for="fecha_reanuda">Fecha Reanudación</label>
+                                        <input type="date" name="fecha_reanuda" id="fecha_reanuda" />
+                                    </li>
+                                    <li>
+                                        <label for="consolidador1">Consolidador</label>
+                                        <input type="text" name="consolidador1" id="consolidador1" />
+                                    </li>
+                                </div>
                             </div>
                             <div id="leche_temas" name="leche_temas">
-                            
+                                <div class="en-linea">
+                                    <li>
+                                        <label for="fecha_fin_tema1">Tema 1</label>
+                                        <label id="fecha_fin_tema1" name="fecha_fin_tema1"> </label>
+                                    </li>
+                                    
+                                    <li>
+                                        <label for="fecha_fin_tema1">Tema 1</label>
+                                        <label id="fecha_fin_tema1" name="fecha_fin_tema1"> </label>
+                                    </li>
+                                </div>                            
                             </div>
                                  
                         </article>
@@ -162,10 +193,38 @@
             var latitud = 0;
             var longitud = 0;
             
+            function consolida_leche(data)
+            {
+               
+                $('#fecha_ini').val(data.fecha_inicio); $('#fecha_ini').text(data.fecha_inicio); 
+                $('#fecha_pausa').val(data.fecha_pausa); $('#fecha_pausa').text(data.fecha_pausa);
+                $('#fecha_fin').val(data.fecha_pausa); $('#fecha_fin').text(data.fecha_pausa); 
+                $('#fecha_reanuda').val(data.fecha_reanudacion); $('#fecha_reanuda').text(data.fecha_reanudacion); 
+                $('#consolidador1').val(data.nombre+' '+data.apellidos);
+                $('#consolidador1').text(data.nombre+' '+data.apellidos);
+               
+            }
+            
             $(document).ready(function(){
                 
             //recuperar los datos
                         var codigo = {{id}};
+                        
+                        //consolida json
+                        
+                        url = '{{path('servicio_consolida_id',{'id':'cod'})}}';
+                        
+                        var pat = url.replace('cod',codigo);
+                        
+                        $.ajax(
+                                {
+                                  url: pat,
+                                  dataType: "json",
+                                  type: "POST",
+                                  async: false,
+                                }
+                        ).done(consolida_leche);
+                        
              //nombres
                  
                         url = '{{path( 'servicio_persona_id', {'id':'cod'} )}}';

@@ -938,15 +938,33 @@ class DefaultController extends Controller
    {
        $em = $this->getDoctrine()->getEntityManager();
 
-
-        $sql = "select * from consolida where id=:id";
-          
+       
+        $sql = " select consolida.fecha_inicio, consolida.fecha_fin, consolida.fecha_pausa, consolida.fecha_reanudacion, consolida.id_consolidador, persona.nombre, 
+persona.apellidos from consolida left join persona on persona.id=consolida.id_consolidador where consolida.id_miembro=:id";
+         
+       
+        //$sql = "select * from consolida where consolida.id=:id";
         $smt = $em->getConnection()->prepare($sql);
         $smt->execute(array(':id'=>$id));
         
-        $todo = $smt->fetchAll();
-        
-        return new JsonResponse(array('aaData'=>$todo)); 
+        $consolida = $smt->fetch();
+             
+        return new JsonResponse($consolida); 
        
+   }
+   
+   public function leche_consolidaAction($id)
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       $sql = "select  *from many_consolidacion_has_many_tema_leche inner join tema_leche on tema_leche.id = many_consolidacion_has_many_tema_leche.id_tema_leche 
+           where many_consolidacion_has_many_tema_leche.id_consolida =:id";
+       
+       $smt = $em->getConnection()->prepare($sql);
+       $smt->execute(array(':id'=>$id));
+       
+       $leche = $smt->fetchAll();
+  
+       return new JsonResponse($leche);
    }
 }
