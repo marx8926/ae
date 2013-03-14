@@ -31,6 +31,7 @@
                 	$("#sesiones").html("");
                 	for(i=0; i<num;i++){
 						var li = document.createElement('li');
+						li.id = "sesion"+i;
 	                	
 	                	var select = document.createElement('select');                	
 	                	select.name = "estado"+i;
@@ -66,6 +67,7 @@
 	            		document.getElementById("sesiones").appendChild(li);
                 	}
                 	FileUp.init();
+                	document.getElementById("enviar").onclick = FileUp.uploadQueue;
             	}
             });
 
@@ -85,7 +87,7 @@
                 console.log(data);
                 
                 if(data.responseCode==300 ){           
-                	console.log("ok");
+                	regfile(data.id);
                 }
                 else if(data.responseCode==400){//bad request
                    alert('Error bad request');
@@ -145,7 +147,7 @@
 				</ul>
 			</div>
 		</fieldset>
-		<input type="submit" value="Enviar">
+		<input id="enviar" type="button" value="Enviar">
 		</form>	
 	    </div>
 {% endblock %}      
