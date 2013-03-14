@@ -16,6 +16,7 @@ function FileUp(tabla){
 
 	this.addFile = function(){
 		cont = 0;
+		fileQueue = new Array()
 		for (i = 0 ; i < tam;i++){
 			if(filesups[i].files[0]){
 				var file = new FileReader();
@@ -24,11 +25,19 @@ function FileUp(tabla){
 				file.readAsDataURL(filesups[i].files[0]);
 			}
 		}
+		console.log(filesups);
 	}
 
 	var loadProgress = function (evt) {
         var file = evt.target.file;
+        var divs = document.getElementById("datos"+cont);
+        console.log(filesups[cont].parentNode);
+        console.log(divs);
+        if(divs!=null)
+        	filesups[cont].parentNode.removeChild(divs);
+        
 		var div = document.createElement("div");
+		div.id = "datos"+cont;
 		if(file);
 			var p = document.createElement("p");
             var pText = document.createTextNode(
@@ -37,7 +46,6 @@ function FileUp(tabla){
                 Math.round(file.size / 1024) + "KB");
             p.appendChild(pText);
             filesups[cont].parentNode.appendChild(div);
-    		console.log(filesups[cont].parentNode);
             var divLoader = document.createElement("div");
             divLoader.className = "loadingIndicator";
             div.appendChild(divLoader);
@@ -45,27 +53,28 @@ function FileUp(tabla){
             fileQueue.push({
                 file : file,
                 div : div,
-                name : filesups[cont].parentNod.id
+                name : filesups[cont].parentNode.id
             });
+            
             cont++;
 		}
 	
 	this.uploadQueue = function (ev) {
-		consolelog("hola");
-        ev.preventDefault();
+		ev.preventDefault();
+		console.log(fileQueue);
         while (fileQueue.length > 0) {
             var item = fileQueue.pop();
             var p = document.createElement("p");
             p.className = "loader";
             var pText = document.createTextNode("Uploading...");
             p.appendChild(pText);
-            item.li.appendChild(p);   
-            if (item.file.size < 1048576) {
-                uploadFile(item.file, item.li);
+            item.div.appendChild(p);   
+            /*if (item.file.size < 1048576) {
+               // uploadFile(item.file, item.div);
             } else {
                 p.textContent = "File to large";
                 p.style["color"] = "red";
-            }
+            }*/
         }
     }
 	

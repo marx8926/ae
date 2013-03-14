@@ -22,10 +22,14 @@
                 async: false
                 }).responseText;
             	$('#select_curso').html(data);
-
             	$('#number').on("change",cambioNumber);
+            	
             	FileUp = new FileUp("cursos");
-
+            	
+            	$('#cargar').click(function(ev) {
+            		FileUp.uploadQueue(ev);
+            	});
+            	
                 function cambioNumber() {
                 	var num = $('#number').val();
                 	$("#sesiones").html("");
@@ -67,7 +71,6 @@
 	            		document.getElementById("sesiones").appendChild(li);
                 	}
                 	FileUp.init();
-                	document.getElementById("enviar").onclick = FileUp.uploadQueue;
             	}
             });
 
@@ -147,7 +150,7 @@
 				</ul>
 			</div>
 		</fieldset>
-		<input id="enviar" type="button" value="Enviar">
+		<input id="cargar" type="button" value="Enviar">
 		</form>	
 	    </div>
 {% endblock %}      
