@@ -4,7 +4,7 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('js/media/css/demo_table.css')}}" media="screen" rel="stylesheet" type="text/css">
+        
         <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">  
                  
 {% endblock %}                 
@@ -20,10 +20,11 @@
         	<form id='form' method='POST'>
                 
                     <input id='content' type='hidden' name='content' >
+                    <input id='title' type='hidden' name='title' >
                     <input id='pdfbutton' type='button' value='PDF' class="btn-success">
                     <input id='excelbutton' type='button' value='Excel' class="btn-success">
             
-            	<table cellpadding="0" cellspacing="0" border="0" class="table table-striped dataTable table-bordered"  id="persona" name="persona">
+            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead>
                 		<tr>
                                     <th>ID</th>
@@ -213,17 +214,20 @@
 	$(document).ready(function() {
             
         
-            $("#pdfbutton").click(function(event) {
-            	$("#content").val($("#persona").html());
-                $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
-		 $("#form").submit();
-            });
+		$("#pdfbutton").click(function(event) {
+            $("#persona th").css("width","auto");
+        	$("#content").val($("#persona").html());
+        	$("#title").val($("h3").html());
+        	//$("#content").val($("#lol").html() + $("tbody").html());
+            $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#form").submit();
+        });
 
-            $("#excelbutton").click(function(event) {
-            	$("#content").val("<table>" + $("#persona").html() + "</table>");
-		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
-		$("#form").submit();
-            });
+        $("#excelbutton").click(function(event) {
+        	$("#content").val("<table>" + $("#persona").html() + "</table>");
+	$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+	$("#form").submit();
+        });
         
             $('#persona tbody').click(function(event){
                 $(oTable.fnSettings().aoData).each(function(){
@@ -303,7 +307,7 @@
                     { "mDataProp": "nombres" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
-                    {"mDataProp": "telefono"},
+                    {" mDataProp": "telefono"},
                     { "mDataProp": "red" },
                     { "mDataProp": "celula"},
                     { "mDataProp":"convertido"},

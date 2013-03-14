@@ -520,6 +520,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         
         // $this->getDoctrine()->getEntityManager()->beginTransaction();
+        $return = null;
         
         $this->getDoctrine()->getEntityManager()->beginTransaction();
         try{
@@ -545,7 +546,8 @@ class DefaultController extends Controller
             $return=array("responseCode"=>400, "greeting"=>'Bad');
 
         }
-           $return=json_encode($return);//jscon encode the array
+        
+        $return=json_encode($return);//jscon encode the array
      
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
    
