@@ -13,7 +13,7 @@
 	<script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
- 
+ 	<script src="{{asset('js/FileUp.js')}}"></script>
             
     <script type="text/javascript">
             $(document).ready(function() {
@@ -23,42 +23,50 @@
                 }).responseText;
             	$('#select_curso').html(data);
 
-            	$('#number').change(function() {
+            	$('#number').on("change",cambioNumber);
+            	FileUp = new FileUp("cursos");
+
+                function cambioNumber() {
                 	var num = $('#number').val();
                 	$("#sesiones").html("");
                 	for(i=0; i<num;i++){
-					var li = document.createElement('li');
-                	
-                	var select = document.createElement('select');                	
-                	select.name = "estado"+i;
-                	li.appendChild(select);
-            			
-            		var option0 = document.createElement('option');
-            		var t = document.createTextNode("Sesion");
-            		option0.value = "sesion";
-            		option0.appendChild(t);
-            		select.appendChild(option0);
+						var li = document.createElement('li');
+	                	
+	                	var select = document.createElement('select');                	
+	                	select.name = "estado"+i;
+	                	li.appendChild(select);
+	            			
+	            		var option0 = document.createElement('option');
+	            		var t = document.createTextNode("Sesion");
+	            		option0.value = "sesion";
+	            		option0.appendChild(t);
+	            		select.appendChild(option0);
+	
+	            		var option1 = document.createElement('option');
+	            		var t = document.createTextNode("Extra");
+	            		option1.value = "extra";
+	            		option1.appendChild(t);
+	            		select.appendChild(option1);
+	
+	            		var detall = document.createElement('input');
+	            		detall.type = "text";
+	            		detall.name = "detalle"+i;
+	            		detall.placeholder = 'Detalle de sesion';
+	            		li.appendChild(detall);
+	
+	            		var file = document.createElement('input');
+	            		file.type = "file";
+	            		file.name = "file"+i;
+	            		file.className = "fileup";
+	            		li.appendChild(file);
 
-            		var option1 = document.createElement('option');
-            		var t = document.createTextNode("Extra");
-            		option1.value = "extra";
-            		option1.appendChild(t);
-            		select.appendChild(option1);
-
-            		var detall = document.createElement('input');
-            		detall.type = "text";
-            		detall.name = "detalle"+i;
-            		detall.placeholder = 'Detalle de sesion';
-            		li.appendChild(detall);
-
-            		var file = document.createElement('input');
-            		file.type = "file";
-            		file.name = "file"+i;
-            		li.appendChild(file);
-
-            		document.getElementById("sesiones").appendChild(li);
+	            		var div = document.createElement('input');
+	            		div.className = "loadbar";
+	
+	            		document.getElementById("sesiones").appendChild(li);
                 	}
-            	});
+                	FileUp.init();
+            	}
             });
 
             $("#myForm").submit(function(){
