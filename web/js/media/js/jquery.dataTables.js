@@ -2718,7 +2718,7 @@
 		
 			/* Likewise with loading records */
 			if ( !oLanguage.sLoadingRecords && oLanguage.sZeroRecords &&
-				oDefaults.sLoadingRecords === "Loading..." )
+				oDefaults.sLoadingRecords === "Cargando..." )
 			{
 				_fnMap( oLanguage, oLanguage, 'sZeroRecords', 'sLoadingRecords' );
 			}
@@ -9275,7 +9275,7 @@
 			 * variables are all dynamically replaced as the table display updates, and 
 			 * can be freely moved or removed as the language requirements change.
 			 *  @type string
-			 *  @default Showing _START_ to _END_ of _TOTAL_ entries
+			 *  @default Mostrando _START_ a _END_ de _TOTAL_ entradas
 			 *  @dtopt Language
 			 * 
 			 *  @example
@@ -9287,14 +9287,14 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			"sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
 		
 		
 			/**
 			 * Display information string for when the table is empty. Typically the 
 			 * format of this string should match sInfo.
 			 *  @type string
-			 *  @default Showing 0 to 0 of 0 entries
+			 *  @default Mostrando 0 a 0 de 0 entradas
 			 *  @dtopt Language
 			 * 
 			 *  @example
@@ -9306,7 +9306,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+			"sInfoEmpty": "Mostrando 0 a 0 de 0 entradas",
 		
 		
 			/**
@@ -9417,7 +9417,7 @@
 			 * parameter is not used when loading data by server-side processing, just
 			 * Ajax sourced data with client-side processing.
 			 *  @type string
-			 *  @default Loading...
+			 *  @default Cargando...
 			 *  @dtopt Language
 			 * 
 			 *  @example
@@ -9429,7 +9429,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLoadingRecords": "Loading...",
+			"sLoadingRecords": "Cargando...",
 		
 		
 			/**
