@@ -4,10 +4,8 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('js/media/css/demo_table.css')}}" media="screen" rel="stylesheet" type="text/css">
 
-        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">  
-             
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">               
 {% endblock %}                 
 
 {% block content %} 
@@ -20,7 +18,7 @@
 
         <div class="box-content box-nomargin">
         	
-    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped dataTable table-bordered"  id="persona" name="persona">
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
         <thead>
             <tr>                             
                 <th>ID</th>
@@ -41,21 +39,25 @@
 	
     </table>
         
-    <div  class="span2">
-            <fieldset>
-                <div>
-                    <label>ID</label>
-                    <label id="nombre" name="nombre"></label>
-                </div>
-                
+    <div class="span2">
+            <fieldset class="form-horizontal">
+            	<div class="control-group">
+		            <label class="control-label">ID:</label>
+		            <div class="controls">
+		                <label id="nombre" name="nombre" class="control-label input-xlarge"></label>
+		            </div>
+		       	</div>                
             </fieldset>
-        </div>
-        
-            <form  method="POST" id="myForm" name="myForm" action="{{path('consolidar_descartar_update')}}">
-                <div class="form-horizontal">
-        
-                    <button class="btn-success" id="registro" name="registro"> Registro</button>
-                </div>
+    </div>
+    <br>
+    <br>
+    <form class="form-horizontal" method="POST" id="myForm" name="myForm" action="{{path('consolidar_descartar_update')}}">
+                <div class="control-group" >
+                	<label class="control-label"></label>
+                  <div class="controls">
+                      <button class="btn-success" id="registro" name="registro"> Registro</button>
+                  </div>
+              	</div>
             </form>
         </div>
    </div>
@@ -87,6 +89,7 @@
 			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>

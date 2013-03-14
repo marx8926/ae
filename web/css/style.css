@@ -2533,6 +2533,34 @@ ul.steps li.active span {
 #map {
 	height: 300px;
 }
+#map-ll label{
+	display:inline-block;
+	padding: 5px;
+}
+/*------- CSS Uploader FileUp ----------*/
+
+.loadingIndicator {
+    width: 0%;
+    height: 2px;
+    background-color: orange;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+#sesiones {
+	list-style-type:none;
+}
+
+.loader {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    color: orange;
+}
+
+/*------- Fin CSS Uploader FileUp ----------*/
+
 @media (max-width: 1282px) {
   .topbar form {
     display: none;
