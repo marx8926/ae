@@ -13,7 +13,7 @@
 
 <div class="box">
 		<div class="box-head tabs">
-            <h3>Asignar consolidador</h3>						
+            <h3>Cambiar consolidador</h3>						
         </div>
 
         <div class="box-content box-nomargin">
@@ -26,13 +26,15 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
         <thead>
             <tr>
-                <th>ID</th>
+          
+                <th>Cons </th>
 		<th>Nombres</th>
 		<th>Apellidos</th>
-		<th>Edad</th>
-		<th>Red</th>
-                <th>Célula</th>
-                <th>Conversión</th>
+		<th>Cond</th>
+		<th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Clase</th>
+                <th>Inicio</th>
             </tr>
 	</thead>
 	<tbody id="tablas1" name="tablas1" >
@@ -44,8 +46,8 @@
         </div>
         </div>   
         <br>
-        <form id="registro" name="registro" class="form-horizontal" method="POST" action="{{path('consolidar_registrar_asignacion')}}">
-            <legend>Nuevo</legend>
+        <form id="registro" name="registro" class="form-horizontal" method="POST" action="{{path('consolidar_cambiar_consolidador_update')}}">
+            <legend>Cambiar Consolidador</legend>
             <div class="control-group ">
                     <div class="controls-row">
                         <label class="control-label" id="code" name="code" ></label>
@@ -61,16 +63,7 @@
                         </select>
                     </div>
             </div>
-                
-            <div class="control-group ">
-                <label class="control-label" for="consolidador"> Leche Espiritual</label>
-                    <div class="controls">
-                        <select id="select_leche" name="select_leche">
-                                             
-                        </select>
-                    </div>
-            </div>
-            
+
             <div class="control-group">
                   <label></label>
                   <div class="controls">
@@ -110,7 +103,7 @@
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
-            <script src="http://www.google.com/jsapi"></script>
+            <script src="https://www.google.com/jsapi"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -250,119 +243,7 @@
             $('#code').text(dato[0]); $('#code').val(dato[0]);
             $('#nuevo').text(dato[1]+' '+dato[2]);
         }
-         
-        function leche_espiritual(dato)
-        {
-           $('#select_leche').empty();
-           
-           $('<option value=-1> ------ </option>').appendTo('#select_leche');
-           
-            
-
-           for(var i=0;i<dato.length; i++)
-           {
-                    $('<option value='+dato[i].id+'>'+dato[i].nombre+' </option>').appendTo('#select_leche');
-           }
-        }
-        
-    
-        function agregar_temas(dato)
-        {
-            $('#temas').empty();
-            
-            var someDate = new Date();
-            var someDateF = new Date();
-            
-        
-            var ini, fin;
-            var tema;
-            num = dato.length;
-            
-        
-            $("<fieldset>  <legend>Limites </legend>"+
-                "<div class='control-group'>"+
-                   "<div class='control-row'>"+ 
-                  
-                     "<li>"+
-                         "<p class='help-block' >Fecha Inicio</p>"+
-                         "<input type='date' id='begin' name='begin' >"+
-                         
-                     "</li>"+
-                     "<li>"+
-                         "<p class='help-block' >Fecha Fin</p>"+
-                         "<input type='date' id='end' name='end'>"+                         
-                     "</li>"+
-                    "</div>"+
-                "</div>"+
-                "</fieldset>  ").appendTo('#temas');
-        
-        
-            for(var i=0;i<dato.length;i++)
-            {
-                
-                
-                
-                someDateF.setDate(someDate.getDate()+6);
-                
-            
-                var text_ini = someDate.getFullYear()+'-'+someDate.getMonth()+'-'+someDate.getDay();
-               
-                var text_fin = someDateF.getFullYear()+'-'+someDateF.getMonth()+'-'+someDateF.getDay();
-                var numberOfDaysToAdd = 7;
-                
-                someDate.setDate(someDate.getDate() + numberOfDaysToAdd); 
-                                
-             $("<fieldset>"+
-                "<div class='control-group'>"+
-                   "<div class='control-row'>"+ 
-                    "<li>"+
-                    "<label>Tema"+i+"</label>"+
-                        "<input type= 'text' class='input-xlarge' id='tema"+i+"' name='tema"+i+"'/>" +
-                     "</li>"+
-                     "<li>"+
-                         "<p class='help-block' >Inicio</p>"+
-                         "<input type='date' id='inicio"+i+"' name='inicio"+i+"' value='2013-04-13' >"+ 
-                         "<input type='time' id='time_inicio"+i+"' name='time_inicio"+i+"' value='23:15:00' >"+  
-
-                     "</li>"+
-                     "<li>"+
-                         "<p class='help-block' >Limite</p>"+
-                         "<input type='date' id='limite"+i+"' name='limite"+i+"' value='2013-04-13' >"+  
-                         "<input type='time' id='time_limite"+i+"' name='time_limite"+i+"' value='23:15:00' >"+  
-                     "</li>"+
-                    "</div>"+
-                "</div>"+
-                "</fieldset>  ").appendTo('#temas');
-        
-                ini = "#inicio"+i;
-                fin = "#limite"+i;
-                
-                tema = "#tema"+i;
-     
-                $(tema).val(dato[i].titulo); $(tema).text(dato[i].titulo);
-            } 
-        }
-        
-        function cambio_leche()
-        {
-            var nombre = $("#select_leche option:selected").val();  
-            
-            if(nombre != '-1')
-            {
-                var route = '{{path('servicio_leche_esp_temas',{'id': 'name'})}}';
-            
-                var rutas = route.replace('name',nombre);
-                
-                $.ajax(
-                        {url : rutas,
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                  ).done(agregar_temas);
-            }
-
-        }
+                 
 	$(document).ready(function() {
             
         
@@ -375,18 +256,7 @@
                         }
                   ).done(consolidadores);   
             
-            //lista de leche espiritual
-            $.ajax(
-                        {url : "{{path('servicio_leche_espiritual')}}",
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                  ).done(leche_espiritual); 
-            
-             //cambio de leche espiritual
-             $('#select_leche').change(cambio_leche);
-
+          
              $("#pdfbutton").click(function(event) {
                  $("#persona th").css("width","auto");
              	$("#content").val($("#persona").html());
@@ -432,9 +302,9 @@
                     $.post(url,{
                         formName:$("#registro").serialize(),
                         other:"attributes",
-                        id: $('#code').text(),
-                        numero: num
+                        lista: values
                     },function(data){
+                        console.log(data);
                     //the response is in the data variable
                     if(data.responseCode==200 ){           
                       
@@ -465,15 +335,16 @@
             	"bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_nuevo_convertido_all')}}',
+                "sAjaxSource": '{{path('servicio_consolidador_consolidado')}}',
                 "aoColumns": [
-                    { "mDataProp": "id" },
-                    { "mDataProp": "nombres" },
-                    { "mDataProp": "apellidos" },
-                    { "mDataProp": "edad" },
-                    { "mDataProp": "red" },
-                    { "mDataProp": "celula"},
-                    { "mDataProp":"conversion"}
+                    { "mDataProp": "idc" },
+                    { "mDataProp": "nombrec" },
+                    { "mDataProp": "apellidosc" },
+                    { "mDataProp": "idd" },
+                    { "mDataProp": "nombred" },
+                    { "mDataProp": "apellidos"},
+                    { "mDataProp":"id"},
+                    { "mDataProp": "inicio"}
                 ],
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [

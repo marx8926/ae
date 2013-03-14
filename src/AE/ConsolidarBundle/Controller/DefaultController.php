@@ -558,4 +558,49 @@ class DefaultController extends Controller
      {
          return $this->render('AEConsolidarBundle:Default:cambiar_consolidador.html.twig');
      }
+     
+     public function cambiar_consolidador_updateAction()
+     {
+            $request = $this->get('request');
+        $name=$request->request->get('formName');
+        $lista = $request->request->get('lista');
+        
+         $datos = array();
+
+        parse_str($name,$datos);
+        
+     
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        // $this->getDoctrine()->getEntityManager()->beginTransaction();
+        $return = null;
+        
+        $this->getDoctrine()->getEntityManager()->beginTransaction();
+        try{
+            
+     
+        $sql = "select update_consolida_consolidador(:id1,:id2,:idp)";
+        
+         $smt = $em->getConnection()->prepare($sql);
+         
+         $smt->execute(array(':id1'=>$lista[0],':id2'=>$datos['select_consolidador'],':idp'=>$lista[6]));
+ 
+         $return=array("responseCode"=>200, "greeting"=>'Good');
+
+         $this->getDoctrine()->getEntityManager()->commit();
+        }
+        catch(Exception $e)
+        {
+            $this->getDoctrine()->getEntityManager()->rollback();
+            $this->getDoctrine()->getEntityManager()->close();
+            
+            $return=array("responseCode"=>400, "greeting"=>'Bad');
+
+        }
+        
+        $return=json_encode($return);//jscon encode the array
+     
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+   
+     }
 }
