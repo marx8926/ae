@@ -4,8 +4,7 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
+        
 {% endblock %}
         
 {% block content %}
@@ -25,8 +24,8 @@
             <div class="control-group">
                 <label class="control-label" >Telefono   </label>
                 <div class="controls">
-                    <input type="text" id="inputTelef" name="inputTelef" class="input-xxlarge mask_phone" 
-                    required pattern="d{9}" autofocus="true" />
+                    <input type="text" id="inputTelef" name="inputTelef" class="input-xxlarge" 
+                    required pattern="d{9}" />
                 </div>
             </div>
                 
@@ -39,14 +38,14 @@
         <div class="control-group">
             <label class="control-label">Dirección</label>
             <div class="controls">
-                <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required="direccion" autofocus="true">
+                <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required="direccion">
                 
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Referencia</label>
             <div class="controls" >
-                <input type="text" class="input-xxlarge" id="inputReferencia" name="inputReferencia" required="referencia" autofocus="true">
+                <input type="text" class="input-xxlarge" id="inputReferencia" name="inputReferencia" required="referencia">
             </div>
         </div>
         <div class="control-group">
@@ -84,10 +83,11 @@
          
             
                    <div class='input'>
-                       <label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/>   <br/>
-		
-                       <label>Latitud:      </label> <input id="lat" name="latitud" value="-8.116752"> <br/>
-                       <label>Longitud:      </label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+                       <div style="display:none;"><label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/></div>   <br/>
+					<div id="map-ll">
+                       <label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
+                       <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+    				</div>
     </div>
     <div id="map"></div>
    
@@ -113,7 +113,7 @@
     <script type="text/javascript" src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
 	<script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>
     <script type="text/javascript" src="{{asset('js/html5.js')}}"></script>   
-    
+    <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
     <script type="text/javascript">
     var patronTel = new Array(2,3,4);
 

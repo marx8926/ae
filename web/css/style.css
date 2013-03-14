@@ -2533,7 +2533,10 @@ ul.steps li.active span {
 #map {
 	height: 300px;
 }
-
+#map-ll label{
+	display:inline-block;
+	padding: 5px;
+}
 /*------- CSS Uploader FileUp ----------*/
 
 .loadingIndicator {

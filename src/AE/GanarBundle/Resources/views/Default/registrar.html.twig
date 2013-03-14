@@ -1,10 +1,10 @@
 {% extends "::base.html.twig" %}
+
   {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">           <!-- Scripts -->
+        
  {% endblock %}
          
   {%block javascript %}
@@ -23,6 +23,10 @@
     <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
     <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+<!--
+
+//-->
+</script>
   	  
     <script type="text/javascript">
               
@@ -391,17 +395,12 @@
         
 
          <div class="control-group">
-            
             <label>Ubicación</label>
-            
-         
-            
-                   <div class='input'>
-                       <div style="display: none;"><label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/></div>
-                       <br/>
-                       <label>Latitud:      </label> <input id="lat" name="latitud" value="-8.116752"> <br/>
-                       <label>Longitud:      </label> <input id="lng" name="longitud" value="-79.019616"> <br/>
-                    </div>
+                   <div id="map-ll">
+		            	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
+						<label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
+		                <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+		            </div>
             <div id="map"></div>
    
         </div>
