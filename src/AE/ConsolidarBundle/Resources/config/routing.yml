@@ -40,6 +40,8 @@ consolidar_asignar_consolidar:
 consolidar_registrar_asignacion:
    pattern: /registrar_asignacion
    defaults: {_controller: AEConsolidarBundle:Default:registrar_asignacion}
+   requirements:
+     _method: POST
    
 consolidar_lista_consolidador:
   pattern: /lista_consolidador
@@ -80,4 +82,6 @@ consolidar_vista:
   pattern: /vista/{id}
   defaults: {_controller: AEConsolidarBundle:Default:vista}
   
-  
+consolidar_cambiar_consolidador:
+  pattern: /cambiar_consolidador
+  defaults: {_controller: AEConsolidarBundle:Default:cambiar_consolidador}

@@ -222,9 +222,7 @@ class DefaultController extends Controller
          $datos = array();
 
         parse_str($name,$datos);
-        
-             
-       
+
         
         $em = $this->getDoctrine()->getEntityManager(); 
         
@@ -264,6 +262,9 @@ class DefaultController extends Controller
                     
                     $new_convert = $em->getRepository('AEDataBundle:NuevoConvertido');
                     $new_convert_f = $new_convert->findOneBy(array('id'=>$id));
+                    $new_convert_f->setConsolidado(true);
+                    $em->persist($new_convert_f);
+                    $em->flush();
                     
                     //miembro
                     $miembro = $em->getRepository('AEDataBundle:Miembro');
@@ -551,5 +552,10 @@ class DefaultController extends Controller
      
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
    
+     }
+     
+     public function cambiar_consolidadorAction()
+     {
+         return $this->render('AEConsolidarBundle:Default:cambiar_consolidador.html.twig');
      }
 }
