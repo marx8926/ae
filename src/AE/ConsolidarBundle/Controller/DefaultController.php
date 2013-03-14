@@ -511,4 +511,43 @@ class DefaultController extends Controller
      {
          return $this->render('AEConsolidarBundle:Default:vista.html.twig', array('id'=>$id));
      }
+     
+     public function activar_nuevoAction()
+     {
+            $request = $this->get('request');
+        $name=$request->request->get('formName');
+              
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        // $this->getDoctrine()->getEntityManager()->beginTransaction();
+        
+        $this->getDoctrine()->getEntityManager()->beginTransaction();
+        try{
+            
+     
+        $sql = "select activa_consolida(:id)";
+        
+         $smt = $em->getConnection()->prepare($sql);
+         
+         $smt->execute(array(':id'=>$name));
+        
+         
+         
+         $return=array("responseCode"=>200, "greeting"=>'Good');
+
+         $this->getDoctrine()->getEntityManager()->commit();
+        }
+        catch(Exception $e)
+        {
+            $this->getDoctrine()->getEntityManager()->rollback();
+            $this->getDoctrine()->getEntityManager()->close();
+            
+            $return=array("responseCode"=>400, "greeting"=>'Bad');
+
+        }
+           $return=json_encode($return);//jscon encode the array
+     
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+   
+     }
 }

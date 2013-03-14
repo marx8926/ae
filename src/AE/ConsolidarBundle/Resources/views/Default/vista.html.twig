@@ -165,15 +165,22 @@
                             </div>
                             <div id="leche_temas" name="leche_temas">
                                 <div class="en-linea">
-                                    <li>
-                                        <label for="fecha_fin_tema1">Tema 1</label>
-                                        <label id="fecha_fin_tema1" name="fecha_fin_tema1"> </label>
-                                    </li>
                                     
-                                    <li>
-                                        <label for="fecha_fin_tema1">Tema 1</label>
-                                        <label id="fecha_fin_tema1" name="fecha_fin_tema1"> </label>
-                                    </li>
+                                   <table cellpadding="0" cellspacing="0" border="1" id="persona" name="persona">
+                                    <thead>
+                                    <tr>
+                                        <th>Tema</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Fin</th>
+                                        <th>Fecha Limite</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tablas1" name="tablas1" >
+	
+                                    </tbody>
+	
+                                    </table>
+                                    
                                 </div>                            
                             </div>
                                  
@@ -195,13 +202,30 @@
             
             function consolida_leche(data)
             {
-               
+                             
                 $('#fecha_ini').val(data.fecha_inicio); $('#fecha_ini').text(data.fecha_inicio); 
                 $('#fecha_pausa').val(data.fecha_pausa); $('#fecha_pausa').text(data.fecha_pausa);
                 $('#fecha_fin').val(data.fecha_pausa); $('#fecha_fin').text(data.fecha_pausa); 
                 $('#fecha_reanuda').val(data.fecha_reanudacion); $('#fecha_reanuda').text(data.fecha_reanudacion); 
                 $('#consolidador1').val(data.nombre+' '+data.apellidos);
                 $('#consolidador1').text(data.nombre+' '+data.apellidos);
+                $('#consolidador').val(data.nombre+' '+data.apellidos);
+                $('#consolidador').text(data.nombre+' '+data.apellidos);
+                
+        
+                 var link= '{{path('servicio_leche_consolida',{'id':'cod'})}}';
+                        
+                 var ruta = link.replace('cod',data.id);
+                 
+                 $.ajax(
+                         {url: ruta,
+                          type: "POST",
+                         async: false,}
+                    ).done(function (data){
+                            $('#persona > tbody:last').append(data);
+                    } );
+                 
+                
                
             }
             
@@ -355,6 +379,7 @@
                  if(dato!=false)
                  {
                      $('#red').val(dato.id_red); $('#red').text(dato.id_red);
+        
                      recargar_celula(dato.id_red);
                      
                      $('#celula').val(dato.id_celula); $('#celula').text(dato.id_celula);
@@ -374,6 +399,27 @@
                                 async: false,
                             }
                         ).done(lugar);
+                            
+                     if(dato.id_red != null)
+                     {
+                         url = '{{path('servicio_lider_red_id',{'id':'cod'})}}';
+                         ruta = url.replace('cod',dato.id_red);
+                         $.ajax(
+                                 {
+                                   url:ruta,
+                                   dataType: "json",
+                                   type: "POST",
+                                   async: false,
+                                 }
+                                ).done(function(data){
+                             
+                                if(data!=false)
+                                {
+                                    $('#lider').val(dato.nombre+" "+dato.apellidos);
+                                    $('#lider').text(dato.nombre+" "+dato.apellidos);
+                                }
+                         });
+                     }
                                              
                  }
              }

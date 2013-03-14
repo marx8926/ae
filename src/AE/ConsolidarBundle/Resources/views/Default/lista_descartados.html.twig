@@ -47,9 +47,10 @@
                 </form>
     	</div>
 	</div>
-    <div class="form-horizontal">
-    	<button class="btn-success" id="vista" name="vista"> Vista</button>
-    </div>
+        <div class="form-horizontal">
+                <button class="btn-success" id="vista" name="vista"> Activar </button>
+        </div>
+        
 </div>    
                  
 {% endblock %}
@@ -240,7 +241,7 @@
                 });               
             });
             
-            //click handler para eliminar
+            //click handler para activar
             $('#vista').click(function(){
                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
@@ -252,14 +253,37 @@
                     $.each(tds, function(index, item) {
                         val.push(item.innerHTML); 
                     }); 
+ 
+                    var rutas='{{path('consolidar_activar_nuevo')}}';
+                     console.log(rutas);
+                    
+                     $.post(rutas,{
+                        formName:val[8],
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
+                        console.log(data);
+                        
+                    if(data.responseCode==200 ){           
                       
-                    var route = '{{path('consolidar_vista',{'id':'nom'})}}';
-            
-                    var rutas = route.replace('nom',val[0]);
+                        alert('Registro Completado');
+                        location.reload();
+
+                    }
+                    else if(data.responseCode==400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
                     
-                    console.log(rutas);
-                    
-                    window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
+                  //  window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
                
                 }
             });

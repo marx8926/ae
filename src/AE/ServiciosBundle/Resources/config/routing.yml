@@ -240,3 +240,12 @@ servicio_consolida_id:
 servicio_leche_consolida:
   pattern: /leche_consolida/{id}
   defaults: {_controller: AEServiciosBundle:Default:leche_consolida}
+  requirements:
+    _method: POST
+    
+    
+servicio_lider_red_id:
+  pattern: /lider_red_id/{id}
+  defaults: {_controller: AEServiciosBundle:Default:lider_red_id}
+  requirements:
+    _method: POST

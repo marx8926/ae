@@ -64,7 +64,13 @@ consolidar_descartar_update:
   defaults: {_controller: AEConsolidarBundle:Default:descartar_update}
   requirements:
     _method: POST
-    
+  
+consolidar_activar_nuevo:
+  pattern: /activar_nuevo
+  defaults: {_controller: AEConsolidarBundle:Default:activar_nuevo}
+  requirements:
+    _method: POST
+  
     
 consolidar_lista_descartar:
   pattern: /lista_descartar
@@ -73,3 +79,5 @@ consolidar_lista_descartar:
 consolidar_vista:
   pattern: /vista/{id}
   defaults: {_controller: AEConsolidarBundle:Default:vista}
+  
+  
