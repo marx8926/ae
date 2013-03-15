@@ -2,11 +2,11 @@ function FileUp(tabla){
 	var	fileQueue = new Array(),
 		filesups,
 		tam = 0,
+		filesNumber,
 		form = $("#myForm");
 	
 	this.init = function(){
-		
-		filesups = document.getElementsByClassName("fileup");
+		filesups = $(".fileup");
 		tam = filesups.length;
 		for(i = 0; i<tam; i++){
 			filesups[i].onchange = this.addFile;
@@ -14,6 +14,7 @@ function FileUp(tabla){
 	}
 
 	this.addFile = function(){
+		filesNumber = 0;
 		fileQueue = new Array()
 		for (i = 0 ; i < tam;i++){
 			if(filesups[i].files[0]){
@@ -22,6 +23,7 @@ function FileUp(tabla){
 				file.file.num = i;
 				file.onloadend = loadProgress;
 				file.readAsDataURL(filesups[i].files[0]);
+				filesNumber++;
 			}
 		}
 	}
@@ -42,6 +44,7 @@ function FileUp(tabla){
                 Math.round(file.size / 1024) + "KB");
             p.appendChild(pText);
             parent.appendChild(div);
+            parent.getElementsByClassName("name")[0].value = file.name;
             var divLoader = document.createElement("div");
             divLoader.className = "loadingIndicator";
             div.appendChild(divLoader);
@@ -54,14 +57,13 @@ function FileUp(tabla){
 	
 	this.uploadQueue = function (ev) {
 		ev.preventDefault();
-		console.log(fileQueue);
         while (fileQueue.length > 0) {
             var item = fileQueue.pop();
             var p = document.createElement("p");
             p.className = "loader";
             var pText = document.createTextNode("Uploading...");
             p.appendChild(pText);
-            item.div.appendChild(p);   
+            item.div.appendChild(p);
             if (item.file.size < 100048576) {
                uploadFile(item.file, item.div);
             } else {
@@ -72,7 +74,6 @@ function FileUp(tabla){
     }
 	
 	var uploadFile = function (file, li) {
-		console.log(file);
         if (li && file) {
             var xhr = new XMLHttpRequest(),
                 upload = xhr.upload;
@@ -81,8 +82,8 @@ function FileUp(tabla){
                     var loader = li.getElementsByClassName("loadingIndicator")[0];
                     loader.style["width"] = (ev.loaded / ev.total) * 100 + "%";
                     if(ev.loaded == ev.total){
-                        //RegFile(file.name,"result"+li.id);
-                    	console.log(true);
+                    	filesNumber--;
+                    	verifyFinish();
                    }
                 }
             }, false);
@@ -110,4 +111,9 @@ function FileUp(tabla){
             xhr.send(file);
         }
     }
+	
+	function verifyFinish(){
+		if(filesNumber == 0)
+			$("#myForm").submit();
+	}
 }

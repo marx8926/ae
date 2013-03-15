@@ -1,11 +1,18 @@
 <?php
 namespace AE\DiscipularBundle\Controller;
 
+use AE\DataBundle\Entity\Archivo;
+
+use Doctrine\Tests\Models\DirectoryTree\File;
+
+use AE\DataBundle\Entity\TemaCurso;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use AE\DataBundle\Entity\Prerequisito;
 use AE\DataBundle\Entity\Curso;
 use Doctrine\ORM\TransactionRequiredException;
-use AE\DataBundle\Entity\Prerequisito;
+
 
 class CrearCursoController extends Controller{
 
@@ -67,6 +74,32 @@ class CrearCursoController extends Controller{
 						$em->flush();
 				}
 				
+				for($j=0;$j<$numsesiones;$j++){
+					/*Datos de la sesion*/
+					$Tema = new TemaCurso();
+					$Tema->setActivo(true);
+					$Tema->setDescripcion($datos['detalle'.$j]);
+					$Tema->setFechaCreacion(new \DateTime());
+					$Tema->setTipo($datos['tipo'.$j]);
+					$Tema->setIdCurso($curso);
+					$em->persist($Tema);
+					$em->flush();
+					
+					/*Datos del Archivo*/
+					$File = new Archivo();
+					
+					$FileName = $datos['filename'.$j];
+					$uploadFileName = date("Y-m-d-H-i-s").$FileName;
+					$url = "uploads/".$uploadFileName;
+					
+					$File->setNombre($uploadFileName);
+					$File->setIdTemaCurso($Tema);
+					$File->setFecha(new \DateTime());
+					$File->setDireccion($url);				
+					$em->persist($File);
+					$em->flush();
+			}
+				
 				
 			}catch(Exception $e)
 			{
@@ -77,7 +110,7 @@ class CrearCursoController extends Controller{
 				throw $e;
 			}
 			$this->getDoctrine()->getEntityManager()->commit();
-			$return=array("responseCode"=>300, "id"=>$prerequisitos );
+			$return=array("responseCode"=>300, "id"=>$datos );
 		}
 		else{
 			$return = array("responseCode"=>400, "greeting"=>"Bad");

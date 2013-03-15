@@ -38,18 +38,18 @@
 						li.id = "sesion"+i;
 	                	
 	                	var select = document.createElement('select');                	
-	                	select.name = "estado"+i;
+	                	select.name = "tipo"+i;
 	                	li.appendChild(select);
 	            			
 	            		var option0 = document.createElement('option');
 	            		var t = document.createTextNode("Sesion");
-	            		option0.value = "sesion";
+	            		option0.value = "2";
 	            		option0.appendChild(t);
 	            		select.appendChild(option0);
 	
 	            		var option1 = document.createElement('option');
 	            		var t = document.createTextNode("Extra");
-	            		option1.value = "extra";
+	            		option1.value = "1";
 	            		option1.appendChild(t);
 	            		select.appendChild(option1);
 	
@@ -57,6 +57,7 @@
 	            		detall.type = "text";
 	            		detall.name = "detalle"+i;
 	            		detall.placeholder = 'Detalle de sesion';
+	            		detall.required = true;
 	            		li.appendChild(detall);
 	
 	            		var file = document.createElement('input');
@@ -64,6 +65,12 @@
 	            		file.name = "file"+i;
 	            		file.className = "fileup";
 	            		li.appendChild(file);
+
+	            		var hidden = document.createElement('input');
+	            		hidden.type = "hidden";
+	            		hidden.name = "filename"+i;
+	            		hidden.className = "name";
+	            		li.appendChild(hidden);
 
 	            		var div = document.createElement('input');
 	            		div.className = "loadbar";
@@ -90,7 +97,7 @@
                 console.log(data);
                 
                 if(data.responseCode==300 ){           
-                	regfile(data.id);
+                	console.log("ok");
                 }
                 else if(data.responseCode==400){//bad request
                    alert('Error bad request');
@@ -117,7 +124,7 @@
             
 			<div>
 				<label >Titulo</label>
-				<input name="titulo" type="text">
+				<input name="titulo" type="text" required>
 			</div>	
 			<div>
 			<div>
@@ -133,7 +140,7 @@
 			</div>	
 			<div>
 				<label>Descripcion</label>
-				<textarea name="descripcion" rows="15" cols="50"></textarea>
+				<textarea name="descripcion" rows="15" cols="50" required></textarea>
 			</div>
 			
 					
@@ -142,7 +149,7 @@
 			<legend>Detalles de Sesiones</legend>
 			<div>
 				<label >Numero de Sesiones</label>
-				<input id="number" name="numsesiones" type="number">
+				<input id="number" name="numsesiones" type="number" required>
 			</div>
 			<br>
 			<div>
