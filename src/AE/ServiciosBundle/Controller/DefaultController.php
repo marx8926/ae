@@ -1025,4 +1025,54 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        
        return new JsonResponse(array('aaData'=>$todo));
    }
+   
+   public function consolidado_terminoAction()
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from consolidado_termino";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+           
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+   public  function consolidado_seguirAction()
+   {
+         $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from consolidando";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+           
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
 }

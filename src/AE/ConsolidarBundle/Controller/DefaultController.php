@@ -603,4 +603,14 @@ class DefaultController extends Controller
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
    
      }
+     
+     public function lista_consolidadosAction()
+     {
+         return $this->render('AEConsolidarBundle:Default:lista_consolidados.html.twig');
+     }
+     
+     public function lista_seguirAction()
+     {
+         return $this->render('AEConsolidarBundle:Default:lista_seguir.html.twig');
+     }
 }

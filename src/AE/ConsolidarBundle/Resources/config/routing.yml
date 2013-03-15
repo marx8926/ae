@@ -47,6 +47,15 @@ consolidar_lista_consolidador:
   pattern: /lista_consolidador
   defaults: {_controller: AEConsolidarBundle:Default:lista_consolidar}
   
+consolidar_lista_consolidados:
+  pattern: /lista_consolidados
+  defaults: {_controller: AEConsolidarBundle:Default:lista_consolidados}
+  
+consolidar_lista_seguir:
+  pattern: /lista_seguir
+  defaults: {_controller: AEConsolidarBundle:Default:lista_seguir}
+
+  
 consolidar_seguir:
   pattern: /seguir/{id}
   defaults: {_controller: AEConsolidarBundle:Default:seguir}
