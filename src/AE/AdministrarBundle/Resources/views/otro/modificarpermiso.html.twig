@@ -14,14 +14,6 @@
             
           <fieldset>  
                   <legend>Permisos</legend>
-                  <div class="form-horizontal">
-                  <div class="control-group">
-                    <label class="control-label" ></label>
-                    <div class="controls">
-                        <input class="btn-success" type="button" name="load" id="load" value="Cargar"  onclick="cargar();"/>
-                    </div>
-                  </div>
-                  </div>
                   
                   
           <form id="myForm" name="myForm" class="form-horizontal"  method="POST" action="{{path('administrar_mod_permiso_update')}}" >
@@ -31,7 +23,8 @@
                   <div class="control-group">
                     <label class="control-label" >ID</label>
                     <div class="controls">
-                      <input class="input-large" type="text" name="code" id="code" />
+                      <input class="input-large" type="text" name="code" id="code" pattern="|^\d+$|" autofocus="true" required/>
+                      <input class="btn-success" type="button" name="load" id="load" value="Cargar"  onclick="cargar();"/>
                     </div>
                   </div>
                   <div class="control-group">

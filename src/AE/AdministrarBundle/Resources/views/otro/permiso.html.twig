@@ -20,7 +20,7 @@
                   <div class="control-group">
                     <label class="control-label" >ID</label>
                     <div class="controls">
-                      <input class="input-large" type="text" name="code" id="code" />
+                      <input class="input-large" type="text" name="code" id="code" pattern="|^\d+$|" required />
                     </div>
                   </div>
                   <div class="control-group">
@@ -108,7 +108,7 @@
                
       {%block javascript %}
       <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-            <script type="text/javascript" language="javascript" src="{{asset('js/media/js/jquery.dataTables.js')}}"></script>
+            <script src="{{asset('js/media/js/jquery.dataTables.js')}}"></script>
 
             <script type="text/javascript" src="{{asset('js/bootstrap-typeahead.js')}}"></script>
             <script type="text/javascript" src="{{asset('js/bootstrap-collapse.js')}}"></script>
@@ -117,7 +117,8 @@
             <script type="text/javascript" src="{{asset('js/bootstrap-tab.js')}}"></script>
            
 
-            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>                  
+            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>                  
             <!--[if lt IE 9]> <script type="text/javascript" src="{{asset('js/html5.js')}}"></script><![endif]-->
       
       <script type="text/javascript">

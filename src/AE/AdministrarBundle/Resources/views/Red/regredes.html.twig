@@ -6,7 +6,6 @@
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
         <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
-                 <!-- Scripts -->
         {% endblock %}
         
 {% block content %}
@@ -18,14 +17,14 @@
                     <div class="control-group">
                         <label class="control-label" >Abreviatura</label>
                         <div class="controls">
-                            <input type="text" id="inputNom" name="inputNom" placeholder="Nombre" class="input-xxlarge">
+                            <input type="text" id="inputNom" name="inputNom" placeholder="Nombre" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]*$|" required />
                         </div>
                     </div>
                 
                     <div class="control-group">
                         <label class="control-label" >Tipo de Red  </label>
                         <div class="controls">
-                            <select id="tipo_red" name="tipo_red" >
+                            <select id="tipo_red" name="tipo_red" required >
                                 <option value="0">Mixta</option>
                                 <option value="1">Hombres</option>
                                 <option value="2">Mujeres</option>
@@ -38,7 +37,7 @@
                     <div class="control-group">
                         <label class="control-label" for="iglesia">Iglesia</label>
                         <div class="controls">
-                            <select id="iglesia_lista" name="iglesia_lista" >
+                            <select id="iglesia_lista" name="iglesia_lista" required >
                    
                             </select>
                         </div>
@@ -51,7 +50,7 @@
                 <div class="control-group">
                     <label class="control-label">Dirección</label>
                     <div class="controls">
-                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion">
+                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" required>
                     </div>
                 </div>
                 <div class="control-group">
@@ -63,7 +62,7 @@
                 <div class="control-group">
                     <label class="control-label" > Departamento</label>
                     <div class="controls">
-                        <select name="departamento_lista" id="departamento_lista" >
+                        <select name="departamento_lista" id="departamento_lista" required>
                     
                         </select>
                     </div>
@@ -72,7 +71,7 @@
                 <div class="control-group">
                     <label class="control-label" >Provincia</label>
                     <div class="controls">
-                        <select name="provincia_lista" id="provincia_lista">
+                        <select name="provincia_lista" id="provincia_lista" required>
                    
                         </select>
                     </div>
@@ -81,7 +80,7 @@
                 <div class="control-group">
                     <label class="control-label">Distrito</label>
                     <div class="controls">
-                        <select name="distrito_lista" id="distrito_lista">
+                        <select name="distrito_lista" id="distrito_lista" required>
                     
                         </select>
                     </div>        
@@ -89,30 +88,28 @@
         
                 <div class="control-group">
             
-                    <label>Ubicación</label>
-            
-         
-            
+            <label>Ubicación</label>
                    <div class='input'>
-                       <label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/>   <br/>
-		
-                       <label>Latitud:      </label> <input id="lat" name="latitud" value="-8.116752"> <br/>
-                       <label>Longitud:      </label> <input id="lng" name="longitud" value="-79.019616"> <br/>
-                    </div>
-                <div id="map"></div>
+                       <div style="display:none;"><label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/></div>   <br/>
+					<div id="map-ll">
+                       <label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
+                       <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+    				</div>
+    </div>
+    <div id="map"></div>
    
-                </div>
+        </div>
                 
                 
 
             </fieldset>
                  
-             <fieldset> 
+             <fieldset > 
                 <legend>Lider</legend>
                 <div class="control-group">
-                <label>Añadir</label>
+                <label class="control-label">Añadir</label>
                     <div class="controls">
-                         <select id="tip_red" name="tip_red" >
+                         <select id="tip_red" name="tip_red" required>
                                 <option value="0">Lider de red</option>
                                 <option value="1">Pastor asociado</option>
                             </select>
@@ -120,9 +117,9 @@
                 </div>
                 
                 <div class="control-group">
-                    <label>ID</label>
+                    <label class="control-label">ID</label>
                     <div class="controls">
-                        <select id="ids" name="ids" >
+                        <select id="ids" name="ids" required >
                         
                         </select>
                     </div>
@@ -131,14 +128,14 @@
                 <div class="control-group" >
                     <label class="control-label"> Nombres </label>
                     <div class="controls">
-                        <input pattern="^[a-zA-Z]'?([a-zA-Z]|\.| |-)+$" type="text" id="inputNombres" name="inputNombres" placeholder="Nombres" class="input-xxlarge">
+                        <input pattern="|^[a-zA-Z ñÑáéíóúüç]*$|" type="text" id="inputNombres" name="inputNombres" placeholder="Nombres" class="input-xxlarge" required>
                     </div>
                 </div>
         
                 <div class="control-group" >
                     <label class="control-label">Apellidos</label>
                     <div class="controls">
-                        <input type="text" id="inputApellidos" name="inputApellidos" placeholder="Apellidos" class="input-xxlarge" pattern="^[a-zA-Z]'?([a-zA-Z]|\.| |-)+$">
+                        <input type="text" id="inputApellidos" name="inputApellidos" placeholder="Apellidos" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]*$|" required>
                     </div>
                 </div>
                 
@@ -161,11 +158,9 @@
    <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>         
             <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>            
             <script src="https://maps.google.com/maps/api/js?sensor=false"></script>            
-            <script type="text/javascript" src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js
-')}}" > </script>
-            <script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js
-')}}"> </script>
-            
+            <script type="text/javascript" src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
+            <script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>
+            <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
    
         <script type="text/javascript">

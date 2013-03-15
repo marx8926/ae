@@ -2201,7 +2201,7 @@ body {
   border: none !important;
 }
 .dataTables_filter {
-  float: left;
+  float: right;
   margin: 18px 15px 10px 15px;
 }
 .dataTables_filter label input {
@@ -2211,7 +2211,7 @@ body {
   background: url(../img/icons/fugue/magnifier.png) no-repeat 195px #ffffff;
 }
 .dataTables_length {
-  float: right;
+  float: left;
   margin: 19px 20px 9px 20px;
 }
 .dataTables_length label .selector {

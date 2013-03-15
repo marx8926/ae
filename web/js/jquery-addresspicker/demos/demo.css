@@ -1,8 +1,8 @@
 body {
-  margin:0 5%;
+  /*margin:0 5%;*/
   color: #333;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 16px;
+  /*font-size: 16px;*/
   font-style: normal;
   font-weight: 300;
 }
@@ -25,14 +25,14 @@ code {
   color: #444;
   padding: 0 3px;
 }
-
+/*
 label {
   width: 100px;
   float:left;
   text-align:right;
   margin:4px 10px 0 0;
 }
-
+*/
 p {
   float:left;
   width: 100%;

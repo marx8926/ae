@@ -52,7 +52,7 @@
                 <div class="control-group">
                     <label class="control-label">Dirección</label>
                     <div class="controls">
-                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion">
+                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" >
                     </div>
                 </div>
                 <div class="control-group">
@@ -90,19 +90,17 @@
         
                 <div class="control-group">
             
-                    <label>Ubicación</label>
-            
-         
-            
+            <label>Ubicación</label>
                    <div class='input'>
-                       <label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/>   <br/>
-		
-                       <label>Latitud:      </label> <input id="lat" name="latitud" value="-8.116752"> <br/>
-                       <label>Longitud:      </label> <input id="lng" name="longitud" value="-79.019616"> <br/>
-                    </div>
-                <div id="map"></div>
+                       <div style="display:none;"><label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/></div>   <br/>
+					<div id="map-ll">
+                       <label>Latitud:</label><input id="lat" name="latitud" value="-8.116752">
+                       <label>Longitud:</label><input id="lng" name="longitud" value="-79.019616"> <br/>
+    				</div>
+    </div>
+    <div id="map"></div>
    
-                </div>
+        </div>
                 
                 
                 <div class="control-group">
