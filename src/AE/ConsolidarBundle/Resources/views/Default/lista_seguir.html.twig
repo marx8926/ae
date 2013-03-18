@@ -49,6 +49,9 @@
         
       
         </form>
+        <div class="form-horizontal">
+            <button class="btn-success" id="vista" name="vista"> Ver </button>
+        </div>
  </div>    
 {% endblock %}
       
@@ -199,6 +202,9 @@
         
          
 	$(document).ready(function() {
+            
+           
+            $("#vista").css({"display":"none"});
 
 		$("#pdfbutton").click(function(event) {
             $("#persona th").css("width","auto");
@@ -228,7 +234,10 @@
   
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
-                });               
+                });     
+                
+                $("#vista").css({"display":"block"});
+
             });
 
             //click para activar
@@ -244,14 +253,13 @@
   
                       }); 
                     
-                    
-                   var route = '{{path('ganar_vistamiembro',{'id': 'nom'})}}';
+                     console.log(val[5]);
+                     
+                   var route = '{{path('consolidar_seguir',{'id': 'nom'})}}';
             
-                    var rutas = route.replace('nom',val[0]);
+                    var rutas = route.replace('nom',val[5]);
                     
-                    console.log(rutas);
-                    window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-               
+                    window.open(rutas);
                 }
                
             });
