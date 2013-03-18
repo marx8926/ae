@@ -12,7 +12,7 @@ ae_ganar:
 
 ae_enviar:
     resource: "@AEEnviarBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /enviar/
 
 ae_administrar:
     resource: "@AEAdministrarBundle/Resources/config/routing.yml"

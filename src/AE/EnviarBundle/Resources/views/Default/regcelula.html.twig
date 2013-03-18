@@ -157,22 +157,52 @@
                 });
             
                $(document).ready(function(){
+                   
+                   //lista de iglesias
+                        $.ajax(
+                        {url : '{{path('servicio_iglesia')}}',
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(iglesias);
+                 
            
-               
-              //lista de departamentos
-                  $.getJSON('{{path('servicio_region')}}', $.each(departamentos));
+                          //lista de redes
+                     $.ajax(
+                        {url : '{{path('servicio_red')}}',
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                      ).done(redes);
+           
+            
+                       //lista de departamentos
+                        $.ajax(
+                        {url : '{{path('servicio_region')}}',
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(departamentos);
                  
     
-                  //cambio de departamento
-                   $("#departamento_lista").change(recarga_provincias);
+                        
+                        //lista de lugares
+                      //  $.getJSON('{{path('servicio_lugar')}}',lug);
+                 
+    
+                        //cambio de departamento
+                        $("#departamento_lista").change(recarga_provincias);
                   
-                  //cambio de provincia
-                  $("#provincia_lista").change(recarga_distritos);
-                  $.getJSON('{{path('servicio_iglesia')}}',iglesias);
-                  $.getJSON('{{path('servicio_red')}}',redes);
-                  
-                  
-                  var x =$("login");
+                        //cambio de provincia
+                        $("#provincia_lista").change(recarga_distritos);
+              
+                   
+                        $("#red_lista").change(recargar_celula);
+                    
+                    var x =$("login");
                     x.click();
            
                     $("#myForm").submit(function(){
@@ -191,11 +221,7 @@
                        // $('#output').html(data.greeting);
                         //$('#output').css("color","red");
                         alert('Registro Completado');
-                        var href="{{path('main')}}";
-                   
-                       $(location).attr('href',href); 
-          
-
+                        location.reload();
                     }
                     else if(data.responseCode==400){//bad request
                        // $('#output').html(data.greeting);
@@ -227,19 +253,7 @@
                     return false;});
 
                 });
-                
-                function redes(dato)
-                {        
-                     $('#red_lista').empty();
-                    for(var i=0;i<dato.length;i++)
-                    {
-               
-                    
-                        $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#red_lista');
-                    }    
-          
-                }
-                
+
                 function iglesias(datos)
                 {
                     //console.log(datos.length);
@@ -249,7 +263,63 @@
                         $('<option value='+datos.id+'>'+datos.nombre+'</option>').appendTo('#iglesia_lista');
                     } 
                 }
-                function departamentos(datos)
+               
+            
+                 //lugares
+            function lug(dato)
+            {
+             
+                $('#lugar').empty();
+                for(var i=0; i<dato.length; i++)
+                {
+                      
+                    $('<option value='+dato[i].id+'>'+dato[i].nombre+'</option>').appendTo('#lugar');
+
+                }
+                
+            }
+            function redes(dato)
+            {        
+                $('#red_lista').empty();
+                     
+                $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
+                
+                for(var i=0;i<dato.length;i++)
+                {
+               
+                    
+                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#red_lista');
+                }    
+          
+                recargar_celula();
+            }
+            
+            function recargar_celula()
+            {
+                var nombre = $("#red_lista option:selected").val();  
+            
+                 var route = '{{path('servicio_celula',{'id': 'name'})}}';
+            
+                 var rutas = route.replace('name',nombre);
+         
+                 $.ajax(
+                        {url : rutas,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(celula);     
+            }
+            function celula(dato)
+            {
+                $('#celula_lista').empty();
+                for(var i=0;i<dato.length; i++)
+                {
+                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#celula_lista');
+                }
+            }
+         
+             function departamentos(datos)
                 {
                     for(var i=0; i<datos.length ; i++)
                     {
@@ -264,8 +334,13 @@
                  var id = $("#departamento_lista option:selected").val();              
                  var route = '{{path('servicio_provincia',{'id': 'nom'})}}';            
                  var rutas = route.replace('nom',id);         
-            
-                 $.getJSON(rutas,provincias);
+                 $.ajax(
+                        {   url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(provincias);
                 }
             
                 function provincias(dato)
@@ -289,7 +364,13 @@
                     var rutas = route.replace('id1', dep);                    
                     rutas = rutas.replace('id2', prov);
                     
-                    $.getJSON(rutas,distrito);
+                     $.ajax(
+                        {   url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(distrito);
                 }
                 function distrito(dato)
                 {
@@ -300,6 +381,5 @@
                         $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
                     }
                 }
-            
             </script>            
 {%endblock%}

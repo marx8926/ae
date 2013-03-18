@@ -7,3 +7,13 @@ enviar_addcelula:
   defaults: {_controller: AEEnviarBundle:Default:addcelula}
   requirements:
     _method: POST
+
+enviar_temacelula:
+  pattern: /temacelula
+  defaults: {_controller: AEEnviarBundle:Default:temacelula}
+  
+enviar_temacelula_updated:
+  pattern: /temacelula_updated
+  defaults: {_controller: AEEnviarBundle:Default:temacelula_updated}
+  requirements:
+    _method: POST

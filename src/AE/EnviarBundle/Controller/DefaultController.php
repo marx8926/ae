@@ -31,7 +31,7 @@ class DefaultController extends Controller
     }
     public function addcelulaAction()
     {
-          $request = $this->get('request');
+        $request = $this->get('request');
         $name=$request->request->get('formName');
         
         $datos = array();
@@ -106,6 +106,55 @@ class DefaultController extends Controller
                 
                 $em->persist($celula);
                 $em->flush();
+                
+                $this->getDoctrine()->getEntityManager()->commit();
+                
+                $return=array("responseCode"=>200,  "greeting"=>'OK');
+                
+            }catch(Exception $e)
+            {
+                     $this->getDoctrine()->getEntityManager()->rollback();
+                     $this->getDoctrine()->getEntityManager()->close();
+                     $return=array("responseCode"=>400, "greeting"=>"Bad");
+
+                     
+               throw $e;
+            }
+        }
+        else {
+            $return=array("responseCode"=>400, "greeting"=>"Bad");     
+        }
+               
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+    
+    }
+    
+    public function temacelulaAction()
+    {
+        return $this->render('AEEnviarBundle:Default:tema_celula.html.twig');
+    }
+    
+    public function temacelula_updateAction()
+    {
+         $request = $this->get('request');
+        $name=$request->request->get('formName');
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+
+       if($name!=NULL){
+                   
+            $familia = $datos['inputFam'];
+       
+            $em = $this->getDoctrine()->getEntityManager();         
+      
+            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            try
+            {
+                
                 
                 $this->getDoctrine()->getEntityManager()->commit();
                 
