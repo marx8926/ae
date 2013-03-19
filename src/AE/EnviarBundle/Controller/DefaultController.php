@@ -8,6 +8,8 @@ use AE\DataBundle\Entity\Iglesia;
 use AE\DataBundle\Entity\Ubigeo;
 use AE\DataBundle\Entity\Red;
 use AE\DataBundle\Entity\Celula;
+use AE\DataBundle\Entity\TemaCelula;
+use AE\DataBundle\Entity\Archivo;
 
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\TransactionRequiredException;
@@ -136,30 +138,63 @@ class DefaultController extends Controller
         return $this->render('AEEnviarBundle:Default:tema_celula.html.twig');
     }
     
-    public function temacelula_updateAction()
+    public function temacelula_updatedAction()
     {
-         $request = $this->get('request');
+        $request = $this->get('request');
+        
         $name=$request->request->get('formName');
+        /*
+        $return=array("responseCode"=>200, "greeting"=>$name);     
+               
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+        */
         
         $datos = array();
 
         parse_str($name,$datos);
+        
+        $titulo = NULL;
+        $author = NULL;
+        $descripcion = NULL;
+        $file = NULL;
 
        if($name!=NULL){
                    
-            $familia = $datos['inputFam'];
+            $titulo = $datos['titulo'];
+            $author = $datos['author'];
+            $descripcion = $datos['descripcion'];
+            $file = $datos['filename0'];
        
             $em = $this->getDoctrine()->getEntityManager();         
       
             $this->getDoctrine()->getEntityManager()->beginTransaction();
             try
             {
+                $celula = new TemaCelula();
+                $celula->setAutor($author);
+                $celula->setDescripcion($descripcion);
+                $celula->setTitutlo($titulo);
                 
+                $em->persist($celula);
+                $em->flush();
+                
+		$uploadFileName = date("Y-m-d-H-i-s").$file;
+		$url = "uploads/".$uploadFileName;
+                       
+                $archivo = new Archivo();
+                $archivo->setNombre($uploadFileName);
+                $archivo->setFecha(new \DateTime());
+                $archivo->setDireccion($url);
+                $archivo->setIdTemaCelula($celula);
+                
+                $em->persist($archivo);
+                $em->flush();
                 
                 $this->getDoctrine()->getEntityManager()->commit();
                 
-                $return=array("responseCode"=>200,  "greeting"=>'OK');
-                
+                $return=array("responseCode"=>200,  "greeting"=>'OK');   
             }catch(Exception $e)
             {
                      $this->getDoctrine()->getEntityManager()->rollback();
