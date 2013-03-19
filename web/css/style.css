@@ -2537,6 +2537,12 @@ ul.steps li.active span {
 	display:inline-block;
 	padding: 5px;
 }
+.alineados{
+	width: auto;
+	vertical-align: top;
+	display: inline-block;
+}
+
 /*------- CSS Uploader FileUp ----------*/
 
 .loadingIndicator {
@@ -2555,6 +2561,10 @@ ul.steps li.active span {
     bottom: 10px;
     right: 0;
     color: orange;
+}
+
+.lista-arch li{
+	margin-bottom: .5em;
 }
 
 /*------- Fin CSS Uploader FileUp ----------*/

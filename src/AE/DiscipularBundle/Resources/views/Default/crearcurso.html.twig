@@ -3,16 +3,30 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">           <!-- Scripts -->
  {% endblock %}
          
   {%block javascript %}
   	<script src="{{asset('js/jquery.js')}}"></script>
-	<script src="{{asset('js/bootstrap.js')}}"></script>
-	<script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
-  	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+			<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+  	
  	<script src="{{asset('js/FileUp.js')}}"></script>
             
     <script type="text/javascript">
@@ -118,42 +132,48 @@
             
 {% block content %}
     <div class="span9" id="registro_form">
-    <form id="myForm" name="myForm" method="POST" action="{{path( 'dicipular_registrar_curso') }}">
+    <form class="form-horizontal" id="myForm" name="myForm" method="POST" action="{{path( 'dicipular_registrar_curso') }}">
      		<fieldset>
 			<legend>Crear Curso</legend>
-            
-			<div>
-				<label >Titulo</label>
-				<input name="titulo" type="text" required>
-			</div>	
-			<div>
-			<div>
-				<label>Prerequisito</label>
-				<div id="select_curso">
+			<div class="control-group">
+				<label class="control-label">Titulo</label>
+				<div class="controls">
+					<input class="input-xxlarge" name="titulo" type="text" required>
 				</div>
-			
-				<label>Estado</label>
-				<select name="estado">
-					<option value="true">Activado</option>
-					<option value="false">Desactivado</option>
-				</select>
-			</div>	
-			<div>
-				<label>Descripcion</label>
-				<textarea name="descripcion" rows="15" cols="50" required></textarea>
 			</div>
-			
-					
+			<div class="control-group">
+				<label class="control-label">Prerequisito</label>
+				<div class="controls">
+					<div id="select_curso">
+					</div>
+				</div>
+				<br>
+				<label class="control-label">Estado</label>
+				<div class="controls">
+					<select name="estado">
+						<option value="true">Activado</option>
+						<option value="false">Desactivado</option>
+					</select>
+				</div>
+			</div>	
+			<div class="control-group">
+				<label class="control-label">Descripcion</label>
+				<div class="controls">
+					<textarea class="input-xxlarge" name="descripcion" rows="3" required></textarea>
+				</div>
+			</div>
 		</fieldset>
 		<fieldset>
 			<legend>Detalles de Sesiones</legend>
-			<div>
-				<label >Numero de Sesiones</label>
-				<input id="number" name="numsesiones" type="number" required>
+			<div class="control-group">
+				<label class="control-label">Numero de Sesiones</label>
+				<div class="controls">
+					<input id="number" name="numsesiones" type="number" required>
+				</div>
 			</div>
 			<br>
 			<div>
-				<ul id = "sesiones">				
+				<ul id = "sesiones" class="lista-arch">				
 				</ul>
 			</div>
 		</fieldset>
