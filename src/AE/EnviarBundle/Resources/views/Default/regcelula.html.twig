@@ -10,20 +10,20 @@
 {%block content %}
             <div class="span9" id="registro_form">
                 <form class="form-horizontal" action="{{path('enviar_addcelula')}}"  method="POST" id="myForm">
-                    <legend>Registro de Celulas</legend>
+                    <legend>Registro de Células</legend>
         
                     <fieldset> 
                         <div class="control-group">
                             <label class="control-label" >Familia</label>
                             <div class="controls">
-                                <input type="text" id="inputFam" name="inputFam" placeholder="Familia" class="input-xxlarge">
+                                <input type="text" id="inputFam" name="inputFam" placeholder="Familia" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]*$|">
                             </div>
                         </div>
             
                         <div class="control-group">
-                            <label class="control-label" >Telefono</label>
+                            <label class="control-label" >Teléfono</label>
                             <div class="controls">
-                                <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge">
+                                <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge" pattern="|^\d{9}$|" />
                             </div>
                         </div>
                 
@@ -63,7 +63,7 @@
         <div class="control-group">
             <label class="control-label">Dirección</label>
             <div class="controls">
-                <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion">
+                <input type="text" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" class="input-xxlarge" id="inputDireccion" name="inputDireccion">
                 
             </div>
         </div>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" > Departamento</label>
+            <label class="control-label" >Departamento</label>
             <div class="controls">
                 <select name="departamento_lista" id="departamento_lista" >
                     

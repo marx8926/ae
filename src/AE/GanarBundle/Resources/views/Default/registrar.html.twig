@@ -252,7 +252,7 @@
                 <legend>Usuario</legend>
 
                 <div class="control-group">
-                    <label class="control-label" >Usuario   </label>
+                    <label class="control-label" >Usuario</label>
                     <div class="controls">
                         <input type="text" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xxlarge">
                     </div>
@@ -261,7 +261,7 @@
                 <div class="control-group">     
                     <label class="control-label" >Email</label>      
                     <div class="controls">
-                        <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xxlarge">      
+                        <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xxlarge" pattern="[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+" />      
                     </div>      
                 </div>
        
@@ -321,7 +321,7 @@
                     <label class="control-label" >Fecha nacimiento</label>
                     <div class="controls">
                         <input type= "text" class="mask_date input-medium" id="inputFechaNacimiento" name="inputFechaNacimiento"/>
-                       <p class="help-block">Mes/Dia/Año</p>  
+                       <p class="help-block">Año/Mes/Día</p>  
                     </div>
                 </div>
                 
@@ -429,7 +429,7 @@
             <label class="control-label">Fecha</label>
             <div class="controls">
                 <input type= "text" class="mask_date input-medium" id="inputFechaConversion" name="inputFechaConversion"/>
-                <p class="help-block">Mes/Dia/Año</p>  
+                <p class="help-block">Año/Mes/Dia</p>  
             </div>
         </div>
         <div class="control-group">
