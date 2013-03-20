@@ -143,14 +143,7 @@ class DefaultController extends Controller
         $request = $this->get('request');
         
         $name=$request->request->get('formName');
-        /*
-        $return=array("responseCode"=>200, "greeting"=>$name);     
-               
-        $return=json_encode($return);//jscon encode the array
-        
-        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-        */
-        
+
         $datos = array();
 
         parse_str($name,$datos);
@@ -159,6 +152,7 @@ class DefaultController extends Controller
         $author = NULL;
         $descripcion = NULL;
         $file = NULL;
+        $tipo = NULL;
 
        if($name!=NULL){
                    
@@ -166,6 +160,7 @@ class DefaultController extends Controller
             $author = $datos['author'];
             $descripcion = $datos['descripcion'];
             $file = $datos['filename0'];
+            $tipo = $datos['tipo'];
        
             $em = $this->getDoctrine()->getEntityManager();         
       
@@ -176,6 +171,8 @@ class DefaultController extends Controller
                 $celula->setAutor($author);
                 $celula->setDescripcion($descripcion);
                 $celula->setTitutlo($titulo);
+                $celula->setTipo($tipo);
+                $celula->setFecha(new \DateTime());
                 
                 $em->persist($celula);
                 $em->flush();

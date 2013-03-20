@@ -42,8 +42,23 @@ class TemaCelula
      * @ORM\Column(name="descripcion", type="text", nullable=false)
      */
     private $descripcion;
+    
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
 
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="string", length=20, nullable=true)
+     */
+    private $tipo;
+    
+    
 
     /**
      * Get id
@@ -122,5 +137,53 @@ class TemaCelula
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+    
+    /**
+     * Get tipo
+     * 
+     * @return string
+     */
+    
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+    
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     * @return TemaCelula
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    
+        return $this;
+    }
+    
+      /**
+     * Get fecha
+     * 
+     * @return \Datetime
+     */
+    
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+    
+    /**
+     * Set fecha
+     *
+     * @param \Datetime $fecha
+     * @return TemaCelula
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    
+        return $this;
     }
 }
