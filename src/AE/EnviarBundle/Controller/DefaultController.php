@@ -214,4 +214,18 @@ class DefaultController extends Controller
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
     
     }
+
+    public function crear_class_cellAction()
+    {
+        return $this->render('AEEnviarBundle:Default:crearclase_celula.html.twig');
+    }
+    public function asistencia_celulaAction()
+    {
+        return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig');
+    }
+  
+    public function lista_clasesAction()
+    {
+        return $this->render('AEEnviarBundle:Default:lista_clases.html.twig');
+    }
 }
