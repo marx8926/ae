@@ -29,3 +29,9 @@ enviar_asistencia_celula:
 enviar_lista_clases:
   pattern: /lista_clases
   defaults: {_controller: AEEnviarBundle:Default:lista_clases}
+  
+enviar_lista_clases_descarga:
+  pattern: /lista_clases_descarga
+  defaults: {_controller: AEEnviarBundle:Default:lista_clases_descarga}
+  requirements:
+    _method: POST

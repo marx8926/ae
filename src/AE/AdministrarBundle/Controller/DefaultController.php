@@ -58,15 +58,9 @@ class DefaultController extends Controller
             $distrito = $datos['distrito_lista'];
             $latitud = $datos['latitud'];
             $longitud = $datos['longitud'];
-            
-            
-            
-            
+
             $em = $this->getDoctrine()->getEntityManager();         
-            
-            //   $em->persist($user);
-            //$em->flush();
-            
+   
             $iglesias = $em->getRepository('AEDataBundle:Iglesia');
             $iglesias = $iglesias->findAll();
             
