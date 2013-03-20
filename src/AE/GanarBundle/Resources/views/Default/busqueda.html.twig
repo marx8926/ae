@@ -1,11 +1,10 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        
-        <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">       
+        <link href="{{asset('css/bootstrap.css')}}">
+        <link href="{{asset('css/style.css')}}">
+        <link href="{{asset('css/bootstrap-responsive.css')}}">
+        <link href="{{asset('css/DT_bootstrap.css')}}">       
 {% endblock %}                 
 
 {% block content %} 
@@ -42,7 +41,7 @@
     	</div>
 	</div>
     <div class="form-horizontal">
-    	<button class="btn-success" id="vista" name="vista"> Vista</button>
+    	<button class="btn-success" id="vista" name="vista">Ver Datos</button>
     </div>
 </div>    
                  
@@ -276,7 +275,7 @@
                     { "mDataProp": "edad" },
                     { "mDataProp": "red" },
                     { "mDataProp": "celula"},
-                    { "mDataProp":"conversion"}
+                    { "mDataProp": "conversion"}
                 ],
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
