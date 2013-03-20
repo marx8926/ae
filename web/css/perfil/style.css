@@ -1,20 +1,20 @@
 section{
 	margin: 0 auto;
-	width: 750px;
+	width: 100%;
 }
 .form-perfil .en-linea li{
-	padding-right: 20px;
+	/*padding-right: 20px;*/
 	display: inline-block;
 }
 .form-perfil .en-linea-2 li{
-	padding-right: 40px;
+	/*padding-right: 40px;*/
 	display: inline-block;
 }
 .form-perfil .en-linea input{
-	width: 70px;
+	width: 80px;
 }
 .form-perfil .en-linea-2 input{
-	width: 152px;
+	width: 56%;
 }
 .form-perfil h2 {
     background: none repeat scroll 0 0 #F3F3F3;
@@ -53,7 +53,7 @@ section{
 .form-perfil input {
     height:20px; 
     padding:5px 8px;
-    width:500px; 
+    width:82%; 
 }
 .form-perfil textarea {
     padding:8px; 
@@ -64,18 +64,19 @@ section{
     border-radius:2px;
     color: #888;
     font-size: 12px;
-    padding-right:30px;
-    -moz-transition: padding .25s; 
+    /*padding-right:30px;*/
+    /*-moz-transition: padding .25s; 
     -webkit-transition: padding .25s; 
     -o-transition: padding .25s;
-    transition: padding .25s;
+    transition: padding .25s;*/
 }
+/*
 .form-perfil input:focus, .form-perfil textarea:focus {
     background: #fff; 
     border:1px solid #555; 
     box-shadow: 0 0 3px #aaa; 
     padding-right:80px;
-}
+}*/
 input.submit {
    	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#bbb));
    	background-image: -moz-linear-gradient(0% 100% 90deg, #BBBBBB, #FFFFFF);
