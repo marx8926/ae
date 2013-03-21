@@ -48,7 +48,7 @@ class DiscipularServicioController extends Controller
 		return new JsonResponse(array('aaData'=>$todo));
 	}
 	
-	public function getTablaPersonalAction()
+	public function getTablaMiembrosNoPersonalAction()
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	

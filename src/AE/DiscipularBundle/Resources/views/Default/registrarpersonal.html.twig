@@ -4,14 +4,12 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('css/modal.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">  
 {% endblock %}
 
 {% block content %}    
 
 <div class="span9" >
-	
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Registro Personal</h3>						
@@ -25,48 +23,32 @@
                     <input id='pdfbutton' type='button' value='PDF' class="btn-success">
                     <input id='excelbutton' type='button' value='Excel' class="btn-success">
             </form>
-    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
-        <thead>
-            <tr>
-                <th>ID</th>
-		<th>Nombres</th>
-		<th>Apellidos</th>
-		<th>Edad</th>
-		<th>Red</th>
-                <th>Célula</th>
-                <th>Conversión</th>
-            </tr>
-	</thead>
-	<tbody id="tablas1" name="tablas1" >
-	
-	</tbody>
-	
-    </table>
-    
-    </div>
-        </div>
-        
-        <form  method="POST" id="myForm">
-        <div class="form-horizontal">
-        
-            <button class="btn-success" id="registro" name="registro">Registro</button>
-        </div>
-        </form>
-        
-        
-        <a href="#dialog" name="modal">Simple Modal Window</a>
-        <div id="boxes">
-        <!-- #customize your modal window here -->
-        	<div id="dialog" class="window">
-        		<b>Testing of Modal Window</b> | 
-        		<!-- close button is defined as close class -->
-        		<a href="#" class="close">Close it</a>
-        	</div>
-        	<!-- Do not remove div#mask, because you'll need it to fill the whole screen --> 
-    		<div id="mask"></div>
+		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+		        <thead>
+		            <tr>
+						<th>ID</th>
+						<th>Nombres</th>
+						<th>Apellidos</th>
+						<th>Edad</th>
+						<th>Red</th>
+		                <th>Célula</th>
+		                <th>Conversión</th>
+		            </tr>
+				</thead>
+				<tbody id="tablas1" name="tablas1" ></tbody>
+		    </table>
 		</div>
+	</div>
+	<form  method="POST" id="myForm" action='{{path('dicipular_registrar_personal')}}'>
+		<div class="form-horizontal">
+			<input id="id" type="hidden" name="id">
+			<input type='button' class="btn-success" id="registro" name="registro" value="Registro">
+			<textarea id="descripcion" name="descripcion"></textarea>
+			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Finalizar">
 		</div>
- 
+	</form>
+	
+</div>
  
  {% endblock %}
       
@@ -92,6 +74,7 @@
 	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 	<script src="{{asset('js/ui.spinner.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>
+	<script src="{{asset('js/functiongen.js')}}"></script>
 	<script src="http://www.google.com/jsapi"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
 	<script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -211,48 +194,6 @@
          
 	$(document).ready(function() {
 		//select all the a tag with name equal to modal
-	    $('a[name=modal]').click(function(e) {
-	        //Cancel the link behavior
-	        e.preventDefault();
-	        //Get the A tag
-	        var id = $(this).attr('href');
-	     
-	        //Get the screen height and width
-	        var maskHeight = $(document).height();
-	        var maskWidth = $(window).width();
-	     
-	        //Set height and width to mask to fill up the whole screen
-	        $('#mask').css({'width':maskWidth,'height':maskHeight});
-	         
-	        //transition effect     
-	        $('#mask').fadeIn(1000);    
-	        $('#mask').fadeTo("slow",0.8);  
-	     
-	        //Get the window height and width
-	        var winH = $(window).height();
-	        var winW = $(window).width();
-	               
-	        //Set the popup window to center
-	        $(id).css('top',  winH/2-$(id).height()/2);
-	        $(id).css('left', winW/2-$(id).width()/2);
-	     
-	        //transition effect
-	        $(id).fadeIn(2000); 
-	     
-	    });
-	     
-	    //if close button is clicked
-	    $('.window .close').click(function (e) {
-	        //Cancel the link behavior
-	        e.preventDefault();
-	        $('#mask, .window').hide();
-	    });     
-	     
-	    //if mask is clicked
-	    $('#mask').click(function () {
-	        $(this).hide();
-	        $('.window').hide();
-	    });         
 	     
 		$("#pdfbutton").click(function(event) {
             $("#persona th").css("width","auto");
@@ -278,30 +219,24 @@
 	            var tds = $(trselected).find('td');
 	  			$.each(tds, function(index, item) {
 	            	values.push(item.innerHTML); 
-	            });               
-		});
-	            
-		//click handler para eliminar
-		$('#registro').click(function(){
-			var anSelected = fnGetSelected(oTable);
-			//oTable.fnDeleteRow(anSelected[0]);
-			if(anSelected.length !=0){
-				var tds = $(anSelected).find('td');
-				var val = [];
-				$.each(tds, function(index, item) {
-					val.push(item.innerHTML); 
-				}); 
-				var route = '{{path('consolidar_registro_update',{'id': 'nom'})}}';
-	            var rutas = route.replace('nom',val[0]);
-				$("#myForm").attr('action',rutas);
-				$.ajax({
-					url : rutas,
-					type: "POST",
-					async: false,
+	            });
+	  			var anSelected = fnGetSelected(oTable);
+				//oTable.fnDeleteRow(anSelected[0]);
+				if(anSelected.length !=0){
+					var tds = $(anSelected).find('td');
+					var val = [];
+					$.each(tds, function(index, item) {
+						val.push(item.innerHTML); 
+					});
+					 $("#id").val(val[0]);       
+					}
 				});
-			}
-		});
-	            
+		
+        $('#registro').click(function(){
+            $('#descripcion').focus();
+            });
+		//click handler para eliminar
+		enviar("myForm",sayhola,"pedro");
 	   
 		/* Build the DataTable with third column using our custom sort functions */
 		oTable = $('#persona').dataTable({
@@ -336,6 +271,10 @@
 			}
 		});	
 	 });
+
+	var sayhola = function(data){
+		console.log(data);
+		 }
          
 		        /* Get the rows which are currently selected */
 	function fnGetSelected( oTableLocal )

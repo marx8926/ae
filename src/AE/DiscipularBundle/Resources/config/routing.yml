@@ -8,7 +8,13 @@ dicipular_registrar_curso:
     requirements:
           _method: POST
 
-registrar_personal:
-    pattern:  /registrar_personal
+dicipular_administrar_personal:
+    pattern:  /administrar_personal
     defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:index }
+    
+dicipular_registrar_personal:
+    pattern:  /registrarpersonal
+    defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:RegistroPersonal }
+    requirements:
+          _method: POST
           

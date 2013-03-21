@@ -56,11 +56,11 @@ $(document).ready(function() {
 	$(".style-switcher a").click(function(e){
 		$('link').last().attr('href', "css/"+this.className+".css");
 	});
-	$("input[type=submit], button[type=submit]").click(function(e){
+	/*$("input[type=submit], button[type=submit]").click(function(e){
 		if(!$(this).parents('form').hasClass("wizard")){
 			$.jGrowl("Form was submitted and saved to database.");
 		}
-	});
+	});*/
 	if($('.flot').length > 0){
 	  	var sin = [], cos = [], tmp = [];
 		for (var i = 0; i < 16; i += 0.5) {
