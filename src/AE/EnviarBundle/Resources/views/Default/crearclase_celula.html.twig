@@ -1,122 +1,381 @@
 {% extends "::base.html.twig" %}
-        
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('css/DT_bootstrap.css')}}">
-{% endblock %}
+        
+        <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">  
+                 
+{% endblock %}                 
 
-{%block content %}
-<div class="span9" id="registro_form">
-    <form class="form-horizontal" action="{{path('enviar_addcelula')}}"  method="POST" id="myForm">
-       
-    </form>      
-</div>         
-{% endblock %}
-     
-{%block javascript %}
-	<script src="{{asset('js/jquery.js')}}"></script>
-	<script src="{{asset('js/less.js')}}"></script>
-	<script src="{{asset('js/bootstrap.js')}}"></script>
-	<script src="{{asset('js/bootstrap.min.js')}}"></script>
-	<script src="{{asset('js/jquery.peity.js')}}"></script>
-	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
-	<script src="{{asset('js/jquery.flot.js')}}"></script>
-	<script src="{{asset('js/jquery.color.js')}}"></script>
-	<script src="{{asset('js/jquery.flot.resize.js')}}"></script>
-	<script src="{{asset('js/custom.js')}}"></script>            
-    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
-    <script src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
-    <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
-    <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
-  	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
-	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->
+{% block content %} 
+<div class="span9" >
+	<div class="box">
+		<div class="box-head tabs">
+            <h3> Creación Célula</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                
+                    <input id='content' type='hidden' name='content' >
+                    <input id='title' type='hidden' name='title' >
+                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
+                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+            
+            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+            		<thead>
+                		<tr>
+                                    <th>ID</th>
+                                    <th>Titulo</th>
+                                    <th>Fecha</th>
+                                    <th>Autor</th>
+                                    <th>Tipo</th>
+                                    <th>Descripción</th>
+		                </tr>
+			</thead>
+			<tbody id="tablas1" name="tablas1" >
 	
-	<script type="text/javascript">
-           
-            
-               $(document).ready(function(){
-                   
-                   //lista de iglesias
-                        $.ajax(
-                        {url : '{{path('servicio_iglesia')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                        ).done(iglesias);
+			</tbody>
+                </table>
+
+                </form>
+    	</div>
+	</div>
+        <div class="form-horizontal">
+                <button class="btn-success" id="vista" name="vista"> Descargar </button>
+                <button class="btn-success" id="analizar" name="analizar"> Analizar </button>
+        </div>
+        
+</div>    
                  
-           
-                          //lista de redes
-                     $.ajax(
-                        {url : '{{path('servicio_red')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                      ).done(redes);
-           
+{% endblock %}
+      
+ {%block javascript %}
             
-                       //lista de departamentos
-                        $.ajax(
-                        {url : '{{path('servicio_region')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                        ).done(departamentos);
-                 
-    
-           
-                    $("#myForm").submit(function(){
-                    //get the url for the form
-                    var url=$("#myForm").attr("action");
-   
-                    //start send the post request
-                    $.post(url,{
-                        formName:$("#myForm").serialize(),
+            <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+			<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+			
+			<script src="https://www.google.com/jsapi"></script>
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
+            
+            <script type="text/javascript" charset="utf-8">
+			/* Default class modification */
+			$.extend( $.fn.dataTableExt.oStdClasses, {
+				"sSortAsc": "header headerSortDown",
+				"sSortDesc": "header headerSortUp",
+				"sSortable": "header"
+			} );
+
+			/* API method to get paging information */
+			$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+			{
+				return {
+					"iStart":         oSettings._iDisplayStart,
+					"iEnd":           oSettings.fnDisplayEnd(),
+					"iLength":        oSettings._iDisplayLength,
+					"iTotal":         oSettings.fnRecordsTotal(),
+					"iFilteredTotal": oSettings.fnRecordsDisplay(),
+					"iPage":          Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+					"iTotalPages":    Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+				};
+			}
+
+			/* Bootstrap style pagination control */
+			$.extend( $.fn.dataTableExt.oPagination, {
+				"bootstrap": {
+					"fnInit": function( oSettings, nPaging, fnDraw ) {
+						var oLang = oSettings.oLanguage.oPaginate;
+						var fnClickHandler = function ( e ) {
+							e.preventDefault();
+							if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) ) {
+								fnDraw( oSettings );
+							}
+						};
+
+						$(nPaging).addClass('pagination').append(
+							'<ul>'+
+								'<li class="prev disabled"><a href="#">&larr; '+oLang.sPrevious+'</a></li>'+
+								'<li class="next disabled"><a href="#">'+oLang.sNext+' &rarr; </a></li>'+
+							'</ul>'
+						);
+						var els = $('a', nPaging);
+						$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
+						$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+					},
+
+					"fnUpdate": function ( oSettings, fnDraw ) {
+						var iListLength = 5;
+						var oPaging = oSettings.oInstance.fnPagingInfo();
+						var an = oSettings.aanFeatures.p;
+						var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
+
+						if ( oPaging.iTotalPages < iListLength) {
+							iStart = 1;
+							iEnd = oPaging.iTotalPages;
+						}
+						else if ( oPaging.iPage <= iHalf ) {
+							iStart = 1;
+							iEnd = iListLength;
+						} else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
+							iStart = oPaging.iTotalPages - iListLength + 1;
+							iEnd = oPaging.iTotalPages;
+						} else {
+							iStart = oPaging.iPage - iHalf + 1;
+							iEnd = iStart + iListLength - 1;
+						}
+
+						for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
+							// Remove the middle elements
+							$('li:gt(0)', an[i]).filter(':not(:last)').remove();
+
+							// Add the new list items and their event handlers
+							for ( j=iStart ; j<=iEnd ; j++ ) {
+								sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
+								$('<li '+sClass+'><a href="#">'+j+'</a></li>')
+									.insertBefore( $('li:last', an[i])[0] )
+									.bind('click', function (e) {
+										e.preventDefault();
+										oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
+										fnDraw( oSettings );
+									} );
+							}
+
+							// Add / remove disabled classes from the static elements
+							if ( oPaging.iPage === 0 ) {
+								$('li:first', an[i]).addClass('disabled');
+							} else {
+								$('li:first', an[i]).removeClass('disabled');
+							}
+
+							if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 ) {
+								$('li:last', an[i]).addClass('disabled');
+							} else {
+								$('li:last', an[i]).removeClass('disabled');
+							}
+						}
+					}
+				}
+			} );
+
+			/* Table initialisation */
+			/*$(document).ready(function() {
+				$('#example').dataTable( {
+					"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ records per page"
+					}
+				} );
+			} );*/
+		</script>
+ 
+ 
+    <script type="text/javascript">
+          
+          
+    /* Define two custom functions (asc and desc) for string sorting */
+        jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
+				return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+	};
+			
+	jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
+				return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+	};
+         var trselected; 
+	 var oTable;
+         
+        var values = [];
+         
+	$(document).ready(function() {
+            
+        $("#vista").css({"display":"none"});
+        $("#analizar").css({"display":"none"});
+        
+		$("#pdfbutton").click(function(event) {
+            $("#persona th").css("width","auto");
+        	$("#content").val($("#persona").html());
+        	$("#title").val($("h3").html());
+        	//$("#content").val($("#lol").html() + $("tbody").html());
+            $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#form").submit();
+        });
+
+        $("#excelbutton").click(function(event) {
+        	$("#content").val("<table>" + $("#persona").html() + "</table>");
+	$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+	$("#form").submit();
+        });
+        
+            $('#persona tbody').click(function(event){
+                $(oTable.fnSettings().aoData).each(function(){
+                    $(this.nTr).removeClass('row_selected');
+                });
+                
+                $(event.target.parentNode).addClass('row_selected');
+                
+                trselected = $(event.target.parentNode);
+                
+                var tds = $(trselected).find('td');
+  
+                $.each(tds, function(index, item) {
+                    values.push(item.innerHTML); 
+                });      
+                
+                $("#vista").css({"display":"block"});
+                $("#analizar").css({"display":"block"});
+            });
+            
+            //click handler para descargar archivo
+            $('#vista').click(function(){
+                var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !=0)
+                {
+                    console.log(anSelected);
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                        val.push(item.innerHTML); 
+                    }); 
+ 
+                    var url='{{path('enviar_lista_clases_descarga')}}';
+  
+                     $.post(url,{
+                        formName:val,
                         other:"attributes"
                     },function(data){
+                        
                     //the response is in the data variable
-                   
-   
+                    console.log(data);
+              
                     if(data.responseCode==200 ){           
-                       // $('#output').html(data.greeting);
-                        //$('#output').css("color","red");
-                        alert('Registro Completado');
-                        location.reload();
+
+                       var ruta = "{{asset(':es')}}";
+                       var url = ruta.replace(':es',data.greeting);
+                       
+                       window.open(url);
                     }
                     else if(data.responseCode==400){//bad request
-                       // $('#output').html(data.greeting);
-                       // $('#output').css("color","red");
-                       alert('Error');
+                       alert('Error bad request');
                         }
-                    else{
-                        
+                    else{                        
                         if(data.responseCode==500)
                         {
-                            alert('Solo se puede registrar una iglesia');
+                            alert('Error bad request');
                         }
-                        //if we got to this point we know that the controller
-                        //did not return a json_encoded array. We can assume that           
-                        //an unexpected PHP error occured
                         else alert("An unexpeded error occured.");
-
-                        //if you want to print the error:
-                        //$('#output').html(data);
                         }
                     }
-       
                     );
+                    
+                }
+            });
+            
+            //click handler para analizar
+            $('#analizar').click(function(){
+                var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !=0)
+                {
+                    console.log(anSelected);
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                        val.push(item.innerHTML); 
+                    }); 
+ 
+                    var rutas='{{path('consolidar_activar_nuevo')}}';
+              
+                }
+            });
+   
+            /* Build the DataTable with third column using our custom sort functions */
+            oTable = $('#persona').dataTable( {
+                                    
+                "bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": '{{path('servicio_enviar_temas_celula')}}',
+                "aoColumns": [
+                    { "mDataProp": "id" },
+                    { "mDataProp": "titulo" },
+                    { "mDataProp": "fecha" },
+                    { "mDataProp": "autor" },
+                    { "mDataProp": "tipo"},
+                    { "mDataProp": "descripcion" }
+                ],
+		"aaSorting": [ [0,'asc'], [1,'asc'] ],
+		"aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+		],"sDom": 'T<"clear">lfrtip',
+                "oTableTools": {
+			"sRowSelect": "single",
+                        "fnRowSelected": function ( node ) {
+                            var s=$(node).children();
+                            alert("Selected Row : " + s[0]);
+                        }
+		},
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ registros por página"
+					}
+            } );	
+   
+            /*
+                $('#persona tbody td').click(function(){
+                var theRow = $(this).parent().index();
+                console.log(theRow);
+            });
+              */   
 
-
-                    //It is silly. But you should not write 'json' or any thing as the fourth parameter. It should be undefined. I'll explain it futher down
-
-                    //we dont what the browser to submit the form
-                    return false;});
-
-                });
+            /* Add a click handler for the delete row */
+            /*$('#delete').click( function() {
+		var anSelected = fnGetSelected( oTable );
+		oTable.fnDeleteRow( anSelected[0] );
            
-            </script>            
-{%endblock%}
+            } );
+            */
+            
+	 });
+         
+        /* Get the rows which are currently selected */
+function fnGetSelected( oTableLocal )
+{
+	var aReturn = new Array();
+	var aTrs = oTableLocal.fnGetNodes();
+	
+	for ( var i=0 ; i<aTrs.length ; i++ )
+	{
+            
+		if ( $(aTrs[i]).hasClass('row_selected') )
+		{
+			aReturn.push( aTrs[i] );
+		}
+	}
+	return aReturn;
+}
+       
+       </script>
+{%endblock %} 

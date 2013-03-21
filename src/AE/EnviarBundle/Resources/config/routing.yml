@@ -17,15 +17,7 @@ enviar_temacelula_updated:
   defaults: {_controller: AEEnviarBundle:Default:temacelula_updated}
   requirements:
     _method: POST
-    
-enviar_crear_class_cell:
-  pattern: /crear_class_cell
-  defaults: {_controller: AEEnviarBundle:Default:crear_class_cell}
-  
-enviar_asistencia_celula:
-  pattern: /asistencia_celula
-  defaults: {_controller: AEEnviarBundle:Default:asistencia_celula}
-  
+
 enviar_lista_clases:
   pattern: /lista_clases
   defaults: {_controller: AEEnviarBundle:Default:lista_clases}
@@ -35,3 +27,11 @@ enviar_lista_clases_descarga:
   defaults: {_controller: AEEnviarBundle:Default:lista_clases_descarga}
   requirements:
     _method: POST
+    
+enviar_crear_class_cell:
+  pattern: /crear_class_cell
+  defaults: {_controller: AEEnviarBundle:Default:crear_class_cell}
+  
+enviar_asistencia_celula:
+  pattern: /asistencia_celula
+  defaults: {_controller: AEEnviarBundle:Default:asistencia_celula}

@@ -267,3 +267,7 @@ servicio_consolidado_seguir:
 servicio_enviar_temas_celula:
   pattern: /temas_celula
   defaults: {_controller: AEServiciosBundle:Default:temas_celula}
+  
+servicio_enviar_clase_celula:
+  pattern: /clase_celula
+  defaults: {_controller: AEServiciosBundle:Default:clase_celula}
