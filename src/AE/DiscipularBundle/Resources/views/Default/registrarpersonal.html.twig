@@ -1,0 +1,353 @@
+{% extends "::base.html.twig" %}
+        
+{% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/modal.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">  
+{% endblock %}
+
+{% block content %}    
+
+<div class="span9" >
+	
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Registro Personal</h3>						
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                
+                    <input id='content' type='hidden' name='content' >
+                    <input id='title' type='hidden' name='title' >
+                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
+                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+            </form>
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+        <thead>
+            <tr>
+                <th>ID</th>
+		<th>Nombres</th>
+		<th>Apellidos</th>
+		<th>Edad</th>
+		<th>Red</th>
+                <th>Célula</th>
+                <th>Conversión</th>
+            </tr>
+	</thead>
+	<tbody id="tablas1" name="tablas1" >
+	
+	</tbody>
+	
+    </table>
+    
+    </div>
+        </div>
+        
+        <form  method="POST" id="myForm">
+        <div class="form-horizontal">
+        
+            <button class="btn-success" id="registro" name="registro">Registro</button>
+        </div>
+        </form>
+        
+        
+        <a href="#dialog" name="modal">Simple Modal Window</a>
+        <div id="boxes">
+        <!-- #customize your modal window here -->
+        	<div id="dialog" class="window">
+        		<b>Testing of Modal Window</b> | 
+        		<!-- close button is defined as close class -->
+        		<a href="#" class="close">Close it</a>
+        	</div>
+        	<!-- Do not remove div#mask, because you'll need it to fill the whole screen --> 
+    		<div id="mask"></div>
+		</div>
+		</div>
+ 
+ 
+ {% endblock %}
+      
+ {%block javascript %}
+ 	
+ 	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>
+	<script src="http://www.google.com/jsapi"></script>
+	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+	<script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
+	
+	<script type="text/javascript" charset="utf-8">
+		/* Default class modification */
+		$.extend( $.fn.dataTableExt.oStdClasses, {
+			"sSortAsc": "header headerSortDown",
+			"sSortDesc": "header headerSortUp",
+			"sSortable": "header"
+		} );
+	
+		/* API method to get paging information */
+		$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+		{
+			return {
+				"iStart":         oSettings._iDisplayStart,
+				"iEnd":           oSettings.fnDisplayEnd(),
+				"iLength":        oSettings._iDisplayLength,
+				"iTotal":         oSettings.fnRecordsTotal(),
+				"iFilteredTotal": oSettings.fnRecordsDisplay(),
+				"iPage":          Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+				"iTotalPages":    Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+			};
+		}
+	
+		/* Bootstrap style pagination control */
+		$.extend( $.fn.dataTableExt.oPagination, {
+			"bootstrap": {
+				"fnInit": function( oSettings, nPaging, fnDraw ) {
+					var oLang = oSettings.oLanguage.oPaginate;
+					var fnClickHandler = function ( e ) {
+						e.preventDefault();
+						if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) )
+							fnDraw( oSettings );
+					};
+	
+					$(nPaging).addClass('pagination').append(
+						'<ul>'+
+							'<li class="prev disabled"><a href="#">&larr; '+oLang.sPrevious+'</a></li>'+
+							'<li class="next disabled"><a href="#">'+oLang.sNext+' &rarr; </a></li>'+
+						'</ul>'
+					);
+					var els = $('a', nPaging);
+					$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
+					$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+				},
+	
+				"fnUpdate": function ( oSettings, fnDraw ) {
+					var iListLength = 5;
+					var oPaging = oSettings.oInstance.fnPagingInfo();
+					var an = oSettings.aanFeatures.p;
+					var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
+	
+					if ( oPaging.iTotalPages < iListLength) {
+						iStart = 1;
+						iEnd = oPaging.iTotalPages;
+					}
+					else if ( oPaging.iPage <= iHalf ) {
+						iStart = 1;
+						iEnd = iListLength;
+					} else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
+						iStart = oPaging.iTotalPages - iListLength + 1;
+						iEnd = oPaging.iTotalPages;
+					} else {
+						iStart = oPaging.iPage - iHalf + 1;
+						iEnd = iStart + iListLength - 1;
+					}
+	
+					for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
+						// Remove the middle elements
+						$('li:gt(0)', an[i]).filter(':not(:last)').remove();
+	
+						// Add the new list items and their event handlers
+						for ( j=iStart ; j<=iEnd ; j++ ) {
+							sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
+							$('<li '+sClass+'><a href="#">'+j+'</a></li>')
+								.insertBefore( $('li:last', an[i])[0] )
+								.bind('click', function (e) {
+									e.preventDefault();
+									oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
+									fnDraw( oSettings );
+								} );
+						}
+	
+						// Add / remove disabled classes from the static elements
+						if ( oPaging.iPage === 0 )
+							$('li:first', an[i]).addClass('disabled');
+						else
+							$('li:first', an[i]).removeClass('disabled');
+	
+						if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 )
+							$('li:last', an[i]).addClass('disabled');
+						else
+							$('li:last', an[i]).removeClass('disabled');
+					}
+				}
+			}
+		});
+ 
+ 	</script>
+    <script type="text/javascript">
+          
+          
+    /* Define two custom functions (asc and desc) for string sorting */
+        jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
+				return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+	};
+			
+	jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
+				return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+	};
+	
+     var trselected; 
+	 var oTable;
+	 var values = [];
+         
+	$(document).ready(function() {
+		//select all the a tag with name equal to modal
+	    $('a[name=modal]').click(function(e) {
+	        //Cancel the link behavior
+	        e.preventDefault();
+	        //Get the A tag
+	        var id = $(this).attr('href');
+	     
+	        //Get the screen height and width
+	        var maskHeight = $(document).height();
+	        var maskWidth = $(window).width();
+	     
+	        //Set height and width to mask to fill up the whole screen
+	        $('#mask').css({'width':maskWidth,'height':maskHeight});
+	         
+	        //transition effect     
+	        $('#mask').fadeIn(1000);    
+	        $('#mask').fadeTo("slow",0.8);  
+	     
+	        //Get the window height and width
+	        var winH = $(window).height();
+	        var winW = $(window).width();
+	               
+	        //Set the popup window to center
+	        $(id).css('top',  winH/2-$(id).height()/2);
+	        $(id).css('left', winW/2-$(id).width()/2);
+	     
+	        //transition effect
+	        $(id).fadeIn(2000); 
+	     
+	    });
+	     
+	    //if close button is clicked
+	    $('.window .close').click(function (e) {
+	        //Cancel the link behavior
+	        e.preventDefault();
+	        $('#mask, .window').hide();
+	    });     
+	     
+	    //if mask is clicked
+	    $('#mask').click(function () {
+	        $(this).hide();
+	        $('.window').hide();
+	    });         
+	     
+		$("#pdfbutton").click(function(event) {
+            $("#persona th").css("width","auto");
+        	$("#content").val($("#persona").html());
+        	$("#title").val($("h3").html());
+            $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#form").submit();
+        });
+
+        $("#excelbutton").click(function(event) {
+        	$("#content").val("<table>" + $("#persona").html() + "</table>");
+			$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+			$("#form").submit();
+		        });
+		            
+		        
+		$('#persona tbody').click(function(event){
+			$(oTable.fnSettings().aoData).each(function(){
+				$(this.nTr).removeClass('row_selected');
+	 		});
+	        $(event.target.parentNode).addClass('row_selected');
+	        	trselected = $(event.target.parentNode);
+	            var tds = $(trselected).find('td');
+	  			$.each(tds, function(index, item) {
+	            	values.push(item.innerHTML); 
+	            });               
+		});
+	            
+		//click handler para eliminar
+		$('#registro').click(function(){
+			var anSelected = fnGetSelected(oTable);
+			//oTable.fnDeleteRow(anSelected[0]);
+			if(anSelected.length !=0){
+				var tds = $(anSelected).find('td');
+				var val = [];
+				$.each(tds, function(index, item) {
+					val.push(item.innerHTML); 
+				}); 
+				var route = '{{path('consolidar_registro_update',{'id': 'nom'})}}';
+	            var rutas = route.replace('nom',val[0]);
+				$("#myForm").attr('action',rutas);
+				$.ajax({
+					url : rutas,
+					type: "POST",
+					async: false,
+				});
+			}
+		});
+	            
+	   
+		/* Build the DataTable with third column using our custom sort functions */
+		oTable = $('#persona').dataTable({
+			"bProcessing": true,
+			"bServerSide": false,
+			"bDestroy": true,
+			"sAjaxSource": '{{path('_tabla_miembros')}}',
+			"aoColumns": [
+		            { "mDataProp": "id" },
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos" },
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "red" },
+                    { "mDataProp": "celula"},
+                    { "mDataProp":"fecha"}
+		                ],
+			"aaSorting": [ [0,'asc'], [1,'asc'] ],
+			"aoColumnDefs": [
+	        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
+			"sDom": 'T<"clear">lfrtip',
+	        "oTableTools": {
+				"sRowSelect": "single",
+	            "fnRowSelected": function ( node ) {
+	            	var s=$(node).children();
+	                alert("Selected Row : " + s[0]);
+	            }
+			},
+			"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+			"sPaginationType": "bootstrap",
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ registros por página"
+			}
+		});	
+	 });
+         
+		        /* Get the rows which are currently selected */
+	function fnGetSelected( oTableLocal )
+	{
+		var aReturn = new Array();
+		var aTrs = oTableLocal.fnGetNodes();
+		
+		for ( var i=0 ; i<aTrs.length ; i++ )	            
+			if ( $(aTrs[i]).hasClass('row_selected'))
+				aReturn.push( aTrs[i] );
+		return aReturn;
+	}
+
+    </script>
+{%endblock %} 

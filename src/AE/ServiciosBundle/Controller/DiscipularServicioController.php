@@ -33,4 +33,32 @@ class DiscipularServicioController extends Controller
 	    $result = $result."</select>";
 		return new Response($result);
 	}
+	
+	public function getTablaMiembrosAction()
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$sql = "select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha from miembro inner join persona on persona.id = miembro.id where miembro.activo=true and NOT EXISTS (SELECT * FROM docente as d where d.id_persona = miembro.id)";
+	
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+	
+		$todo = $smt->fetchAll();
+	
+		return new JsonResponse(array('aaData'=>$todo));
+	}
+	
+	public function getTablaPersonalAction()
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$sql = "select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha from miembro inner join persona on persona.id = miembro.id where miembro.activo=true and NOT EXISTS (SELECT * FROM docente as d where d.id_persona = miembro.id)";
+	
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+	
+		$todo = $smt->fetchAll();
+	
+		return new JsonResponse(array('aaData'=>$todo));
+	}
 }
