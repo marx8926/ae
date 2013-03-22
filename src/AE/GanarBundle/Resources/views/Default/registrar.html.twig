@@ -255,7 +255,7 @@
                 <div class="control-group">
                     <label class="control-label" >Usuario</label>
                     <div class="controls">
-                        <input type="text" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xxlarge" pattern="|^[a-zA-Z0-9]+$|" required />
+                        <input type="text" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xxlarge" pattern="|^[a-zA-Z0-9]+$|" required autofocus />
                     </div>
                 </div>
         
@@ -285,14 +285,14 @@
                 <div class="control-group" >
                     <label class="control-label"> Nombres </label>
                     <div class="controls">
-                        <input type="text" id="inputNombres" name="inputNombres" placeholder="Nombres" class="input-xxlarge" required="true" pattern="|^[a-zA-Z ñÑáéíóúüç]*$|" required />
+                        <input type="text" id="inputNombres" name="inputNombres" placeholder="Nombres" class="input-xxlarge" required="true" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required />
                     </div>
                 </div>
         
                 <div class="control-group" >
                     <label class="control-label">Apellidos</label>
                     <div class="controls">
-                        <input type="text" id="inputApellidos" name="inputApellidos" placeholder="Apellidos" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]*$|" required />
+                        <input type="text" id="inputApellidos" name="inputApellidos" placeholder="Apellidos" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required />
                     </div>
                 </div>
                 
@@ -327,21 +327,21 @@
                 <div class="control-group">
                     <label class="control-label" >Edad</label>
                     <div class="controls">
-                        <input type="text" class="input-large" placeholder="Edad" id="inputEdad" name="inputEdad" required pattern="[0-9]+"/>
+                        <input type="text" class="input-large" placeholder="Edad" id="inputEdad" name="inputEdad" required pattern="[0-9]{2}"/>
                     </div>
                 </div>
         
                 <div class="control-group">
                     <label class="control-label" >Teléfono</label>
                     <div class="controls">
-                        <input type="text" class="input-large" placeholder="Telefono" id="inputTelefono" name="inputTelefono" pattern="[0-9]+"/>
+                        <input type="text" class="input-large" placeholder="Telefono" id="inputTelefono" name="inputTelefono" pattern="[0-9]{9}"/>
                     </div>
                 </div>
         
                 <div class="control-group">
                     <label class="control-label" >Celular</label>
                     <div class="controls">
-                        <input type="text" class="input-large" placeholder="Celular" id="inputCelular" name="inputCelular" pattern="[0-9]+" />
+                        <input type="text" class="input-large" placeholder="Celular" id="inputCelular" name="inputCelular" pattern="[0-9]{9}" />
                     </div>
                 </div>
 
@@ -353,7 +353,7 @@
                 <div class="control-group">
                     <label class="control-label">Dirección</label>
                     <div class="controls">
-                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required />
+                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" required />
                     </div>
                 </div>
         
@@ -409,7 +409,7 @@
         <div class="control-group">
             <label class="control-label" >Red</label>
             <div class="controls">
-                <select id="red_lista" name="red_lista" >
+                <select id="red_lista" name="red_lista" required>
                    
                 </select>
             </div>
@@ -418,7 +418,7 @@
         <div class="control-group">
             <label class="control-label">Célula</label>
             <div class="controls">
-                <select id="celula_lista" name="celula_lista" >
+                <select id="celula_lista" name="celula_lista" required>
                    
                 </select>
             </div>
@@ -493,4 +493,4 @@
         
 
 </div>
-{% endblock %}      
+{% endblock %}

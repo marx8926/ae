@@ -16,21 +16,21 @@
                         <div class="control-group">
                             <label class="control-label" >Familia</label>
                             <div class="controls">
-                                <input type="text" id="inputFam" name="inputFam" placeholder="Familia" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]*$|">
+                                <input type="text" id="inputFam" name="inputFam" placeholder="Familia" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required autofocus>
                             </div>
                         </div>
             
                         <div class="control-group">
                             <label class="control-label" >Teléfono</label>
                             <div class="controls">
-                                <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge" pattern="|^\d{9}$|" />
+                                <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge" pattern="|^\d{9}$|" required />
                             </div>
                         </div>
                 
                         <div class="control-group">
                             <label class="control-label" >Tipo de Célula  </label>
                             <div class="controls">
-                                <select id="tipo_cell" name="tipo_cell" >
+                                <select id="tipo_cell" name="tipo_cell" required >
                                     <option value="0">Evangelistica</option>
                                     <option value="1">Mentoreo</option>
                                 </select>
@@ -40,7 +40,7 @@
                         <div class="control-group">
                             <label class="control-label" for="iglesia">Iglesia</label>
                             <div class="controls">
-                                <select id="iglesia_lista" name="iglesia_lista" >
+                                <select id="iglesia_lista" name="iglesia_lista" required >
                    
                                 </select>
                             </div>
@@ -49,7 +49,7 @@
                         <div class="control-group">
                             <label class="control-label" for="red">Red</label>
                             <div class="controls">
-                                <select id="red_lista" name="red_lista" >
+                                <select id="red_lista" name="red_lista" required >
                    
                                 </select>
                             </div>
@@ -63,7 +63,7 @@
         <div class="control-group">
             <label class="control-label">Dirección</label>
             <div class="controls">
-                <input type="text" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" class="input-xxlarge" id="inputDireccion" name="inputDireccion">
+                <input type="text" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required>
                 
             </div>
         </div>
@@ -76,7 +76,7 @@
         <div class="control-group">
             <label class="control-label" >Departamento</label>
             <div class="controls">
-                <select name="departamento_lista" id="departamento_lista" >
+                <select name="departamento_lista" id="departamento_lista" required >
                     
                 </select>
             </div>
@@ -85,7 +85,7 @@
         <div class="control-group">
             <label class="control-label" >Provincia</label>
             <div class="controls">
-                <select name="provincia_lista" id="provincia_lista">
+                <select name="provincia_lista" id="provincia_lista" required>
                    
                 </select>
             </div>
@@ -94,7 +94,7 @@
         <div class="control-group">
             <label class="control-label">Distrito</label>
             <div class="controls">
-                <select name="distrito_lista" id="distrito_lista">
+                <select name="distrito_lista" id="distrito_lista" required>
                     
                 </select>
             </div>

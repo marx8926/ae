@@ -3,8 +3,8 @@
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link href="{{asset('css/DT_bootstrap.css')}}">  
+        <link href="{{asset('css/bootstrap-responsive.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">  
 {% endblock %}
 
 {%block content %}    
@@ -20,7 +20,6 @@
                 <input id='title' type='hidden' name='title' >
 				<input id='pdfbutton' type='button' value='PDF' class="btn-success">
 				<input id='excelbutton' type='button' value='Excel' class="btn-success">
-
     <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
         <thead>
             <tr>
@@ -43,7 +42,7 @@
     	</div>
 	</div>
     <div class="form-horizontal">
-    	<button class="btn-success" id="vista" name="vista"> Vista</button>
+    	<button class="btn-success" id="vista" name="vista">Ver Datos</button>
     </div>
  </div>    
 {% endblock %}

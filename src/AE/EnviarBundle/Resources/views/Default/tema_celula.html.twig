@@ -16,28 +16,28 @@
                         <div class="control-group">
                             <label class="control-label" >Titulo</label>
                             <div class="controls">
-                                <input type="text" id="titulo" name="titulo" placeholder="Titulo" class="input-xxlarge">
+                                <input type="text" id="titulo" name="titulo" placeholder="Titulo" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required autofocus>
                             </div>
                         </div>
             
                         <div class="control-group">
                             <label class="control-label" >Autor</label>
                             <div class="controls">
-                                <input type="text" id="author" name="author" placeholder="Autor" class="input-xxlarge">
+                                <input type="text" id="author" name="author" placeholder="Autor" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required>
                             </div>
                         </div>
                             
                         <div class="control-group">
                             <label class="control-label" >Descripción</label>
                             <div class="controls">
-                                <textarea rows="5" id="descripcion" name="descripcion" placeholder="Descripción" class="input-xxlarge" required=""> </textarea>
+                                <textarea rows="5" id="descripcion" name="descripcion" placeholder="Descripción" class="input-xxlarge" required> </textarea>
                             </div>
                         </div>
                             
                         <div class="control-group">
                             <label class="control-label">Tipo</label>
                             <div class="controls">
-                                <select id="tipo"  name="tipo">
+                                <select id="tipo"  name="tipo" required>
                                     <option value="Evangelistica">Evangelistica</option>
                                     <option value="Discipulado">Discipulado</option>
                                 </select>

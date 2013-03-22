@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
         
-        {% block stylesheets %}
+{% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -9,7 +9,7 @@
 {% endblock %}
         
 {% block content %}
-            <div class="span9" id="registro_form">
+<div class="span9" id="registro_form">
     <form class="form-horizontal" action="{{path('administrar_updateiglesia')}}"  method="POST" id="myForm">
         
          <h4>{{id}} </h4>
@@ -19,15 +19,14 @@
             <div class="control-group">
                 <label class="control-label" >Nombre </label>
                 <div class="controls">
-                    <input type="text" id="inputNom" name="inputNom" placeholder="Nombre" class="input-xxlarge" required="nombre"
-                           pattern="|^[a-zA-Z ñÑáéíóúüç]*$|" autofocus="true" maxlength="200">
+                    <input type="text" id="inputNom" name="inputNom" placeholder="Nombre" class="input-xxlarge" required="nombre" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" autofocus="true" maxlength="200">
                 </div>
             </div>
                 
             <div class="control-group">
                 <label class="control-label" >Telefono   </label>
                 <div class="controls">
-                    <input type="text" id="inputTelef" name="inputTelef" placeholder="Telefono" class="input-xxlarge" pattern="|^\d{9}$|" required="telefono">
+                    <input type="text" id="inputTelef" name="inputTelef" placeholder="Telefono" class="input-xxlarge" pattern="|^\d{9}$|" required>
                 </div>
             </div>
                 
@@ -53,7 +52,7 @@
         <div class="control-group">
             <label class="control-label" > Departamento</label>
             <div class="controls">
-                <select name="departamento_lista" id="departamento_lista" >
+                <select name="departamento_lista" id="departamento_lista" required >
                     
                 </select>
             </div>
@@ -62,7 +61,7 @@
         <div class="control-group">
             <label class="control-label" >Provincia</label>
             <div class="controls">
-                <select name="provincia_lista" id="provincia_lista">
+                <select name="provincia_lista" id="provincia_lista" required>
                    
                 </select>
             </div>
@@ -71,7 +70,7 @@
         <div class="control-group">
             <label class="control-label">Distrito</label>
             <div class="controls">
-                <select name="distrito_lista" id="distrito_lista">
+                <select name="distrito_lista" id="distrito_lista" required>
                     
                 </select>
             </div>

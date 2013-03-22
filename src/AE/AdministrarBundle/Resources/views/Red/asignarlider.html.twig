@@ -17,7 +17,7 @@
                     <div class="control-group">
                         <label class="control-label" >Abreviatura</label>
                         <div class="controls">
-                            <select id="inputNom" name="inputNom" >
+                            <select id="inputNom" name="inputNom" required>
                             
                             </select>
                         </div>
@@ -26,7 +26,7 @@
                     <div class="control-group">
                         <label class="control-label" >Tipo de Red  </label>
                         <div class="controls">
-                            <select id="tipo_red" name="tipo_red" disabled="true" >
+                            <select id="tipo_red" name="tipo_red" disabled="true" required >
                                 <option value="0">Mixta</option>
                                 <option value="1">Hombres</option>
                                 <option value="2">Mujeres</option>
@@ -39,7 +39,7 @@
                     <div class="control-group">
                         <label class="control-label" for="iglesia">Iglesia</label>
                         <div class="controls">
-                            <select id="iglesia_lista" name="iglesia_lista" disabled="true" >
+                            <select id="iglesia_lista" name="iglesia_lista" disabled="true" required >
                    
                             </select>
                         </div>
@@ -52,7 +52,7 @@
                 <div class="control-group">
                     <label class="control-label">Dirección</label>
                     <div class="controls">
-                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" >
+                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" required >
                     </div>
                 </div>
                 <div class="control-group">
@@ -62,9 +62,9 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" > Departamento</label>
+                    <label class="control-label" >Departamento</label>
                     <div class="controls">
-                        <select name="departamento_lista" id="departamento_lista" disabled="true">
+                        <select name="departamento_lista" id="departamento_lista" disabled="true" required>
                     
                         </select>
                     </div>
@@ -73,7 +73,7 @@
                 <div class="control-group">
                     <label class="control-label" >Provincia</label>
                     <div class="controls">
-                        <select name="provincia_lista" id="provincia_lista" disabled="true">
+                        <select name="provincia_lista" id="provincia_lista" disabled="true" required>
                    
                         </select>
                     </div>
@@ -82,7 +82,7 @@
                 <div class="control-group">
                     <label class="control-label">Distrito</label>
                     <div class="controls">
-                        <select name="distrito_lista" id="distrito_lista" disabled="true">
+                        <select name="distrito_lista" id="distrito_lista" disabled="true" required>
                     
                         </select>
                     </div>        
