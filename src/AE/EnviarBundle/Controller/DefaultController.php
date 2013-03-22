@@ -442,8 +442,8 @@ class DefaultController extends Controller
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type             
             
     }
-    public function asistencia_celulaAction()
+    public function asistencia_celulaAction($id)
     {
-        return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig');
+        return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig',array('id'=>$id));
     }
 }

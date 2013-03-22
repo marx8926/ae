@@ -1171,4 +1171,40 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        
        return new JsonResponse(array('aaData'=>$todo));  
    }
+   
+   public function enviar_lista_celulaAction($id)
+   {
+         $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $todo = array();
+       
+       $retorno = "";
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from asistencia_celula(:id)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':id'=>$id));
+           $todo = $smt->fetchAll();
+           
+           
+           $n = count($todo);
+           
+           for($i=0; $i<$n; $i++)
+           {
+               $temp = "<tr> <td>".$todo[$i]['id']."</td> <td>".$todo[$i]['nombre']."</td> <td>". $todo[$i]['apellidos']."</td> <td class='table-checkbox'> <input id= 'as".strval($i)."' class='selected-checkbox' type='checkbox'> </td> </tr>";
+               $retorno = $retorno.$temp;
+           }
+  
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new Response($retorno);  
+   }
 }

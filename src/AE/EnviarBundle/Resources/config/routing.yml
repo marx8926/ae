@@ -39,5 +39,5 @@ enviar_crear_class_cell_update:
     _method: POST
   
 enviar_asistencia_celula:
-  pattern: /asistencia_celula
+  pattern: /asistencia_celula/{id}
   defaults: {_controller: AEEnviarBundle:Default:asistencia_celula}
