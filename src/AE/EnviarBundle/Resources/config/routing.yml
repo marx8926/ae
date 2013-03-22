@@ -31,6 +31,12 @@ enviar_lista_clases_descarga:
 enviar_crear_class_cell:
   pattern: /crear_class_cell
   defaults: {_controller: AEEnviarBundle:Default:crear_class_cell}
+
+enviar_crear_class_cell_update:
+  pattern: /crear_class_cell_update
+  defaults: {_controller: AEEnviarBundle:Default:crear_class_cell_update}
+  requirements:
+    _method: POST
   
 enviar_asistencia_celula:
   pattern: /asistencia_celula

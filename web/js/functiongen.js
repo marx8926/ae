@@ -6,9 +6,9 @@ function enviar(formname,responsefunction,otherdata){
         var url=$("#"+formname).attr("action");
         $.post(
     		url,
-    		{formName:$("#"+formname).serialize(),otherdata:otherdata},
+    		{formName:$("#"+formname).serialize(),data:otherdata},
     		function(data){
-    			if(data.responseCode==300 ){
+    			if(data.responseCode==200 ){
     				console.log("ok");
     				if(typeof(responsefunction)=== 'undefined')
     					console.log("no function");

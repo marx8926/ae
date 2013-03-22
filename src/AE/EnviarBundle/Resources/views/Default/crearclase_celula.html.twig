@@ -6,7 +6,7 @@
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         
         <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">  
-                 
+                       
 {% endblock %}                 
 
 {% block content %} 
@@ -32,7 +32,7 @@
                                     <th>Fecha</th>
                                     <th>Autor</th>
                                     <th>Tipo</th>
-                                    <th>Descripción</th>
+                                    <th>Distribuido</th>
 		                </tr>
 			</thead>
 			<tbody id="tablas1" name="tablas1" >
@@ -42,11 +42,108 @@
 
                 </form>
     	</div>
+            
+                <form id="clase_celulaForm" name="clase_celulaForm" class="form-horizontal" action="{{path('enviar_crear_class_cell_update')}}" method="POST">    
+                        <fieldset> 
+                  <legend>Distribuir</legend>
+                  <div class="control-group">
+                    <label class="control-label">Dia</label>
+                    <div class="controls">
+                        <select id="dia" name="dia">
+                            <option value="Lunes">Lunes</option>
+                            <option value="Martes">Martes</option>
+                            <option value="Miercoles">Miercoles</option>
+                            <option value="Jueves">Jueves</option>
+                            <option value="Viernes">Viernes</option>
+                            <option value="Sabado">Sabado</option>
+                            <option value="Domingo">Domingo</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">De</label>
+                    <div class="controls">
+                        <select id="de" name="de">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                        </select>
+                    </div>
+                  </div>
+                  
+                  <div class="control-group">
+                    <label class="control-label">Hasta</label>
+                    <div class="controls">
+                        <select id="hasta" name="hasta" >
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                        </select>
+                    </div>
+                  </div>
+                  
+                   <div class="control-group">
+                        <label class="control-label">Redes</label>
+                        <div class="controls">
+                            <select id="redes" name="redes">
+                            
+                            </select>
+                        </div>
+                    </div>
+            </fieldset>
+               
+            
+                     
+             <div class="form-horizontal">
+                     <input type="submit" class="btn-success" id="vista" name="vista" value="Asignar">
+                </div> 
+                </form>
+              </div> 
+            
 	</div>
-        <div class="form-horizontal">
-                <button class="btn-success" id="vista" name="vista"> Descargar </button>
-                <button class="btn-success" id="analizar" name="analizar"> Analizar </button>
-        </div>
+        
         
 </div>    
                  
@@ -74,7 +171,8 @@
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
-			
+                        <script src="{{asset('js/functiongen.js')}}"></script>
+                        			
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -178,16 +276,6 @@
 				}
 			} );
 
-			/* Table initialisation */
-			/*$(document).ready(function() {
-				$('#example').dataTable( {
-					"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
-					"sPaginationType": "bootstrap",
-					"oLanguage": {
-						"sLengthMenu": "_MENU_ records per page"
-					}
-				} );
-			} );*/
 		</script>
  
  
@@ -204,15 +292,38 @@
 	};
          var trselected; 
 	 var oTable;
+         var val = [];
          
         var values = [];
+        
+      function redes(dato)
+      {        
+        $('#redes').empty();
+                     
+        $("<option value='ALL'>Todas</option>").appendTo('#redes');
+                
+        for(var i=0;i<dato.length;i++)
+        {
+            $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#redes');
+        }    
+       }
          
 	$(document).ready(function() {
             
-        $("#vista").css({"display":"none"});
-        $("#analizar").css({"display":"none"});
+             $.ajax(
+                   {
+                    url : '{{path('servicio_red')}}',
+                    dataType:"json",
+                    type: "POST",
+                    async: false,
+                   }
+                   ).done(redes);
         
-		$("#pdfbutton").click(function(event) {
+            
+            $("#vista").css({"display":"none"});
+            $("#analizar").css({"display":"none"});
+        
+            $("#pdfbutton").click(function(event) {
             $("#persona th").css("width","auto");
         	$("#content").val($("#persona").html());
         	$("#title").val($("h3").html());
@@ -243,10 +354,16 @@
                 });      
                 
                 $("#vista").css({"display":"block"});
-                $("#analizar").css({"display":"block"});
+                
+                val = values;
+                enviar("clase_celulaForm",funcion, val);
+
+                
             });
             
+            
             //click handler para descargar archivo
+            /*
             $('#vista').click(function(){
                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
@@ -254,15 +371,18 @@
                 {
                     console.log(anSelected);
                     var tds = $(anSelected).find('td');
-                    var val = [];
+                    
                     $.each(tds, function(index, item) {
                         val.push(item.innerHTML); 
                     }); 
  
-                    var url='{{path('enviar_lista_clases_descarga')}}';
+                    var url='{{path('enviar_crear_class_cell_update')}}';
+                    
+                    console.log($('#myForm').serialize());
   
                      $.post(url,{
-                        formName:val,
+                        formName: $('#myForm').serialize(),
+                        fila: val,
                         other:"attributes"
                     },function(data){
                         
@@ -270,11 +390,7 @@
                     console.log(data);
               
                     if(data.responseCode==200 ){           
-
-                       var ruta = "{{asset(':es')}}";
-                       var url = ruta.replace(':es',data.greeting);
-                       
-                       window.open(url);
+                        
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');
@@ -291,39 +407,39 @@
                     
                 }
             });
+            */
+           
             
-            //click handler para analizar
-            $('#analizar').click(function(){
-                var anSelected = fnGetSelected(oTable);
-                //oTable.fnDeleteRow(anSelected[0]);
-                if(anSelected.length !=0)
+            
+            var funcion = function(data)
+            {
+                console.log(data);
+                if(data.responseCode==200)
                 {
-                    console.log(anSelected);
-                    var tds = $(anSelected).find('td');
-                    var val = [];
-                    $.each(tds, function(index, item) {
-                        val.push(item.innerHTML); 
-                    }); 
- 
-                    var rutas='{{path('consolidar_activar_nuevo')}}';
-              
+                    alert('Registro Completado');
+                    location.reload();
                 }
-            });
-   
+                else
+                {
+                    alert('Error inesperado');
+                }
+                
+            }
+
             /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_enviar_temas_celula')}}',
+                "sAjaxSource": '{{path('servicio_enviar_contar_clase_celula')}}',
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "titulo" },
                     { "mDataProp": "fecha" },
                     { "mDataProp": "autor" },
                     { "mDataProp": "tipo"},
-                    { "mDataProp": "descripcion" }
+                    { "mDataProp": "enviado" }
                 ],
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
@@ -342,21 +458,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-   
-            /*
-                $('#persona tbody td').click(function(){
-                var theRow = $(this).parent().index();
-                console.log(theRow);
-            });
-              */   
-
-            /* Add a click handler for the delete row */
-            /*$('#delete').click( function() {
-		var anSelected = fnGetSelected( oTable );
-		oTable.fnDeleteRow( anSelected[0] );
-           
-            } );
-            */
+  
             
 	 });
          

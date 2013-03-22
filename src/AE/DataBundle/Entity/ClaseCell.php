@@ -25,14 +25,14 @@ class ClaseCell
     /**
      * @var float
      *
-     * @ORM\Column(name="ofrenda", type="float", nullable=false)
+     * @ORM\Column(name="ofrenda", type="float", nullable=true)
      */
     private $ofrenda;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_dicto", type="date", nullable=false)
+     * @ORM\Column(name="fecha_dicto", type="date", nullable=true)
      */
     private $fechaDicto;
 
@@ -54,7 +54,7 @@ class ClaseCell
     /**
      * @var \Horario
      *
-     * @ORM\ManyToOne(targetEntity="Horario")
+     * @ORM\ManyToOne(targetEntity="Horario",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_horario", referencedColumnName="id")
      * })
@@ -64,7 +64,7 @@ class ClaseCell
     /**
      * @var \Celula
      *
-     * @ORM\ManyToOne(targetEntity="Celula")
+     * @ORM\ManyToOne(targetEntity="Celula",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
      * })
@@ -74,7 +74,7 @@ class ClaseCell
     /**
      * @var \TemaCelula
      *
-     * @ORM\ManyToOne(targetEntity="TemaCelula")
+     * @ORM\ManyToOne(targetEntity="TemaCelula",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_tema_celula", referencedColumnName="id")
      * })
