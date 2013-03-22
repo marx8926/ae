@@ -2,6 +2,10 @@ _lista_cursos:
   pattern: /_lista_cursos
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCursosOption }
   
-_tabla_miembros:
-  pattern: /_tabla_miembros
+_tabla_miembros_no_personal:
+  pattern: /_tabla_miembros_no_personal
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaMiembros }
+  
+_tabla_personal:
+  pattern: /_tabla_personal
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaPersonal }

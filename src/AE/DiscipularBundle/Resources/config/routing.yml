@@ -18,3 +18,8 @@ dicipular_registrar_personal:
     requirements:
           _method: POST
           
+dicipular_eliminar_personal:
+    pattern:  /eliminarpersonal
+    defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:EliminarPersonal }
+    requirements:
+          _method: POST

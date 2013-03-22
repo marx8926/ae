@@ -16,14 +16,13 @@
         </div>
 
         <div class="box-content box-nomargin">
-        	<form id='form' method='POST'>
-                
-                    <input id='content' type='hidden' name='content' >
-                    <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+        	<form id='ExportForm' method='POST'>
+        		<input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+                <input id='pdfMiembros' type='button' value='PDF' class="btn-success">
+                <input id='excelMiembros' type='button' value='Excel' class="btn-success">
             </form>
-		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaMiembros" name="TablaMiembros">
 		        <thead>
 		            <tr>
 						<th>ID</th>
@@ -39,12 +38,50 @@
 		    </table>
 		</div>
 	</div>
-	<form  method="POST" id="myForm" action='{{path('dicipular_registrar_personal')}}'>
+	<form  method="POST" id="RegPersonalForm" action='{{path('dicipular_registrar_personal')}}'>
 		<div class="form-horizontal">
-			<input id="id" type="hidden" name="id">
+			<input id="idMiembro" type="hidden" name="id">
 			<input type='button' class="btn-success" id="registro" name="registro" value="Registro">
 			<textarea id="descripcion" name="descripcion"></textarea>
 			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Finalizar">
+		</div>
+	</form>
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Adminsitrar Personal</h3>						
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='PersonalExportForm' method='POST'>
+                <input id='pdfPersonal' type='button' value='PDF' class="btn-success">
+                <input id='excelPersonal' type='button' value='Excel' class="btn-success">
+            </form>
+		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaPersonal" name="TablaPersonal">
+		    	<thead>
+		            <tr>
+						<th>ID</th>
+						<th>Nombres</th>
+						<th>Apellidos</th>
+						<th>Edad</th>
+						<th>Red</th>
+		                <th>Célula</th>
+		                <th>Conversión</th>
+		            </tr>
+				</thead>
+				<tbody id="tablas2" name="tablas2" ></tbody>
+		    </table>
+		</div>
+	</div>
+	<form  method="POST" id="DesactivarPersonalForm" action='{{path('dicipular_registrar_personal')}}'>
+		<div class="form-horizontal">
+			<input id="idPersonalDesactivar" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Desactivar">
+		</div>
+	</form>
+	<form  method="POST" id="EliminarPersonalForm" action='{{path('dicipular_eliminar_personal')}}'>
+		<div class="form-horizontal">
+			<input id="idPersonalEliminar" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Eliminar">
 		</div>
 	</form>
 	
@@ -190,27 +227,43 @@
 	
      var trselected; 
 	 var oTable;
+	 var trpersonalselected;
+	 var TablaPersonal;
+	 var valuesPersonal = [];
 	 var values = [];
          
 	$(document).ready(function() {
 		//select all the a tag with name equal to modal
 	     
-		$("#pdfbutton").click(function(event) {
-            $("#persona th").css("width","auto");
-        	$("#content").val($("#persona").html());
+		$("#pdfMiembros").click(function(event) {
+            $("#TablaMiembros th").css("width","auto");
+        	$("#content").val($("#TablaMiembros").html());
         	$("#title").val($("h3").html());
-            $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
-	 		$("#form").submit();
+            $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#ExportForm").submit();
         });
 
-        $("#excelbutton").click(function(event) {
-        	$("#content").val("<table>" + $("#persona").html() + "</table>");
-			$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
-			$("#form").submit();
+        $("#excelMiembros").click(function(event) {
+        	$("#content").val("<table>" + $("#TablaMiembros").html() + "</table>");
+			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+			$("#ExportForm").submit();
 		        });
-		            
+
+        $("#pdfPersonal").click(function(event) {
+            $("#TablaPersonal th").css("width","auto");
+        	$("#content").val($("#TablaPersonal").html());
+        	$("#title").val($("h3").html());
+            $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#ExportForm").submit();
+        });
+
+        $("#excelPersonal").click(function(event) {
+        	$("#content").val("<table>" + $("#TablaPersonal").html() + "</table>");
+			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+			$("#ExportForm").submit();
+		        });		            
 		        
-		$('#persona tbody').click(function(event){
+		$('#TablaMiembros tbody').click(function(event){
 			$(oTable.fnSettings().aoData).each(function(){
 				$(this.nTr).removeClass('row_selected');
 	 		});
@@ -221,14 +274,34 @@
 	            	values.push(item.innerHTML); 
 	            });
 	  			var anSelected = fnGetSelected(oTable);
-				//oTable.fnDeleteRow(anSelected[0]);
 				if(anSelected.length !=0){
 					var tds = $(anSelected).find('td');
 					var val = [];
 					$.each(tds, function(index, item) {
 						val.push(item.innerHTML); 
 					});
-					 $("#id").val(val[0]);       
+					 $("#idMiembro").val(val[0]);       
+					}
+				});
+		$('#TablaPersonal tbody').click(function(event){
+			$(TablaPersonal.fnSettings().aoData).each(function(){
+				$(this.nTr).removeClass('row_selected');
+	 		});
+	        $(event.target.parentNode).addClass('row_selected');
+	        trpersonalselected = $(event.target.parentNode);
+	            var tds = $(trpersonalselected).find('td');
+	  			$.each(tds, function(index, item) {
+	  				valuesPersonal.push(item.innerHTML); 
+	            });
+	  			var anSelected = fnGetSelected(TablaPersonal);
+				if(anSelected.length !=0){
+					var tds = $(anSelected).find('td');
+					var val = [];
+					$.each(tds, function(index, item) {
+						val.push(item.innerHTML); 
+					});
+					 $("#idPersonalDesactivar").val(val[0]);  
+					 $("#idPersonalEliminar").val(val[0]);      
 					}
 				});
 		
@@ -236,14 +309,48 @@
             $('#descripcion').focus();
             });
 		//click handler para eliminar
-		enviar("myForm",sayhola,"pedro");
-	   
+		enviar("RegPersonalForm",sayhola,"pedro");
+		enviar("EliminarPersonalForm",sayhola,"pedro");
+
+		
 		/* Build the DataTable with third column using our custom sort functions */
-		oTable = $('#persona').dataTable({
+		oTable = $('#TablaMiembros').dataTable({
 			"bProcessing": true,
 			"bServerSide": false,
 			"bDestroy": true,
-			"sAjaxSource": '{{path('_tabla_miembros')}}',
+			"sAjaxSource": '{{path("_tabla_miembros_no_personal")}}',
+			"aoColumns": [
+		            { "mDataProp": "id" },
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos" },
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "red" },
+                    { "mDataProp": "celula"},
+                    { "mDataProp":"fecha"}
+		                ],
+			"aaSorting": [ [0,'asc'], [1,'asc'] ],
+			"aoColumnDefs": [
+	        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
+			"sDom": 'T<"clear">lfrtip',
+	        "oTableTools": {
+				"sRowSelect": "single",
+	            "fnRowSelected": function ( node ) {
+	            	var s=$(node).children();
+	                alert("Selected Row : " + s[0]);
+	            }
+			},
+			"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+			"sPaginationType": "bootstrap",
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ registros por página"
+			}
+		});
+
+		TablaPersonal = $('#TablaPersonal').dataTable({
+			"bProcessing": true,
+			"bServerSide": false,
+			"bDestroy": true,
+			"sAjaxSource": '{{path("_tabla_personal")}}',
 			"aoColumns": [
 		            { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
@@ -274,6 +381,7 @@
 
 	var sayhola = function(data){
 		console.log(data);
+		location.reload();
 		 }
          
 		        /* Get the rows which are currently selected */
