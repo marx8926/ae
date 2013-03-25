@@ -61,66 +61,66 @@
 				</a>
 			</li>
 			<li>
-				<a href="#" class='light toggle-collapsed'>
+				<a class='light toggle-collapsed'>
 					Ganar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
-						<a href="datatables.html">
+						<a href="{{path('ganar_persona')}}">
 							Registrar
 						</a>
 					</li>
 					<li>
-						<a href="plaintables.html">
+						<a href="{{path('ganar_busqueda')}}">
 							Buscar
 						</a>
 					</li>
 					<li>
-						<a href="mediatables.html">
+						<a href="#">
 							Filtrar
 						</a>
 					</li>
 					<li>
-						<a href="mediatables.html">
+						<a href="{{path('ganar_asignar_red')}}">
 							Asignar Red
 						</a>
 					</li>
 					<li>
-						<a href="mediatables.html">
+						<a href="#">
 							Informes
 						</a>
 					</li>
 				</ul>
 			</li>
 			<li>
-				<a href="#" class='light toggle-collapsed'>
-					Tables
+				<a class='light toggle-collapsed'>
+					Consolidar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
-						<a href="datatables.html">
+						<a href="{{path('consolidar_registro')}}">
 							Registrar Consolidador
 						</a>
 					</li>
 					<li>
-						<a href="plaintables.html">
+						<a href="{{path('consolidar_asignar_consolidar')}}">
 							Asignar Consolidador
 						</a>
 					</li>
 					<li>
-						<a href="mediatables.html">
+						<a href="#">
 							Seguimiento de Red
 						</a>
 					</li>
 					<li>
-						<a href="mediatables.html">
+						<a href="{{path('consolidar_lista_consolidador')}}">
 							Seguimiento de Consolidador
 						</a>
 					</li>
 					<li>
-						<a href="mediatables.html">
+						<a href="{{path('consolidar_descartar')}}">
 							Descartar
 						</a>
 					</li>
@@ -132,18 +132,18 @@
 				</ul>
 			</li>
 			<li>
-				<a href="#" class='light toggle-collapsed'>
+				<a class='light toggle-collapsed'>
 					Discipular
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
-						<a href="buttons.html">
-							Registrar Personal
+						<a href="{{path('discipular_administrar_personal')}}">
+							Administrar Personal
 						</a>
 					</li>
 					<li>
-						<a href="sliders.html">
+						<a href="{{path('discipular_crearcurso')}}">
 							Registrar Cursos
 						</a>
 					</li>
@@ -203,45 +203,45 @@
 				</ul>
 			</li>
 			<li>
-				<a href="#" class='light toggle-collapsed'>
+				<a class='light toggle-collapsed'>
 					Enviar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
 					<li>
-						<a href="404.html">
+						<a href="{{path('enviar_celula')}}">
 							Crear Célula
 						</a>
 					</li>
 					<li>
-						<a href="500.html">
+						<a href="#">
 							Modificar Célula
 						</a>
 					</li>
 					<li>
-						<a href="500.html">
+						<a href="#">
 							Eliminar Célula
 						</a>
 					</li>
 					<li>
-						<a href="500.html">
+						<a href="{{path('enviar_lista_clases')}}">
 							Clases en Célula
 						</a>
 					</li>
 					<li>
-						<a href="500.html">
+						<a href="#">
 							Registro de Asistencia
 						</a>
 					</li>
 					<li>
-						<a href="500.html">
+						<a href="#">
 							Informes
 						</a>
 					</li>
 				</ul>
 			</li>
 			<li>
-				<a href="#" class='light toggle-collapsed'>
+				<a class='light toggle-collapsed'>
 					Comunicar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
@@ -274,11 +274,41 @@
 				</ul>
 			</li>
 			<li>
-				<a href="#" class='light toggle-collapsed'>
+				<a class='light toggle-collapsed'>
 					Administrar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
+					<li>
+						<a href="{{path('administrar_iglesia')}}">
+							Registrar Iglesia
+						</a>
+					</li>
+					<li>
+						<a href="{{path('administrar_modiglesia')}}">
+							Modificar Iglesia
+						</a>
+					</li>
+					<li>
+						<a href="{{path('administrar_red')}}">
+							Registrar Red
+						</a>
+					</li>
+					<li>
+						<a href="{{path('administrar_add_asignar_lider')}}">
+							Asignar Líder a Red
+						</a>
+					</li>
+					<li>
+						<a href="{{path('administrar_permisos')}}">
+							Asignar Permisos
+						</a>
+					</li>
+					<li>
+						<a href="{{path('administrar_mod_permisos')}}">
+							Modificar Permisos
+						</a>
+					</li>
 					<li>
 						<a href="gallery.html">
 							Líderes de Red

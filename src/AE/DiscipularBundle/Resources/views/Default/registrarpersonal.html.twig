@@ -4,7 +4,8 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">  
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/vmodal.css')}}">  
 {% endblock %}
 
 {% block content %}    
@@ -42,13 +43,18 @@
 		<div class="form-horizontal">
 			<input id="idMiembro" type="hidden" name="id">
 			<input type='button' class="btn-success" id="registro" name="registro" value="Registro">
-			<textarea id="descripcion" name="descripcion"></textarea>
-			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Finalizar">
+			<div id="modal" class="styled">
+				<strong>Agregar una Descripción:</strong>
+			  	<textarea id="descripcion" name="descripcion"></textarea>
+				<input type="submit" class="btn-success" id="enviar" name="enviar" value="Finalizar">
+				<a href="#close" id="close-modal">Cerrar</a>
+			</div>
+			<div id="modal-background"></div>
 		</div>
 	</form>
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Adminsitrar Personal</h3>						
+            <h3>Administrar Personal</h3>						
         </div>
 
         <div class="box-content box-nomargin">
@@ -119,6 +125,7 @@
 	<script src="{{asset('js/ui.spinner.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>
 	<script src="{{asset('js/functiongen.js')}}"></script>
+	<script src="{{asset('js/modal.js')}}"></script>
 	<script src="http://www.google.com/jsapi"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
 	<script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
