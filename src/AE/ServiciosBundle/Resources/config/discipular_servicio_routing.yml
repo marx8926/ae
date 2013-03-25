@@ -1,5 +1,5 @@
 _lista_cursos:
-  pattern: /_lista_cursos
+  pattern: /_lista_cursos/{tipo}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCursosOption }
   
 _tabla_miembros_no_personal:

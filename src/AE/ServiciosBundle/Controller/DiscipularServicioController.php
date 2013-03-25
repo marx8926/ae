@@ -14,7 +14,7 @@ use AE\DataBundle\Entity\Miembro;
 
 class DiscipularServicioController extends Controller
 {
-	public function getCursosOptionAction(){
+	public function getCursosOptionAction($tipo){
 		
 		$em = $this->getDoctrine()->getEntityManager();
 		
@@ -25,7 +25,10 @@ class DiscipularServicioController extends Controller
 		
 		$todo = $smt->fetchAll();
 		
-		$result = "<select multiple name='prerequisitos[]'><option value=''>Ninguno</option>";
+		if(strcmp($tipo,"simple")==0)
+			$result = "<select name='curso'><option value=''>Ninguno</option>";
+		else
+			$result = "<select multiple name='prerequisitos[]' required><option value=''>Ninguno</option>";
 	
 	    foreach ($todo as $key => $val){
 	        $result = $result."<option value='".$val['id']."'>".$val['titulo']."</option>";
@@ -33,6 +36,25 @@ class DiscipularServicioController extends Controller
 	    $result = $result."</select>";
 		return new Response($result);
 	}
+		public function getProfesoresOptionAction(){
+	
+			$em = $this->getDoctrine()->getEntityManager();
+	
+			$sql = "select * from curso";
+	
+			$smt = $em->getConnection()->prepare($sql);
+			$smt->execute();
+	
+			$todo = $smt->fetchAll();
+	
+			$result = "<select multiple name='prerequisitos[]'><option value=''>Ninguno</option>";
+	
+			foreach ($todo as $key => $val){
+				$result = $result."<option value='".$val['id']."'>".$val['titulo']."</option>";
+			}
+			$result = $result."</select>";
+			return new Response($result);
+		}
 	
 	public function getTablaMiembrosAction()
 	{

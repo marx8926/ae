@@ -32,7 +32,7 @@
     <script type="text/javascript">
             $(document).ready(function() {
             	var data = $.ajax({
-                url: "{{ path('_lista_cursos') }}",
+                url: "{{ path('_lista_cursos',{'tipo':'multiple'}) }}",
                 async: false
                 }).responseText;
             	$('#select_curso').html(data);
