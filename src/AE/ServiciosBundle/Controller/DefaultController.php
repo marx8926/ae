@@ -1193,7 +1193,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
            
            for($i=0; $i<$n; $i++)
            {
-               $temp = "<tr> <td>".$todo[$i]['id']."</td> <td>".$todo[$i]['nombre']."</td> <td>". $todo[$i]['apellidos']."</td> <td class='table-checkbox'> <input id= 'as".strval($i)."' class='selected-checkbox' type='checkbox'> </td> </tr>";
+               $temp = "<tr> <td>".$todo[$i]['id']."</td> <td>".$todo[$i]['nombre']."</td> <td>". $todo[$i]['apellidos']."</td> <td class='table-checkbox'> <input id= 'as".strval($i)."' name='as".strval($i)." 'class='selected-checkbox' type='checkbox'> </td> </tr>";
                $retorno = $retorno.$temp;
            }
   
