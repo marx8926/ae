@@ -2,24 +2,36 @@ discipular_crearcurso:
     pattern:  /crearcurso
     defaults: { _controller: AEDiscipularBundle:CrearCurso:index }
     
-dicipular_registrar_curso:
+discipular_registrar_curso:
     pattern:  /registrarcurso
     defaults: { _controller: AEDiscipularBundle:CrearCurso:RegistrarCurso }
     requirements:
           _method: POST
 
-dicipular_administrar_personal:
+discipular_administrar_personal:
     pattern:  /administrar_personal
     defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:index }
     
-dicipular_registrar_personal:
+discipular_registrar_personal:
     pattern:  /registrarpersonal
     defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:RegistroPersonal }
     requirements:
           _method: POST
           
-dicipular_eliminar_personal:
+discipular_eliminar_personal:
     pattern:  /eliminarpersonal
     defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:EliminarPersonal }
+    requirements:
+          _method: POST
+          
+discipular_desactivar_personal:
+    pattern:  /desactivarpersonal
+    defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:DesactivarPersonal }
+    requirements:
+          _method: POST
+          
+discipular_activar_personal:
+    pattern:  /activarpersonal
+    defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:ActivarPersonal }
     requirements:
           _method: POST

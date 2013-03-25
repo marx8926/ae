@@ -52,7 +52,7 @@ class DiscipularServicioController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha from miembro inner join persona on (persona.id = miembro.id) inner join docente on (miembro.id = docente.id_persona) where miembro.activo=true";
+		$sql = "select miembro.id, persona.nombre, persona.apellidos,  miembro.id_red as red, docente.activo as estado,docente.fecha_inicio as inicio, docente.fecha_fin as fin from miembro inner join persona on (persona.id = miembro.id) inner join docente on (miembro.id = docente.id_persona) where miembro.activo=true";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();

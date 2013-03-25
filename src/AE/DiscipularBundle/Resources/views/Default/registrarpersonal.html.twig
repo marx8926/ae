@@ -38,7 +38,7 @@
 		    </table>
 		</div>
 	</div>
-	<form  method="POST" id="RegPersonalForm" action='{{path('dicipular_registrar_personal')}}'>
+	<form  method="POST" id="RegPersonalForm" action='{{path('discipular_registrar_personal')}}'>
 		<div class="form-horizontal">
 			<input id="idMiembro" type="hidden" name="id">
 			<input type='button' class="btn-success" id="registro" name="registro" value="Registro">
@@ -62,28 +62,35 @@
 						<th>ID</th>
 						<th>Nombres</th>
 						<th>Apellidos</th>
-						<th>Edad</th>
 						<th>Red</th>
-		                <th>Célula</th>
-		                <th>Conversión</th>
+						<th>Estado</th>
+		                <th>Inicio</th>
+		                <th>Fin</th>
 		            </tr>
 				</thead>
 				<tbody id="tablas2" name="tablas2" ></tbody>
 		    </table>
 		</div>
 	</div>
-	<form  method="POST" id="DesactivarPersonalForm" action='{{path('dicipular_registrar_personal')}}'>
+	<form  method="POST" id="DesactivarPersonalForm" action='{{path('discipular_desactivar_personal')}}'>
 		<div class="form-horizontal">
 			<input id="idPersonalDesactivar" type="hidden" name="id">
 			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Desactivar">
 		</div>
 	</form>
-	<form  method="POST" id="EliminarPersonalForm" action='{{path('dicipular_eliminar_personal')}}'>
+	<form  method="POST" id="ActivarPersonalForm" action='{{path('discipular_activar_personal')}}'>
+		<div class="form-horizontal">
+			<input id="idPersonalActivar" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Activar">
+		</div>
+	</form>
+	<form  method="POST" id="EliminarPersonalForm" action='{{path('discipular_eliminar_personal')}}'>
 		<div class="form-horizontal">
 			<input id="idPersonalEliminar" type="hidden" name="id">
 			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Eliminar">
 		</div>
 	</form>
+	
 	
 </div>
  
@@ -301,7 +308,8 @@
 						val.push(item.innerHTML); 
 					});
 					 $("#idPersonalDesactivar").val(val[0]);  
-					 $("#idPersonalEliminar").val(val[0]);      
+					 $("#idPersonalEliminar").val(val[0]);
+					 $("#idPersonalActivar").val(val[0]);   
 					}
 				});
 		
@@ -309,8 +317,10 @@
             $('#descripcion').focus();
             });
 		//click handler para eliminar
-		enviar("RegPersonalForm",sayhola,"pedro");
-		enviar("EliminarPersonalForm",sayhola,"pedro");
+		enviar("RegPersonalForm",sayhola);
+		enviar("EliminarPersonalForm",sayhola);
+		enviar("DesactivarPersonalForm",sayhola);
+		enviar("ActivarPersonalForm",sayhola);
 
 		
 		/* Build the DataTable with third column using our custom sort functions */
@@ -355,10 +365,10 @@
 		            { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
-                    { "mDataProp": "edad" },
                     { "mDataProp": "red" },
-                    { "mDataProp": "celula"},
-                    { "mDataProp":"fecha"}
+                    { "mDataProp": "estado" },
+                    { "mDataProp": "inicio"},
+                    { "mDataProp":"fin"}
 		                ],
 			"aaSorting": [ [0,'asc'], [1,'asc'] ],
 			"aoColumnDefs": [

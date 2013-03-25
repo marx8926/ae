@@ -88,31 +88,63 @@ class RegistrarPersonalController extends Controller {
 			$todo = $smt->fetchAll();
 			
 			$return=array("responseCode"=>200, "id"=>$datos );
-			/*try
-			{
-				$per = $em->getRepository('AEDataBundle:Docente');
-				$Docente = $per->findOneBy(array('id'=>$idDocente));
-				$em->remove($Docente);
-				$em->flush();
-			}catch(Exception $e)
-			{
-				$this->getDoctrine()->getEntityManager()->rollback();
-				$this->getDoctrine()->getEntityManager()->close();
-				$return=array("responseCode"=>400, "greeting"=>"Bad");
-					
-				throw $e;
-			}
-			$this->getDoctrine()->getEntityManager()->commit();
-			$return=array("responseCode"=>200, "id"=>$datos );
-			}
-			else{
-				$return = array("responseCode"=>400, "greeting"=>"Bad");
-			}*/
-				
 			$return=json_encode($return);//jscon encode the array
 			
 			return new Response($return,200,array('Content-Type'=>'application/json'));
 		}
 		}
 			
+	public function DesactivarPersonalAction(){
+			$request = $this->get('request');
+		$form=$request->request->get('formName');
+		$datos = array();
+		
+		parse_str($form,$datos);
+		$idDocente = NULL;
+		
+		if($form!=NULL){
+			$idDocente = $datos['id'];
+			$date = date('Y-m-d');			
+			$em = $this->getDoctrine()->getEntityManager();
+			
+			$sql = "UPDATE docente SET activo=false, fecha_fin='".$date."' WHERE id_persona=".$idDocente;
+			
+			$smt = $em->getConnection()->prepare($sql);
+			$smt->execute();
+			
+			$todo = $smt->fetchAll();
+			
+			$return=array("responseCode"=>200, "id"=>$date );
+			$return=json_encode($return);//jscon encode the array
+			
+			return new Response($return,200,array('Content-Type'=>'application/json'));
+		}
+	}
+	
+	public function ActivarPersonalAction(){
+		$request = $this->get('request');
+		$form=$request->request->get('formName');
+		$datos = array();
+	
+		parse_str($form,$datos);
+		$idDocente = NULL;
+	
+		if($form!=NULL){
+			$idDocente = $datos['id'];
+			$date = date('Y-m-d');
+			$em = $this->getDoctrine()->getEntityManager();
+				
+			$sql = "UPDATE docente SET activo=true, fecha_fin=null WHERE id_persona=".$idDocente;
+				
+			$smt = $em->getConnection()->prepare($sql);
+			$smt->execute();
+				
+			$todo = $smt->fetchAll();
+				
+			$return=array("responseCode"=>200, "id"=>$date );
+			$return=json_encode($return);//jscon encode the array
+				
+			return new Response($return,200,array('Content-Type'=>'application/json'));
+		}
+	}
 }
