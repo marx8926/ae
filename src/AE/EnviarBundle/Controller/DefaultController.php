@@ -446,4 +446,24 @@ class DefaultController extends Controller
     {
         return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig',array('id'=>$id));
     }
+    
+    public function asistencia_celula_updateAction()
+    {
+       // $request = $this->get('request');
+        
+       // $form=$request->request->get('formName');
+       // $fila = $request->request->get('data');
+        
+        $datos = array();
+
+       // parse_str($form,$datos);
+       
+        
+        $ret=array("responseCode"=>200, "greeting"=>'hi');     
+       
+        $return=json_encode($ret);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+        
+    }
 }

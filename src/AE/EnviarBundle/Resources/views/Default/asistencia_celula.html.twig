@@ -17,7 +17,7 @@
         </div>
 
         <div class="box-content box-nomargin">
-        	<form id='form' method='POST'>
+            <form id='form' name='form' method='POST' class="form-horizontal" action='{{path('enviar_asistencia_celula_update')}}'>
      
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="persona" name="persona">
             		<thead>
@@ -32,14 +32,15 @@
 	
 			</tbody>
                 </table>
+                    
+                <div class="form-horizontal">
+                    <input class="btn-success" id="vista" name="vista" type="submit" value="Guardar cambios">
+                </div>
 
                 </form>
     	</div>
 	</div>
-        <div class="form-horizontal">
-                <button class="btn-success" id="vista" name="vista"> Descargar </button>
-                <button class="btn-success" id="analizar" name="analizar"> Analizar </button>
-        </div>
+       
         
 </div>    
                  
@@ -67,15 +68,32 @@
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
+                        <script src="{{asset('js/functiongen.js')}}"></script>
+
 			
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
   
     <script type="text/javascript">
+        var funcion = function(data)
+            {
+                console.log(data);
+                if(data.responseCode==200)
+                {
+                    //alert('Registro Completado');
+                    //location.reload();
+                }
+                else
+                {
+                    alert('Error inesperado');
+                }
+                
+            }
             
 	$(document).ready(function() {
             
+            //para cargar tabla
   
             var code = {{id}};
             var url = '{{path('servicio_enviar_lista_celula',{'id': ':rut'})}}';
@@ -86,7 +104,12 @@
                     }
                   );
     
+            //añadir 
+            
+           enviar("form",funcion,'');
+
 	 });
+         
   
        </script>
 {%endblock %} 
