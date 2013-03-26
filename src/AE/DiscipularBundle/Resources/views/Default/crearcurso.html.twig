@@ -31,6 +31,7 @@
             
     <script type="text/javascript">
             $(document).ready(function() {
+                
             	var data = $.ajax({
                 url: "{{ path('_lista_cursos',{'tipo':'multiple'}) }}",
                 async: false
@@ -41,7 +42,11 @@
             	FileUp = new FileUp("cursos");
             	
             	$('#cargar').click(function(ev) {
-            		FileUp.uploadQueue(ev);
+            		if(($("#titutlo").val()!= "") && ($("#descripcion").val()!= "") && ($("#number").val()!= "") && ($(".detalle").val()!= "")){
+						FileUp.uploadQueue(ev);
+					}
+            		else
+                		alert("Faltan Datos por llenar!")
             	});
             	
                 function cambioNumber() {
@@ -71,6 +76,7 @@
 	            		detall.type = "text";
 	            		detall.name = "detalle"+i;
 	            		detall.placeholder = 'Detalle de sesion';
+	            		detall.className = "detalle";
 	            		detall.required = true;
 	            		li.appendChild(detall);
 	
@@ -139,7 +145,7 @@
 			<div class="control-group">
 				<label class="control-label">Titulo</label>
 				<div class="controls">
-					<input class="input-xxlarge" name="titulo" type="text" required>
+					<input class="input-xxlarge" name="titulo" id="titulo" type="text" required>
 				</div>
 			</div>
 			<div class="control-group">
@@ -151,7 +157,7 @@
 				<br>
 				<label class="control-label">Estado</label>
 				<div class="controls">
-					<select name="estado">
+					<select name="estado" id="estado" required>
 						<option value="true">Activado</option>
 						<option value="false">Desactivado</option>
 					</select>
@@ -160,14 +166,14 @@
 			<div class="control-group">
 				<label class="control-label">Descripcion</label>
 				<div class="controls">
-					<textarea class="input-xxlarge" name="descripcion" rows="3" required></textarea>
+					<textarea class="input-xxlarge" name="descripcion" id="descripcion" rows="3" required></textarea>
 				</div>
 			</div>
 		</fieldset>
 		<fieldset>
 			<legend>Detalles de Sesiones</legend>
 			<div class="control-group">
-				<label class="control-label">Numero de Sesiones</label>
+				<label class="control-label">Número de Sesiones</label>
 				<div class="controls">
 					<input id="number" name="numsesiones" type="number" required>
 				</div>
@@ -178,7 +184,7 @@
 				</ul>
 			</div>
 		</fieldset>
-		<input id="cargar" type="button" value="Enviar">
+		<input id="cargar" type="button" value="Enviar" >
 		</form>	
 	    </div>
 {% endblock %}      

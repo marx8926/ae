@@ -42,7 +42,7 @@
 	<form  method="POST" id="RegPersonalForm" action='{{path('discipular_registrar_personal')}}'>
 		<div class="form-horizontal">
 			<input id="idMiembro" type="hidden" name="id">
-			<input type='button' class="btn-success" id="registro" name="registro" value="Registro">
+			<input type='button' class="btn-success" disabled="true" id="registro" name="registro" value="Registro">
 			<div id="modal" class="styled">
 				<strong>Agregar una Descripción:</strong>
 			  	<textarea id="descripcion" name="descripcion"></textarea>
@@ -247,6 +247,7 @@
 	 var values = [];
          
 	$(document).ready(function() {
+		
 		//select all the a tag with name equal to modal
 	     
 		$("#pdfMiembros").click(function(event) {
@@ -294,7 +295,8 @@
 					$.each(tds, function(index, item) {
 						val.push(item.innerHTML); 
 					});
-					 $("#idMiembro").val(val[0]);       
+					$("#registro").prop('disabled', false);
+					$("#idMiembro").val(val[0]);       
 					}
 				});
 		$('#TablaPersonal tbody').click(function(event){
