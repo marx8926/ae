@@ -22,3 +22,12 @@ function enviar(formname,responsefunction,otherdata){
     		});
 		});
 }
+
+
+function ajaxResposeData(namediv,path){
+	var data = $.ajax({
+        url: path,
+        async: false
+        }).responseText;
+	$('#'+namediv).html(data);
+}

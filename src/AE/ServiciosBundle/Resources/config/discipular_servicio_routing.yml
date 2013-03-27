@@ -11,8 +11,8 @@ _tabla_miembros_no_personal:
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaMiembros }
   
 _tabla_personal:
-  pattern: /_tabla_personal/{tipo}
-  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getDocentesOption }
+  pattern: /_tabla_personal
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaPersonal }
   
 _option_local:
   pattern: /_option_local/{tipo}

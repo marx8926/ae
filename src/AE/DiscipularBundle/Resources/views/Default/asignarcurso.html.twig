@@ -34,22 +34,25 @@
                     url: "{{ path('_lista_cursos',{'tipo':'simple'}) }}",
                     async: false
                     }).responseText;
-                	$('#select_curso').html(data);
+				$('#select_curso').html(data);
 
-                	var data2 = $.ajax({
-                        url: "{{ path('_tabla_personal',{'tipo':'simple'}) }}",
-                        async: false
-                        }).responseText;
-                    	$('#select_profesor').html(data2);
+				var data2 = $.ajax({
+					url: "{{ path('_tabla_personal',{'tipo':'simple'}) }}",
+					async: false
+					}).responseText;
+				$('#select_profesor').html(data2);
 
-                    	var data3 = $.ajax({
-                            url: "{{ path('_option_local',{'tipo':'simple'}) }}",
-                            async: false
-                            }).responseText;
-                        	$('#select_local').html(data3);
+				var data3 = $.ajax({
+					url: "{{ path('_option_local',{'tipo':'simple'})}}",
+					async: false
+					}).responseText;
+				$('#select_local').html(data3);
 
-                   	enviar("AsiganrForm",sayhola);
+				ajaxResposeData("tabla_asignacion","{{ path('_tabla_asignacion')}}");  
+				     	
+				enviar("AsignarForm",sayhola);
             	});
+            
             var sayhola = function(data){
         		console.log(data);
         		//location.reload();
@@ -60,7 +63,7 @@
             
 {% block content %}
     <fieldset>
-		<form id="AsiganrForm" method="POST" action="{{path('discipular_registrar_asignacion')}}">
+		<form id="AsignarForm" method="POST" action="{{path('discipular_registrar_asignacion')}}">
 			<div>
 				<label>Profesor</label>
 				<div id="select_profesor">
@@ -97,49 +100,7 @@
 	</fieldset>
 	<fieldset>
 		<legend>Asignados</legend>
-		<table>
-			<tbody>
-				<tr>
-					<th>Profesor</th>
-					<th>Curso</th>
-					<th>Dia</th>
-					<th>Hora Inicio</th>
-					<th>Hora Fin</th>
-					<th>Eliminar</th>
-				</tr>
-				<tr>
-					<td>Profesor1</td>
-					<td>Curso1</td>
-					<td>Lunes</td>
-					<td>06:30 pm</td>
-					<td>08:00 pm</td>
-					<td><a href="#">Eliminar</a></td>
-				</tr>
-				<tr>
-					<td>Profesor2</td>
-					<td>Curso2</td>
-					<td>Lunes</td>
-					<td>06:30 pm</td>
-					<td>08:00 pm</td>
-					<td><a href="#">Eliminar</a></td>
-				</tr>
-				<tr>
-					<td>Profesor3</td>
-					<td>Curso3</td>
-					<td>Lunes</td>
-					<td>06:30 pm</td>
-					<td>08:00 pm</td>
-					<td><a href="#">Eliminar</a></td>
-				</tr>
-				<tr>
-					<td>Profesor4</td>
-					<td>Curso4</td>
-					<td>Lunes</td>
-					<td>06:30 pm</td>
-					<td>08:00 pm</td>
-					<td><a href="#">Eliminar</a></td>
-				</tr>
-			</tbody>
-		</table>
+		<div id="tabla_asignacion">
+		</div>
 	</fieldset>
 {% endblock %}    

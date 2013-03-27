@@ -127,7 +127,7 @@ class DiscipularServicioController extends Controller
 	
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select miembro.id, persona.nombre, persona.apellidos, curso.titulo, horario.dia, horario.hora_inicio, horario.hora_fin  from miembro inner join persona on (persona.id = miembro.id) inner join docente on (miembro.id = docente.id_persona) inner join curso_impartido on (docente.id_persona = curso_impartido.id_persona_docente) inner join horario on (curso_impartido.id_horario= horario.id) inner join curso on (curso.id = curso_impartido.id_curso)";
+		$sql = "select miembro.id, persona.nombre, persona.apellidos, curso.titulo, horario.dia, horario.hora_inicio, horario.hora_fin,curso_impartido.id as idasignacion  from miembro inner join persona on (persona.id = miembro.id) inner join docente on (miembro.id = docente.id_persona) inner join curso_impartido on (docente.id_persona = curso_impartido.id_persona_docente) inner join horario on (curso_impartido.id_horario= horario.id) inner join curso on (curso.id = curso_impartido.id_curso)";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -147,16 +147,16 @@ class DiscipularServicioController extends Controller
 				</tr>";
 		
 		foreach ($todo as $key => $val){
-			$result ="
+			$result =$result."
 					<tr>
 					<td>".$val['id']."</td>
 					<td>".$val['nombre']."</td>
 					<td>".$val['apellidos']."</td>
 					<td>".$val['titulo']."</td>
-					<td>".$val['dia']."/td>
+					<td>".$val['dia']."</td>
 					<td>".$val['hora_inicio']."</td>
 					<td>".$val['hora_fin']."</td>
-					<td><input type='checkbox' value='".$val['id']."'></td>
+					<td><input type='checkbox' name='asignacion[]' value='".$val['idasignacion']."'></td>
 					</tr>
 					";
 		}
