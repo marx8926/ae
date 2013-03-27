@@ -11,14 +11,53 @@
 
 {% block content %} 
 <div class="span9" >
+
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Temas Célula</h3>							
+            <h3>Asistencia de Célula</h3>							
         </div>
 
         <div class="box-content box-nomargin">
             <form id='form' name='form' method='POST' class="form-horizontal" action='{{path('enviar_asistencia_celula_update')}}'>
-     
+                
+                <fieldset>
+                
+                <div class="control-group">
+                        <label class="control-label" >Célula</label>
+                        <div class="controls">
+                            <label id="celula" class="control-label" ></label>
+                        </div>
+                </div>
+                 
+                <div class="control-group">
+                    <label class="control-label" >Tema Célula</label>
+                    <div class="controls">
+                        <label id="tema_celula" class="control-label"></label>
+                    </div>
+                </div>
+                    
+                 <div class="control-group">
+                    <label class="control-label" >Tipo de Célula</label>
+                    <div class="controls">
+                        <label id="tipo_celula" class="control-label"></label>
+                    </div>
+                </div>
+                 
+                <div class="control-group">
+                    <label class="control-label" >Horario</label>
+                    <div class="controls">
+                        <label id="horario" class="control-label" ></label>
+                    </div>
+                </div>
+                 
+                <div class="control-group">
+                    <label class="control-label" >Ofrenda</label>
+                    <div class="controls">
+                        <input class="input-large" id="ofrenda" name="ofrenda">
+                    </div>
+                </div>
+          
+                </fieldset>
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="persona" name="persona">
             		<thead>
                 		<tr>
@@ -29,7 +68,7 @@
 		                </tr>
 			</thead>
 			<tbody id="tablas1" name="tablas1" >
-	
+                          
 			</tbody>
                 </table>
                     
@@ -81,7 +120,7 @@
                 console.log(data);
                 if(data.responseCode==200)
                 {
-                    //alert('Registro Completado');
+                    alert('Registro Completado');
                     //location.reload();
                 }
                 else
@@ -91,22 +130,51 @@
                 
             }
             
+        function est()
+        {
+            var myTr = [];
+           $('#persona tbody tr').each(function () {
+               
+              var rt = $(this).find('td').first();
+              
+               myTr.push(rt.text());
+           
+            });
+           
+            return myTr;
+        }
+            
+        var ids=[];
+        
 	$(document).ready(function() {
             
             //para cargar tabla
   
             var code = {{id}};
+            
+            var classe = {{clase}};
             var url = '{{path('servicio_enviar_lista_celula',{'id': ':rut'})}}';
             var ruta = url.replace(':rut',code);
-  
+        
             $.post(ruta,function(data){
                      $(data).appendTo('#persona');   
+                    
                     }
-                  );
-    
-            //añadir 
+                  ).done(function(){
+                        ids.push(classe);
+                        
+                        var todos = est();
+                        for(var i=0; i<todos.length; i++)
+                        {
+                            ids.push(todos[i]);
+                        }
+                                        
+                         //añadir 
             
-           enviar("form",funcion,'');
+                        enviar("form",funcion,ids);
+                   });
+    
+           
 
 	 });
          

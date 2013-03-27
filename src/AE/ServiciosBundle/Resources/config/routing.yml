@@ -281,3 +281,9 @@ servicio_enviar_lista_celula:
   defaults: {_controller: AEServiciosBundle:Default:enviar_lista_celula}
   requirements:
     _method: POST
+    
+servicio_enviar_datos_tema_celula:
+  pattern: /enviar_datos_tema_celula
+  defaults: {_controller: AEServiciosBundle:Default:enviar_datos_tema_celula}
+  #requirements:
+   # _method: POST

@@ -1207,4 +1207,29 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        
        return new Response($retorno);  
    }
+   
+   public function enviar_datos_tema_celulaAction()
+   {
+            $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from lista_tema_celula";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+           
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse($todo);
+   }
 }

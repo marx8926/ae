@@ -442,24 +442,65 @@ class DefaultController extends Controller
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type             
             
     }
-    public function asistencia_celulaAction($id)
+    public function asistencia_celulaAction($id, $clase)
     {
-        return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig',array('id'=>$id));
+        return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig',array('id'=>$id, 'clase'=>$clase));
     }
     
     public function asistencia_celula_updateAction()
     {
-       // $request = $this->get('request');
+        $request = $this->get('request');
         
-       // $form=$request->request->get('formName');
-       // $fila = $request->request->get('data');
+        $form=$request->request->get('formName');
+        $fila = $request->request->get('data');
         
         $datos = array();
 
-       // parse_str($form,$datos);
+        parse_str($form,$datos);   
+        
+        /*
+        $ret=array("responseCode"=>200, "greeting"=>$form);     
+       
+        $return=json_encode($ret);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+        */
        
         
-        $ret=array("responseCode"=>200, "greeting"=>'hi');     
+        $n = count($fila);
+        
+        $clase = $fila[0];
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        if(strlen($form)>0)
+        {
+            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            try{
+              
+                for($i=1; $i<$n ;$i++)
+                {
+                    $id = $fila[$i];
+                    
+                    $sql = " select insert_clase_cell_miembro(:member, :class)";
+                    $smt = $em->getConnection()->prepare($sql);
+                    $smt->execute(array(':member'=>$id,':class'=>$clase));
+                    
+                }
+                $this->getDoctrine()->getEntityManager()->commit();
+            
+                $ret=array("responseCode"=>200, "greeting"=>'good'); 
+            }             
+            catch(Exception  $e)
+            {
+                $this->getDoctrine()->getEntityManager()->rollback();
+                $this->getDoctrine()->getEntityManager()->close();
+                $ret=array("responseCode"=>400, "greeting"=>"Bad");
+                
+                throw $e;
+            }
+        }
+        else  $ret=array("responseCode"=>400, "greeting"=>'bad');     
        
         $return=json_encode($ret);//jscon encode the array
         

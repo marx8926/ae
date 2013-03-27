@@ -4,8 +4,6 @@ function enviar(formname,responsefunction,otherdata){
 	$("#"+formname).submit(function(event){
 		event.preventDefault();
         var url=$("#"+formname).attr("action");
-        console.log(url);
-        console.log($("#"+formname).serialize());
         $.post(
     		url,
     		{formName:$("#"+formname).serialize(),data:otherdata},
