@@ -55,3 +55,6 @@ discipular_registrar_local:
     defaults: { _controller: AEDiscipularBundle:AdministrarLocal:RegistrarLocal }
     requirements:
           _method: POST
+discipular_curso:
+    pattern:  /curso
+    defaults: { _controller: AEDiscipularBundle:Curso:index }
