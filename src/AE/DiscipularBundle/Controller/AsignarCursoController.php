@@ -114,4 +114,61 @@ class AsignarCursoController extends Controller{
 		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
 		
 	}
+	
+	public function EliminarAsignacion(){
+		$request = $this->get('request');
+		$form=$request->request->get('formName');		
+		$datos = array();		
+		parse_str($form,$datos);
+		
+		
+		
+		if($form!=NULL){
+				
+			$Docente = $this->getDoctrine()
+			->getRepository('AEDataBundle:Docente')
+			->find($docenteid);
+				
+			$em = $this->getDoctrine()->getEntityManager();
+			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			try
+			{
+				$Horario = new Horario();
+				$Horario->setDia($dia);
+				$Horario->setHoraInicio($date_inicio);
+				$Horario->setHoraFin($date_fin);
+		
+				$em->persist($Horario);
+				$em->flush();
+		
+				$Asignacion = new CursoImpartido();
+				$Asignacion->setFechaCreacion(new \DateTime());
+				$Asignacion->setIdCurso($Curso);
+				$Asignacion->setIdLocal($Local);
+				$Asignacion->setIdPersonaDocente($Docente);
+				$Asignacion->setIdHorario($Horario);
+		
+				$em->persist($Asignacion);
+				$em->flush();
+		
+			}catch(Exception $e)
+			{
+				$this->getDoctrine()->getEntityManager()->rollback();
+				$this->getDoctrine()->getEntityManager()->close();
+				$return=array("responseCode"=>400, "greeting"=>"Bad");
+					
+				throw $e;
+			}
+			$this->getDoctrine()->getEntityManager()->commit();
+			$return=array("responseCode"=>200, "id"=>$datos );
+		}
+		else{
+			$return = array("responseCode"=>400, "greeting"=>"Bad");
+		}
+			
+		$return=json_encode($return);//jscon encode the array
+		
+		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
+		
+	}
 }

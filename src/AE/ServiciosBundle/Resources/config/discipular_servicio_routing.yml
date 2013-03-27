@@ -3,8 +3,8 @@ _lista_cursos:
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCursosOption }
 
 _option_personal:
-  pattern: /_lista_cursos/{tipo}
-  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCursosOption }
+  pattern: /_option_personal/{tipo}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getDocentesOption }
 
 _tabla_miembros_no_personal:
   pattern: /_tabla_miembros_no_personal
