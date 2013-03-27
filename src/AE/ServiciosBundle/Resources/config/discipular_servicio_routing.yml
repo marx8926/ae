@@ -1,11 +1,23 @@
 _lista_cursos:
   pattern: /_lista_cursos/{tipo}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCursosOption }
-  
+
+_option_personal:
+  pattern: /_lista_cursos/{tipo}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCursosOption }
+
 _tabla_miembros_no_personal:
   pattern: /_tabla_miembros_no_personal
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaMiembros }
   
 _tabla_personal:
-  pattern: /_tabla_personal
-  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaPersonal }
+  pattern: /_tabla_personal/{tipo}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getDocentesOption }
+  
+_option_local:
+  pattern: /_option_local/{tipo}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getLocalOption }
+  
+_tabla_asignacion:
+  pattern: /_tabla_asignacion
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaAsignacion }

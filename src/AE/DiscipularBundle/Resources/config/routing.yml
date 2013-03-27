@@ -35,3 +35,23 @@ discipular_activar_personal:
     defaults: { _controller: AEDiscipularBundle:RegistrarPersonal:ActivarPersonal }
     requirements:
           _method: POST
+          
+discipular_asignar_curso:
+    pattern:  /asignarcurso
+    defaults: { _controller: AEDiscipularBundle:AsignarCurso:index }
+    
+discipular_registrar_asignacion:
+    pattern:  /registrar_asignacion
+    defaults: { _controller: AEDiscipularBundle:AsignarCurso:RegistrarAsignacion }
+    requirements:
+          _method: POST
+          
+discipular_administrar_local:
+    pattern:  /administrar_local
+    defaults: { _controller: AEDiscipularBundle:AdministrarLocal:index }
+    
+discipular_registrar_local:
+    pattern:  /registrar_local
+    defaults: { _controller: AEDiscipularBundle:AdministrarLocal:RegistrarLocal }
+    requirements:
+          _method: POST

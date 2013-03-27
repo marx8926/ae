@@ -17,8 +17,6 @@ class Local
      *
      * @ORM\Column(name="id", type="string", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="local_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -46,6 +44,18 @@ class Local
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * Set id
+     * 
+     * @param string id
+     * @return Local
+     */
+    public function setId($id)
+    {
+    	$this->id = $id;
+    	return $this;
     }
 
     /**
