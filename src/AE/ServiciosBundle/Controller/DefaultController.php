@@ -1208,19 +1208,19 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        return new Response($retorno);  
    }
    
-   public function enviar_datos_tema_celulaAction()
+   public function enviar_datos_tema_celulaAction($id)
    {
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
        
        $todo = array();
        
        try
        {
            $em = $this->getDoctrine()->getEntityManager();
-           $sql = "select *from lista_tema_celula";
+           $sql = "select *from ver_tema_celula(:id)";
            $smt = $em->getConnection()->prepare($sql);
-           $smt->execute();
-           $todo = $smt->fetchAll();
+           $smt->execute(array(':id'=>$id));
+           $todo = $smt->fetch();
            
            $this->getDoctrine()->getEntityManager()->commit();
        }
@@ -1231,5 +1231,37 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        }
        
        return new JsonResponse($todo);
+   }
+   
+   public function enviar_asistencia_celulaAction($id)
+   {
+        $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $est = array();
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $con = $em->getRepository('AEDataBundle:ClaseCell');
+           $rest = $con->findOneBy(array('id'=>$id));
+           
+           
+           $est['id']= $rest->getId();
+           $est['ofrenda'] = $rest->getOfrenda();
+           
+           if($rest->getFechaDicto()!=NULL)
+            $est['fecha'] = $rest->getFechaDicto()->format('d-m-Y');
+           else
+            $est['fecha'] ='';
+           
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse($est);
    }
 }

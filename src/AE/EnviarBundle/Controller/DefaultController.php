@@ -458,14 +458,14 @@ class DefaultController extends Controller
 
         parse_str($form,$datos);   
         
-        /*
-        $ret=array("responseCode"=>200, "greeting"=>$form);     
+        
+        /*$ret=array("responseCode"=>200, "greeting"=>$form);     
        
         $return=json_encode($ret);//jscon encode the array
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-        */
-       
+        
+       */
         
         $n = count($fila);
         
@@ -473,9 +473,13 @@ class DefaultController extends Controller
         
         $em = $this->getDoctrine()->getEntityManager();
         
-        if(strlen($form)>0)
+        if(strlen($form)>8 && strpos($form, 'as')!==false)
         {
+            $ofrenda = $datos['ofrenda']; // ofrenda
+            
             $this->getDoctrine()->getEntityManager()->beginTransaction();
+            
+            
             try{
               
                 for($i=1; $i<$n ;$i++)
@@ -484,9 +488,14 @@ class DefaultController extends Controller
                     
                     $sql = " select insert_clase_cell_miembro(:member, :class)";
                     $smt = $em->getConnection()->prepare($sql);
-                    $smt->execute(array(':member'=>$id,':class'=>$clase));
-                    
+                    $smt->execute(array(':member'=>$id,':class'=>$clase));      
                 }
+                
+                $sql= "select update_clase_cell(:id,:monto)";
+                
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$clase,':monto'=>$ofrenda));
+                
                 $this->getDoctrine()->getEntityManager()->commit();
             
                 $ret=array("responseCode"=>200, "greeting"=>'good'); 

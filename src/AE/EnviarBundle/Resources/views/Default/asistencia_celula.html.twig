@@ -53,7 +53,7 @@
                 <div class="control-group">
                     <label class="control-label" >Ofrenda</label>
                     <div class="controls">
-                        <input class="input-large" id="ofrenda" name="ofrenda">
+                        <input class="input-xlarge" id="ofrenda" name="ofrenda">
                     </div>
                 </div>
           
@@ -147,12 +147,45 @@
         var ids=[];
         
 	$(document).ready(function() {
-            
-            //para cargar tabla
-  
+ 
             var code = {{id}};
             
             var classe = {{clase}};
+            
+    
+    
+            var verif = '{{path('servicio_enviar_asistencia_celula',{'id':':rut'})}}';
+            verif=verif.replace(':rut',classe);
+            
+            $.post(verif,function(data){
+                if(data.fecha.length>0)
+                {
+                    //Claudia: cambias el alert por el model 
+                    alert('Registros llenados en '+ data.fecha);
+                    
+                    var inicio = '{{path('main')}}';
+                    location.replace(inicio);
+                }
+            });
+            
+    
+            var urls = '{{path('servicio_enviar_datos_tema_celula',{'id':':rut'})}}';
+            urls = urls.replace(':rut',classe);
+            
+            $.post(urls, function(data){
+               $('#celula').text(data.celula);
+               $('#tema_celula').text(data.titulo);
+               $('#horario').text(data.dia+' '+data.hora_inicio+'-'+data.hora_fin);
+               
+               if(data.tipo=='0')
+                   $('#tipo_celula').text('Evangelistica');
+               else $('#tipo_celula').text('Discipulado');
+            });
+            
+           
+    
+            //para cargar tabla
+    
             var url = '{{path('servicio_enviar_lista_celula',{'id': ':rut'})}}';
             var ruta = url.replace(':rut',code);
         
@@ -167,10 +200,8 @@
                         for(var i=0; i<todos.length; i++)
                         {
                             ids.push(todos[i]);
-                        }
-                                        
+                        }                                        
                          //añadir 
-            
                         enviar("form",funcion,ids);
                    });
     
