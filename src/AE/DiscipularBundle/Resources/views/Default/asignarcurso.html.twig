@@ -36,6 +36,7 @@
 				ajaxResposeData("tabla_asignacion","{{ path('_tabla_asignacion')}}");  
 				     	
 				enviar("AsignarForm",sayhola);
+				enviar("BorrarAsignacionForm",sayhola);
             	});
             
             var sayhola = function(data){
@@ -85,7 +86,7 @@
 	</fieldset>
 	<fieldset>
 		<legend>Asignados</legend>
-		<form id="BorrarAsignacionForm" method="POST" action="">
+		<form id="BorrarAsignacionForm" method="POST" action="{{path('discipular_eliminar_asignacion')}}">
 		<div id="tabla_asignacion">
 		</div>
 		<input type="submit">

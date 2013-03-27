@@ -55,6 +55,13 @@ discipular_registrar_local:
     defaults: { _controller: AEDiscipularBundle:AdministrarLocal:RegistrarLocal }
     requirements:
           _method: POST
+          
+discipular_eliminar_asignacion:
+    pattern:  /eliminar_asignacion
+    defaults: { _controller: AEDiscipularBundle:AsignarCurso:EliminarAsignacion }
+    requirements:
+          _method: POST
+          
 discipular_curso:
     pattern:  /curso
     defaults: { _controller: AEDiscipularBundle:Curso:index }
