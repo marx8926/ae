@@ -457,16 +457,7 @@ class DefaultController extends Controller
         $datos = array();
 
         parse_str($form,$datos);   
-        
-        
-        /*$ret=array("responseCode"=>200, "greeting"=>$form);     
-       
-        $return=json_encode($ret);//jscon encode the array
-        
-        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-        
-       */
-        
+      
         $n = count($fila);
         
         $clase = $fila[0];
@@ -515,5 +506,10 @@ class DefaultController extends Controller
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
         
+    }
+
+    public function asistenciaAction()
+    {
+        return $this->render('AEEnviarBundle:Default:asistencia.html.twig');
     }
 }
