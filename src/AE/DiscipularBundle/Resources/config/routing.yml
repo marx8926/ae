@@ -70,6 +70,12 @@ discipular_temascurso:
     pattern:  /temascurso
     defaults: { _controller: AEDiscipularBundle:Temas:index }
     
-discipular_registrarestudiante:
-    pattern:  /registrarestudiante
+discipular_administrar_estudiante:
+    pattern:  /administrar_estudiante
     defaults: { _controller: AEDiscipularBundle:RegistrarEstudiante:index }
+    
+discipular_registrar_estudiante:
+    pattern:  /registrar_estudiante
+    defaults: { _controller: AEDiscipularBundle:RegistrarEstudiante:RegistrarEstudiante }
+    requirements:
+          _method: POST
