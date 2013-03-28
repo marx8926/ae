@@ -8,7 +8,7 @@ _option_personal:
 
 _tabla_miembros_no_personal:
   pattern: /_tabla_miembros_no_personal
-  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaMiembros }
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaMiembrosNoPersonal }
   
 _tabla_personal:
   pattern: /_tabla_personal
@@ -21,3 +21,11 @@ _option_local:
 _tabla_asignacion:
   pattern: /_tabla_asignacion
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaAsignacion }
+  
+_tabla_miembros_no_estudiante:
+  pattern: /_tabla_miembros_no_estudiante
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaMiembrosNoEstudiante }
+  
+_tabla_estudiante:
+  pattern: /_tabla_estudiante
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaEstudiante }

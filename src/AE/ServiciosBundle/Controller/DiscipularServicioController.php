@@ -59,11 +59,26 @@ class DiscipularServicioController extends Controller
 			return new Response($result);
 		}
 	
-	public function getTablaMiembrosAction()
+	public function getTablaMiembrosNoPersonalAction()
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
 		$sql = "select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha from miembro inner join persona on persona.id = miembro.id where miembro.activo=true and NOT EXISTS (SELECT * FROM docente as d where d.id_persona = miembro.id)";
+	
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+	
+		$todo = $smt->fetchAll();
+	
+		return new JsonResponse(array('aaData'=>$todo));
+	}
+	
+
+	public function getTablaMiembrosNoEstudianteAction()
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$sql = "select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha from miembro inner join persona on persona.id = miembro.id where miembro.activo=true and NOT EXISTS (SELECT * FROM estudiante as d where d.id = miembro.id)";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -87,6 +102,20 @@ class DiscipularServicioController extends Controller
 		return new JsonResponse(array('aaData'=>$todo));
 	}
 	
+	public function getTablaEstudianteAction()
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$sql = "select miembro.id, persona.nombre, persona.apellidos,  miembro.id_red as red, estudiante.activo as estado,estudiante.fecha_inicio as inicio, estudiante.fecha_fin as fin from miembro inner join persona on (persona.id = miembro.id) inner join estudiante on (miembro.id = estudiante.id) where miembro.activo=true";
+	
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+	
+		$todo = $smt->fetchAll();
+	
+		return new JsonResponse(array('aaData'=>$todo));
+	}
+	
 	public function getAsignacionCursoAction(){
 		$em = $this->getDoctrine()->getEntityManager();
 		
@@ -99,7 +128,7 @@ class DiscipularServicioController extends Controller
 		
 		return new JsonResponse(array('aaData'=>$todo));
 	}
-	
+
 	public function getLocalOptionAction($tipo){
 		
 		$em = $this->getDoctrine()->getEntityManager();
