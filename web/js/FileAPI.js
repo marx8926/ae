@@ -199,7 +199,7 @@ function FileAPI (t, d, f) {
             upload.addEventListener("error", function (ev) {console.log(ev);}, false);
             xhr.open(
                 "POST",
-                "https://localhost/sym/web/upload.php"
+                "https://localhost/ae/web/upload.php"
             );
             xhr.setRequestHeader("Cache-Control", "no-cache");
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -230,39 +230,39 @@ function ExtArchivo(file) {
     ext = nom.substr(nom.indexOf('.'),nom.length).toLowerCase();
 
     if (file.type.search(/video\/.*/) != -1){
-                    url= "https://localhost/sym/web/extensiones/video.png";
+                    url= "https://localhost/ae/web/extensiones/video.png";
     } else{
-        url= "https://localhost/sym/web/extensiones/default.png";
+        url= "https://localhost/ae/web/extensiones/default.png";
     }
     if (file.type.search(/audio\/.*/) != -1){
-            url= "https://localhost/sym/web/extensiones/audio.png";
+            url= "https://localhost/ae/web/extensiones/audio.png";
     }
     if ("image/jpeg".indexOf(file.type) > -1) {
-            url="https://localhost/sym/web/extensiones/image-png.png";
+            url="https://localhost/ae/web/extensiones/image-png.png";
     }
     if ("image/png".indexOf(file.type)>-1) {
-            url= "https://localhost/sym/web/extensiones/image-jpeg.png";
+            url= "https://localhost/ae/web/extensiones/image-jpeg.png";
     }
     if ("image/gif".indexOf(file.type)>-1) {
-            url= "https://localhost/sym/web/extensiones/image-gif.png";
+            url= "https://localhost/ae/web/extensiones/image-gif.png";
     }
     if ("application/pdf".indexOf(file.type)>-1) {
-            url= "https://localhost/sym/web/extensiones/application-pdf.png";
+            url= "https://localhost/ae/web/extensiones/application-pdf.png";
     }
     if(ext.indexOf(".rar")>-1){
-            url= "https://localhost/sym/web/extensiones/application-rar.png";
+            url= "https://localhost/ae/web/extensiones/application-rar.png";
     }
     if(ext.indexOf(".zip")>-1){
-            url= "https://localhost/sym/web/extensiones/application-zip.png";
+            url= "https://localhost/ae/web/extensiones/application-zip.png";
     }
     if(ext.indexOf(".doc")>-1||ext.indexOf(".docx")>-1||ext.indexOf(".docm")>-1||ext.indexOf(".dotx")>-1||ext.indexOf(".dotm")>-1){
-            url= "https://localhost/sym/web/extensiones/application-word.png";
+            url= "https://localhost/ae/web/extensiones/application-word.png";
     }
     if(ext.indexOf(".xlsx")>-1||ext.indexOf(".xlsm")>-1||ext.indexOf(".xltx")>-1||ext.indexOf(".xltm")>-1||ext.indexOf(".xlsb")>-1||ext.indexOf(".xlam")>-1){
-            url= "https://localhost/sym/web/extensiones/application-excel.png";
+            url= "https://localhost/ae/web/extensiones/application-excel.png";
     }
     if(ext.indexOf(".ppt")>-1||ext.indexOf(".pptx")>-1||ext.indexOf(".pptm")>-1||ext.indexOf(".potx")>-1||ext.indexOf(".potm")>-1||ext.indexOf(".ppam")>-1||ext.indexOf(".ppsx")>-1||ext.indexOf(".ppsm")>-1||ext.indexOf(".sldx")>-1){
-            url= "https://localhost/sym/web/extensiones/application-ppt.png";
+            url= "https://localhost/ae/web/extensiones/application-ppt.png";
     }
     return url;
 }
@@ -289,6 +289,6 @@ function RegFile(file,resultado){
     var es = document.getElementById("lechesp");
     console.log(es.value);
     
-    conexion.open("GET","https://localhost/sym/web/app_dev.php/file_leche?name="+file+"&id="+es.value,true);
+    conexion.open("GET","https://localhost/ae/web/app_dev.php/file_leche?name="+file+"&id="+es.value,true);
     conexion.send();
 }

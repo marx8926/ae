@@ -1,1 +1,155 @@
-{# empty Twig template #}
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        
+        <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">  
+                 
+{% endblock %}                 
+
+{% block content %} 
+<div class="span9" >
+
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Asistencia de Célula</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+            <form id='form' name='form' method='POST' class="form-horizontal" action='{{path('enviar_asistencia_celula_update')}}'>
+                
+                <fieldset>
+                
+                <div class="control-group">
+                        <label class="control-label" >Célula</label>
+                        <div class="controls">
+                            <label id="celula" class="control-label" ></label>
+                        </div>
+                </div>
+                 
+                <div class="control-group">
+                    <label class="control-label" >Tema Célula</label>
+                    <div class="controls">
+                        <label id="tema_celula" class="control-label"></label>
+                    </div>
+                </div>
+                    
+                 <div class="control-group">
+                    <label class="control-label" >Tipo de Célula</label>
+                    <div class="controls">
+                        <label id="tipo_celula" class="control-label"></label>
+                    </div>
+                </div>
+                 
+                <div class="control-group">
+                    <label class="control-label" >Horario</label>
+                    <div class="controls">
+                        <label id="horario" class="control-label" ></label>
+                    </div>
+                </div>
+                 
+                <div class="control-group">
+                    <label class="control-label" >Ofrenda</label>
+                    <div class="controls">
+                        <input class="input-xlarge" id="ofrenda" name="ofrenda">
+                    </div>
+                </div>
+          
+                </fieldset>
+            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="persona" name="persona">
+            		<thead>
+                		<tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th class="table-checkbox">Asistencia</th>
+		                </tr>
+			</thead>
+			<tbody id="tablas1" name="tablas1" >
+                          
+			</tbody>
+                </table>
+                    
+                <div class="form-horizontal">
+                    <input class="btn-success" id="vista" name="vista" type="submit" value="Guardar cambios">
+                </div>
+
+                </form>
+    	</div>
+	</div>
+       
+        
+</div>    
+                 
+{% endblock %}
+      
+ {%block javascript %}
+            
+            <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+			<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+                        <script src="{{asset('js/functiongen.js')}}"></script>
+
+			
+			<script src="https://www.google.com/jsapi"></script>
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
+  
+    <script type="text/javascript">
+        var funcion = function(data)
+            {
+                console.log(data);
+                if(data.responseCode==200)
+                {
+                    alert('Registro Completado');
+                    //location.reload();
+                }
+                else
+                {
+                    alert('Error inesperado');
+                }
+                
+            }
+            
+        function est()
+        {
+            var myTr = [];
+           $('#persona tbody tr').each(function () {
+               
+              var rt = $(this).find('td').first();
+              
+               myTr.push(rt.text());
+           
+            });
+           
+            return myTr;
+        }
+            
+        var ids=[];
+        
+	$(document).ready(function() {
+ 
+	 });
+         
+  
+       </script>
+{%endblock %} 
