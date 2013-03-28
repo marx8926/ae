@@ -126,31 +126,18 @@ class AsignarCursoController extends Controller{
 			$id = $datos["id"];
 			$num = count($id);
 			
-			
 			$em = $this->getDoctrine()->getEntityManager();
 			$this->getDoctrine()->getEntityManager()->beginTransaction();
-			try
-			{	
-				for($i=0; $i < $num; $i++){
-				$idAsignacion = $datos["asignacion".$id[$i]];
-				$Asigancion = $this->getDoctrine()
-				->getRepository('AEDataBundle:CursoImpartido')
-				->find($idAsignacion);
-		
-				$em->remove($Asignacion);
-				$em->flush();
-				}
-		
-			}catch(Exception $e)
-			{
-				$this->getDoctrine()->getEntityManager()->rollback();
-				$this->getDoctrine()->getEntityManager()->close();
-				$return=array("responseCode"=>400, "greeting"=>"Bad");
-					
-				throw $e;
-			}
-			$this->getDoctrine()->getEntityManager()->commit();
-			$return=array("responseCode"=>200, "id"=>$idAsignacion);
+			for($i=0; $i < $num; $i++){
+						$idAsignacion = $datos["asignacion".$id[$i]];
+						$sql = "DELETE FROM curso_impartido WHERE id=".$idAsignacion;
+							
+						$smt = $em->getConnection()->prepare($sql);
+						$smt->execute();
+							
+						$todo = $smt->fetchAll();
+					}
+				$return=array("responseCode"=>200, "id"=>$datos);
 		}
 		else{
 			$return = array("responseCode"=>400, "greeting"=>"Bad");
