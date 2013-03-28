@@ -14,4 +14,8 @@ class RegistrarEstudianteController extends Controller {
 	{
 		return $this->render('AEDiscipularBundle:Default:convertirestudiante.html.twig');
 	}
+	
+	public function RegistrarEstudianteAction(){
+		
+	}
 }

@@ -25,3 +25,7 @@ _tabla_asignacion:
 _tabla_miembros_no_estudiante:
   pattern: /_tabla_miembros_no_estudiante
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaMiembrosNoEstudiante }
+  
+_tabla_estudiante:
+  pattern: /_tabla_estudiante
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaEstudiante }
