@@ -1,0 +1,398 @@
+{% extends "::base.html.twig" %}
+        
+{% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+{% endblock %}
+
+{% block content %}    
+
+<div class="span9" >
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Estudiantes</h3>						
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='ExportForm' method='POST'>
+        		<input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+                <input id='pdfMiembros' type='button' value='PDF' class="btn-success">
+                <input id='excelMiembros' type='button' value='Excel' class="btn-success">
+            </form>
+		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaMiembros" name="TablaMiembros">
+		        <thead>
+		            <tr>
+						<th>ID</th>
+						<th>Nombres</th>
+						<th>Apellidos</th>
+						<th>Edad</th>
+						<th>Red</th>
+		                <th>Célula</th>
+		                <th>Conversión</th>
+		            </tr>
+				</thead>
+				<tbody id="tablas1" name="tablas1" ></tbody>
+		    </table>
+		</div>
+	</div>
+	<form  method="POST" id="RegPersonalForm" action='{{path('discipular_registrar_personal')}}'>
+		<div class="form-horizontal">
+			<input id="idMiembro" type="hidden" name="id">
+			<input type='button' class="btn-success" disabled="true" id="registro" name="registro" value="Registrar">
+		</div>
+	</form>
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Administrar Alumnos</h3>						
+        </div>
+        <div class="box-content box-nomargin">
+        	<form id='PersonalExportForm' method='POST'>
+                <input id='pdfPersonal' type='button' value='PDF' class="btn-success">
+                <input id='excelPersonal' type='button' value='Excel' class="btn-success">
+            </form>
+		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaPersonal" name="TablaPersonal">
+		    	<thead>
+		            <tr>
+						<th>ID</th>
+						<th>Nombres</th>
+						<th>Apellidos</th>
+						<th>Red</th>
+						<th>Estado</th>
+		                <th>Inicio</th>
+		                <th>Fin</th>
+		        	</tr>
+				</thead>
+				<tbody id="tablas2" name="tablas2" ></tbody>
+		    </table>
+		</div>
+	</div>
+	<form  method="POST" id="EliminarPersonalForm" action='{{path('discipular_eliminar_personal')}}'>
+		<div class="form-horizontal">
+			<input id="idPersonalEliminar" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Eliminar">
+		</div>
+	</form>
+	
+	
+</div>
+ 
+ {% endblock %}
+      
+ {%block javascript %}
+ 	
+ 	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>
+	<script src="{{asset('js/functiongen.js')}}"></script>
+	<script src="{{asset('js/modal.js')}}"></script>
+	<script src="http://www.google.com/jsapi"></script>
+	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+	<script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
+	
+	<script type="text/javascript" charset="utf-8">
+		/* Default class modification */
+		$.extend( $.fn.dataTableExt.oStdClasses, {
+			"sSortAsc": "header headerSortDown",
+			"sSortDesc": "header headerSortUp",
+			"sSortable": "header"
+		} );
+	
+		/* API method to get paging information */
+		$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+		{
+			return {
+				"iStart":         oSettings._iDisplayStart,
+				"iEnd":           oSettings.fnDisplayEnd(),
+				"iLength":        oSettings._iDisplayLength,
+				"iTotal":         oSettings.fnRecordsTotal(),
+				"iFilteredTotal": oSettings.fnRecordsDisplay(),
+				"iPage":          Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+				"iTotalPages":    Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+			};
+		}
+	
+		/* Bootstrap style pagination control */
+		$.extend( $.fn.dataTableExt.oPagination, {
+			"bootstrap": {
+				"fnInit": function( oSettings, nPaging, fnDraw ) {
+					var oLang = oSettings.oLanguage.oPaginate;
+					var fnClickHandler = function ( e ) {
+						e.preventDefault();
+						if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) )
+							fnDraw( oSettings );
+					};
+	
+					$(nPaging).addClass('pagination').append(
+						'<ul>'+
+							'<li class="prev disabled"><a href="#">&larr; '+oLang.sPrevious+'</a></li>'+
+							'<li class="next disabled"><a href="#">'+oLang.sNext+' &rarr; </a></li>'+
+						'</ul>'
+					);
+					var els = $('a', nPaging);
+					$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
+					$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+				},
+	
+				"fnUpdate": function ( oSettings, fnDraw ) {
+					var iListLength = 5;
+					var oPaging = oSettings.oInstance.fnPagingInfo();
+					var an = oSettings.aanFeatures.p;
+					var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
+	
+					if ( oPaging.iTotalPages < iListLength) {
+						iStart = 1;
+						iEnd = oPaging.iTotalPages;
+					}
+					else if ( oPaging.iPage <= iHalf ) {
+						iStart = 1;
+						iEnd = iListLength;
+					} else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
+						iStart = oPaging.iTotalPages - iListLength + 1;
+						iEnd = oPaging.iTotalPages;
+					} else {
+						iStart = oPaging.iPage - iHalf + 1;
+						iEnd = iStart + iListLength - 1;
+					}
+	
+					for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
+						// Remove the middle elements
+						$('li:gt(0)', an[i]).filter(':not(:last)').remove();
+	
+						// Add the new list items and their event handlers
+						for ( j=iStart ; j<=iEnd ; j++ ) {
+							sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
+							$('<li '+sClass+'><a href="#">'+j+'</a></li>')
+								.insertBefore( $('li:last', an[i])[0] )
+								.bind('click', function (e) {
+									e.preventDefault();
+									oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
+									fnDraw( oSettings );
+								} );
+						}
+	
+						// Add / remove disabled classes from the static elements
+						if ( oPaging.iPage === 0 )
+							$('li:first', an[i]).addClass('disabled');
+						else
+							$('li:first', an[i]).removeClass('disabled');
+	
+						if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 )
+							$('li:last', an[i]).addClass('disabled');
+						else
+							$('li:last', an[i]).removeClass('disabled');
+					}
+				}
+			}
+		});
+ 
+ 	</script>
+    <script type="text/javascript">
+          
+          
+    /* Define two custom functions (asc and desc) for string sorting */
+        jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
+				return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+	};
+			
+	jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
+				return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+	};
+	
+     var trselected; 
+	 var oTable;
+	 var trpersonalselected;
+	 var TablaPersonal;
+	 var valuesPersonal = [];
+	 var values = [];
+         
+	$(document).ready(function() {
+		
+		//select all the a tag with name equal to modal
+	     
+		$("#pdfMiembros").click(function(event) {
+            $("#TablaMiembros th").css("width","auto");
+        	$("#content").val($("#TablaMiembros").html());
+        	$("#title").val($("h3").html());
+            $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#ExportForm").submit();
+        });
+
+        $("#excelMiembros").click(function(event) {
+        	$("#content").val("<table>" + $("#TablaMiembros").html() + "</table>");
+			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+			$("#ExportForm").submit();
+		        });
+
+        $("#pdfPersonal").click(function(event) {
+            $("#TablaPersonal th").css("width","auto");
+        	$("#content").val($("#TablaPersonal").html());
+        	$("#title").val($("h3").html());
+            $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#ExportForm").submit();
+        });
+
+        $("#excelPersonal").click(function(event) {
+        	$("#content").val("<table>" + $("#TablaPersonal").html() + "</table>");
+			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+			$("#ExportForm").submit();
+		        });		            
+		        
+		$('#TablaMiembros tbody').click(function(event){
+			$(oTable.fnSettings().aoData).each(function(){
+				$(this.nTr).removeClass('row_selected');
+	 		});
+	        $(event.target.parentNode).addClass('row_selected');
+	        	trselected = $(event.target.parentNode);
+	            var tds = $(trselected).find('td');
+	  			$.each(tds, function(index, item) {
+	            	values.push(item.innerHTML); 
+	            });
+	  			var anSelected = fnGetSelected(oTable);
+				if(anSelected.length !=0){
+					var tds = $(anSelected).find('td');
+					var val = [];
+					$.each(tds, function(index, item) {
+						val.push(item.innerHTML); 
+					});
+					$("#registro").prop('disabled', false);
+					$("#idMiembro").val(val[0]);       
+					}
+				});
+		$('#TablaPersonal tbody').click(function(event){
+			$(TablaPersonal.fnSettings().aoData).each(function(){
+				$(this.nTr).removeClass('row_selected');
+	 		});
+	        $(event.target.parentNode).addClass('row_selected');
+	        trpersonalselected = $(event.target.parentNode);
+	            var tds = $(trpersonalselected).find('td');
+	  			$.each(tds, function(index, item) {
+	  				valuesPersonal.push(item.innerHTML); 
+	            });
+	  			var anSelected = fnGetSelected(TablaPersonal);
+				if(anSelected.length !=0){
+					var tds = $(anSelected).find('td');
+					var val = [];
+					$.each(tds, function(index, item) {
+						val.push(item.innerHTML); 
+					});
+					 $("#idPersonalDesactivar").val(val[0]);  
+					 $("#idPersonalEliminar").val(val[0]);
+					 $("#idPersonalActivar").val(val[0]);   
+					}
+				});
+		
+        $('#registro').click(function(){
+            $('#descripcion').focus();
+            });
+		//click handler para eliminar
+		enviar("RegPersonalForm",sayhola);
+		enviar("EliminarPersonalForm",sayhola);
+		enviar("DesactivarPersonalForm",sayhola);
+		enviar("ActivarPersonalForm",sayhola);
+
+		
+		/* Build the DataTable with third column using our custom sort functions */
+		oTable = $('#TablaMiembros').dataTable({
+			"bProcessing": true,
+			"bServerSide": false,
+			"bDestroy": true,
+			"sAjaxSource": '{{path("_tabla_miembros_no_personal")}}',
+			"aoColumns": [
+		            { "mDataProp": "id" },
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos" },
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "red" },
+                    { "mDataProp": "celula"},
+                    { "mDataProp":"fecha"}
+		                ],
+			"aaSorting": [ [0,'asc'], [1,'asc'] ],
+			"aoColumnDefs": [
+	        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
+			"sDom": 'T<"clear">lfrtip',
+	        "oTableTools": {
+				"sRowSelect": "single",
+	            "fnRowSelected": function ( node ) {
+	            	var s=$(node).children();
+	                alert("Selected Row : " + s[0]);
+	            }
+			},
+			"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+			"sPaginationType": "bootstrap",
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ registros por página"
+			}
+		});
+
+		TablaPersonal = $('#TablaPersonal').dataTable({
+			"bProcessing": true,
+			"bServerSide": false,
+			"bDestroy": true,
+			"sAjaxSource": '{{path("_tabla_personal")}}',
+			"aoColumns": [
+		            { "mDataProp": "id" },
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos" },
+                    { "mDataProp": "red" },
+                    { "mDataProp": "estado" },
+                    { "mDataProp": "inicio"},
+                    { "mDataProp":"fin"}
+		                ],
+			"aaSorting": [ [0,'asc'], [1,'asc'] ],
+			"aoColumnDefs": [
+	        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
+			"sDom": 'T<"clear">lfrtip',
+	        "oTableTools": {
+				"sRowSelect": "single",
+	            "fnRowSelected": function ( node ) {
+	            	var s=$(node).children();
+	                alert("Selected Row : " + s[0]);
+	            }
+			},
+			"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+			"sPaginationType": "bootstrap",
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ registros por página"
+			}
+		});	
+	 });
+
+	var sayhola = function(data){
+		console.log(data);
+		location.reload();
+		 }
+         
+		        /* Get the rows which are currently selected */
+	function fnGetSelected( oTableLocal )
+	{
+		var aReturn = new Array();
+		var aTrs = oTableLocal.fnGetNodes();
+		
+		for ( var i=0 ; i<aTrs.length ; i++ )	            
+			if ( $(aTrs[i]).hasClass('row_selected'))
+				aReturn.push( aTrs[i] );
+		return aReturn;
+	}
+
+    </script>
+{%endblock %} 

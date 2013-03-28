@@ -156,7 +156,7 @@ class DiscipularServicioController extends Controller
 					<td>".$val['dia']."</td>
 					<td>".$val['hora_inicio']."</td>
 					<td>".$val['hora_fin']."</td>
-					<td><input type='checkbox' name='asignacion[]' value='".$val['idasignacion']."'><input type='hidden' value='".$val['id_horario']."'></td>
+					<td><input type='checkbox' name='id[]' value='".$key."'><input type='hidden' name='asignacion".$key."' value='".$val['idasignacion']."'><input type='hidden' name='horario".$key."' value='".$val['id_horario']."'></td>
 					</tr>
 					";
 		}

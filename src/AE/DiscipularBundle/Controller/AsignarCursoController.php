@@ -115,41 +115,31 @@ class AsignarCursoController extends Controller{
 		
 	}
 	
-	public function EliminarAsignacion(){
+	public function EliminarAsignacionAction(){
 		$request = $this->get('request');
 		$form=$request->request->get('formName');		
 		$datos = array();		
 		parse_str($form,$datos);
-		
-		
+		$idAsignacion = null;
 		
 		if($form!=NULL){
-				
-			$Docente = $this->getDoctrine()
-			->getRepository('AEDataBundle:Docente')
-			->find($docenteid);
-				
+			$id = $datos["id"];
+			$num = count($id);
+			
+			
 			$em = $this->getDoctrine()->getEntityManager();
 			$this->getDoctrine()->getEntityManager()->beginTransaction();
 			try
-			{
-				$Horario = new Horario();
-				$Horario->setDia($dia);
-				$Horario->setHoraInicio($date_inicio);
-				$Horario->setHoraFin($date_fin);
+			{	
+				for($i=0; $i < $num; $i++){
+				$idAsignacion = $datos["asignacion".$id[$i]];
+				$Asigancion = $this->getDoctrine()
+				->getRepository('AEDataBundle:CursoImpartido')
+				->find($idAsignacion);
 		
-				$em->persist($Horario);
+				$em->remove($Asignacion);
 				$em->flush();
-		
-				$Asignacion = new CursoImpartido();
-				$Asignacion->setFechaCreacion(new \DateTime());
-				$Asignacion->setIdCurso($Curso);
-				$Asignacion->setIdLocal($Local);
-				$Asignacion->setIdPersonaDocente($Docente);
-				$Asignacion->setIdHorario($Horario);
-		
-				$em->persist($Asignacion);
-				$em->flush();
+				}
 		
 			}catch(Exception $e)
 			{
@@ -160,7 +150,7 @@ class AsignarCursoController extends Controller{
 				throw $e;
 			}
 			$this->getDoctrine()->getEntityManager()->commit();
-			$return=array("responseCode"=>200, "id"=>$datos );
+			$return=array("responseCode"=>200, "id"=>$idAsignacion);
 		}
 		else{
 			$return = array("responseCode"=>400, "greeting"=>"Bad");
