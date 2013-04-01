@@ -36,6 +36,24 @@ discipular_activar_personal:
     requirements:
           _method: POST
           
+discipular_eliminar_estudiante:
+    pattern:  /eliminarestudiante
+    defaults: { _controller: AEDiscipularBundle:RegistrarEstudiante:EliminarEstudiante }
+    requirements:
+          _method: POST
+          
+discipular_desactivar_estudiante:
+    pattern:  /desactivarestudiante
+    defaults: { _controller: AEDiscipularBundle:RegistrarEstudiante:DesactivarEstudiante }
+    requirements:
+          _method: POST
+          
+discipular_activar_estudiante:
+    pattern:  /activarestudiante
+    defaults: { _controller: AEDiscipularBundle:RegistrarEstudiante:ActivarEstudiante }
+    requirements:
+          _method: POST
+          
 discipular_asignar_curso:
     pattern:  /asignarcurso
     defaults: { _controller: AEDiscipularBundle:AsignarCurso:index }

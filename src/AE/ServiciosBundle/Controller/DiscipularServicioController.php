@@ -192,4 +192,29 @@ class DiscipularServicioController extends Controller
 		$result = $result."</table>";
 		return new Response($result);
 	}
+	
+	public function getTablaAsignacionMatri($idCurso){
+		$resutl='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nombre del Profesor</th>
+							<th>Fecha de Inicio</th>
+							<th>Fecha de Fin</th>
+					        <th>Estado</th>
+					        <th>N° Matriculados</th>
+					    </tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Valdivieso Castillo Claudia</td>
+							<td>2013-04-04</td>
+							<td>2013-05-04</td>
+					        <td><input type="button" id="activo" name="activo" value="Matricular" /></td>
+					        <td><input type="button" id="ver" name="ver" value="Ver" /></td>
+					    </tr>
+					</tbody>
+				</table>';
+	}
 }
