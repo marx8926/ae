@@ -23,6 +23,14 @@ class ClaseCurso
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="tema", type="integer", nullable=true)
+     */
+    private $tema;
+    
+    
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_dicto", type="date", nullable=false)
@@ -66,6 +74,29 @@ class ClaseCurso
     }
 
     /**
+     * Set tema
+     *
+     * @param integer $tema
+     * @return ClaseCurso
+     */
+    public function setTema($tema)
+    {
+        $this->tema = $tema;
+    
+        return $this;
+    }
+
+    /**
+     * Get tema
+     *
+     * @return integer 
+     */
+    public function getTema()
+    {
+        return $this->fechaDicto;
+    }
+
+    /**
      * Set fechaDicto
      *
      * @param \DateTime $fechaDicto
@@ -88,6 +119,7 @@ class ClaseCurso
         return $this->fechaDicto;
     }
 
+    
     /**
      * Add idPersonaEstudiante
      *
