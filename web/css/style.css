@@ -2045,6 +2045,7 @@ body {
   -webkit-border-radius: 0 0 0 0;
   -moz-border-radius: 0 0 0 0;
   border-radius: 0 0 0 0;
+  border-bottom: 1px solid #bbb;
 }
 .table.table-bordered tbody td {
   border-color: #bbb;

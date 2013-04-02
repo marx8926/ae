@@ -512,4 +512,12 @@ class DefaultController extends Controller
     {
         return $this->render('AEEnviarBundle:Default:asistencia.html.twig');
     }
+    public function redAction()
+    {
+    	return $this->render('AEEnviarBundle:Default:red.html.twig');
+    }
+    public function celulasbyredAction()
+    {
+    	return $this->render('AEEnviarBundle:Default:celulasbyred.html.twig');
+    }
 }

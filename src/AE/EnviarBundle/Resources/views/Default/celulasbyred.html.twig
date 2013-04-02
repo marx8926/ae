@@ -1,0 +1,86 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+	<link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">             
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+<div class="span12" >
+
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Células de la Red (Nombre o Número de la red)</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<div class="alert alert-block alert-info">
+				<h4 class="alert-heading">Info!</h4>
+				Selecciona una fila para ver qué temas desarrolla dicha célula.
+			</div>
+        	
+            <form id='form' name='form' method='POST' class="form-horizontal" action='{{path('enviar_asistencia_celula_update')}}'>
+            
+            <fieldset>
+            	<div class="control-group centro">
+                	<label class="control-label" >Tipo de Célula:</label>
+                    <div class="controls">
+                    	<select id="tipo_cell" name="tipo_cell" required >
+                        	<option value="0">Evangelistica</option>
+                            <option value="1">Mentoreo</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+							
+            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped table-bordered"  id="persona" name="persona">
+            		<col width="10%" />
+					<col width="40%" />
+					<col width="10%" />
+					<col width="40%" />
+            		<thead>
+                		<tr>
+                                    <th>ID</th>
+                                    <th>Líder</th>
+                                    <th>Tipo</th>
+                                    <th>Ubicación</th>
+		                </tr>
+			</thead>
+			<tbody id="tablas1" name="tablas1" >
+            	<tr>
+					<td>1</td>
+					<td>Valdivieso Castillo Claudia</td>
+					<td>Tipo</td>
+					<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+			    </tr>
+			    <tr>
+					<td>1</td>
+					<td>Claudia</td>
+					<td>Tipo</td>
+					<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+			    </tr>
+			    <tr>
+					<td>1</td>
+					<td>Claudia</td>
+					<td>Tipo</td>
+					<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+			    </tr>
+			    <tr>
+					<td>1</td>
+					<td>Claudia</td>
+					<td>Tipo</td>
+					<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+			    </tr>
+			</tbody>
+                </table>
+                </form>
+    	</div>
+	</div>
+       
+   </div> 
+</div> 
+
+{% endblock %}
