@@ -28,6 +28,34 @@ class CursoImpartido
      * @ORM\Column(name="fecha_creacion", type="date", nullable=false)
      */
     private $fechaCreacion;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_inicio", type="date", nullable=false)
+     */
+    private $fechaInicio;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="date", nullable=false)
+     */
+    private $fechaFin;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=false)
+     */
+    private $activo;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado_matricula", type="boolean", nullable=false)
+     */
+    private $EstadoMatricula;
 
     /**
      * @var \Curso
@@ -102,6 +130,98 @@ class CursoImpartido
     public function getFechaCreacion()
     {
         return $this->fechaCreacion;
+    }
+    
+    /**
+     * Set fechaInicio
+     *
+     * @param \DateTime $fechaInicio
+     * @return CursoImpartido
+     */
+    public function setFechaInicio($fechaInicio)
+    {
+    	$this->fechaInicio = $fechaInicio;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get fechaInicio
+     *
+     * @return \DateTime
+     */
+    public function getFechaInicio()
+    {
+    	return $this->fechaInicio;
+    }
+    
+    /**
+     * Set fechaFin
+     *
+     * @param \DateTime $fechaCreacion
+     * @return CursoImpartido
+     */
+    public function setFechaFin($fechaFin)
+    {
+    	$this->fechaFin = $fechaFin;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get fechaFin
+     *
+     * @return \DateTime
+     */
+    public function getFechaFin()
+    {
+    	return $this->fechaFin;
+    }
+    
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     * @return CursoImpartido
+     */
+    public function setActivo($activo)
+    {
+    	$this->activo = $activo;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get activo
+     *
+     * @return boolean
+     */
+    public function getActivo()
+    {
+    	return $this->activo;
+    }
+    
+    /**
+     * Set EstadoMatricula
+     *
+     * @param boolean $EstadoMatricula
+     * @return CursoImpartido
+     */
+    public function setEstadoMatricula($EstadoMatricula)
+    {
+    	$this->EstadoMatricula = $EstadoMatricula;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get EstadoMatricula
+     *
+     * @return boolean
+     */
+    public function getEstadoMatricula()
+    {
+    	return $this->EstadoMatricula;
     }
 
     /**

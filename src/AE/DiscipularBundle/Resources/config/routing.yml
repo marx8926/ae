@@ -1,5 +1,5 @@
 discipular_crearcurso:
-    pattern:  /crearcurso
+    pattern: /crearcurso
     defaults: { _controller: AEDiscipularBundle:CrearCurso:index }
     
 discipular_registrar_curso:

@@ -26,17 +26,13 @@
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
+			<script src="{{asset('js/functiongen.js')}}"></script>
   	
  	<script src="{{asset('js/FileUp.js')}}"></script>
             
     <script type="text/javascript">
             $(document).ready(function() {
-                
-            	var data = $.ajax({
-                url: "{{ path('_lista_cursos',{'tipo':'multiple'}) }}",
-                async: false
-                }).responseText;
-            	$('#select_curso').html(data);
+            	ajaxResposeData("select_curso","{{ path('_lista_cursos',{'tipo':'multiple'}) }}");
             	$('#number').on("change",cambioNumber);
             	
             	FileUp = new FileUp("cursos");
@@ -48,91 +44,93 @@
             		else
                 		alert("Faltan Datos por llenar!")
             	});
-            	
-                function cambioNumber() {
-                	var num = $('#number').val();
-                	$("#sesiones").html("");
-                	for(i=0; i<num;i++){
-						var li = document.createElement('li');
-						li.id = "sesion"+i;
-	                	
-	                	var select = document.createElement('select');                	
-	                	select.name = "tipo"+i;
-	                	li.appendChild(select);
-	            			
-	            		var option0 = document.createElement('option');
-	            		var t = document.createTextNode("Sesion");
-	            		option0.value = "2";
-	            		option0.appendChild(t);
-	            		select.appendChild(option0);
-	
-	            		var option1 = document.createElement('option');
-	            		var t = document.createTextNode("Extra");
-	            		option1.value = "1";
-	            		option1.appendChild(t);
-	            		select.appendChild(option1);
-	
-	            		var detall = document.createElement('input');
-	            		detall.type = "text";
-	            		detall.name = "detalle"+i;
-	            		detall.placeholder = 'Detalle de sesion';
-	            		detall.className = "detalle";
-	            		detall.required = true;
-	            		li.appendChild(detall);
-	
-	            		var file = document.createElement('input');
-	            		file.type = "file";
-	            		file.name = "file"+i;
-	            		file.className = "fileup";
-	            		li.appendChild(file);
 
-	            		var hidden = document.createElement('input');
-	            		hidden.type = "hidden";
-	            		hidden.name = "filename"+i;
-	            		hidden.className = "name";
-	            		li.appendChild(hidden);
-
-	            		var div = document.createElement('input');
-	            		div.className = "loadbar";
-	
-	            		document.getElementById("sesiones").appendChild(li);
-                	}
-                	FileUp.init();
-            	}
+            	$("#myForm").submit(function(){
+                    
+                    //get the url for the form
+                    var url=$("#myForm").attr("action");
+                     
+                    //start send the post request
+                 	console.log($("#myForm").serialize());
+                    
+                    $.post(url,{
+                        formName:$("#myForm").serialize(),
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
+               
+                    console.log(data);
+                    
+                    if(data.responseCode==200 ){           
+                    	console.log("ok");
+                    }
+                    else if(data.responseCode==400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    return false;}); 
             });
 
-            $("#myForm").submit(function(){
-                
-                //get the url for the form
-                var url=$("#myForm").attr("action");
-                 
-                //start send the post request
-             
-                
-                $.post(url,{
-                    formName:$("#myForm").serialize(),
-                    other:"attributes"
-                },function(data){
-                //the response is in the data variable
-           
-                console.log(data);
-                
-                if(data.responseCode==300 ){           
-                	console.log("ok");
-                }
-                else if(data.responseCode==400){//bad request
-                   alert('Error bad request');
-                    }
-                else{                        
-                    if(data.responseCode==500)
-                    {
-                        alert('Error bad request');
-                    }
-                    else alert("An unexpeded error occured.");
-                    }
-                }
-                );
-                return false;});               
+            function cambioNumber() {
+            	var num = $('#number').val();
+            	$("#sesiones").html("");
+            	for(i=0; i<num;i++){
+					var li = document.createElement('li');
+					li.id = "sesion"+i;
+                	
+                	var select = document.createElement('select');                	
+                	select.name = "tipo"+i;
+                	li.appendChild(select);
+            			
+            		var option0 = document.createElement('option');
+            		var t = document.createTextNode("Sesion");
+            		option0.value = "2";
+            		option0.appendChild(t);
+            		select.appendChild(option0);
+
+            		var option1 = document.createElement('option');
+            		var t = document.createTextNode("Extra");
+            		option1.value = "1";
+            		option1.appendChild(t);
+            		select.appendChild(option1);
+
+            		var detall = document.createElement('input');
+            		detall.type = "text";
+            		detall.name = "detalle"+i;
+            		detall.placeholder = 'Detalle de sesion';
+            		detall.className = "detalle";
+            		detall.required = true;
+            		li.appendChild(detall);
+
+            		var file = document.createElement('input');
+            		file.type = "file";
+            		file.name = "file"+i;
+            		file.className = "fileup";
+            		li.appendChild(file);
+
+            		var hidden = document.createElement('input');
+            		hidden.type = "hidden";
+            		hidden.name = "filename"+i;
+            		hidden.className = "name";
+            		li.appendChild(hidden);
+
+            		var div = document.createElement('input');
+            		div.className = "loadbar";
+
+            		document.getElementById("sesiones").appendChild(li);
+            	}
+            	FileUp.init();
+        	}
+
+                          
     </script>             
 {%endblock%}
             

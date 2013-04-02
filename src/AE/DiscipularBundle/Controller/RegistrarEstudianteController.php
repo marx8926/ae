@@ -40,7 +40,7 @@ class RegistrarEstudianteController extends Controller {
 	
 				$Estudiante = new Estudiante();
 				$Estudiante->setFechaInicio(new \DateTime());
-				$Estudiante->setActivo(true);
+				$Estudiante->setActivo(false);
 				$Estudiante->setId($Persona);
 				$em->persist($Estudiante);
 				$em->flush();

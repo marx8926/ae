@@ -18,7 +18,7 @@ class DiscipularServicioController extends Controller
 		
 		$em = $this->getDoctrine()->getEntityManager();
 		
-		$sql = "select * from curso";
+		$sql = "SELECT * FROM curso";
 		
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -26,9 +26,9 @@ class DiscipularServicioController extends Controller
 		$todo = $smt->fetchAll();
 		
 		if(strcmp($tipo,"simple")==0)
-			$result = "<select name='curso'>";
+			$result = "<select name='curso' required >";
 		else
-			$result = "<select multiple name='prerequisitos[]' required>";
+			$result = "<select multiple name='prerequisitos[]'>";
 	
 	    foreach ($todo as $key => $val){
 	        $result = $result."<option value='".$val['id']."'>".$val['titulo']."</option>";
@@ -193,28 +193,57 @@ class DiscipularServicioController extends Controller
 		return new Response($result);
 	}
 	
-	public function getTablaAsignacionMatri($idCurso){
-		$resutl='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
+	public function getTablaAsignacionMatriculaAction($curso){
+		
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		$sql = "select curso_impartido.id as id,persona.nombre, persona.apellidos,
+curso_impartido.fecha_inicio,curso_impartido.fecha_fin, horario.hora_inicio, horario.hora_fin,
+curso_impartido.activo, curso_impartido.estado_matricula
+from persona
+inner join docente on (persona.id = docente.id_persona) 
+inner join curso_impartido on (docente.id_persona = curso_impartido.id_persona_docente)
+inner join horario on (curso_impartido.id_horario= horario.id) 
+inner join curso on (curso.id = curso_impartido.id_curso) where curso.id=".$curso;
+		
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+		
+		$todo = $smt->fetchAll();
+		$result='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>ID</th>
 							<th>Nombre del Profesor</th>
 							<th>Fecha de Inicio</th>
 							<th>Fecha de Fin</th>
+							<th>Hora de Inicio</th>
+							<th>Hora de Fin</th>
 					        <th>Estado</th>
 					        <th>N° Matriculados</th>
 					    </tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>2013-04-04</td>
-							<td>2013-05-04</td>
-					        <td><input type="button" id="activo" name="activo" value="Matricular" /></td>
-					        <td><input type="button" id="ver" name="ver" value="Ver" /></td>
-					    </tr>
-					</tbody>
-				</table>';
+					<tbody>';
+		foreach ($todo as $key => $val){
+			if($val['activo']==1)
+				if($val['estado_matricula']==1)
+					$Estado = '<td><input type="button" id="activo" name="activo" value="Matricular" /></td>';
+				else
+					$Estado = '<td class="encurso">En Curso</td>';
+			else
+				$Estado = '<td class="cerrado">Cerrado</td>';
+			$result =$result."<tr>
+							<td>".$val["id"]."</td>
+							<td>".$val["nombre"]." ".$val["apellidos"]."</td>
+							<td>".$val["fecha_inicio"]."</td>
+							<td>".$val["fecha_fin"]."</td>
+							<td>".$val["hora_inicio"]."</td>
+							<td>".$val["hora_fin"]."</td>
+					        ".$Estado."
+					        <td><input type='button' id='ver' name='ver' value='Ver' /></td>
+					    </tr>";
+		}
+			$result =$result."</tbody></table>";
+			return new Response($result);
 	}
 }

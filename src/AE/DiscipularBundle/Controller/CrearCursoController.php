@@ -41,7 +41,10 @@ class CrearCursoController extends Controller{
 			$titulo = $datos['titulo'];
 			$descripcion = $datos['descripcion'];
 			$numsesiones = $datos['numsesiones'];
-			$prerequisitos = $datos["prerequisitos"];
+			
+			if(strpos($form, 'prerequisitos')!==false)
+				$prerequisitos = $datos["prerequisitos"];
+			
 			if(strcmp($datos['estado'],"true")==0)
 				$estado = true;
 			else
@@ -56,8 +59,7 @@ class CrearCursoController extends Controller{
 				//if($fecha ==NULL)
 					//$curso->setFechaCreacion(new \DateTime());
 				//else
-					$curso->setFechaCreacion(new \DateTime($fecha));
-					
+				$curso->setFechaCreacion(new \DateTime());
 				$curso->setTitulo($titulo);
 				$curso->setDescripcion($descripcion);
 				$curso->setActivo($estado);
@@ -75,7 +77,6 @@ class CrearCursoController extends Controller{
 				}
 				
 				for($j=0;$j<$numsesiones;$j++){
-					/*Datos de la sesion*/
 					$Tema = new TemaCurso();
 					$Tema->setActivo(true);
 					$Tema->setDescripcion($datos['detalle'.$j]);
@@ -85,7 +86,6 @@ class CrearCursoController extends Controller{
 					$em->persist($Tema);
 					$em->flush();
 					
-					/*Datos del Archivo*/
 					$File = new Archivo();
 					
 					$FileName = $datos['filename'.$j];
@@ -99,7 +99,7 @@ class CrearCursoController extends Controller{
 					$em->persist($File);
 					$em->flush();
 			}
-				
+			
 				
 			}catch(Exception $e)
 			{
@@ -110,7 +110,7 @@ class CrearCursoController extends Controller{
 				throw $e;
 			}
 			$this->getDoctrine()->getEntityManager()->commit();
-			$return=array("responseCode"=>300, "id"=>$datos );
+			$return=array("responseCode"=>200, "id"=>$datos );
 		}
 		else{
 			$return = array("responseCode"=>400, "greeting"=>"Bad");

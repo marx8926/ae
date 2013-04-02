@@ -37,13 +37,19 @@ class AsignarCursoController extends Controller{
 		$localid = null;
 		$hora_inicio = null;
 		$hora_fin = null;
-		$dia = null;		
+		$dia = null;
+		$fecha_inicio = null;
 		
 		if($form!=NULL){
 			
 			$docenteid = $datos["profesor"];
 			$cursoid = $datos["curso"];
 			$localid = $datos["local"];
+			
+			$fecha_inicio = $datos["fecha_inicio"];
+			$fecha_inicio_Y = date("Y", strtotime($fecha_inicio));
+			$fecha_inicio_m = date("m", strtotime($fecha_inicio));
+			$fecha_inicio_d = date("d", strtotime($fecha_inicio));
 			
 			$hora_inicio = $datos["hora_inicio"];
 			$hora_inicio_H = date("H", strtotime($hora_inicio));
@@ -67,10 +73,13 @@ class AsignarCursoController extends Controller{
 			->getRepository('AEDataBundle:Local')
 			->find($localid);
 			
-			$date_inicio = new \DateTime();
-			$date_inicio->setTime(intval($hora_inicio_H),intval($hora_inicio_i),0);
-			$date_fin = new \DateTime();
-			$date_fin->setTime(intval($hora_fin_H),intval($hora_fin_i),0);
+			$date_fecha_inicio = new \DateTime();
+			$date_fecha_inicio->setDate($fecha_inicio_Y, $fecha_inicio_m, $fecha_inicio_d);
+			
+			$date_hora_inicio = new \DateTime();
+			$date_hora_inicio->setTime(intval($hora_inicio_H),intval($hora_inicio_i),0);
+			$date_hora_fin = new \DateTime();
+			$date_hora_fin->setTime(intval($hora_fin_H),intval($hora_fin_i),0);
 			
 			$em = $this->getDoctrine()->getEntityManager();			
 			$this->getDoctrine()->getEntityManager()->beginTransaction();
@@ -78,14 +87,18 @@ class AsignarCursoController extends Controller{
 			{                
 				$Horario = new Horario();
 				$Horario->setDia($dia);
-				$Horario->setHoraInicio($date_inicio);
-				$Horario->setHoraFin($date_fin);
+				$Horario->setHoraInicio($date_hora_inicio);
+				$Horario->setHoraFin($date_hora_fin);
 				
 				$em->persist($Horario);
 				$em->flush();
 				
 				$Asignacion = new CursoImpartido();
 				$Asignacion->setFechaCreacion(new \DateTime());
+				$Asignacion->setFechaInicio($date_fecha_inicio);
+				$Asignacion->setActivo(true);
+				$Asignacion->setEstadoMatricula(true);
+				$Asignacion->setFechaFin(null);
 				$Asignacion->setIdCurso($Curso);
 				$Asignacion->setIdLocal($Local);
 				$Asignacion->setIdPersonaDocente($Docente);

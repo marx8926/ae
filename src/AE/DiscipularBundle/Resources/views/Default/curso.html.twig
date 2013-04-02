@@ -15,6 +15,46 @@
 	</style>
 {% endblock %}
 
+{%block javascript %}
+  	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>			
+	<script src="{{asset('js/functiongen.js')}}"></script>
+            
+    <script type="text/javascript">
+            $(document).ready(function() {
+            	ajaxResposeData("cursos","{{ path('_lista_cursos',{'tipo':'simple'}) }}");
+				$("#cursos select").change(function(){
+					ajaxResposeData("tabla_signacion_matricula","{{ path('_tabla_asignacion_matricula',{'curso':""})}}"+"/"+this.value);
+				});
+				ajaxResposeData("tabla_signacion_matricula","{{ path('_tabla_asignacion_matricula',{'curso':""}) }}"+"/"+$("#cursos select").val());
+
+            	});
+            
+            var sayhola = function(data){
+        		console.log(data);
+        		location.reload();
+        		 }  
+    </script>             
+{%endblock%}
+
 {% block content %}
 
 <div id="cursos">
@@ -25,53 +65,7 @@
 			<div class="box-head">
 				<h3>Asignación de Profesores</h3>
 			</div>
-			<div class="box-content box-nomargin">
-				<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Nombre del Profesor</th>
-							<th>Fecha de Inicio</th>
-							<th>Fecha de Fin</th>
-					        <th>Estado</th>
-					        <th>N° Matriculados</th>
-					    </tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>2013-04-04</td>
-							<td>2013-05-04</td>
-					        <td><input type="button" id="activo" name="activo" value="Matricular" /></td>
-					        <td><input type="button" id="ver" name="ver" value="Ver" /></td>
-					    </tr>
-					    <tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>2013-04-04</td>
-							<td>2013-05-04</td>
-					        <td><input type="button" id="activo" name="activo" value="Matricular" /></td>
-					        <td><input type="button" id="ver" name="ver" value="Ver" /></td>
-					    </tr>
-					    <tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>2013-04-04</td>
-							<td>2013-05-04</td>
-					        <td class="encurso">En Curso</td>
-					        <td><input class="extend" type="button" id="ver" name="ver" value="Ver" /></td>
-					    </tr>
-					    <tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>2013-04-04</td>
-							<td>2013-05-04</td>
-					        <td class="cerrado">Cerrado</td>
-					        <td><input type="button" id="ver" name="ver" value="Ver" /></td>
-					    </tr>
-					</tbody>
-				</table>
+			<div class="box-content box-nomargin" id="tabla_signacion_matricula">
 			</div>
 		</div>
 	</div>
