@@ -56,10 +56,8 @@ class MatricularController extends Controller {
 				$em->persist($Matricula);
 				$em->flush();
 				
-				$sql = "UPDATE estudiante SET activo=true WHERE id==".$idestudiante;				
-				$smt = $em->getConnection()->prepare($sql);
-				$smt->execute();				
-				$todo = $smt->fetchAll();
+				$Estudiante->setActivo(false);
+				$em->flush();
 		
 			}catch(Exception $e)
 			{
