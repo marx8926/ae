@@ -198,13 +198,13 @@ class DiscipularServicioController extends Controller
 		$em = $this->getDoctrine()->getEntityManager();
 		
 		$sql = "select curso_impartido.id as id,persona.nombre, persona.apellidos,
-curso_impartido.fecha_inicio,curso_impartido.fecha_fin, horario.hora_inicio, horario.hora_fin,
-curso_impartido.activo, curso_impartido.estado_matricula
-from persona
-inner join docente on (persona.id = docente.id_persona) 
-inner join curso_impartido on (docente.id_persona = curso_impartido.id_persona_docente)
-inner join horario on (curso_impartido.id_horario= horario.id) 
-inner join curso on (curso.id = curso_impartido.id_curso) where curso.id=".$curso;
+				curso_impartido.fecha_inicio,curso_impartido.fecha_fin, horario.hora_inicio, horario.hora_fin,
+				curso_impartido.activo, curso_impartido.estado_matricula
+				from persona
+				inner join docente on (persona.id = docente.id_persona) 
+				inner join curso_impartido on (docente.id_persona = curso_impartido.id_persona_docente)
+				inner join horario on (curso_impartido.id_horario= horario.id) 
+				inner join curso on (curso.id = curso_impartido.id_curso) where curso.id=".$curso;
 		
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -245,5 +245,13 @@ inner join curso on (curso.id = curso_impartido.id_curso) where curso.id=".$curs
 		}
 			$result =$result."</tbody></table>";
 			return new Response($result);
+	}
+	
+	function getTablaEstudiantePorCursoAction($curso){
+		
+	}
+	
+	function getTablaEstudianteActivoAction($activo){
+	
 	}
 }
