@@ -107,3 +107,15 @@ discipular_matricular:
     defaults: { _controller: AEDiscipularBundle:Matricular:index }
     requirements:
           _method: POST
+
+discipular_registrar_matricula:
+    pattern:  /registrar_matricula
+    defaults: { _controller: AEDiscipularBundle:Matricular:MatricularEstudiante }
+    requirements:
+          _method: POST
+          
+discipular_eliminar_matricula:
+    pattern:  /eliminar_matricula
+    defaults: { _controller: AEDiscipularBundle:Matricular:EliminarMatricula }
+    requirements:
+          _method: POST

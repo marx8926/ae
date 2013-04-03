@@ -37,10 +37,11 @@
 		    </table>
 		</div>
 	</div>
-	<form  method="POST" id="RegPersonalForm" action='{{path('discipular_registrar_personal')}}'>
+	<form  method="POST" id="RegPersonalForm" action='{{path('discipular_registrar_matricula')}}'>
 		<div class="form-horizontal">
+			<input id="idAsignacion" type="hidden" name="idasignacion" value="{{idCurso}}">
 			<input id="idMiembro" type="hidden" name="id">
-			<input type='button' class="btn-success" disabled="true" id="registro" name="registro" value="Registrar">
+			<input type='submit' class="btn-success" id="registro" name="registro" value="Registrar">
 		</div>
 	</form>
 	<div class="box">
@@ -59,7 +60,7 @@
 						<th>Nombres</th>
 						<th>Apellidos</th>
 						<th>Red</th>
-						<th>Estado</th>
+						<th>Celula</th>
 		                <th>Inicio</th>
 		                <th>Fin</th>
 		        	</tr>
@@ -68,7 +69,7 @@
 		    </table>
 		</div>
 	</div>
-	<form  method="POST" id="EliminarPersonalForm" action='{{path('discipular_eliminar_personal')}}'>
+	<form  method="POST" id="EliminarPersonalForm" action='{{path('discipular_eliminar_matricula')}}'>
 		<div class="form-horizontal">
 			<input id="idPersonalEliminar" type="hidden" name="id">
 			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Eliminar">
@@ -103,7 +104,6 @@
 	<script src="{{asset('js/ui.spinner.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>
 	<script src="{{asset('js/functiongen.js')}}"></script>
-	<script src="{{asset('js/modal.js')}}"></script>
 	<script src="http://www.google.com/jsapi"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
 	<script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -223,6 +223,10 @@
 	 var TablaPersonal;
 	 var valuesPersonal = [];
 	 var values = [];
+
+	 var sayhola = function(data){
+			console.log(data);
+			 }
          
 	$(document).ready(function() {
 		
@@ -303,11 +307,10 @@
         $('#registro').click(function(){
             $('#descripcion').focus();
             });
+        
 		//click handler para eliminar
 		enviar("RegPersonalForm",sayhola);
 		enviar("EliminarPersonalForm",sayhola);
-		enviar("DesactivarPersonalForm",sayhola);
-		enviar("ActivarPersonalForm",sayhola);
 
 		
 		/* Build the DataTable with third column using our custom sort functions */
@@ -315,7 +318,7 @@
 			"bProcessing": true,
 			"bServerSide": false,
 			"bDestroy": true,
-			"sAjaxSource": '{{path("_tabla_miembros_no_personal")}}',
+			"sAjaxSource": '{{path("_tabla_estudiantes_activo",{"activo":"false"})}}',
 			"aoColumns": [
 		            { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
@@ -347,13 +350,13 @@
 			"bProcessing": true,
 			"bServerSide": false,
 			"bDestroy": true,
-			"sAjaxSource": '{{path("_tabla_personal")}}',
+			"sAjaxSource": '{{path("_tabla_estudiantes_curso",{"curso":""})}}'+'/{{idCurso}}',
 			"aoColumns": [
 		            { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "red" },
-                    { "mDataProp": "estado" },
+                    { "mDataProp": "celula" },
                     { "mDataProp": "inicio"},
                     { "mDataProp":"fin"}
 		                ],
@@ -375,11 +378,6 @@
 			}
 		});	
 	 });
-
-	var sayhola = function(data){
-		console.log(data);
-		location.reload();
-		 }
          
 		        /* Get the rows which are currently selected */
 	function fnGetSelected( oTableLocal )

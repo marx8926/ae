@@ -39,7 +39,7 @@ class Matric
     /**
      * @var \Estudiante
      *
-     * @ORM\ManyToOne(targetEntity="Estudiante")
+     * @ORM\ManyToOne(targetEntity="Estudiante",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id_persona")
      * })
@@ -49,7 +49,7 @@ class Matric
     /**
      * @var \CursoImpartido
      *
-     * @ORM\ManyToOne(targetEntity="CursoImpartido")
+     * @ORM\ManyToOne(targetEntity="CursoImpartido",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_curso_impartido", referencedColumnName="id")
      * })

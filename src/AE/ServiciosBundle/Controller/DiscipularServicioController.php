@@ -248,10 +248,39 @@ class DiscipularServicioController extends Controller
 	}
 	
 	function getTablaEstudiantePorCursoAction($curso){
+		$em = $this->getDoctrine()->getEntityManager();
 		
+		$sql = "select 
+				matric.id, persona.nombre, persona.apellidos,miembro.id_red as red,miembro.id_celula as celula,
+				estudiante.fecha_inicio as inicio ,estudiante.fecha_fin as fin
+				from miembro
+				inner join persona on (persona.id = miembro.id) 
+				inner join estudiante on (miembro.id = estudiante.id) 
+				inner join matric on (estudiante.id = matric.id_persona_estudiante)
+				where matric.id_curso_impartido =".$curso;
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+		
+		$todo = $smt->fetchAll();
+		
+		return new JsonResponse(array('aaData'=>$todo));
 	}
 	
 	function getTablaEstudianteActivoAction($activo){
-	
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		$sql = "select 
+				miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red,
+				miembro.id_celula as celula,miembro.fecha_obtencion as fecha
+				from miembro 
+				inner join persona on (persona.id = miembro.id) 
+				inner join estudiante on (miembro.id = estudiante.id) 
+				where estudiante.activo=".$activo;
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+		
+		$todo = $smt->fetchAll();
+		
+		return new JsonResponse(array('aaData'=>$todo));
 	}
 }
