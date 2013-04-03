@@ -11,8 +11,75 @@
 
 {% block content %} 
 <div class="span9" >
-
-	<div class="box">
+    
+        <div>
+        <div class="box">
+            <div class="box-head tabs">
+                <h3>Redes</h3>
+            </div>
+        </div>
+    
+        <div class="box-content box-content">
+            <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="red_table" name="red_table">
+                <col width="20%" />
+		<col width="50%" />
+		<col width="30%" />
+                
+                <thead>
+                    <tr>
+                        <th>Red</th>
+                        <th>Lider</th>
+                        <th>Descripción</th>
+		    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+			<td>1</td>
+			<td>Neque  ipsum quia dolor sit amet velit...</td>
+			<td>Valdivieso Castillo</td>
+                    </tr>
+                    <tr>
+			<td>1</td>
+			<td>Neque  ipsum quia dolor sit amet velit...</td>
+			<td>Valdivieso Castillo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+	
+           
+        <div>
+        <div class="box">
+            <div class="box-head tabs">
+                <h3>Celulas</h3>
+            </div>
+        </div>
+    
+        <div class="box-content box-content">
+            <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="celula_table" name="celula_table">
+                <col width="20%" />
+		<col width="25%" />
+                <col width="25%" />
+		<col width="30%" />
+                
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Lider</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+		    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+        </div>
+	
+    
+        <div class="box">
 		<div class="box-head tabs">
             <h3>Temas de Célula (Nombre o ID)</h3>							
         </div>
@@ -142,65 +209,7 @@
         var ids=[];
         
 	$(document).ready(function() {
- 
-            var code = {{id}};
-            
-            var classe = {{clase}};
-            
-    
-    
-            var verif = '{{path('servicio_enviar_asistencia_celula',{'id':':rut'})}}';
-            verif=verif.replace(':rut',classe);
-            
-            $.post(verif,function(data){
-                if(data.fecha.length>0)
-                {
-                    //Claudia: cambias el alert por el model 
-                    alert('Registros llenados en '+ data.fecha);
-                    
-                    var inicio = '{{path('main')}}';
-                    location.replace(inicio);
-                }
-            });
-            
-    
-            var urls = '{{path('servicio_enviar_datos_tema_celula',{'id':':rut'})}}';
-            urls = urls.replace(':rut',classe);
-            
-            $.post(urls, function(data){
-               $('#celula').text(data.celula);
-               $('#tema_celula').text(data.titulo);
-               $('#horario').text(data.dia+' '+data.hora_inicio+'-'+data.hora_fin);
-               
-               if(data.tipo=='0')
-                   $('#tipo_celula').text('Evangelistica');
-               else $('#tipo_celula').text('Discipulado');
-            });
-            
-           
-    
-            //para cargar tabla
-    
-            var url = '{{path('servicio_enviar_lista_celula',{'id': ':rut'})}}';
-            var ruta = url.replace(':rut',code);
-        
-            $.post(ruta,function(data){
-                     $(data).appendTo('#persona');   
-                    
-                    }
-                  ).done(function(){
-                        ids.push(classe);
-                        
-                        var todos = est();
-                        for(var i=0; i<todos.length; i++)
-                        {
-                            ids.push(todos[i]);
-                        }                                        
-                         //añadir 
-                        enviar("form",funcion,ids);
-                   });
-    
-           
+
 
 	 });
          
