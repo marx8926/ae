@@ -44,14 +44,17 @@
 				$("#cursos select").change(function(){
 					ajaxResposeData("tabla_signacion_matricula","{{ path('_tabla_asignacion_matricula',{'curso':""})}}"+"/"+this.value);
 				});
-				ajaxResposeData("tabla_signacion_matricula","{{ path('_tabla_asignacion_matricula',{'curso':""}) }}"+"/"+$("#cursos select").val());
-
-            	});
+				ajaxResposeData("tabla_signacion_matricula","{{ path('_tabla_asignacion_matricula',{'curso':''}) }}"+"/"+$("#cursos select").val());
+            });
             
             var sayhola = function(data){
         		console.log(data);
         		location.reload();
-        		 }  
+        		}
+    		function EnviarMatricular(boton){
+        		$("#idCurso").val($(boton).attr("data"));
+        		$("#MatriculaForm").submit();
+        	}
     </script>             
 {%endblock%}
 
@@ -69,6 +72,9 @@
 			</div>
 		</div>
 	</div>
+	<form id="MatriculaForm" action="{{path('discipular_matricular')}}" method="post">
+		<input id="idCurso" type="hidden" name="datos">
+	</form>
 </div>
 
 {% endblock %}

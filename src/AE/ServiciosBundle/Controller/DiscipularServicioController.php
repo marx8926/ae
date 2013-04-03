@@ -227,7 +227,7 @@ inner join curso on (curso.id = curso_impartido.id_curso) where curso.id=".$curs
 		foreach ($todo as $key => $val){
 			if($val['activo']==1)
 				if($val['estado_matricula']==1)
-					$Estado = '<td><input type="button" id="activo" name="activo" value="Matricular" /></td>';
+					$Estado = '<td><input class"button_matricula" type="button" id="activo" data="'.$val["id"].'" name="activo" value="Matricular" onclick="EnviarMatricular(this)" /></td>';
 				else
 					$Estado = '<td class="encurso">En Curso</td>';
 			else
@@ -240,7 +240,7 @@ inner join curso on (curso.id = curso_impartido.id_curso) where curso.id=".$curs
 							<td>".$val["hora_inicio"]."</td>
 							<td>".$val["hora_fin"]."</td>
 					        ".$Estado."
-					        <td><input type='button' id='ver' name='ver' value='Ver' /></td>
+					        <td><a id='ver' class='button_ver' data='".$val["id"]."'>Ver</a></td>
 					    </tr>";
 		}
 			$result =$result."</tbody></table>";
