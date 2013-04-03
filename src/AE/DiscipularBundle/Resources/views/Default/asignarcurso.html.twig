@@ -3,6 +3,7 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
  {% endblock %}
          
   {%block javascript %}
@@ -49,41 +50,59 @@
             
 {% block content %}
     <fieldset>
-		<form id="AsignarForm" method="POST" action="{{path('discipular_registrar_asignacion')}}">
-			<div>
-				<label>Profesor</label>
-				<div id="select_profesor">
+		<form id="AsignarForm" class="form-horizontal" method="POST" action="{{path('discipular_registrar_asignacion')}}">
+			<legend>Asignar Curso</legend>
+			<div class="control-group">
+				<label class="control-label">Profesor</label>
+				<div id="select_profesor" class="controls">
+				</div>
 			</div>
-			<label>Curso</label>
-			<div id="select_curso">
+			<div class="control-group">
+				<label class="control-label">Curso</label>
+				<div id="select_curso" class="controls">
+				</div>
 			</div>
-			<div>
-			<label>Fecha de Inicio</label>
-			<input type="date" name="fecha_inicio" required>
+			<div class="control-group">
+				<label class="control-label">Fecha de Inicio</label>
+				<div class="controls">
+					<input type="date" name="fecha_inicio" required>
+				</div>
 			</div>
-			<div>
-				<label>Dia</label>
-				<select name="dia">
-					<option value="Lunes">Lunes</option>
-                    <option value="Martes">Martes</option>
-                    <option value="Miercoles">Miercoles</option>
-                    <option value="Jueves">Jueves</option>
-                    <option value="Viernes">Viernes</option>
-                    <option value="Sabado">Sabado</option>
-                    <option value="Domingo">Domingo</option>
-				</select>
+			<div class="control-group">
+				<label class="control-label">Día</label>
+				<div class="controls">
+					<select name="dia">
+						<option value="Lunes">Lunes</option>
+	                    <option value="Martes">Martes</option>
+	                    <option value="Miercoles">Miercoles</option>
+	                    <option value="Jueves">Jueves</option>
+	                    <option value="Viernes">Viernes</option>
+	                    <option value="Sabado">Sabado</option>
+	                    <option value="Domingo">Domingo</option>
+					</select>
+				</div>
 			</div>
-			<label>Local</label>
-			<div id="select_local">
-			</div>		
-			<div>
-			<label>Hora Inicio</label>
-			<input name="hora_inicio" type="time">
-			<label>Hora Fin</label>
-			<input name="hora_fin" type="time">
+			<div class="control-group">
+				<label class="control-label">Local</label>
+				<div id="select_local" class="controls">
+				</div>
 			</div>
-			<div>
-			<input type="submit" value="enviar">
+			<div class="control-group">
+				<label class="control-label">Hora Inicio</label>
+				<div class="controls">
+					<input name="hora_inicio" type="time">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Hora Fin</label>
+				<div class="controls">
+					<input name="hora_fin" type="time">
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" value="Enviar">
+				</div>
 			</div>
 			
 		</form>
