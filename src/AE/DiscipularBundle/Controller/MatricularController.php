@@ -51,15 +51,7 @@ class MatricularController extends Controller {
 				$Asignacion = $this->getDoctrine()
 				->getRepository('AEDataBundle:CursoImpartido')
 				->findOneById($idasignacion);
-		
-                                 //$retorno = $Asignacion->getId();
-				/*$Matricula = new Matric();
-                                $Matricula->setActivo(true);
-				$Matricula->setFecha(new \DateTime());
-				$Matricula->setIdCursoImpartido($Asignacion);
-				$Matricula->setIdPersonaEstudiante($Estudiante);
-                                */
-                                
+		                                
                                 $sql = "select insert_matricula(:fecha,:persona,:curso)";
                             
                                 $smt = $em->getConnection()->prepare($sql);
