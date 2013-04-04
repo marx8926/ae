@@ -43,30 +43,6 @@ class Local
      */
     private $tipo;
 
-
-
-    /**
-     * Get id
-     *
-     * @return string 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-    
-    /**
-     * Set id
-     * 
-     * @param string id
-     * @return Local
-     */
-    public function setId($id)
-    {
-    	$this->id = $id;
-    	return $this;
-    }
-
     /**
      * Set nombe
      *
