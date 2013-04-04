@@ -51,7 +51,7 @@ class Estudiante
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ClaseCurso", inversedBy="idPersonaEstudiante")
+     * @ORM\ManyToMany(targetEntity="ClaseCurso", inversedBy="idPersonaEstudiante",cascade={"persist", "merge", "remove"})
      * @ORM\JoinTable(name="asistencia_clase_curso",
      *   joinColumns={
      *     @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
@@ -68,7 +68,7 @@ class Estudiante
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\OneToOne(targetEntity="Persona",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })

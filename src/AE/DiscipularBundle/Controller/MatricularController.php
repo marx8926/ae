@@ -30,6 +30,7 @@ class MatricularController extends Controller {
 		
 		$idestudiante = NULL;
 		$idasignacion = NULL;
+                $retorno = NULL;
 		
 		if($form!=NULL){
 		
@@ -40,22 +41,36 @@ class MatricularController extends Controller {
 			$this->getDoctrine()->getEntityManager()->beginTransaction();
 			try
 			{
+                            
 				$Estudiante = $this->getDoctrine()
 				->getRepository('AEDataBundle:Estudiante')
 				->findOneById($idestudiante);
+                                
+                               
 				
 				$Asignacion = $this->getDoctrine()
 				->getRepository('AEDataBundle:CursoImpartido')
 				->findOneById($idasignacion);
 		
-				$Matricula = new Matric();
-				$Matricula->setActivo(true);
+                                 //$retorno = $Asignacion->getId();
+				/*$Matricula = new Matric();
+                                $Matricula->setActivo(true);
 				$Matricula->setFecha(new \DateTime());
 				$Matricula->setIdCursoImpartido($Asignacion);
 				$Matricula->setIdPersonaEstudiante($Estudiante);
+                                */
+                                
+                                $sql = "select insert_matricula(:fecha,:persona,:curso)";
+                            
+                                $smt = $em->getConnection()->prepare($sql);
+                                
+                                $fecha = new \DateTime();
+                            
+                                $smt->execute(array(':fecha'=>$fecha->format('d-m-Y'), ':persona'=>$Estudiante->getId()->getId(),':curso'=>$Asignacion->getId()));
+                                /*
 				$em->persist($Matricula);
 				$em->flush();
-				
+				*/
 				$Estudiante->setActivo(false);
 				$em->flush();
 		

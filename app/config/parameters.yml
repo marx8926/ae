@@ -2,7 +2,7 @@ parameters:
   database_driver: pdo_pgsql
   database_host: 127.0.0.1
   database_port: null
-  database_name: AE_DB_T_v3
+  database_name: AE_DB_T_v4
   database_user: postgres
   database_password: '260489'
   mailer_transport: smtp
