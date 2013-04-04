@@ -48,7 +48,7 @@ class AdministrarLocalController extends Controller{
 			{
 				$Local = new Local();
 				$Local->setCodigo($codigo);
-				$Local->setNombe($nombe);
+				$Local->setNombe($nombre);
 				$Local->setTipo($tipo);		
 				$em->persist($Local);
 				$em->flush();
