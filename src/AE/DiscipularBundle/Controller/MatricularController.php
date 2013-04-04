@@ -59,11 +59,7 @@ class MatricularController extends Controller {
                                 $fecha = new \DateTime();
                             
                                 $smt->execute(array(':fecha'=>$fecha->format('d-m-Y'), ':persona'=>$Estudiante->getId()->getId(),':curso'=>$Asignacion->getId()));
-                                /*
-				$em->persist($Matricula);
-				$em->flush();
-				*/
-				$Estudiante->setActivo(false);
+				$Estudiante->setActivo(true);
 				$em->flush();
 		
 			}catch(Exception $e)
@@ -95,22 +91,53 @@ class MatricularController extends Controller {
 		$idmatric = NULL;
 	
 		if($form!=NULL){
+			
 			$idmatric = $datos['id'];
-	
 			$em = $this->getDoctrine()->getEntityManager();
-	
-			$sql = "DELETE FROM matric WHERE id=".$idmatric;
-	
-			$smt = $em->getConnection()->prepare($sql);
-			$smt->execute();
-	
-			$todo = $smt->fetchAll();
-	
-			$return=array("responseCode"=>200, "id"=>$datos );
-			$return=json_encode($return);//jscon encode the array
-	
-			return new Response($return,200,array('Content-Type'=>'application/json'));
+			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			
+		try
+			{			
+				$sql = "Select id_persona_estudiante from matric WHERE id=".$idmatric;
+				
+				$smt = $em->getConnection()->prepare($sql);
+				$smt->execute();
+				
+				$todo = $smt->fetchAll();
+				$idestudiante = $todo[0]['id_persona_estudiante'];
+				
+				$sql = "DELETE FROM matric WHERE id=".$idmatric;
+				
+				$smt = $em->getConnection()->prepare($sql);
+				$smt->execute();
+				
+				$todo = $smt->fetchAll();
+				
+				$Estudiante = $this->getDoctrine()
+				->getRepository('AEDataBundle:Estudiante')
+				->findOneById($idestudiante);
+				
+				$Estudiante->setActivo(false);
+				$em->flush();
+				
+			}catch(Exception $e)
+			{
+				$this->getDoctrine()->getEntityManager()->rollback();
+				$this->getDoctrine()->getEntityManager()->close();
+				$return=array("responseCode"=>400, "greeting"=>"Bad");
+					
+				throw $e;
+			}
+			$this->getDoctrine()->getEntityManager()->commit();
+			$return=array("responseCode"=>200, "datos"=>$datos );
 		}
+		else{
+			$return = array("responseCode"=>400, "greeting"=>"Bad");
+		}
+			
+		$return=json_encode($return);//jscon encode the array
+		
+		return new Response($return,200,array('Content-Type'=>'application/json'));
 	}
 
 }

@@ -34,10 +34,11 @@ class AdministrarLocalController extends Controller{
 		parse_str($form,$datos);
 		$nombre = null;
 		$tipo = null;
+		$codigo = null;
 		
 		if($form!=NULL){
 				
-			$id = $datos["id"];
+			$codigo = $datos["codigo"];
 			$nombre = $datos["nombre"];
 			$tipo = $datos["tipo"];
 						
@@ -46,9 +47,9 @@ class AdministrarLocalController extends Controller{
 			try
 			{
 				$Local = new Local();
-				$Local->setId($id);
+				$Local->setCodigo($codigo);
 				$Local->setNombe($nombe);
-				$Local->setTipo(intval($tipo));		
+				$Local->setTipo($tipo);		
 				$em->persist($Local);
 				$em->flush();
 		
