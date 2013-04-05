@@ -31,3 +31,15 @@ function ajaxResposeData(namediv,path){
         }).responseText;
 	$('#'+namediv).html(data);
 }
+
+function ajaxTableDataPost(nametable,path)
+{
+        $.ajax(
+            {
+            url: path,
+            async: false,
+            type: "POST",
+            }).done(function(data){
+                $('#'+nametable+'> tbody:last').append(data);
+            });
+}

@@ -33,16 +33,7 @@
 		    </tr>
                 </thead>
                 <tbody>
-                    <tr>
-			<td>1</td>
-			<td>Neque  ipsum quia dolor sit amet velit...</td>
-			<td>Valdivieso Castillo</td>
-                    </tr>
-                    <tr>
-			<td>1</td>
-			<td>Neque  ipsum quia dolor sit amet velit...</td>
-			<td>Valdivieso Castillo</td>
-                    </tr>
+                   
                 </tbody>
             </table>
         </div>
@@ -208,9 +199,14 @@
             
         var ids=[];
         
+        
+        
 	$(document).ready(function() {
-
-
+            
+             var url = '{{path('_enviar_lista_red')}}';
+             console.log(url);
+             
+             ajaxTableDataPost('persona', url);
 	 });
          
   

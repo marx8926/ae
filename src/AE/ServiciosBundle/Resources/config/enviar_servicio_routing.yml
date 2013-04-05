@@ -1,0 +1,5 @@
+_enviar_lista_red:
+  pattern: /enviar_lista_red
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lista_red }
+  requirements:
+    _method: POST
