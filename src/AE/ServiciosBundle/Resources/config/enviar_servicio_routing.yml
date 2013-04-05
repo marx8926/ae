@@ -3,3 +3,8 @@ _enviar_lista_red:
   defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lista_red }
   requirements:
     _method: POST
+    
+    
+_enviar_lista_celulas:
+  pattern: /enviar_lista_celulas
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lista_celula}

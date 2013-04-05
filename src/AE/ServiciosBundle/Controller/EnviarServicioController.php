@@ -67,4 +67,11 @@ class EnviarServicioController extends Controller
         return new Response($cadena);
         
     }
+    
+    public function get_lista_celulaAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+       // $sql = 
+    }
 }
