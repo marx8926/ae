@@ -144,17 +144,21 @@ class AsignarCursoController extends Controller{
                         
 			for($i=0; $i < $num; $i++)
                         {
-                            $idAsignacion = $datos["asignacion".$id[$i]];
+                            $idAsignacion = intval($datos["asignacion".$id[$i]]);
                             $sql = "select delete_curso_impartido(:idx)";
 							
                             $smt = $em->getConnection()->prepare($sql);
                             $smt->execute(array(':idx'=> $idAsignacion));
+                          
 			}
                          
-                         
+                        $this->getDoctrine()->getEntityManager()->commit();
 			$return=array("responseCode"=>200, "id"=>$datos);
 		}
 		else{
+                    $this->getDoctrine()->getEntityManager()->rollback();
+                    $this->getDoctrine()->getEntityManager()->close();
+                    
 			$return = array("responseCode"=>400, "greeting"=>"Bad");
 		}
 			
