@@ -140,8 +140,7 @@ class AsignarCursoController extends Controller{
 			$num = count($id);
 			
 			$em = $this->getDoctrine()->getEntityManager();
-			$this->getDoctrine()->getEntityManager()->beginTransaction();
-                        
+			$this->getDoctrine()->getEntityManager()->beginTransaction();                        
                         
 			for($i=0; $i < $num; $i++)
                         {

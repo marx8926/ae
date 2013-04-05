@@ -80,7 +80,7 @@ class CursoImpartido
     /**
      * @var \Local
      *
-     * @ORM\ManyToOne(targetEntity="Local", ,cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="Local",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_local", referencedColumnName="id")
      * })
@@ -90,7 +90,7 @@ class CursoImpartido
     /**
      * @var \Horario
      *
-     * @ORM\ManyToOne(targetEntity="Horario", ,cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="Horario",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_horario", referencedColumnName="id")
      * })
