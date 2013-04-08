@@ -167,7 +167,7 @@ servicio_lista_pastor_asoc:
   pattern: /lista_pastor_asoc
   defaults: {_controller: AEServiciosBundle:Default:lista_pastor_asoc}
   requirements:
-    _method: POST
+   _method: POST
     
     
 servicio_nuevos_consolidadores:
