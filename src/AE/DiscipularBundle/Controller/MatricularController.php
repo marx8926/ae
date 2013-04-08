@@ -1,6 +1,12 @@
 <?php
 namespace AE\DiscipularBundle\Controller;
 
+use AE\DataBundle\Entity\AsistenciaCurso;
+
+use AE\DataBundle\Entity\ClaseCurso;
+
+use AE\DataBundle\Entity\TemaCurso;
+
 use AE\DataBundle\Entity\Matric;
 
 use Doctrine\Tests\Models\DirectoryTree\File;
@@ -45,20 +51,33 @@ class MatricularController extends Controller {
 				$Estudiante = $this->getDoctrine()
 				->getRepository('AEDataBundle:Estudiante')
 				->findOneById($idestudiante);
-                                
-                               
 				
 				$Asignacion = $this->getDoctrine()
 				->getRepository('AEDataBundle:CursoImpartido')
 				->findOneById($idasignacion);
+				
+				$Clases = $this->getDoctrine()
+				->getRepository('AEDataBundle:ClaseCurso')
+				->findBy(array('idCursoImpartido' => $Asignacion->getId()));
+				
+				$count = count($Clases);
 		                                
-                                $sql = "select insert_matricula(:fecha,:persona,:curso)";
-                            
-                                $smt = $em->getConnection()->prepare($sql);
-                                
-                                $fecha = new \DateTime();
-                            
-                                $smt->execute(array(':fecha'=>$fecha->format('d-m-Y'), ':persona'=>$Estudiante->getId()->getId(),':curso'=>$Asignacion->getId()));
+				$sql = "select insert_matricula(:fecha,:persona,:curso)";
+				$smt = $em->getConnection()->prepare($sql);
+				$fecha = new \DateTime();
+				$smt->execute(array(':fecha'=>$fecha->format('d-m-Y'), ':persona'=>$Estudiante->getId()->getId(),':curso'=>$Asignacion->getId()));
+				
+				for($i = 0; $i < $count; $i++){
+					$AsistenciaCurso = new AsistenciaCurso();
+					$Clase = $Clases[$i];
+					$AsistenciaCurso->setIdClaseCurso($Clase);
+					$AsistenciaCurso->setIdPersonaEstudiante($Estudiante);
+					$AsistenciaCurso->setAsistencia(false);
+					$AsistenciaCurso->setNota(0);
+					$em->persist($AsistenciaCurso);
+					$em->flush();
+				}
+				
 				$Estudiante->setActivo(true);
 				$em->flush();
 		
@@ -66,12 +85,12 @@ class MatricularController extends Controller {
 			{
 				$this->getDoctrine()->getEntityManager()->rollback();
 				$this->getDoctrine()->getEntityManager()->close();
-				$return=array("responseCode"=>400, "greeting"=>"Bad");
+				$return=array("responseCode"=>400, "greeting"=>$e);
 					
 				throw $e;
 			}
 			$this->getDoctrine()->getEntityManager()->commit();
-			$return=array("responseCode"=>200, "datos"=>$datos );
+			$return=array("responseCode"=>200, "datos"=>$datos);
 		}
 		else{
 			$return = array("responseCode"=>400, "greeting"=>"Bad");

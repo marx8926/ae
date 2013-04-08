@@ -21,7 +21,7 @@ class ClaseCurso
      * @ORM\SequenceGenerator(sequenceName="clase_curso_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
-
+    
     /**
      * @var integer
      *
@@ -33,16 +33,9 @@ class ClaseCurso
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_dicto", type="date", nullable=false)
+     * @ORM\Column(name="fecha_dicto", type="date", nullable=true)
      */
     private $fechaDicto;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Estudiante", mappedBy="idClaseCurso")
-     */
-    private $idPersonaEstudiante;
 
     /**
      * @var \CursoImpartido
@@ -53,15 +46,7 @@ class ClaseCurso
      * })
      */
     private $idCursoImpartido;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idPersonaEstudiante = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+   
 
     /**
      * Get id
@@ -117,40 +102,6 @@ class ClaseCurso
     public function getFechaDicto()
     {
         return $this->fechaDicto;
-    }
-
-    
-    /**
-     * Add idPersonaEstudiante
-     *
-     * @param \AE\DataBundle\Entity\Estudiante $idPersonaEstudiante
-     * @return ClaseCurso
-     */
-    public function addIdPersonaEstudiante(\AE\DataBundle\Entity\Estudiante $idPersonaEstudiante)
-    {
-        $this->idPersonaEstudiante[] = $idPersonaEstudiante;
-    
-        return $this;
-    }
-
-    /**
-     * Remove idPersonaEstudiante
-     *
-     * @param \AE\DataBundle\Entity\Estudiante $idPersonaEstudiante
-     */
-    public function removeIdPersonaEstudiante(\AE\DataBundle\Entity\Estudiante $idPersonaEstudiante)
-    {
-        $this->idPersonaEstudiante->removeElement($idPersonaEstudiante);
-    }
-
-    /**
-     * Get idPersonaEstudiante
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdPersonaEstudiante()
-    {
-        return $this->idPersonaEstudiante;
     }
 
     /**

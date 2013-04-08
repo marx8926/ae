@@ -34,57 +34,18 @@ class Estudiante
     private $fechaFin;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="CriterioEvaluacion", inversedBy="idPersonaEstudiante")
-     * @ORM\JoinTable(name="evaluacion",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="id_criterio_evaluacion", referencedColumnName="id")
-     *   }
-     * )
-     */
-    private $idCriterioEvaluacion;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="ClaseCurso", inversedBy="idPersonaEstudiante",cascade={"persist", "merge", "remove"})
-     * @ORM\JoinTable(name="asistencia_clase_curso",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="id_clase_curso", referencedColumnName="id")
-     *   }
-     * )
-     */
-    private $idClaseCurso;
-
-    /**
      * @var \Persona
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona",cascade={"persist", "merge", "remove"})
+     * @ORM\OneToOne(targetEntity="Persona")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
      */
     private $id;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idCriterioEvaluacion = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idClaseCurso = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-
+   
     /**
      * Set fechaInicio
      *
@@ -152,72 +113,6 @@ class Estudiante
     public function getFechaFin()
     {
         return $this->fechaFin;
-    }
-
-    /**
-     * Add idCriterioEvaluacion
-     *
-     * @param \AE\DataBundle\Entity\CriterioEvaluacion $idCriterioEvaluacion
-     * @return Estudiante
-     */
-    public function addIdCriterioEvaluacion(\AE\DataBundle\Entity\CriterioEvaluacion $idCriterioEvaluacion)
-    {
-        $this->idCriterioEvaluacion[] = $idCriterioEvaluacion;
-    
-        return $this;
-    }
-
-    /**
-     * Remove idCriterioEvaluacion
-     *
-     * @param \AE\DataBundle\Entity\CriterioEvaluacion $idCriterioEvaluacion
-     */
-    public function removeIdCriterioEvaluacion(\AE\DataBundle\Entity\CriterioEvaluacion $idCriterioEvaluacion)
-    {
-        $this->idCriterioEvaluacion->removeElement($idCriterioEvaluacion);
-    }
-
-    /**
-     * Get idCriterioEvaluacion
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdCriterioEvaluacion()
-    {
-        return $this->idCriterioEvaluacion;
-    }
-
-    /**
-     * Add idClaseCurso
-     *
-     * @param \AE\DataBundle\Entity\ClaseCurso $idClaseCurso
-     * @return Estudiante
-     */
-    public function addIdClaseCurso(\AE\DataBundle\Entity\ClaseCurso $idClaseCurso)
-    {
-        $this->idClaseCurso[] = $idClaseCurso;
-    
-        return $this;
-    }
-
-    /**
-     * Remove idClaseCurso
-     *
-     * @param \AE\DataBundle\Entity\ClaseCurso $idClaseCurso
-     */
-    public function removeIdClaseCurso(\AE\DataBundle\Entity\ClaseCurso $idClaseCurso)
-    {
-        $this->idClaseCurso->removeElement($idClaseCurso);
-    }
-
-    /**
-     * Get idClaseCurso
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdClaseCurso()
-    {
-        return $this->idClaseCurso;
     }
 
     /**

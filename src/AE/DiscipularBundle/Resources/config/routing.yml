@@ -97,10 +97,6 @@ discipular_registrar_estudiante:
     defaults: { _controller: AEDiscipularBundle:RegistrarEstudiante:RegistrarEstudiante }
     requirements:
           _method: POST
-          
-discipular_asistencia_curso:
-    pattern:  /asistencia_curso
-    defaults: { _controller: AEDiscipularBundle:Asistencia:index }
     
 discipular_matricular:
     pattern:  /matricular
@@ -119,3 +115,7 @@ discipular_eliminar_matricula:
     defaults: { _controller: AEDiscipularBundle:Matricular:EliminarMatricula }
     requirements:
           _method: POST
+          
+discipular_clase:
+    pattern:  /clase
+    defaults: { _controller: AEDiscipularBundle:Clase:index }

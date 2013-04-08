@@ -41,7 +41,7 @@ class Matric
      *
      * @ORM\ManyToOne(targetEntity="Estudiante")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id_persona")
+     *   @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
      * })
      */
     private $idPersonaEstudiante;

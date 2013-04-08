@@ -2,6 +2,8 @@
 
 namespace AE\DiscipularBundle\Controller;
 
+use AE\DataBundle\Entity\ClaseCurso;
+
 use AE\DataBundle\Entity\Horario;
 
 use AE\DataBundle\Entity\CursoImpartido;
@@ -69,6 +71,12 @@ class AsignarCursoController extends Controller{
 			->getRepository('AEDataBundle:Curso')
 			->find($cursoid);
 			
+			$Temas = $this->getDoctrine()
+			->getRepository('AEDataBundle:TemaCurso')
+			->findBy(array('idCurso' => $Curso->getId()));
+			
+			$count = count($Temas);
+			
 			$Local = $this->getDoctrine()
 			->getRepository('AEDataBundle:Local')
 			->find($localid);
@@ -106,6 +114,14 @@ class AsignarCursoController extends Controller{
 				
 				$em->persist($Asignacion);
 				$em->flush();
+				
+				for($i = 0; $i < $count ; $i++){
+					$ClaseCurso = new ClaseCurso();
+					$ClaseCurso->setIdCursoImpartido($Asignacion);
+					$ClaseCurso->setTema($Temas[$i]->getId());
+					$em->persist($ClaseCurso);
+					$em->flush();
+				}
 		
 			}catch(Exception $e)
 			{
@@ -152,7 +168,7 @@ class AsignarCursoController extends Controller{
                           
 			}
                          
-                        $this->getDoctrine()->getEntityManager()->commit();
+            $this->getDoctrine()->getEntityManager()->commit();
 			$return=array("responseCode"=>200, "id"=>$datos);
 		}
 		else{
