@@ -763,27 +763,54 @@ class DefaultController extends Controller
    public function lista_liderAction()
    {
         $em = $this->getDoctrine()->getEntityManager();
-
-        $sql = " select  * from lider";
-                
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
         
-        $todo = $smt->fetchAll();
+        try
+        {
+            $this->getDoctrine()->getEntityManager()->beginTransaction();
+
+            $sql = " select  * from lista_lideres_red_sin";
+                
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+        
+            $todo = $smt->fetchAll();
+            $this->getDoctrine()->getEntityManager()->commit();
+        }
+        catch (Exception $e)
+        {
+            $this->getDoctrine()->getEntityManager()->rollback();
+            $this->getDoctrine()->getEntityManager()->close();
+            
+            throw $e;
+        }
         
         return new JsonResponse($todo);
    }
    
    public function lista_pastor_asocAction()
    {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $sql = " select  * from pastor_asociado";
-                
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
+         $em = $this->getDoctrine()->getEntityManager();
+         $todo = null;
         
-        $todo = $smt->fetchAll();
+        try
+        {
+            $this->getDoctrine()->getEntityManager()->beginTransaction();
+
+            $sql = "select * from lista_pastor_asoc_sin";
+                
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+        
+            $todo = $smt->fetchAll();
+            $this->getDoctrine()->getEntityManager()->commit();
+        }
+        catch (Exception $e)
+        {
+            $this->getDoctrine()->getEntityManager()->rollback();
+            $this->getDoctrine()->getEntityManager()->close();
+            
+            throw $e;
+        }
         
         return new JsonResponse($todo);
    }

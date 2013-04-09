@@ -68,13 +68,21 @@ class MatricularController extends Controller {
 				$smt->execute(array(':fecha'=>$fecha->format('d-m-Y'), ':persona'=>$Estudiante->getId()->getId(),':curso'=>$Asignacion->getId()));
 				
 				for($i = 0; $i < $count; $i++){
-					$AsistenciaCurso = new AsistenciaCurso();
-					$Clase = $Clases[$i];
+                                    
+                                    $sql = "select insert_asistencia_clase(:estudiante,:clase)";
+                                    $smt = $em->getConnection()->prepare($sql);
+                                    $Clase = $Clases[$i];
+                                    $smt->execute(array(':estudiante'=>$Estudiante->getId()->getId(),
+                                        ':clase'=>$Clase->getId()));
+					/*$AsistenciaCurso = new AsistenciaCurso();
+					
 					$AsistenciaCurso->setIdClaseCurso($Clase);
 					$AsistenciaCurso->setIdPersonaEstudiante($Estudiante);
 					$AsistenciaCurso->setAsistencia(false);
 					$AsistenciaCurso->setNota(0);
 					$em->persist($AsistenciaCurso);
+                                         * 
+                                         */
 					$em->flush();
 				}
 				
@@ -113,11 +121,12 @@ class MatricularController extends Controller {
 			
 			$idmatric = $datos['id'];
 			$em = $this->getDoctrine()->getEntityManager();
+                        
 			$this->getDoctrine()->getEntityManager()->beginTransaction();
 			
-		try
+                        try
 			{			
-				$sql = "Select id_persona_estudiante from matric WHERE id=".$idmatric;
+				$sql = "select id_persona_estudiante from matric WHERE id=".$idmatric;
 				
 				$smt = $em->getConnection()->prepare($sql);
 				$smt->execute();
@@ -125,12 +134,15 @@ class MatricularController extends Controller {
 				$todo = $smt->fetchAll();
 				$idestudiante = $todo[0]['id_persona_estudiante'];
 				
-				$sql = "DELETE FROM matric WHERE id=".$idmatric;
+                            
+				$sql = "select delete_asistencia_clase(:matric)";
+                                //.$idmatric;
 				
 				$smt = $em->getConnection()->prepare($sql);
-				$smt->execute();
+				$smt->execute(array(':matric'=>$idmatric));
+                                $em->flush();
 				
-				$todo = $smt->fetchAll();
+				//$todo = $smt->fetchAll();
 				
 				$Estudiante = $this->getDoctrine()
 				->getRepository('AEDataBundle:Estudiante')
@@ -148,10 +160,11 @@ class MatricularController extends Controller {
 				throw $e;
 			}
 			$this->getDoctrine()->getEntityManager()->commit();
+                        
 			$return=array("responseCode"=>200, "datos"=>$datos );
 		}
 		else{
-			$return = array("responseCode"=>400, "greeting"=>"Bad");
+			$return = array("responseCode"=>400, "greeting"=>$datos);
 		}
 			
 		$return=json_encode($return);//jscon encode the array

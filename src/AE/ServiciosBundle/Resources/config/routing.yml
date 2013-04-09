@@ -161,7 +161,7 @@ servicio_lista_lideres:
   pattern: /lista_lider
   defaults: {_controller: AEServiciosBundle:Default:lista_lider}
   requirements:
-    _method: POST
+   _method: POST
   
 servicio_lista_pastor_asoc:
   pattern: /lista_pastor_asoc
