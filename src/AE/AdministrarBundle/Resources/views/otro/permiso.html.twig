@@ -142,7 +142,8 @@
                  alert('Registro Completado');
                  var href="{{path('main')}}";
                    
-                 $(location).attr('href',href); 
+                 //$(location).attr('href',href); 
+                 location.reload();
           
                }
                else if(data.responseCode==400){//bad request

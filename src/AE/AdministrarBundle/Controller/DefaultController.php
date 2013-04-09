@@ -407,7 +407,6 @@ class DefaultController extends Controller
          $pastor_aso = NULL;
          $misionero = NULL;
          $pastor_eje = NULL;
-         $estudiante = NULL;
          $consolidador = NULL;
          $id = NULL;
 
@@ -429,9 +428,8 @@ class DefaultController extends Controller
            
            if(strpos($name, 'pastor_eje')!==false)
             $pastor_eje = $datos['pastor_eje'];
-           
-           if(strpos($name, 'estudiante')!==false)
-            $estudiante = $datos['estudiante'];
+          
+        
            
            if(strpos($name, 'consolidador')!==false)
             $consolidador = $datos['consolidador'];
@@ -552,29 +550,7 @@ class DefaultController extends Controller
                     }
                 }
                 
-                //estudiante
-                if(strlen($estudiante)>0)
-                {
-
-                    $sql = 'select * from estudiante where id=:iddep';
-       
-                    $smt = $em->getConnection()->prepare($sql);
-                    $smt->execute(array(':iddep'=>$persona->getId()));
- 
-                    $redes = $smt->fetchAll();
-               
-                    if(($redes) == NULL)
-                    {
-                        $var = new \AE\DataBundle\Entity\Estudiante();
-                        $var->setIdPersona($persona);
-                        $var->setFechaInicio(new \DateTime());
-                        $var->setActivo(TRUE);
-                        
-                        $em->persist($var);
-                        $em->flush();
-                    }
-                   
-                }
+          
               //consolidador
                 if(strlen($consolidador)>0)
                 {
@@ -1198,4 +1174,78 @@ class DefaultController extends Controller
                 return new Response();
     }
 
+    public function lista_redesAction()
+    {
+         return $this->render('AEAdministrarBundle:Red:lista_redes.html.twig');
+    }
+    
+    public function lista_redes_modificarAction()
+    {
+        $request = $this->get('request');
+        $name=$request->request->get('formName');
+       
+        if($name!=NULL){
+            //return $this->redirect($this->generateUrl('administrar_lista_redes_modificar_vista'));
+            return $this->render('AEAdministrarBundle:Red:modred.html.twig');
+
+        }
+        else 
+        {
+          $return = array("responseCode"=>400, "greeting"=>"Bad");
+
+        }
+                     
+       // $return=json_encode($return);//jscon encode the array
+        
+        //return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+   
+    }
+    public function lista_redes_modificar_vistaAction()
+    {
+       return $this->render('AEAdministrarBundle:Red:modred.html.twig');
+
+    }
+
+
+    public function lista_redes_eliminarAction()
+    {
+        $request = $this->get('request');
+        $name=$request->request->get('formName');
+       
+        $datos = array();
+
+        parse_str($name,$datos);
+       
+        if($name!=NULL){
+                
+            
+            $em = $this->getDoctrine()->getEntityManager();         
+
+            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            try
+            {
+               
+                $this->getDoctrine()->getEntityManager()->commit();
+                $return=array("responseCode"=>200, "greeting"=>$name ); 
+  
+            }catch(Exception $e)
+            {
+                     $this->getDoctrine()->getEntityManager()->rollback();
+                     $this->getDoctrine()->getEntityManager()->close();
+                     $return=array("responseCode"=>400, "greeting"=>"Bad");
+   
+               throw $e;
+            }
+       }
+       else 
+       {
+          $return = array("responseCode"=>400, "greeting"=>"Bad");
+
+       }
+                     
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+   
+    }
 }

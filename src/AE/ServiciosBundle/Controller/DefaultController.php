@@ -1291,4 +1291,33 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        
        return new JsonResponse($est);
    }
+   
+   public function lista_redes_ubicacionAction()
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $est = array();
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+          
+           $sql = "select * from lista_red_ubicacion";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           
+           $est = $smt->fetchAll();
+           
+           $em->flush();
+           
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse(array("aaData"=>$est));
+   }
 }
