@@ -240,7 +240,7 @@ class DiscipularServicioController extends Controller
 							<td>".$val["hora_inicio"]."</td>
 							<td>".$val["hora_fin"]."</td>
 					        ".$Estado."
-					        <td><a id='ver' class='button_ver' data='".$val["id"]."'>Ver</a></td>
+					        <td><input type='button' id='ver' class='button_ver' data='".$val["id"]."' onclick='IrAAsignacion(this)' value='Ver'></td>
 					    </tr>";
 		}
 			$result =$result."</tbody></table>";
@@ -282,5 +282,113 @@ class DiscipularServicioController extends Controller
 		$todo = $smt->fetchAll();
 		
 		return new JsonResponse(array('aaData'=>$todo));
+	}
+	
+	function getTablaClaseAsistenciaAction($idclase){
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		$sql = "SELECT 
+				estudiante.id as idestudiante, persona.nombre, persona.apellidos, asistencia_clase_curso.nota,
+				asistencia_clase_curso.asistencia 
+				FROM clase_curso 
+				inner join tema_curso on (tema_curso.id = clase_curso.tema) 
+				inner join asistencia_clase_curso on (clase_curso.id = asistencia_clase_curso.id_clase_curso)
+				inner join estudiante on (asistencia_clase_curso.id_persona_estudiante = estudiante.id)
+				inner join persona on (estudiante.id =  persona.id) 
+				where clase_curso.id=".$idclase;
+		
+		$result = "<table id='tabla_asignacion_estado' name='tabla_asignacion_estado' class='table table-striped table-bordered'>
+					<col width='10%' />
+					<col width='70%' />
+					<col width='10%' />
+					<col width='10%' />
+					<thead>
+					<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>Nota</th>
+					<th>Asistencia</th>
+					</tr>
+					</thead>
+					<tbody>";
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+		
+		$todo = $smt->fetchAll();
+		
+		foreach ($todo as $key => $val){
+			if($val['asistencia']==1){
+				$asisvalue = "true";
+				$asistencia = "<input id='check".$key."' class='modificable check' disabled type='checkbox' value='true' checked onClick=\"CheckChange(this,'hidden".$key."')\">";
+			}
+			else {
+				$asistencia = "<input id='check".$key."' class='modificable check' disabled type='checkbox' value='true' onClick=\"CheckChange(this,'hidden".$key."')\">";
+				$asisvalue = "false";
+			}
+			$result = $result."
+						<tr>
+						<td>".$val['idestudiante']."</td>
+						<td>".$val['nombre']." ".$val['apellidos']."</td>
+						<td><input type='number' disabled class='modificable' max='20' min='0' name='nota[]' value='".$val['nota']."'></td>
+						<td>".$asistencia."<input id='hidden".$key."' type='hidden' name='asistencia[]' value='".$asisvalue."'>
+								<input type='hidden' name='idestudiante[]' value='".$val['idestudiante']."'></td>
+						</tr>";
+		}
+		$result = $result."</tbody></table>";
+		return new Response($result);
+	}
+	
+
+	function getTablaClaseAsignacionAction($idasignacion){
+		$em = $this->getDoctrine()->getEntityManager();
+	    //Procedimiento almacenado clm_sel_clasesyasistenciacurso_by_idcursoimpartido
+	    
+		$sql = "SELECT SUM(CASE WHEN acc.asistencia=true then 1
+			ELSE 0
+			END) as cantidad,
+			acc.id_clase_curso,tc.descripcion,cc.fecha_dicto 
+			FROM asistencia_clase_curso as acc
+			inner join clase_curso cc 
+			on (acc.id_clase_curso = id)
+			inner join tema_curso tc
+			on (tc.id = cc.tema)
+			where (cc.id_curso_impartido=".$idasignacion.")
+			group by acc.id_clase_curso,tc.descripcion,cc.fecha_dicto
+			order by 2 asc";
+	
+		$result = "<table id='tabla_asignacion_estado' name='tabla_asignacion_estado' class='table table-striped table-bordered'>
+					<col width='10%' />
+					<col width='60%' />
+					<col width='10%' />
+					<col width='10%' />
+					<col width='10%' />
+					<thead>
+					<tr>
+					<th>Nª</th>
+					<th>Descripcion</th>
+					<th>Fecha</th>
+					<th>Asistencia</th>
+					<th>Ver</th>
+					</tr>
+					</thead>
+					<tbody>";
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+	
+		$todo = $smt->fetchAll();
+	
+		foreach ($todo as $key => $val){
+			
+			$result = $result."
+						<tr>
+						<td>".($key+1)."</td>
+						<td>".$val['descripcion']."</td>
+						<td>".$val['fecha_dicto']."</td>
+						<td>".$val['cantidad']."</td>
+						<td><input type='button' data='".$val['id_clase_curso']."' value='Ver' onclick='IrAClase(this)'></td>
+						</tr>";
+		}
+		$result = $result."</tbody></table>";
+		return new Response($result);
 	}
 }

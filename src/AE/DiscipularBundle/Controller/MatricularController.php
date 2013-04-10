@@ -67,22 +67,12 @@ class MatricularController extends Controller {
 				$fecha = new \DateTime();
 				$smt->execute(array(':fecha'=>$fecha->format('d-m-Y'), ':persona'=>$Estudiante->getId()->getId(),':curso'=>$Asignacion->getId()));
 				
-				for($i = 0; $i < $count; $i++){
-                                    
+				for($i = 0; $i < $count; $i++){                                    
                                     $sql = "select insert_asistencia_clase(:estudiante,:clase)";
                                     $smt = $em->getConnection()->prepare($sql);
                                     $Clase = $Clases[$i];
                                     $smt->execute(array(':estudiante'=>$Estudiante->getId()->getId(),
                                         ':clase'=>$Clase->getId()));
-					/*$AsistenciaCurso = new AsistenciaCurso();
-					
-					$AsistenciaCurso->setIdClaseCurso($Clase);
-					$AsistenciaCurso->setIdPersonaEstudiante($Estudiante);
-					$AsistenciaCurso->setAsistencia(false);
-					$AsistenciaCurso->setNota(0);
-					$em->persist($AsistenciaCurso);
-                                         * 
-                                         */
 					$em->flush();
 				}
 				

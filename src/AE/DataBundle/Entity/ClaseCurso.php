@@ -78,7 +78,7 @@ class ClaseCurso
      */
     public function getTema()
     {
-        return $this->fechaDicto;
+        return $this->tema;
     }
 
     /**

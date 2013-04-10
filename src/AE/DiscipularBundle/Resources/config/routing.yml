@@ -119,3 +119,23 @@ discipular_eliminar_matricula:
 discipular_clase:
     pattern:  /clase
     defaults: { _controller: AEDiscipularBundle:Clase:index }
+    requirements:
+          _method: POST
+    
+discipular_editar_asistencia:
+    pattern:  /editar_asistencia
+    defaults: { _controller: AEDiscipularBundle:Clase:ActualizarClase }
+    requirements:
+          _method: POST
+          
+discipular_lista_clases:
+    pattern:  /lista_clases
+    defaults: { _controller: AEDiscipularBundle:Clase:ListaClases }
+    requirements:
+          _method: POST
+          
+discipular_actualizar_fecha_clase:
+    pattern:  /actualizar_fecha_clase
+    defaults: { _controller: AEDiscipularBundle:Clase:ActualizarFechaClase }
+    requirements:
+          _method: POST

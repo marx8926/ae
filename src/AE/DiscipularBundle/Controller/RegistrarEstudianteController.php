@@ -137,8 +137,6 @@ class RegistrarEstudianteController extends Controller {
 			$smt = $em->getConnection()->prepare($sql);
 			$smt->execute();
 	
-			$todo = $smt->fetchAll();
-	
 			$return=array("responseCode"=>200, "id"=>$date );
 			$return=json_encode($return);//jscon encode the array
 	

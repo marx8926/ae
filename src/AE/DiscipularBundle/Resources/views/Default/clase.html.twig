@@ -7,6 +7,54 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
 {% endblock %}
 
+{%block javascript %}
+  	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>			
+	<script src="{{asset('js/functiongen.js')}}"></script>
+            
+    <script type="text/javascript">
+            $(document).ready(function() {
+            	ajaxResposeData("tabla_asistencia",'{{path('_tabla_clase_asistencia',{'idclase':''})}}/{{idclase}}');
+            	enviar("ActualizarClaseForm",sayhola);
+            	enviar("EditFechaForm",sayhola);
+            });
+            
+            var sayhola = function(data){
+        		console.log(data);
+        		//location.reload();
+        		}
+    		
+    		function Editar(classname){
+        		$("."+classname).attr("disabled",false);
+    		}
+    		function EditarFecha(idnamelabel,idnameinput){
+				$("#"+idnamelabel).text($("#"+idnameinput).val());
+            }
+
+    		function CheckChange(check,idname){
+    			$("#"+idname).val(check.checked);
+    		}
+    </script>             
+{%endblock%}
+
 {% block content %}
 
 <div id="cursos">
@@ -17,20 +65,32 @@
 			<div class="control-group">
 				<label class="control-label"><b>Curso:</b></label>
 				<div class="controls">
-					<label class="control-label">(Nombre del Curso)</label>
+					<label class="control-label">{{ curso }}</label>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label"><b>Docente:</b></label>
+				<div class="controls">
+					<label class="control-label">{{ docente }}</label>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label"><b>Tema:</b></label>
 				<div class="controls">
-					<label class="control-label">(Nombre del Tema)</label>
+					<label class="control-label">{{ tema }}</label>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label"><b>Fecha:</b></label>
 				<div class="controls">
-					<label class="control-label">(Fecha)</label>
+					<label id="fecha_dicto" class="control-label">{{ fechadicto }}</label>
 				</div>
+				<input type="button" value="Editar" onclick="$('#fechainput').focus()">
+				<form id="EditFechaForm" action="{{ path('discipular_actualizar_fecha_clase') }}" methos="POST">
+				<input type="date" id="fechainput" name="fecha" onchange="EditarFecha('fecha_dicto','fechainput')">
+				<input type="hidden" name="idclase" value="{{idclase}}">
+				<input type="submit" value="Guardar">
+				</form>
 			</div>
 		</div>
 		
@@ -38,49 +98,18 @@
 			<div class="box-head">
 				<h3>Asistencia</h3>
 			</div>
-			<div class="box-content box-nomargin">
-				<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
-					<col width="10%" />
-					<col width="70%" />
-					<col width="10%" />
-					<col width="10%" />
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Nombre</th>
-							<th>Nota</th>
-							<th>Asistencia</th>
-					    </tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>20</td>
-					        <td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
-					    </tr>
-					    <tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>20</td>
-					        <td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
-					    </tr>
-					    <tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>20</td>
-					        <td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
-					    </tr>
-					    <tr>
-							<td>1</td>
-							<td>Valdivieso Castillo Claudia</td>
-							<td>20</td>
-					        <td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
-					    </tr>
-					</tbody>
-				</table>
+			<form id="ActualizarClaseForm" action="{{ path('discipular_editar_asistencia') }}" method="post">
+			<div id = "tabla_asistencia" class="box-content box-nomargin">
 			</div>
+			<input type="hidden" name="idclase" value="{{idclase}}">
+			<input type="button" value="Editar" onclick="Editar('modificable')">
+			<input type="submit" value="Guardar">
+			</form>
 		</div>
+		<form method="post" action="{{ path('discipular_lista_clases') }}">
+		<input type="hidden" name="datos" value="{{ idasignacion }}"> 
+		<input type="submit" value="Atras">
+		</form>
 	</div>
 </div>
 

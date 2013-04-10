@@ -41,3 +41,11 @@ _tabla_estudiantes_curso:
 _tabla_estudiantes_activo:
   pattern: /_tabla_estudiantes_activo/{activo}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaEstudianteActivo }
+  
+_tabla_clase_asistencia:
+  pattern: /_tabla_clase_asistencia/{idclase}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaClaseAsistencia }
+  
+_tabla_asignacion_clases:
+  pattern: /_tabla_asignacion_clases/{idasignacion}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaClaseAsignacion }
