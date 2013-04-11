@@ -10,14 +10,14 @@
         
 {% block content %}
         <div class="span9" id="registro_form">
-            <form class="form-horizontal" action="{{path('administrar_addred')}}"  method="POST" id="myForm" name="myForm">
+            <form class="form-horizontal" action="{{path('administrar_lista_redes_modificar_update')}}"  method="POST" id="myForm" name="myForm">
                  <legend>Registro de Red</legend>
         
                 <fieldset> 
                     <div class="control-group">
                         <label class="control-label" >Abreviatura</label>
                         <div class="controls">
-                            <input type="text" id="inputNom" name="inputNom" placeholder="Nombre" class="input-xxlarge" pattern="|^[a-zA-Z ]*$|" required />
+                            <input type="text" id="inputNom" name="inputNom" placeholder="Nombre" class="input-xxlarge" pattern="|^[a-zA-Z ]*$|" disabled="true" />
                         </div>
                     </div>
                 
@@ -124,21 +124,7 @@
                         </select>
                     </div>
                 </div>
-                <!--
-                <div class="control-group" >
-                    <label class="control-label"> Nombres </label>
-                    <div class="controls">
-                        <input pattern="|^[a-zA-Z]*$|" type="text" id="inputNombres" name="inputNombres" placeholder="Nombres" class="input-xxlarge" required>
-                    </div>
-                </div>
-        
-                <div class="control-group" >
-                    <label class="control-label">Apellidos</label>
-                    <div class="controls">
-                        <input type="text" id="inputApellidos" name="inputApellidos" placeholder="Apellidos" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]*$|" required>
-                    </div>
-                </div>
-                -->
+               
                 
             </fieldset>
                 <div class="control-group">
@@ -163,28 +149,115 @@
             <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
    
-        <script type="text/javascript">
-            $(function() {
-		
-                var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
-		  elements: {
-		    map:      "#map",
-		    lat:      "#lat",
-		    lng:      "#lng"
-		  }
-		});
-		var gmarker = addresspickerMap.addresspicker( "marker");
-		gmarker.setVisible(true);
-		addresspickerMap.addresspicker( "updatePosition");
-                });
-        </script>
+      
             
              <script type="text/javascript">
+                 
+                var ubiq = -1;
+                 
+                function ubigeo(id)
+                {
+                    var dir = '{{path('servicio_ubigeo',{'id':':code'})}}'
+                   dir = dir.replace(':code',id);
+                   
+                   $.ajax(
+                        {   url : dir,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(function(data){
+                            $('#departamento_lista').val(data[0].coddepartamento);
+                             recarga_provincias();
+                            $('#provincia_lista').val(data[0].codprovincia);
+                            recarga_distritos();
+                            
+                            $('#distrito_lista').val(id);
+                    });
+                   
+                }
+                function ubi_mod(id)
+                {
+                   var dir = '{{path('servicio_ubicacion_id',{'id':':code'})}}'
+                   dir = dir.replace(':code',id);
+                   
+                   ubiq = id;
+                   
+                   $.ajax(
+                        {   url : dir,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(function(data){
+                           $('#inputDireccion').val(data.direccion);
+                           $('#inputReferencia').val(data.referencia);
+                           $('#lat').val(data.latitud);
+                           $('#lng').val(data.longitud);
+                           
+                           ubigeo(data.id_ubigeo);
+                           
+                    });
+                    
+                    $(function() {
+		
+                        var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+                            elements: {
+                            map:      "#map",
+                            lat:      "#lat",
+                            lng:      "#lng"
+                            }
+                        });
+        		var gmarker = addresspickerMap.addresspicker( "marker");
+                	gmarker.setVisible(true);
+                        addresspickerMap.addresspicker( "updatePosition");
+                    });
+                    
+                }
+               
+                function init()
+                {
+                   var code = '{{id}}';
+                   
+                   
+                   $('#inputNom').val(code);   $('#inputNom').text(code);
+                   
+                   //recuperar datos de iglesia
+
+                   var dir = '{{path('servicio_red_id',{'id':':code'})}}'
+                   dir = dir.replace(':code',code);
+                   
+                  $.ajax(
+                    {url : dir,
+                     dataType:"json",
+                     type: "POST",
+                     async: false,
+                    }
+                    ).done(function(data){
+
+                            $('#iglesia_lista').val(data.id_iglesia);
+                            $('#tipo_red').val(data.tipo);
+                            
+                            if(data.id_lider_red!=null)
+                            {
+                                $('#tip_red').val(0);
+                            }
+                            if(data.id_pastor_asociado!=null)
+                            {
+                                $('#tip_red').val(1);
+                            }
+                            recarga_id();
+                            
+                            ubi_mod(data.id_ubicacion);
+                    });
+                }
+    
                 
     
                 $(document).ready(function(){
            
-              
+               
+        
                 
                 $.getJSON('{{path('servicio_iglesia')}}',iglesias);
                 
@@ -215,17 +288,15 @@
                             }
                         ).done(lideres);
                             
-                 //persona
-                 $('#ids').change(persona);
-                 
-    
+                    
                  $("#tip_red").change(recarga_id);
                  
     
                  var x =$("login");
                     x.click();
            
-                    $("#myForm").submit(function(){
+                    $("#myForm").submit(function(event){
+                        event.preventDefault();
                     //get the url for the form
                     var url=$("#myForm").attr("action");
                     
@@ -235,6 +306,8 @@
                     //start send the post request
                     $.post(url,{
                         formName:$("#myForm").serialize(),
+                        code: '{{id}}',
+                        ubicacion: ubiq,
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
@@ -243,11 +316,7 @@
                        // $('#output').html(data.greeting);
                         //$('#output').css("color","red");
                         alert('Registro Completado');
-                        var href="{{path('main')}}";
-                   
-                       $(location).attr('href',href); 
-          
-
+                      
                     }
                     else if(data.responseCode==400){//bad request
                        // $('#output').html(data.greeting);
@@ -278,7 +347,8 @@
                     //we dont what the browser to submit the form
                     return false;});
 
-
+                     init();
+                
                 });
                 
                 function recarga_id()
@@ -326,39 +396,9 @@
                       $('<option value='+dat[i].id+'>'+dat[i].nombre+' '+dat[i].apellidos+'</option>').appendTo('#ids');
 
                     }
-                    // persona();
-                }
-                
-                function persona()
-                {
-                    var id = $("#ids option:selected").val();
-                    if(id!=null && id!='-1')
-                    {
-                                  
-                        var route = '{{path('servicio_persona_id',{'id': 'nom'})}}';            
-                        var rutas = route.replace('nom',id);         
-                        $.ajax(
-                            {   url : rutas,
-                                dataType:"json",
-                                type: "GET",
-                                async: false,
-                            }
-                        ).done(personal);
-                    }
 
                 }
-                //funcion que recarga los datos personales
-                function personal(dato)
-                {
-                    $('#inputNombres').text(dato.nombre);
-                    $('#inputNombres').val(dato.nombre);
-                    
-        
-                    $('#inputApellidos').text(dato.apellidos);
-                    $('#inputApellidos').val(dato.apellidos);
-                    
-        
-                }
+               
 
                 function pastor_asoc(dat)
                 {
@@ -372,7 +412,7 @@
                       $('<option value='+dat[i].id+'>'+dat[i].nombre+' '+dat[i].apellidos+'</option>').appendTo('#ids');
 
                     }
-                     persona();
+                    
                 }
                 
                  function iglesias(datos)

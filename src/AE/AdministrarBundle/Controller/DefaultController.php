@@ -1183,11 +1183,139 @@ class DefaultController extends Controller
     {
         $request = $this->get('request');
         $name=$request->request->get('formName');
+        $code = $request->request->get('code');
+        $ubicacion = $request->request->get('ubicacion');
+        
+        $datos = array();
+
+        parse_str($name,$datos);
        
         if($name!=NULL){
-            //return $this->redirect($this->generateUrl('administrar_lista_redes_modificar_vista'));
-            return $this->render('AEAdministrarBundle:Red:modred.html.twig');
+            
+            $tipo_red = $datos['tipo_red'];
+            $iglesia  = $datos['iglesia_lista'];
+            $direccion = $datos['inputDireccion'];
+            $referencia = $datos['inputReferencia'];
+            $departamento = $datos['departamento_lista'];
+            $provincia = $datos['provincia_lista'];
+            $distrito = $datos['distrito_lista'];
+            $latitud = $datos['latitud'];
+            $longitud = $datos['longitud'];
+            $tip_red = $datos['tip_red'];
+            $ids = $datos['ids'];
+            
+            $em = $this->getDoctrine()->getEntityManager();
+            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            try{
+            
+               //red
+               $como = $em->getRepository('AEDataBundle:Red');
+               $red= $como->findOneBy(array('id'=>$code));
+               
+               //iglesia
+               $igle_t = $em->getRepository('AEDataBundle:Iglesia');
+               $igle   = $igle_t->findOneBy(array('id'=>$iglesia));
+                    
+              $red->setIdIglesia($igle);
+              $red->setTipo(intval($tipo_red));
+            //cambio en tabla red
+            if(intval($tip_red)==0)
+            {
+               
+                //cambio de lider
+               if(intval($ids)!= -1)
+               {                  
+                                   
+                   //$sql = "select update_red(:idx,:igle,:tip,:lider,:pastor,:state)";
+                 //  $smt = $em->getConnection()->prepare($sql);
+                   
+                   //lider
+                   $lider_t = $em->getRepository('AEDataBundle:Lider');
+                   $lider = $lider_t->findOneBy(array('id'=>$ids));
+                   
+                   $red->setIdLiderRed($lider);
+                   $red->setIdPastorAsociado(NULL);                   
+                  
+                   //$smt->execute(array(':idx'=>strval($code),':igle'=>$iglesia,':tip'=>$tipo_red,':lider'=>$ids ,':pastor'=>NULL,':state'=>TRUE));
+                   
+                   $em->persist($red);
+                   $em->flush();
+               }
+               /*else
+               {
+                   $sql = "select update_redm(:idx,:igle,:tip,:state)";
+                   $smt = $em->getConnection()->prepare($sql);
+                   
+                   $smt->execute(array(':idx'=>  strval($code),':igle'=>intval($iglesia),':tip'=> intval($tipo_red),':state'=>TRUE));
+              
+               }*/
 
+            }
+            else
+            {
+                 //cambio de lider por un pastor
+                
+               
+               if(intval($ids)!= -1)
+               {
+                   /*
+                   $sql = "select update_red(:idx,:igle,:tip,:lider,:pastor,:state)";
+                   $smt = $em->getConnection()->prepare($sql);
+                   
+                   $smt->execute(array(':idx'=>strval($code),':igle'=>intval($iglesia),':tip'=>intval($tipo_red),
+                       ':lider'=>NULL ,':pastor'=>$ids,':state'=>TRUE));
+                    * 
+                    */
+                   //lider
+                   $pastor_t = $em->getRepository('AEDataBundle:PastorAsociado');
+                   $pastor = $pastor_t->findOneBy(array('id'=>$ids));
+                   
+                   $red->setIdLiderRed(NULL);
+                   $red->setIdPastorAsociado($pastor);   
+                   
+                   $em->persist($red);
+                   $em->flush();
+               }
+               /*
+               else
+               {
+                  
+                   $sql = "select update_redm(:idx,:igle,:tip,:state)";
+                   $smt = $em->getConnection()->prepare($sql);
+                   
+                   $smt->execute(array(':idx'=>strval($code),':igle'=>intval($iglesia),':tip'=>intval($tipo_red),':state'=>TRUE));
+                    
+               }
+                * 
+                */
+               $em->flush();
+            }
+            
+                //cambio de ubicacion
+            /*
+                $sql = "select  update_ubicacion(:idx,:dir, :refe, :lat,:lng, :ubigeo)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':idx'=>$ubicacion, ':dir'=>$direccion, ':refe'=>$referencia,':lat'=>$latitud,
+                    ':lng'=>$longitud,':ubigeo'=>$distrito));
+                $em->flush();
+            */
+                $this->getDoctrine()->getEntityManager()->commit();
+                
+                $return=array("responseCode"=>200, "greeting"=>$datos);
+            }
+            catch(Exception $e)
+            {
+                $this->getDoctrine()->getEntityManager()->rollback();
+                $this->getDoctrine()->getEntityManager()->close();
+                 $return=array("responseCode"=>400, "greeting"=>'bad');
+                 $return=json_encode($return);//jscon encode the array
+        
+                //return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+   
+                throw $e;
+            }
+           
+            
         }
         else 
         {
@@ -1195,14 +1323,14 @@ class DefaultController extends Controller
 
         }
                      
-       // $return=json_encode($return);//jscon encode the array
+        $return=json_encode($return);//jscon encode the array
         
-        //return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
    
     }
-    public function lista_redes_modificar_vistaAction()
+    public function lista_redes_modificar_vistaAction($id)
     {
-       return $this->render('AEAdministrarBundle:Red:modred.html.twig');
+       return $this->render('AEAdministrarBundle:Red:modred.html.twig',array('id'=>$id));
 
     }
 

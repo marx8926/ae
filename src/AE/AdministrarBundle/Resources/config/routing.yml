@@ -113,16 +113,15 @@ administrar_lista_redes:
   pattern: /lista_redes
   defaults: {_controller: AEAdministrarBundle:Default:lista_redes}
   
-administrar_lista_redes_modificar:
+administrar_lista_redes_modificar_vista:
+  pattern: /lista_redes_modificar_vista/{id}
+  defaults: {_controller: AEAdministrarBundle:Default:lista_redes_modificar_vista}
+  
+administrar_lista_redes_modificar_update:
   pattern: /lista_redes_modificar
   defaults: {_controller: AEAdministrarBundle:Default:lista_redes_modificar}
   requirements:
     _method: POST
-    
-    
-administrar_lista_redes_modificar_vista:
-  pattern: /lista_redes_modificar_vista
-  defaults: {_controller: AEAdministrarBundle:Default:lista_redes_modificar_vista}
   
 administrar_lista_redes_eliminar:
   pattern: /lista_redes_eliminar
