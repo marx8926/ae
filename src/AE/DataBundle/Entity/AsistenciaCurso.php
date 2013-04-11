@@ -36,7 +36,7 @@ class AsistenciaCurso {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="nota", type="integer", nullable=false)
+	 * @ORM\Column(name="nota", type="double", nullable=false)
 	 */
 	private $nota;
 	
