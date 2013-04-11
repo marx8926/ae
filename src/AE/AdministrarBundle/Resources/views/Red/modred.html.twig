@@ -299,10 +299,7 @@
                         event.preventDefault();
                     //get the url for the form
                     var url=$("#myForm").attr("action");
-                    
-                    console.log(url);
-                    console.log($("#myForm").serialize());
-   
+           
                     //start send the post request
                     $.post(url,{
                         formName:$("#myForm").serialize(),
@@ -311,11 +308,12 @@
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-                    console.log(data);
+        
                     if(data.responseCode==200 ){           
                        // $('#output').html(data.greeting);
                         //$('#output').css("color","red");
                         alert('Registro Completado');
+                        location.reload();
                       
                     }
                     else if(data.responseCode==400){//bad request

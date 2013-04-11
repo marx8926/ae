@@ -1256,8 +1256,7 @@ class DefaultController extends Controller
               
                     }
             }
-             
-               
+            
                 //cambio de ubicacion
             
                 $sql = "select  update_ubicacion(:idx,:dir, :refe, :lat,:lng, :ubigeo)";
@@ -1278,13 +1277,11 @@ class DefaultController extends Controller
                 
                 throw $e;
             }
-           
-            
+
         }
         else 
         {
           $return = array("responseCode"=>400, "greeting"=>"Bad");
-
         }
                      
         $return=json_encode($return);//jscon encode the array
@@ -1302,13 +1299,11 @@ class DefaultController extends Controller
     public function lista_redes_eliminarAction()
     {
         $request = $this->get('request');
-        $name=$request->request->get('formName');
+        $code=$request->request->get('formName');
        
-        $datos = array();
 
-        parse_str($name,$datos);
        
-        if($name!=NULL){
+        if($code!=NULL){
                 
             
             $em = $this->getDoctrine()->getEntityManager();         
@@ -1316,9 +1311,14 @@ class DefaultController extends Controller
             $this->getDoctrine()->getEntityManager()->beginTransaction();
             try
             {
+                $sql = "select delete_red(:idx)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':idx'=>$code));
                
+                $em->flush();
+                
                 $this->getDoctrine()->getEntityManager()->commit();
-                $return=array("responseCode"=>200, "greeting"=>$name ); 
+                $return=array("responseCode"=>200, "greeting"=>$code ); 
   
             }catch(Exception $e)
             {

@@ -68,6 +68,7 @@
 			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
 			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
 			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+                        <script src="{{asset('js/datatable_plugins.js')}}"></script>
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
@@ -221,8 +222,16 @@
                  else alert("An unexpeded error occured.");
             }
         }
+         var sayhola = function(data){
+			console.log(data);
+			oTable.fnReloadAjax();
+	}
          
         $(document).ready(function() {
+            
+            $("#vista").css({"display":"none"});
+            $("#eliminar").css({"display":"none"});
+        
             $("#pdfbutton").click(function(event) {
                 $("#persona th").css("width","auto");
             	$("#content").val($("#persona").html());
@@ -251,7 +260,9 @@
   
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
-                });               
+                });    
+                $("#vista").css({"display":"block"});
+                $("#eliminar").css({"display":"block"});
             });
             
             //click handler para modificar
@@ -273,13 +284,7 @@
                     var rutas = url.replace(':nom',val[0]);
 
                     location.replace(rutas);
-                    //start send the post request
-                    /*
-                    $.post(url,{
-                        formName:val[0],
-                        other:"attributes"
-                    });
-                    */
+                    
                 }
             });
             
@@ -302,7 +307,7 @@
                     $.post(url,{
                         formName:val[0],
                         other:"attributes"
-                    },loge);
+                    },sayhola);
                 }
             });
    
