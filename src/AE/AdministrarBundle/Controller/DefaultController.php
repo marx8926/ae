@@ -383,8 +383,6 @@ class DefaultController extends Controller
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
     }
     
-    
-    
     //controladores para registro de permisos
     
     public function permisoAction()
@@ -1189,6 +1187,8 @@ class DefaultController extends Controller
         $datos = array();
 
         parse_str($name,$datos);
+        
+        $retorno = 'ok';
        
         if($name!=NULL){
             
@@ -1206,112 +1206,76 @@ class DefaultController extends Controller
             
             $em = $this->getDoctrine()->getEntityManager();
             $this->getDoctrine()->getEntityManager()->beginTransaction();
-            try{
             
-               //red
-               $como = $em->getRepository('AEDataBundle:Red');
-               $red= $como->findOneBy(array('id'=>$code));
+            //añadir las excepciones en los prepare
+            
+            try{
+                        
+                //cambio en tabla red
+                if(intval($tip_red)==0)
+                {
                
-               //iglesia
-               $igle_t = $em->getRepository('AEDataBundle:Iglesia');
-               $igle   = $igle_t->findOneBy(array('id'=>$iglesia));
-                    
-              $red->setIdIglesia($igle);
-              $red->setTipo(intval($tipo_red));
-            //cambio en tabla red
-            if(intval($tip_red)==0)
-            {
-               
-                //cambio de lider
-               if(intval($ids)!= -1)
-               {                  
+                    //cambio de lider
+                    if(intval($ids)!= -1)
+                    {                  
                                    
-                   //$sql = "select update_red(:idx,:igle,:tip,:lider,:pastor,:state)";
-                 //  $smt = $em->getConnection()->prepare($sql);
+                        $sql = "select update_red(:idx,:tip,:igle,:lider,:pastor)";
+                        $smt = $em->getConnection()->prepare($sql);
                    
-                   //lider
-                   $lider_t = $em->getRepository('AEDataBundle:Lider');
-                   $lider = $lider_t->findOneBy(array('id'=>$ids));
+                        $smt->execute(array(':idx'=>$code,':tip'=>$tipo_red, ':igle'=>$iglesia, ':lider'=>$ids,':pastor'=>NULL));
+                     
+                    }
+                    else
+                    {
+                        $sql = "select update_red(:idx,:tip,:igle)";
+                        $smt = $em->getConnection()->prepare($sql);
                    
-                   $red->setIdLiderRed($lider);
-                   $red->setIdPastorAsociado(NULL);                   
-                  
-                   //$smt->execute(array(':idx'=>strval($code),':igle'=>$iglesia,':tip'=>$tipo_red,':lider'=>$ids ,':pastor'=>NULL,':state'=>TRUE));
-                   
-                   $em->persist($red);
-                   $em->flush();
-               }
-               /*else
-               {
-                   $sql = "select update_redm(:idx,:igle,:tip,:state)";
-                   $smt = $em->getConnection()->prepare($sql);
-                   
-                   $smt->execute(array(':idx'=>  strval($code),':igle'=>intval($iglesia),':tip'=> intval($tipo_red),':state'=>TRUE));
+                        $smt->execute(array(':idx'=>  $code,':tip'=> $tipo_red,':igle'=>$iglesia));
               
-               }*/
+                    }
 
             }
             else
             {
-                 //cambio de lider por un pastor
-                
-               
-               if(intval($ids)!= -1)
-               {
-                   /*
-                   $sql = "select update_red(:idx,:igle,:tip,:lider,:pastor,:state)";
-                   $smt = $em->getConnection()->prepare($sql);
+                   //cambio pastor
+                 if(intval($ids)!= -1)
+                    {                  
+                                   
+                        $sql = "select update_red(:idx,:tip,:igle,:lider,:pastor)";
+                        $smt = $em->getConnection()->prepare($sql);
                    
-                   $smt->execute(array(':idx'=>strval($code),':igle'=>intval($iglesia),':tip'=>intval($tipo_red),
-                       ':lider'=>NULL ,':pastor'=>$ids,':state'=>TRUE));
-                    * 
-                    */
-                   //lider
-                   $pastor_t = $em->getRepository('AEDataBundle:PastorAsociado');
-                   $pastor = $pastor_t->findOneBy(array('id'=>$ids));
+                        $smt->execute(array(':idx'=>$code,':tip'=>$tipo_red, ':igle'=>$iglesia, ':lider'=>NULL,':pastor'=>$ids));
+                     
+                    }
+                    else
+                    {
+                        $sql = "select update_red(:idx,:tip,:igle)";
+                        $smt = $em->getConnection()->prepare($sql);
                    
-                   $red->setIdLiderRed(NULL);
-                   $red->setIdPastorAsociado($pastor);   
-                   
-                   $em->persist($red);
-                   $em->flush();
-               }
-               /*
-               else
-               {
-                  
-                   $sql = "select update_redm(:idx,:igle,:tip,:state)";
-                   $smt = $em->getConnection()->prepare($sql);
-                   
-                   $smt->execute(array(':idx'=>strval($code),':igle'=>intval($iglesia),':tip'=>intval($tipo_red),':state'=>TRUE));
-                    
-               }
-                * 
-                */
-               $em->flush();
+                        $smt->execute(array(':idx'=>  $code,':tip'=> $tipo_red,':igle'=>$iglesia));
+              
+                    }
             }
-            
+             
+               
                 //cambio de ubicacion
-            /*
+            
                 $sql = "select  update_ubicacion(:idx,:dir, :refe, :lat,:lng, :ubigeo)";
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':idx'=>$ubicacion, ':dir'=>$direccion, ':refe'=>$referencia,':lat'=>$latitud,
                     ':lng'=>$longitud,':ubigeo'=>$distrito));
                 $em->flush();
-            */
+            
                 $this->getDoctrine()->getEntityManager()->commit();
                 
-                $return=array("responseCode"=>200, "greeting"=>$datos);
+                $return=array("responseCode"=>200, "greeting"=>$retorno);
             }
             catch(Exception $e)
             {
                 $this->getDoctrine()->getEntityManager()->rollback();
                 $this->getDoctrine()->getEntityManager()->close();
                  $return=array("responseCode"=>400, "greeting"=>'bad');
-                 $return=json_encode($return);//jscon encode the array
-        
-                //return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-   
+                
                 throw $e;
             }
            
