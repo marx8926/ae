@@ -43,3 +43,15 @@ function ajaxTableDataPost(nametable,path)
                 $('#'+nametable+'> tbody:last').append(data);
             });
 }
+
+jQuery.fn.reset = function () {
+	  $(this).each (function() { this.reset(); });
+	};
+
+var logdata = function(data){
+	console.log(data);
+	};
+
+var reloadpage = function(data){
+	location.reload();
+	};

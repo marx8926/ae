@@ -27,57 +27,30 @@
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
 			<script src="{{asset('js/functiongen.js')}}"></script>
-  	
- 	<script src="{{asset('js/FileUp.js')}}"></script>
+ 			<script src="{{asset('js/FileUp2.js')}}"></script>
             
     <script type="text/javascript">
             $(document).ready(function() {
             	ajaxResposeData("select_curso","{{ path('_lista_cursos',{'tipo':'multiple'}) }}");
-            	$('#number').on("change",cambioNumber);
-            	
-            	FileUp = new FileUp("cursos");
-            	
-            	$('#cargar').click(function(ev) {
-            		if(($("#titutlo").val()!= "") && ($("#descripcion").val()!= "") && ($("#number").val()!= "") && ($(".detalle").val()!= "")){
-						FileUp.uploadQueue(ev);
-					}
-            		else
-                		alert("Faltan Datos por llenar!")
-            	});
+            	$('#number').on("change",cambioNumber);            	
+            	FileUp = new FileUp(EnviarForm);
 
-            	$("#myForm").submit(function(){
-                    
-                    //get the url for the form
-                    var url=$("#myForm").attr("action");
-                     
-                    //start send the post request
-                 	console.log($("#myForm").serialize());
-                    
-                    $.post(url,{
-                        formName:$("#myForm").serialize(),
-                        other:"attributes"
-                    },function(data){
-                    //the response is in the data variable
-               
-                    console.log(data);
-                    
-                    if(data.responseCode==200 ){           
-                    	console.log("ok");
-                    }
-                    else if(data.responseCode==400){//bad request
-                       alert('Error bad request');
-                        }
-                    else{                        
-                        if(data.responseCode==500)
-                        {
-                            alert('Error bad request');
-                        }
-                        else alert("An unexpeded error occured.");
-                        }
-                    }
-                    );
-                    return false;}); 
-            });
+            	$("#CrearCursoForm").submit(function(event){
+            		event.preventDefault();
+            		if(FileUp.getFilesNumber()>0)
+            			FileUp.uploadQueue(event);
+            		else{
+            			$("#CrearCursoForm").unbind();
+            			EnviarForm();
+            		}
+            	});
+			});
+
+            var EnviarForm = function(){
+            	$("#CrearCursoForm").unbind();
+				enviar("CrearCursoForm",reloadpage);
+				$("#CrearCursoForm").submit();
+               };
 
             function cambioNumber() {
             	var num = $('#number').val();
@@ -129,15 +102,13 @@
             	}
             	FileUp.init();
         	}
-
-                          
     </script>             
 {%endblock%}
             
             
 {% block content %}
     <div class="span9" id="registro_form">
-    <form class="form-horizontal" id="myForm" name="myForm" method="POST" action="{{path( 'discipular_registrar_curso') }}">
+    <form class="form-horizontal" id="CrearCursoForm" name="CrearCursoForm" method="POST" action="{{path( 'discipular_registrar_curso') }}">
      		<fieldset>
 			<legend>Crear Curso</legend>
 			<div class="control-group">
@@ -182,7 +153,7 @@
 				</ul>
 			</div>
 		</fieldset>
-		<input id="cargar" type="button" value="Enviar" >
+		<input id="cargar" type="submit" value="Guardar" >
 		</form>	
 	    </div>
 {% endblock %}      

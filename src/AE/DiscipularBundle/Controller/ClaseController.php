@@ -24,6 +24,10 @@ class ClaseController extends Controller {
 		->getRepository('AEDataBundle:TemaCurso')
 		->findOneById($Clase->getTema());
 		
+		$Archivo= $this->getDoctrine()
+		->getRepository('AEDataBundle:Archivo')
+		->findOneBy(array('idTemaCurso' => $Tema->getId()));
+		
 		$Asignacion = $Clase->getIdCursoImpartido();
 		$Curso = $Asignacion->getIdCurso();	
 		$Docente = $Asignacion->getIdPersonaDocente();
@@ -39,7 +43,9 @@ class ClaseController extends Controller {
 				'docente' => $nombreDocente ,
 				'tema' => $Tema->getDescripcion() ,
 				'curso' => $Curso->getTitulo(),
-				'idasignacion'=>$Asignacion->getId()
+				'idasignacion'=>$Asignacion->getId(),
+				'urlfile'=> $Archivo->getDireccion(),
+				'namefile'=>$Archivo->getNombre()
 		));
 	}
 	
