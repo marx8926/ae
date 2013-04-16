@@ -53,7 +53,7 @@ class Celula
     /**
      * @var \Ubicacion
      *
-     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\ManyToOne(targetEntity="Ubicacion",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
      * })
@@ -63,7 +63,7 @@ class Celula
     /**
      * @var \Red
      *
-     * @ORM\ManyToOne(targetEntity="Red")
+     * @ORM\ManyToOne(targetEntity="Red",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
      * })
@@ -73,7 +73,7 @@ class Celula
     /**
      * @var \Misionero
      *
-     * @ORM\ManyToOne(targetEntity="Misionero")
+     * @ORM\ManyToOne(targetEntity="Misionero",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_misionero", referencedColumnName="id")
      * })
@@ -83,7 +83,7 @@ class Celula
     /**
      * @var \PastorEjecutivo
      *
-     * @ORM\ManyToOne(targetEntity="PastorEjecutivo")
+     * @ORM\ManyToOne(targetEntity="PastorEjecutivo",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_pastor_ejecutivo", referencedColumnName="id")
      * })
@@ -93,7 +93,7 @@ class Celula
     /**
      * @var \LiderRed
      *
-     * @ORM\ManyToOne(targetEntity="LiderRed")
+     * @ORM\ManyToOne(targetEntity="LiderRed",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_lider_red", referencedColumnName="id")
      * })

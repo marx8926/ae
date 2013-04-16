@@ -23,7 +23,7 @@
                         <div class="control-group">
                             <label class="control-label" >Teléfono</label>
                             <div class="controls">
-                                <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge" pattern="|^\d{9}$|" required />
+                                <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge"  />
                             </div>
                         </div>
                 
@@ -108,7 +108,35 @@
             </div>
          	<div id="map"></div>
         </div>
+        
+        <div id="lider_block" name="lider_block" >
             
+         <fieldset > 
+                <legend>Lider</legend>
+                <div class="control-group">
+                <label class="control-label">Añadir</label>
+                    <div class="controls">
+                         <select id="tip_red" name="tip_red" required>
+                                <option value="0">Lider de red</option>
+                                <option value="1">Pastor Ejecutivo</option>
+                                <option value="2">Misionero</option>
+                            </select>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">ID</label>
+                    <div class="controls">
+                        <select id="ids" name="ids" required >
+                        
+                        </select>
+                    </div>
+                </div>
+                
+                
+            </fieldset>
+                
+        </div>  
         <div class="control-group">
             <label></label>
                 <div class="controls">
@@ -138,6 +166,7 @@
     <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
     <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+        <script src="{{asset('js/functiongen.js')}}"> </script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->
 	
 	<script type="text/javascript">
@@ -155,9 +184,45 @@
 		addresspickerMap.addresspicker( "updatePosition");
 		
                 });
+                
+                function listas(entrada)
+                {
+                    var rede = $('#red_lista').val();
+                    console.log('rede'+rede);
+                    if(rede!='-1')
+                    switch(entrada)
+                    {
+                        
+                        case 0: //lider de red
+                            
+                            ajaxListPost('{{path('_enviar_lista_lider_red_cell')}}','ids',rede);
+                            break;
+                        case 1: //pastor ejecutivo
+                            ajaxListPost('{{path('_enviar_lista_pastor_ejecutivo_cell')}}','ids',rede);
+                            break;
+                        case 2: //misioneros
+                            ajaxListPost('{{path('_enviar_lista_misionero_cell')}}','ids',rede);
+                            break;
+                    }        
+                            
+                }
+                function change_tipo()
+                {
+                    var valor = $('#tip_red').val();
+                    listas(parseInt(valor));
+                }
             
+                function change_red()
+                {
+                    change_tipo();
+                    $('#lider_block').css({"display":"block"});
+                }
                $(document).ready(function(){
-                   
+               
+                  
+                    $("#lider_block").css({"display":"none"});
+                    $("#tip_red").change(change_tipo);
+                    $("#red_lista").change(change_red);
                    //lista de iglesias
                         $.ajax(
                         {url : '{{path('servicio_iglesia')}}',
@@ -187,12 +252,7 @@
                         }
                         ).done(departamentos);
                  
-    
-                        
-                        //lista de lugares
-                      //  $.getJSON('{{path('servicio_lugar')}}',lug);
-                 
-    
+
                         //cambio de departamento
                         $("#departamento_lista").change(recarga_provincias);
                   

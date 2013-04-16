@@ -57,6 +57,9 @@ class DefaultController extends Controller
             $latitud = $datos['latitud'];
             $longitud = $datos['longitud'];
             
+            $tipo = $datos['tip_red'];
+            $id   = $datos['ids'];
+            
             
             
             
@@ -108,6 +111,31 @@ class DefaultController extends Controller
                 $celula->setActivo(TRUE);
                 $celula->setFechaCreacion(new \DateTime());
                 
+                //tipo de miembros asociados
+                switch(intval($tipo))
+                {
+                    case 0:
+                        //lider de red
+                        /*$lider_r = $em->getRepository('AEDataBundle:LiderRed');
+                        $lider   = $lider_r->findOneBy(array('id'=>$id));
+                        $celula->setIdLiderRed($lider);
+                        */
+                        break;
+                    case 1:
+                        //pastor_ejectivo
+                        $pastor_e = $em->getRepository('AEDataBundle:PastorEjecutivo');
+                        $pastor   = $pastor_e->findOneBy(array('id'=>$id));
+                        $celula->setIdPastorEjecutivo($pastor);
+                        
+                        break;
+                    case 2:
+                        //misionero
+                        $misionero_t = $em->getRepository('AEDataBundle:Misionero');
+                        $misionero   = $misionero_t->findOneBy(array('id'=>$id));
+                        $celula->setIdMisionero($misionero);
+                        break;
+                }
+  
                 $em->persist($celula);
                 $em->flush();
                 

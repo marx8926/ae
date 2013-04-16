@@ -8,3 +8,21 @@ _enviar_lista_red:
 _enviar_lista_celulas:
   pattern: /enviar_lista_celulas
   defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lista_celula}
+  
+_enviar_lista_lider_red_cell:
+  pattern: /enviar_lista_lider_red_cell
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lider_red_cell}
+  requirements:
+    _method: POST
+  
+_enviar_lista_misionero_cell:
+  pattern: /enviar_lista_misionero_cell
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lider_misionero_cell}
+  requirements:
+    _method: POST
+  
+_enviar_lista_pastor_ejecutivo_cell:
+  pattern: /enviar_lista_pastor_eje_cell
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lider_pastor_eje_cell}
+  requirements:
+    _method: POST

@@ -12,61 +12,37 @@
 {% block content %} 
 <div class="span9" >
     
-        <div>
-        <div class="box">
-            <div class="box-head tabs">
-                <h3>Redes</h3>
+        <div class="form-horizontal">
+            
+            <div class="control-group">
+                    <label class="control-label" >Red</label>
+                    <div class="controls">
+                    <select id="redes_lista" name="redes_lista"></select>
+                    </div>
             </div>
-        </div>
-    
-        <div class="box-content box-content">
-            <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="red_table" name="red_table">
-                <col width="30%" />
-		<col width="35%" />
-		<col width="45%" />
-                
-                <thead>
-                    <tr>
-                        <th>Red</th>
-                        <th>Lider</th>
-                        <th>Descripción</th>
-		    </tr>
-                </thead>
-                <tbody>
-                   
-                </tbody>
-            </table>
-        </div>
+            
+            <div class="control-group">
+                    <label class="control-label" >Tipo</label>
+                    <div class="controls">
+                    <select id="tipo_list" name="tipo_list">
+                        <option value="0">Evangelistica</option>
+                        <option value="1">Discipulado</option>
+                    </select>
+                    </div>
+            </div>
+            <div class="control-group">
+                    <label class="control-label" >Célula</label>
+                    <div class="controls">
+                    <select id="celula_list" name="celula_list"></select>
+                    </div>
+            </div>
+       
         </div>
 	
            
         <div>
-        <div class="box">
-            <div class="box-head tabs">
-                <h3>Celulas</h3>
-            </div>
-        </div>
-    
-        <div class="box-content box-content">
-            <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="celula_table" name="celula_table">
-                <col width="20%" />
-		<col width="25%" />
-                <col width="25%" />
-		<col width="30%" />
-                
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Lider</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-		    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </div>
+            
+     
         </div>
 	
     
@@ -203,10 +179,17 @@
         
 	$(document).ready(function() {
             
-             var url = '{{path('_enviar_lista_red')}}';
-             console.log(url);
-             
-             ajaxTableDataPost('red_table', url);
+             var url1 = '{{path('_enviar_lista_red')}}';
+   
+             $.ajax(
+                {
+                    url: url1,
+                    async: false,
+                    type: "POST",
+                }).done(function(data){
+                $('#redes_lista').html(data);
+                //$(data).appendTo('#redes_lista');
+            });
 	 });
          
   

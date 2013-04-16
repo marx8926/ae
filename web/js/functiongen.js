@@ -43,3 +43,20 @@ function ajaxTableDataPost(nametable,path)
                 $('#'+nametable+'> tbody:last').append(data);
             });
 }
+
+function ajaxListPost(path,select,red)
+{   
+    $.post(path,{dato:red},function(data){
+         $('#'+select).html(data);
+    });
+    
+    /*
+    $.ajax({
+        url:path,
+        async: false,
+        type: "POST",
+        data: red,
+    }).done(function(data){
+        $('#'+select).html(data);
+    });*/
+}

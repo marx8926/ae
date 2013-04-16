@@ -31,47 +31,142 @@ class EnviarServicioController extends Controller
        
         for($i=0; $i<$n; $i++)
         {
-           $temp = " <tr>";
+           $temp = "<option value='". $todo[$i]['id']."' >";
            
-           $temp = $temp." <td> ".$todo[$i]['id']."</td>";
-           $temp = $temp." <td> ".$todo[$i]['nombre']." ".$todo[$i]['apellidos']."</td>";
-           
-           $tipo="";
-           
-           switch (intval($todo[$i]['tipo'])) {
-               case 0:
-                   $tipo = "Mixta";
-                   break;
-               case 1:
-                   $tipo = "Hombres";
-                   break;
-               case 2:
-                   $tipo = "Mujeres";
-                   break;
-               case 3:
-                   $tipo = "Hombres Jóvenes";
-                   break;
-               case 4:
-                   $tipo = "Mujeres Jóvenes";
-                   break;
-               default:
-                   $tipo = "";
-                   
-                   break;
-           }
-           $temp = $temp." <td> ".$tipo."</td>";
-           $temp = $temp."</tr> ";
+           $temp = $temp." ".$todo[$i]['id']."-";
+           $temp = $temp." ".$todo[$i]['nombre']." ".$todo[$i]['apellidos']."</option>";
+
            $cadena = $cadena.$temp;
         }
         
-        return new Response($cadena);
+        return new Response('<select>'.$cadena.'</select>');
         
     }
     
     public function get_lista_celulaAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
         
-       // $sql = 
+        $request = $this->get('request');
+        $name=$request->request->get('formName');
+        $red = $request->request->get('red');
+        $tipo = $request->request->get('celula');
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+
+       if($name!=NULL){
+           
+            $em = $this->getDoctrine()->getEntityManager();
+       }
+        
+       
+    }
+    public function   get_lider_red_cellAction()
+    {
+       $request = $this->get('request');
+       $temp = $request->request->get('dato');
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       try
+       {
+          $sql = "select *from  ver_lideres_red_to_celulas(:idx)";
+          $smt = $em->getConnection()->prepare($sql);
+          $smt->execute(array(':idx'=>$temp));
+          
+          $todo = $smt->fetchAll();
+          $total = "";
+          
+          $n = count($todo);
+          for($i=0; $i<$n; $i++)
+          {
+              $linea = "<option id='".$todo[$i]['id']."'>";
+                $linea = $linea.$todo[$i]['id']."-".$todo[$i]['nombre']." ".$todo[$i]['apellidos']."</option>";
+                $total = $total.$linea;
+          }
+          $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw  $e;
+       }
+       
+       return new Response($total);
+    }
+  
+    public function get_lider_misionero_cellAction()
+    {
+            $request = $this->get('request');
+       $temp = $request->request->get('dato');
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       try
+       {
+          $sql = "select *from  ver_misionero_to_celulas(:idx)";
+          $smt = $em->getConnection()->prepare($sql);
+          $smt->execute(array(':idx'=>$temp));
+          
+          $todo = $smt->fetchAll();
+          $total = "";
+          
+          $n = count($todo);
+          for($i=0; $i<$n; $i++)
+          {
+              $linea = "<option id='".$todo[$i]['id']."'>";
+                $linea = $linea.$todo[$i]['id']."-".$todo[$i]['nombre']." ".$todo[$i]['apellidos']."</option>";
+                $total = $total.$linea;
+          }
+          $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           
+           throw  $e;
+       }
+       
+       return new Response($total);
+    }
+    
+    public function get_lider_pastor_eje_cellAction()
+    {
+            $request = $this->get('request');
+       $temp = $request->request->get('dato');
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       $em->beginTransaction();
+       
+       try
+       {
+          $sql = "select *from  ver_pastor_eje_to_celulas(:idx)";
+          $smt = $em->getConnection()->prepare($sql);
+          $smt->execute(array(':idx'=>$temp));
+          
+          $todo = $smt->fetchAll();
+          $total = "";
+          
+          $n = count($todo);
+          for($i=0; $i<$n; $i++)
+          {
+              $linea = "<option id='".$todo[$i]['id']."'>";
+                $linea = $linea.$todo[$i]['id']."-".$todo[$i]['nombre']." ".$todo[$i]['apellidos']."</option>";
+                $total = $total.$linea;
+          }
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw  $e;
+       }
+       
+       return new Response($total);
     }
 }
