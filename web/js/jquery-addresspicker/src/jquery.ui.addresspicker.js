@@ -20,7 +20,7 @@
         draggableMarker: true,
         regionBias: null,
         mapOptions: {
-            zoom: 12, 
+            zoom: 16, 
             center: new google.maps.LatLng(this.lat,this.lng), 
             scrollwheel: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP

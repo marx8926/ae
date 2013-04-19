@@ -19,11 +19,12 @@
 	<script src="{{asset('js/jquery.color.js')}}"></script>
 	<script src="{{asset('js/jquery.flot.resize.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>            
-    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
     <script src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
     <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
     <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+        <script src="{{asset('js/mapa.js')}}"></script>
 <!--
 
 //-->
@@ -34,7 +35,9 @@
             </script>
             
             <script type="text/javascript">
-                     $(document).ready(function(){
+             $(document).ready(function(){
+                 
+                   mapeo_position('lat','lng','addresspicker_map','map');
                                             
                      //lista de redes
                      $.ajax(
@@ -107,19 +110,7 @@
                     );
                     return false;});
                     
-                      $(function() {
-		var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
-		  elements: {
-		    map:      "#map",
-		    lat:      "#lat",
-		    lng:      "#lng"
-		  }
-		});
-		var gmarker = addresspickerMap.addresspicker( "marker");
-		gmarker.setVisible(true);
-		addresspickerMap.addresspicker( "updatePosition");
-		
-                });
+                      
   
             });
     
@@ -146,7 +137,7 @@
                 {
                
                     
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#red_lista');
+                    $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#red_lista');
                 }    
           
                 recargar_celula();
@@ -173,7 +164,7 @@
                 $('#celula_lista').empty();
                 for(var i=0;i<dato.length; i++)
                 {
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#celula_lista');
+                    $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#celula_lista');
                 }
             }
          
@@ -396,8 +387,8 @@
             <label>Ubicación</label>
                    <div id="map-ll">
 		            	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
-						<label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
-		                <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+						<label>Latitud:</label> <input id="lat" name="latitud" value="">
+		                <label>Longitud:</label> <input id="lng" name="longitud" value=""> <br/>
 		            </div>
             <div id="map"></div>
    

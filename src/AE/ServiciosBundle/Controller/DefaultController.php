@@ -20,63 +20,7 @@ class DefaultController extends Controller
     {
         return $this->render('AEServiciosBundle:Default:index.html.twig', array('name' => $name));
     }
-    
-    public function regionAction()
-    {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new GetSetMethodNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-    
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $sql = 'select coddepartamento, departamento from ubigeo group by coddepartamento, departamento';
-            
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
- 
-        $redes = $smt->fetchAll();        
-    
-        return new Response($serializer->serialize($redes, 'json')); 
-    }
-    
-    public function provinciaAction($id)
-    {      
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new GetSetMethodNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-    
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $sql = 'select codprovincia, provincia from ubigeo where coddepartamento=:id group by codprovincia, provincia';
-      
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute(array(':id'=>$id));
- 
-        $redes = $smt->fetchAll();
-
-       return new Response($serializer->serialize($redes, 'json'));         
-    }
-    public function distritoAction($dep, $prov)
-    {
-       $sql = 'select * from ubigeo where coddepartamento=:iddep and codprovincia=:idprov group by coddistrito, distrito,id';
- 
-       $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new GetSetMethodNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-    
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute(array(':iddep'=>$dep,':idprov'=>$prov));
- 
-        $redes = $smt->fetchAll();
-   
-       return new Response($serializer->serialize($redes, 'json'));
-    }
-    
+  
     public function ubigeoAction($id)
     {
         $sql = 'select * from ubigeo where id=:iddep';
@@ -139,20 +83,7 @@ class DefaultController extends Controller
     }
 
 
-    //lista de redes activas
-    public function redAction()
-    {
-        $sql = 'select * from red where activo=true';
- 
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
- 
-        $redes = $smt->fetchAll();
    
-       return new JsonResponse($redes);
-    }
     
     //red por id
     
@@ -169,20 +100,7 @@ class DefaultController extends Controller
    
        return new JsonResponse($redes); 
     }
-    //celula id
-    public function celulaAction($id)
-    {
-        $sql = 'select * from celula where activo=true and id_red=:idred ';
- 
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute(array(':idred'=>$id));
- 
-        $redes = $smt->fetchAll();
-   
-       return new JsonResponse($redes);
-    }
+  
     //celula red id
     
     public function celulaidAction($red ,$id )
@@ -200,21 +118,7 @@ class DefaultController extends Controller
        return new JsonResponse($redes);
        
     }
-     
-    public function lugarAction()
-    {
-         $sql = 'select * from lugar';
- 
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
- 
-        $redes = $smt->fetchAll();
-   
-       return new JsonResponse($redes);
-    }
-    
+
     //lugar por id
     public function lugaridAction($id)
     {

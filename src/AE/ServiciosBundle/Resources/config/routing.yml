@@ -2,23 +2,6 @@ ae_servicios_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: AEServiciosBundle:Default:index }
     
-servicio_region:
-  pattern: /servicioregion
-  defaults: {_controller: AEServiciosBundle:Default:region}
-  requirements:
-    _method: POST
-  
-servicio_provincia:
-  pattern: /servicioprovincia/{id}
-  defaults: {_controller: AEServiciosBundle:Default:provincia}
-  requirements:
-    _method: POST
-  
-servicio_distrito:
-  pattern: /serviciodistrito/{dep}/{prov}
-  defaults: {_controller: AEServiciosBundle:Default:distrito}
-  requirements:
-    _method: POST
   
 servicio_ubigeo:
   pattern: /servicioubigeo/{id}
@@ -41,31 +24,16 @@ servicio_iglesia_id:
   defaults: {_controller: AEServiciosBundle:Default:iglesiaid}
   requirements:
     _method: POST
-  
-  
-servicio_red:
-  pattern: /serviciored
-  defaults: {_controller: AEServiciosBundle:Default:red}
-  requirements:
-    _method: POST  
-  
+ 
 servicio_red_id:
   pattern: /servicioredid/{id}
   defaults: {_controller: AEServiciosBundle:Default:redid}
   
-servicio_celula:
-  pattern: /serviciocelula/{id}
-  defaults: {_controller: AEServiciosBundle:Default:celula}
-  requirements:
-    _method: POST
   
 servicio_celula_id:
   pattern: /serviciocelulaid/{red}/{id}
   defaults: {_controller: AEServiciosBundle:Default:celulaid}
   
-servicio_lugar:
-  pattern: /serviciolugar
-  defaults: {_controller: AEServiciosBundle:Default:lugar}
  
 servicio_lugar_id:
   pattern: /serviciolugarid/{id}
@@ -224,6 +192,9 @@ discipular_servicio_routing:
     
 enviar_servicio_routing:
     resource: "@AEServiciosBundle/Resources/config/enviar_servicio_routing.yml"
+    
+ganar_servicio_routing:
+    resource: "@AEServiciosBundle/Resources/config/ganar_servicio_routing.yml"
     
 servicio_por_descartar:
   pattern: /pordescartar

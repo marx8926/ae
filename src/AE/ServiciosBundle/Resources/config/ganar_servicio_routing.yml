@@ -1,0 +1,35 @@
+servicio_red:
+  pattern: /serviciored
+  defaults: {_controller: AEServiciosBundle:GanarServicio:red}
+  requirements:
+    _method: POST  
+    
+servicio_region:
+  pattern: /servicioregion
+  defaults: {_controller: AEServiciosBundle:GanarServicio:region}
+  requirements:
+    _method: POST
+    
+  
+servicio_provincia:
+  pattern: /servicioprovincia/{id}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:provincia}
+  requirements:
+    _method: POST
+  
+servicio_distrito:
+  pattern: /serviciodistrito/{dep}/{prov}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:distrito}
+  requirements:
+    _method: POST
+    
+servicio_lugar:
+  pattern: /serviciolugar
+  defaults: {_controller: AEServiciosBundle:GanarServicio:lugar}
+  
+servicio_celula:
+  pattern: /serviciocelula/{id}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:celula}
+  requirements:
+    _method: POST
+    
