@@ -18,89 +18,73 @@
         </div>
 
         <div class="box-content box-nomargin">
-            <form id='form' name='form' method='POST' class="form-horizontal" action='{{path('enviar_asistencia_celula_update')}}'>
+            <form id='form' name='form' method='POST' class="form-horizontal" >
                 
                 <fieldset>
+                    
+                 <div class="control-group">
+                     <label class="control-label">ID Clase Célula</label>
+                     <div class="controls">
+                         <label class="control-label">{{id}}</label>
+                         <input type="hidden" value="{{id}}" id="claseid" name="claseid">
+                     </div>
+                 </div>
                 
                 <div class="control-group">
                         <label class="control-label" >Célula</label>
                         <div class="controls">
-                            <label id="celula" class="control-label" ></label>
+                            <label id="celula" class="control-label" >{{celula}}</label>
                         </div>
                 </div>
                  
                 <div class="control-group">
                     <label class="control-label" >Tema Célula</label>
                     <div class="controls">
-                        <label id="tema_celula" class="control-label"></label>
+                        <label id="tema_celula" class="control-label">{{titulo}}</label>
                     </div>
                 </div>
                     
                  <div class="control-group">
                     <label class="control-label" >Tipo de Célula</label>
                     <div class="controls">
-                        <label id="tipo_celula" class="control-label"></label>
+                        <label id="tipo_celula" class="control-label">{{tipo}}</label>
                     </div>
                 </div>
                  
                 <div class="control-group">
                     <label class="control-label" >Horario</label>
                     <div class="controls">
-                        <label id="horario" class="control-label" ></label>
+                        <label id="horario" class="control-label" >{{dia}}</label>
                     </div>
                 </div>
                  
                 <div class="control-group">
                     <label class="control-label" >Ofrenda</label>
                     <div class="controls">
-                        <input class="input-xlarge" id="ofrenda" name="ofrenda">
+                        <input class="input-xlarge" id="ofrenda" name="ofrenda" value="{{ofrenda}}">
                     </div>
                 </div>
           
                 </fieldset>
-            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="persona" name="persona">
-            		<col width="10%" />
-					<col width="40%" />
-					<col width="40%" />
-					<col width="10%" />
-            		<thead>
-                		<tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Apellidos</th>
-                                    <th class="table-checkbox">Asistencia</th>
-		                </tr>
-			</thead>
-			<tbody id="tablas1" name="tablas1" >
-            	<tr>
-					<td>1</td>
-					<td>Claudia</td>
-					<td>Valdivieso Castillo</td>
-			        <td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
-			    </tr>
-			    <tr>
-					<td>1</td>
-					<td>Claudia</td>
-					<td>Valdivieso Castillo</td>
-			        <td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
-			    </tr>
-			    <tr>
-					<td>1</td>
-					<td>Claudia</td>
-					<td>Valdivieso Castillo</td>
-			        <td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
-			    </tr>
-			    <tr>
-					<td>1</td>
-					<td>Claudia</td>
-					<td>Valdivieso Castillo</td>
-			        <td class='table-checkbox'><input type="checkbox" class='selectable-checkbox'></td>
-			    </tr>
-			</tbody>
-                </table>
-                    
+            
+                <div class="span9">
+		<div class="box">
+			<div class="box-head">
+				<h3>Células</h3>
+			</div>
+                        <input id='content' type='hidden' name='content' >
+                        <input id='title' type='hidden' name='title' >
+                        <input id='pdfbutton' type='button' value='PDF' class="btn-success">
+                        <input id='excelbutton' type='button' value='Excel' class="btn-success">
+                        <input id='numfilas' type="hidden" name="numfilas" value="0">
+			<div class="box-content box-nomargin" id="tabla_asistencia">
+			</div>
+		</div>
+                </div>
+                
+                
                 <div class="form-horizontal">
-                    <input class="btn-success" id="vista" name="vista" type="submit" value="Guardar cambios">
+                    <input class="btn-success" id="guardar" name="guardar" type="button" value="Guardar cambios">
                 </div>
 
                 </form>
@@ -148,7 +132,7 @@
                 if(data.responseCode==200)
                 {
                     alert('Registro Completado');
-                    //location.reload();
+                    location.replace('{{path('enviar_asistencia')}}');
                 }
                 else
                 {
@@ -174,6 +158,64 @@
         var ids=[];
         
 	$(document).ready(function() {
+            var url = '{{path('_enviar_asistencia_celula_class',{'id':':id'})}}';
+            url = url.replace(':id','{{id}}');
+            ajaxResposeData("tabla_asistencia",url);
+            
+            $("#pdfbutton").click(function(event) {
+              
+                var n = $('.check_ast').length;
+                var todo= $('.check_ast');
+                
+                for(var i=0; i<n; i++)
+                {
+                    var est = $(todo[i]).attr('data');
+                    if($('#'+est).is(":checked") ==true)
+                        $(todo[i]).text('Si');
+                    else
+                        $(todo[i]).text('No');
+
+                }
+                  $("#persona th").css("width","auto");
+            	$("#content").val($("#persona").html());
+            	$("#title").val($("h3").html());
+            	//$("#content").val($("#lol").html() + $("tbody").html());
+                $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+                
+               
+		$("#form").submit();
+            });
+
+            $("#excelbutton").click(function(event) {
+                 var n = $('.check_ast').length;
+                var todo= $('.check_ast');
+                
+                for(var i=0; i<n; i++)
+                {
+                    var est = $(todo[i]).attr('data');
+                    if($('#'+est).is(":checked") ==true)
+                        $(todo[i]).text('Si');
+                    else
+                        $(todo[i]).text('No');
+
+                }
+            	$("#content").val("<table>" + $("#persona").html() + "</table>");
+		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+		$("#form").submit();
+            });
+            enviar('form',funcion);
+            
+            $("#guardar").click(function(event){
+                
+                var n = $('.check_ast').length;
+                $('#numfilas').val(n);
+                
+                $("#form").attr("action","{{path('enviar_asistencia_celula_update')}}");
+                console.log($('#form').serialize());
+                $("#form").submit();
+            });
+            
+            
  
 	 });
          

@@ -1,28 +1,47 @@
 _enviar_lista_red:
   pattern: /enviar_lista_red
-  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lista_red }
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaRed }
   requirements:
     _method: POST
     
     
 _enviar_lista_celulas:
   pattern: /enviar_lista_celulas
-  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lista_celula}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelula}
   
 _enviar_lista_lider_red_cell:
   pattern: /enviar_lista_lider_red_cell
-  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lider_red_cell}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getLiderRedCell}
   requirements:
     _method: POST
   
 _enviar_lista_misionero_cell:
   pattern: /enviar_lista_misionero_cell
-  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lider_misionero_cell}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getLiderMisioneroCell}
   requirements:
     _method: POST
   
 _enviar_lista_pastor_ejecutivo_cell:
   pattern: /enviar_lista_pastor_eje_cell
-  defaults: {_controller: AEServiciosBundle:EnviarServicio:get_lider_pastor_eje_cell}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getLiderPastorEjeCell}
   requirements:
     _method: POST
+   
+_enviar_lista_celula_tabla:
+  pattern: /enviar_lista_celula_tabla
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaTabla}
+  
+_enviar_lista_celula_red_tipo:
+  pattern: /enviar_lista_celula_red_tipo/{red}/{tipo}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaRedTipo}
+  #requirements:
+    #_method: POST
+    
+_enviar_lista_celula_temas:
+   pattern: /enviar_lista_celula_temas/{id}
+   defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaTemas}
+   
+_enviar_asistencia_celula_class:
+  pattern: /enviar_asistencia_celula_class/{id}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getAsistenciaCelulaClass}
+   

@@ -10,7 +10,7 @@
 {% endblock %}                 
 
 {% block content %} 
-<div class="span9" >
+<div class="row-fluid" >
     
         <div class="form-horizontal">
             
@@ -30,83 +30,56 @@
                     </select>
                     </div>
             </div>
-            <div class="control-group">
-                    <label class="control-label" >Célula</label>
-                    <div class="controls">
-                    <select id="celula_list" name="celula_list"></select>
-                    </div>
-            </div>
-       
-        </div>
-	
-           
-        <div>
             
-     
-        </div>
-	
+        </div>	
+           
+        <div class="span9">
+		<div class="box">
+			<div class="box-head">
+				<h3>Células</h3>
+			</div>
+			<div class="box-content box-nomargin" id="tabla_celulas">
+			</div>
+		</div>
+	</div>
     
-        <div class="box">
-		<div class="box-head tabs">
-            <h3>Temas de Célula (Nombre o ID)</h3>							
-        </div>
-
-        <div class="box-content box-nomargin">
-            <form id='form' name='form' method='POST' class="form-horizontal" action='{{path('enviar_asistencia_celula_update')}}'>
-                
-            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped  table-bordered"  id="persona" name="persona">
-            		<col width="10%" />
-					<col width="40%" />
-					<col width="30%" />
-					<col width="10%" />
-					<col width="10%" />
-            		<thead>
-                		<tr>
-                                    <th>ID</th>
-                                    <th>Título</th>
-                                    <th>Autor</th>
-                                    <th>Asistencia</th>
-                                    <th>Fecha</th>
-		                </tr>
-			</thead>
-			<tbody id="tablas1" name="tablas1" >
-            	<tr>
-					<td>1</td>
-					<td>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</td>
-					<td>Valdivieso Castillo</td>
-			        <td><button class="btn">Asistencia</button></td>
-			        <td>2013-05-25</td>
-			    </tr>
-			    <tr>
-					<td>1</td>
-					<td>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</td>
-					<td>Valdivieso Castillo</td>
-			        <td><button class="btn">Asistencia</button></td>
-			        <td>2013-05-25</td>
-			    </tr>
-			    <tr>
-					<td>1</td>
-					<td>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</td>
-					<td>Valdivieso Castillo</td>
-			        <td><button class="btn">Asistencia</button></td>
-			        <td>2013-05-25</td>
-			    </tr>
-			    <tr>
-					<td>1</td>
-					<td>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</td>
-					<td>Valdivieso Castillo</td>
-			        <td><button class="btn">Asistencia</button></td>
-			        <td>2013-05-25</td>
-			    </tr>
-			</tbody>
-                </table>
-                    
-                <div class="form-horizontal">
-                    <input class="btn-success" id="vista" name="vista" type="submit" value="Guardar cambios">
-                </div>
-
-                </form>
-    	</div>
+    <div class="span9" id="tema_cell" name="tema_cell">
+		<div class="box">
+			<div class="box-head">
+				<h3>Temas de Células</h3>
+			</div>
+			<div class="box-content box-nomargin" id="tabla_temas">
+                            <table cellpadding='0' cellspacing='0' border='0' class='display table table-striped dataTable table-bordered'
+                                   id="tema" name="tema" >
+                                <thead>
+                                    <tr>
+					<th>Id</th>
+					<th>Titulo</th>
+					<th>Autor</th>
+					<th>Dia</th>
+					<th>Hora</th>
+					<th>Dictado</th>
+                                    </tr>
+                                </thead>
+                            </table>
+			</div>
+		</div>
+	</div>
+        
+    <div id="asistencia" name="asistencia" class="span9">
+        
+        <form method="POST" action="{{path('enviar_asistencia_celula')}}" >
+            <input type="hidden" id="celulaid" name="celulaid" value="">
+            <input type="hidden" id="red_id" name="red_id" value="">
+            <input type="hidden" id="tip_cell" name="tip_cell" value="">
+            <input type="hidden" id="titulocell" name="titulocell" value="">
+            <input type="hidden" id="dia_cell" name="dia_cell" value="">
+            <input type="hidden" id="horario_cell" name="horario_cell" value="">
+            <input type="hidden"  id="dictado_cell" name="dictado_cell" value="">
+            <input type="hidden" id="asiste" name="asiste" value="">
+            <input type="submit" id="asistir" name="asistir" value="Asistir" class="btn-success">
+        </form>
+    </div>
 	</div>
        
         
@@ -142,8 +115,122 @@
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
+            
+                     <script type="text/javascript" charset="utf-8">
+			/* Default class modification */
+			$.extend( $.fn.dataTableExt.oStdClasses, {
+				"sSortAsc": "header headerSortDown",
+				"sSortDesc": "header headerSortUp",
+				"sSortable": "header"
+			} );
+
+			/* API method to get paging information */
+			$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+			{
+				return {
+					"iStart":         oSettings._iDisplayStart,
+					"iEnd":           oSettings.fnDisplayEnd(),
+					"iLength":        oSettings._iDisplayLength,
+					"iTotal":         oSettings.fnRecordsTotal(),
+					"iFilteredTotal": oSettings.fnRecordsDisplay(),
+					"iPage":          Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+					"iTotalPages":    Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+				};
+			}
+
+			/* Bootstrap style pagination control */
+			$.extend( $.fn.dataTableExt.oPagination, {
+				"bootstrap": {
+					"fnInit": function( oSettings, nPaging, fnDraw ) {
+						var oLang = oSettings.oLanguage.oPaginate;
+						var fnClickHandler = function ( e ) {
+							e.preventDefault();
+							if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) ) {
+								fnDraw( oSettings );
+							}
+						};
+
+						$(nPaging).addClass('pagination').append(
+							'<ul>'+
+								'<li class="prev disabled"><a href="#">&larr; '+oLang.sPrevious+'</a></li>'+
+								'<li class="next disabled"><a href="#">'+oLang.sNext+' &rarr; </a></li>'+
+							'</ul>'
+						);
+						var els = $('a', nPaging);
+						$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
+						$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+					},
+
+					"fnUpdate": function ( oSettings, fnDraw ) {
+						var iListLength = 5;
+						var oPaging = oSettings.oInstance.fnPagingInfo();
+						var an = oSettings.aanFeatures.p;
+						var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
+
+						if ( oPaging.iTotalPages < iListLength) {
+							iStart = 1;
+							iEnd = oPaging.iTotalPages;
+						}
+						else if ( oPaging.iPage <= iHalf ) {
+							iStart = 1;
+							iEnd = iListLength;
+						} else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
+							iStart = oPaging.iTotalPages - iListLength + 1;
+							iEnd = oPaging.iTotalPages;
+						} else {
+							iStart = oPaging.iPage - iHalf + 1;
+							iEnd = iStart + iListLength - 1;
+						}
+
+						for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
+							// Remove the middle elements
+							$('li:gt(0)', an[i]).filter(':not(:last)').remove();
+
+							// Add the new list items and their event handlers
+							for ( j=iStart ; j<=iEnd ; j++ ) {
+								sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
+								$('<li '+sClass+'><a href="#">'+j+'</a></li>')
+									.insertBefore( $('li:last', an[i])[0] )
+									.bind('click', function (e) {
+										e.preventDefault();
+										oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
+										fnDraw( oSettings );
+									} );
+							}
+
+							// Add / remove disabled classes from the static elements
+							if ( oPaging.iPage === 0 ) {
+								$('li:first', an[i]).addClass('disabled');
+							} else {
+								$('li:first', an[i]).removeClass('disabled');
+							}
+
+							if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 ) {
+								$('li:last', an[i]).addClass('disabled');
+							} else {
+								$('li:last', an[i]).removeClass('disabled');
+							}
+						}
+					}
+				}
+			} );
+
+		
+		</script>
   
     <script type="text/javascript">
+          jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
+				return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+	};
+			
+	jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
+				return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+	};
+         var trselected; 
+	 var oTable;
+         
+        var values = [];
+        
         var funcion = function(data)
             {
                 console.log(data);
@@ -175,11 +262,22 @@
             
         var ids=[];
         
+        function IrATema(boton)
+        {
+            console.log($(boton).attr("data"));
+            
+            getTemaTabla($(boton).attr("data"));
+             $('#tema_cell').css({display:'block'});
+             $('#celulaid').val($(boton).attr("data"));
         
+  
+        }
         
 	$(document).ready(function() {
             
              var url1 = '{{path('_enviar_lista_red')}}';
+             $('#tema_cell').css({display:'none'});
+             $('#asistencia').css({display:'none'});
    
              $.ajax(
                 {
@@ -190,8 +288,123 @@
                 $('#redes_lista').html(data);
                 //$(data).appendTo('#redes_lista');
             });
-	 });
+            
+            
+                var url = "{{path('_enviar_lista_celula_red_tipo',{'red':':red','tipo':':tipo'})}}";
+                
+		$("#redes_lista").change(function(){
+                                        $('#red_id').val($('#redes_lista').val());
+                                        
+                                        url = "{{path('_enviar_lista_celula_red_tipo',{'red':':red','tipo':':tipo'})}}";
+                                        
+                                        url = url.replace(':red',$('#redes_lista option:selected').val());
+                                        url = url.replace(':tipo',$('#tipo_list option:selected').val());
+					ajaxResposeData("tabla_celulas",url);
+				});
+                                
+                $("#tipo_list").change(function(){  
+                                        
+                                        $('#tip_cell').val($('#tipo_list').text());
+                                        
+                                        url = "{{path('_enviar_lista_celula_red_tipo',{'red':':red','tipo':':tipo'})}}";
+                                        url = url.replace(':red',$('#redes_lista option:selected').val());
+                                        url = url.replace(':tipo',$('#tipo_list option:selected').val());
+					ajaxResposeData("tabla_celulas",url);
+				});
+                                
+                $('#red_id').val($('#redes_lista').val());
+                $('#tip_cell').val($('#tipo_list').val());
+
+                url = url.replace(':red',$('#redes_lista').val());
+                url = url.replace(':tipo',$('#tipo_list').val());
+                
+		ajaxResposeData("tabla_celulas",url);
+                
+                $('#tema tbody').click(function(event){
+                    $(oTable.fnSettings().aoData).each(function(){
+                        $(this.nTr).removeClass('row_selected');
+                    });
+                
+                    $(event.target.parentNode).addClass('row_selected');
+                
+                    trselected = $(event.target.parentNode);
+                
+                    var tds = $(trselected).find('td');
+  
+                    $.each(tds, function(index, item) {
+                        values.push(item.innerHTML); 
+                    });   
+                    
+                    $('#asiste').val(values[0]);
+                    $('#asistencia').css({display:'block'});
+                    $('#titulocell').val(values[1]);
+                    $('#dia_cell').val(values[3]);
+                    $('#horario_cell').val(values[4]);
+                    $('#dictaco_cell').val(values[5]);
          
+                    
+                });
+                
+
+                
+       	 });
+         
+         function getTemaTabla(celula)
+         {
+             var url = "{{path('_enviar_lista_celula_temas',{'id':':id'})}}";
+             
+            url = url.replace(':id',celula);
+             
+             /* Build the DataTable with third column using our custom sort functions */
+            oTable = $('#tema').dataTable( {
+                                    
+                "bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": url,
+                "aoColumns": [
+                    { "mDataProp": "id" },
+                    { "mDataProp": "titulo" },
+                    { "mDataProp": "autor" },
+                    { "mDataProp": "dia" },
+                    { "mDataProp": "hora" },
+                    { "mDataProp": "dictado"}
+                ],
+		"aaSorting": [ [0,'desc'], [1,'desc'] ],
+		"aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+		],"sDom": 'T<"clear">lfrtip',
+                "oTableTools": {
+			"sRowSelect": "single",
+                        "fnRowSelected": function ( node ) {
+                            var s=$(node).children();
+                            alert("Selected Row : " + s[0]);
+                        }
+		},
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ registros por página"
+					}
+            } );	
+   
+         }
+         
+        function fnGetSelected( oTableLocal )
+        {
+            var aReturn = new Array();
+            var aTrs = oTableLocal.fnGetNodes();
+	
+            for ( var i=0 ; i<aTrs.length ; i++ )
+            {
+            
+		if ( $(aTrs[i]).hasClass('row_selected') )
+		{
+			aReturn.push( aTrs[i] );
+		}
+            }
+            return aReturn;
+        }
   
        </script>
 {%endblock %} 

@@ -9,21 +9,22 @@
 
 {%block content %}
             <div class="span9" id="registro_form">
-                <form class="form-horizontal" action="{{path('enviar_addcelula')}}"  method="POST" id="myForm">
+                <form class="form-horizontal" action="{{path('enviar_modificar_celula_update')}}"  method="POST" id="myForm">
                     <legend>Registro de Células</legend>
         
                     <fieldset> 
                         <div class="control-group">
                             <label class="control-label" >Familia</label>
                             <div class="controls">
-                                <input type="text" id="inputFam" name="inputFam" placeholder="Familia" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required autofocus>
+                                <input type="text" id="inputFam" name="inputFam" placeholder="Familia" 
+                                       class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required value="{{familia}}">
                             </div>
                         </div>
             
                         <div class="control-group">
                             <label class="control-label" >Teléfono</label>
                             <div class="controls">
-                                <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge"  />
+                                <input type="text" id="inputTel" name="inputTel" placeholder="Telefono" class="input-xxlarge" value="{{telefono}}" />
                             </div>
                         </div>
                 
@@ -63,14 +64,15 @@
         <div class="control-group">
             <label class="control-label">Dirección</label>
             <div class="controls">
-                <input type="text" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required>
+                <input type="text" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required
+                       value="{{direccion}}">
                 
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Referencia</label>
             <div class="controls" >
-                <input type="text" class="input-xxlarge" id="inputReferencia" name="inputReferencia">
+                <input type="text" class="input-xxlarge" id="inputReferencia" name="inputReferencia" value="{{referencia}}">
             </div>
         </div>
         <div class="control-group">
@@ -103,8 +105,8 @@
         	<label>Ubicación</label>
         	<div id="map-ll">
             	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
-				<label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
-                <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+				<label>Latitud:</label> <input id="lat" name="latitud" value="{{latitud}}">
+                <label>Longitud:</label> <input id="lng" name="longitud" value="{{longitud}}"> <br/>
             </div>
          	<div id="map"></div>
         </div>
@@ -144,6 +146,8 @@
                 </div>
         </div>
         </fieldset>
+                    <input type="hidden" name="celula" id="celula" value="{{id}}"  >
+                    <input type="hidden" name="idubicacion" id="idubicacion" value="{{ubi_id}}">
         </form>
             <div id="output"></div>
             </div>
@@ -188,7 +192,7 @@
                 function listas(entrada)
                 {
                     var rede = $('#red_lista').val();
-                    console.log('rede'+rede);
+                 
                     if(rede!='-1')
                     switch(entrada)
                     {
@@ -219,8 +223,7 @@
                 }
                $(document).ready(function(){
                
-                  
-                    $("#lider_block").css({"display":"none"});
+ 
                     $("#tip_red").change(change_tipo);
                     $("#red_lista").change(change_red);
                    //lista de iglesias
@@ -270,18 +273,19 @@
                     var url=$("#myForm").attr("action");
    
                     //start send the post request
+                    
+                    
+                    
                     $.post(url,{
                         formName:$("#myForm").serialize(),
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-                   
-                    console.log(data);
-                    
+                  
                     if(data.responseCode==200 ){           
                        // $('#output').html(data.greeting);
                         //$('#output').css("color","red");
-                        alert('Registro Completado');
+                        alert('Registro Completado por redireccionar');
                         location.reload();
                     }
                     else if(data.responseCode==400){//bad request
@@ -307,11 +311,19 @@
        
                     );
 
-
-                    //It is silly. But you should not write 'json' or any thing as the fourth parameter. It should be undefined. I'll explain it futher down
-
-                    //we dont what the browser to submit the form
                     return false;});
+                    
+                     SelectListPost('tipo_cell',{{tipo}});
+                     SelectListPost('red_lista','{{red}}');
+                     SelectListPost('tip_red',{{caso}});
+                     change_tipo();
+                     SelectListPost('departamento_lista',{{departamento}});
+                     recarga_provincias();
+                     SelectListPost('provincia_lista',{{provincia}});
+                     recarga_distritos();
+                     SelectListPost('distrito_lista',{{ubigeo}});
+                     SelectListPost('ids',{{idp}});
+          
 
                 });
 

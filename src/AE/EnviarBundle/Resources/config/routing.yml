@@ -39,7 +39,7 @@ enviar_crear_class_cell_update:
     _method: POST
   
 enviar_asistencia_celula:
-  pattern: /asistencia_celula/{id}/{clase}
+  pattern: /asistencia_celula
   defaults: {_controller: AEEnviarBundle:Default:asistencia_celula}
   
 enviar_asistencia_celula_update:
@@ -60,4 +60,24 @@ enviar_celulas_por_red:
   pattern: /celulas_por_red
   defaults: {_controller: AEEnviarBundle:Default:celulasbyred}  
   
+enviar_busqueda_celula:
+  pattern: /busqueda_celula
+  defaults: {_controller: AEEnviarBundle:Default:busqueda_celula}
   
+enviar_modificar_celula:
+  pattern: /modificar_celula
+  defaults: {_controller: AEEnviarBundle:Default:modificar_celula}
+  requirements:
+    _method: POST
+    
+enviar_modificar_celula_update:
+  pattern: /modificar_celula_update
+  defaults: {_controller: AEEnviarBundle:Default:modificarCelulaUpdate}
+  requirements:
+    _method: POST
+    
+enviar_eliminar_celula:
+  pattern: /eliminar_celula
+  defaults: {_controller: AEEnviarBundle:Default:eliminarCelula}
+  requirements:
+    _method: POST

@@ -41,9 +41,7 @@ class DefaultController extends Controller
         $datos = array();
 
         parse_str($name,$datos);
-
-       if($name!=NULL){
-                   
+        if($name!=NULL){
             $familia = $datos['inputFam'];
             $direccion = $datos['inputDireccion'];
             $referencia = $datos['inputReferencia'];
@@ -60,25 +58,14 @@ class DefaultController extends Controller
             $tipo = $datos['tip_red'];
             $id   = $datos['ids'];
             
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->beginTransaction();
             
-            
-            
-            $em = $this->getDoctrine()->getEntityManager();         
-            
-            //   $em->persist($user);
-            //$em->flush();
-            
-             
-           
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
-            try
-            {
-                //ubigeo
-               $prev_div = $em->getRepository('AEDataBundle:Ubigeo');
+            try {
+                  $prev_div = $em->getRepository('AEDataBundle:Ubigeo');
                 $ubigeo = $prev_div->findOneBy(array('id'=>$distrito));
-             
                 
-                  //ubicacion
+                //ubicacion
                 $ubicacion = new Ubicacion();
                 $ubicacion->setDireccion($direccion);
                 $ubicacion->setReferencia($referencia);
@@ -90,70 +77,46 @@ class DefaultController extends Controller
                 $em->persist($ubicacion);
                 $em->flush();
                 
+                $sql = "select insert_celula(:tip, :fam, :tel , :ubi, :red,:caso,:idx)";
                 
-                //iglesia
-               // $iglesias = $em->getRepository('AEDataBundle:Iglesia');
-                //$iglesia = $iglesias->findOneBy(array('id'=>$id_iglesia));
+                $smt = $em->getConnection()->prepare($sql);
                 
-                
-                //Red
-                $redes = $em->getRepository('AEDataBundle:Red');
-                $red = $redes->findOneBy(array('id'=>$id_red));
-                
-                
-                //celula
-                $celula = new Celula();
-                $celula->setFamilia($familia);
-                $celula->setIdRed($red);
-                $celula->setIdUbicacion($ubicacion);
-                $celula->setTelefono($telefono);
-                $celula->setTipo($tipocell);
-                $celula->setActivo(TRUE);
-                $celula->setFechaCreacion(new \DateTime());
-                
-                //tipo de miembros asociados
-                switch(intval($tipo))
-                {
-                    case 0:
-                        //lider de red
-                        /*$lider_r = $em->getRepository('AEDataBundle:LiderRed');
-                        $lider   = $lider_r->findOneBy(array('id'=>$id));
-                        $celula->setIdLiderRed($lider);
-                        */
+                switch (intval($tipo)) {
+                    case 0: //lider
+                        $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>2,':idx'=>$id));
+
                         break;
-                    case 1:
-                        //pastor_ejectivo
-                        $pastor_e = $em->getRepository('AEDataBundle:PastorEjecutivo');
-                        $pastor   = $pastor_e->findOneBy(array('id'=>$id));
-                        $celula->setIdPastorEjecutivo($pastor);
-                        
+                    case 1: //misionero
+                        $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>1,':idx'=>$id));
                         break;
+                    
                     case 2:
-                        //misionero
-                        $misionero_t = $em->getRepository('AEDataBundle:Misionero');
-                        $misionero   = $misionero_t->findOneBy(array('id'=>$id));
-                        $celula->setIdMisionero($misionero);
+                      //pastor ejecutivo
+                        $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>0,':idx'=>$id));                        
+                        break;
+
+                    default:
                         break;
                 }
-  
-                $em->persist($celula);
-                $em->flush();
                 
-                $this->getDoctrine()->getEntityManager()->commit();
+              
                 
-                $return=array("responseCode"=>200,  "greeting"=>'OK');
+                $em->commit();
                 
-            }catch(Exception $e)
-            {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
-                     $return=array("responseCode"=>400, "greeting"=>"Bad");
-
-                     
-               throw $e;
+            } catch (Exception $exc) {
+                $em->rollback();
+                $em->close();
+                throw $exc;
             }
+
+
+
+            $return=array("responseCode"=>200, "greeting"=>$datos);  
         }
-        else {
+         else {
             $return=array("responseCode"=>400, "greeting"=>"Bad");     
         }
                
@@ -470,9 +433,41 @@ class DefaultController extends Controller
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type             
             
     }
-    public function asistencia_celulaAction($id, $clase)
+    public function asistencia_celulaAction()
     {
-        return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig',array('id'=>$id, 'clase'=>$clase));
+         $request = $this->get('request');
+        
+        $celula=$request->request->get('celulaid');
+        $red = $request->request->get('data');
+        $tipo = $request->request->get('tip_cell');
+        $titulo = $request->request->get('titulocell');
+        $dia = $request->request->get('dia_cell');
+        $horario = $request->request->get('horario_cell');
+        $dicto = $request->request->get('dictado_cell');
+        $id = $request->request->get('asiste');
+        $ofrenda = 0;
+        $ofrendaT = NULL;
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        try {
+            $em->beginTransaction();
+            $sql = "select ofrenda from clase_cell where id=:idx";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':idx'=>$id));
+            $ofrendaT = $smt->fetch();
+            $em->commit();
+            
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+
+
+
+
+
+        return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig',array('id'=>$id, 'celula'=>$celula,
+            'red'=>$red,'tipo'=>intval($tipo)==0?'Evangelistica':'Discipulado', 'titulo'=>$titulo,
+            'dia'=>$dia.'-'.$horario, 'dicto'=>$dicto, 'ofrenda'=>($ofrendaT==NULL)?0:$ofrendaT['ofrenda']));
     }
     
     public function asistencia_celula_updateAction()
@@ -480,45 +475,51 @@ class DefaultController extends Controller
         $request = $this->get('request');
         
         $form=$request->request->get('formName');
-        $fila = $request->request->get('data');
+        
+       
         
         $datos = array();
 
         parse_str($form,$datos);   
       
-        $n = count($fila);
         
-        $clase = $fila[0];
+        
+        $clase = $datos['claseid'];
         
         $em = $this->getDoctrine()->getEntityManager();
         
-        if(strlen($form)>8 && strpos($form, 'as')!==false)
-        {
-            $ofrenda = $datos['ofrenda']; // ofrenda
+        $ofrenda = $datos['ofrenda']; // ofrenda
             
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+        $n = $datos['numfilas'];
+        
+        try{
+            $em->beginTransaction();  
+            for($i=0; $i<$n ;$i++)
+            {
             
-            
-            try{
-              
-                for($i=1; $i<$n ;$i++)
+                $var = "check".strval($i);
+                if(strpos($form, $var)!==false)
                 {
-                    $id = $fila[$i];
+                   $id = $datos['miembro'.strval($i)];
                     
-                    $sql = " select insert_clase_cell_miembro(:member, :class)";
+                    $sql = "select update_clase_cell_miembro(:miembro,:clase,:band)";
+                        
                     $smt = $em->getConnection()->prepare($sql);
-                    $smt->execute(array(':member'=>$id,':class'=>$clase));      
+                    $smt->execute(array(':miembro'=>$id,':clase'=>$clase,':band'=>TRUE));      
+                    
+                   
                 }
+            }
                 
-                $sql= "select update_clase_cell(:id,:monto)";
+            $sql= "select update_clase_cell(:id,:monto)";
                 
-                $smt = $em->getConnection()->prepare($sql);
-                $smt->execute(array(':id'=>$clase,':monto'=>$ofrenda));
-                
-                $this->getDoctrine()->getEntityManager()->commit();
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$clase,':monto'=>$ofrenda));
+              
+            $em->commit();
             
-                $ret=array("responseCode"=>200, "greeting"=>'good'); 
-            }             
+            $ret=array("responseCode"=>200, "greeting"=>'ok'); 
+         }             
             catch(Exception  $e)
             {
                 $this->getDoctrine()->getEntityManager()->rollback();
@@ -526,9 +527,7 @@ class DefaultController extends Controller
                 $ret=array("responseCode"=>400, "greeting"=>"Bad");
                 
                 throw $e;
-            }
-        }
-        else  $ret=array("responseCode"=>400, "greeting"=>'bad');     
+            } 
        
         $return=json_encode($ret);//jscon encode the array
         
@@ -548,4 +547,195 @@ class DefaultController extends Controller
     {
     	return $this->render('AEEnviarBundle:Default:celulasbyred.html.twig');
     }
+    
+    public function busqueda_celulaAction()
+    {
+        return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+    }
+    
+    public function modificar_celulaAction()
+    {
+        $request = $this->get('request');
+        
+        $form=$request->request->get('idpersona');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $sql = "select * from ver_celula(:id)";
+        
+        $id=NULL;
+        $tipo=NULL;
+        $familia=NULL;
+        $telefono=NULL;
+        $activo=NULL;
+        $caso=NULL;
+        $ubi_id=NULL;
+        $direccion=NULL;
+        $referencia=NULL;
+        $latitud=NULL;
+        $longitud=NULL;
+        $id_ubigeo=NULL;
+        $red = NULL;
+        $distrito = NULL;
+        $departamento = NULL;
+        $provincia = NULL;
+        $idp = NULL;
+        
+        try
+        {
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$form));
+            
+            $todo = $smt->fetch();
+            
+            
+            $id     = $todo['id'];
+            $tipo   = $todo['tipo'];
+            $familia= $todo['familia'];
+            $telefono=$todo['telefono'];
+            $activo = $todo['activo'];
+            $caso   = $todo['caso'];
+            $ubi_id = $todo['ubi_id'];
+            $red    = $todo['id_red'];
+            $direccion=$todo['direccion'];
+            $referencia=$todo['referencia'];
+            $latitud= $todo['latitud'];
+            $longitud=$todo['longitud'];
+            $id_ubigeo=$todo['id_ubigeo'];
+            $distrito = $todo['coddistrito'];
+            $departamento = $todo['coddepartamento'];
+            $provincia = $todo['codprovincia'];
+            $idp = $todo['idp'];
+            
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw  $e;
+        }
+        
+       return $this->render('AEEnviarBundle:Default:modificarcelula.html.twig',array('id'=>$id,
+            'tipo'=>$tipo, 'familia'=>$familia,'telefono'=>$telefono,'activo'=>$activo,'caso'=>$caso,
+            'ubi_id'=>$ubi_id, 'direccion'=>$direccion, 'referencia'=>$referencia,'latitud'=>$latitud,
+            'longitud'=>$longitud,'ubigeo'=>$id_ubigeo,'red'=>$red, 'distrito'=>$distrito,
+           'provincia'=>$provincia,'departamento'=>$departamento,'celula'=>$form, 'idp'=>$idp));
+        
+    }
+    
+    public function modificarCelulaUpdateAction()
+    {
+                $request = $this->get('request');
+        $name=$request->request->get('formName');
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+        if($name!=NULL){
+            $familia = $datos['inputFam'];
+            $direccion = $datos['inputDireccion'];
+            $referencia = $datos['inputReferencia'];
+            $telefono = $datos['inputTel'];
+            $tipocell = $datos['tipo_cell'];
+            //$id_iglesia = $datos['iglesia_lista'];
+            $id_red = $datos['red_lista'];
+            $departamento = $datos['departamento_lista'];
+            $provincia = $datos['provincia_lista'];
+            $distrito = $datos['distrito_lista'];
+            $latitud = $datos['latitud'];
+            $longitud = $datos['longitud'];
+            $celula = $datos['celula'];
+            
+            $tipo = $datos['tip_red'];
+            $id   = $datos['ids'];
+            $ubicacion = $datos['idubicacion'];
+            
+            $mision = NULL;
+            $pastor = NULL;
+            $lider  = NULL;
+            $retorna = NULL;
+            
+            $em = $this->getDoctrine()->getEntityManager();
+            
+            
+            try{
+                $em->beginTransaction();
+                
+                $sql = "select update_cell(:tip, :fam, :tel,:red, :mision, :pastor, :lider, :idx, :dir,:refer,:lati,:longitu, :ubigeo, :idubi)";
+                $smt = $em->getConnection()->prepare($sql);
+                
+                switch (intval($tipo)) {
+                    case 0:
+
+                        $lider = $id;
+                        break;
+
+                    case 1:
+                        $pastor=$id;
+                        break;
+                    
+                    case 2:
+                        $mision=$id;
+                        break;
+                    default:
+                        break;
+                }
+                
+                $retorna = array(':tip'=>$tipocell,':fam'=>$familia, ':tel'=>$telefono,':red'=>$id_red,':mision'=>$mision,':pastor'=>$pastor,
+                    ':lider'=>$lider,':idx'=>$celula, ':dir'=>$direccion, ':refer'=>$referencia,':lati'=>$latitud,':longitu'=>$longitud,
+                    ':ubigeo'=>$distrito,':idubi'=>$ubicacion);
+                
+                $smt->execute($retorna);
+                
+                $em->commit();                
+            }catch(Exception $e)
+            {
+                $em->rollback();
+                $em->close();
+                
+                throw $e;
+            }
+ 
+            $return=array("responseCode"=>200, "greeting"=>'ok');  
+        }
+         else {
+            $return=array("responseCode"=>400, "greeting"=>"Bad");     
+        }
+               
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type     
+    }
+    
+    public function eliminarCelulaAction()
+    {
+        $request    = $this->get('request');
+        
+        $celula     = $request->request->get('idcelula');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        try
+        {
+            $em->beginTransaction();
+            $sql = "select delete_celula(:idx)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':idx'=>$celula));
+            
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+    }
+    
+   
 }
