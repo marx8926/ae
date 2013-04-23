@@ -126,6 +126,7 @@
 	<script src="{{asset('js/custom.js')}}"></script>
 	<script src="{{asset('js/functiongen.js')}}"></script>
 	<script src="{{asset('js/modal.js')}}"></script>
+	<script src="{{asset('js/datatable_plugins.js')}}"></script>
 	<script src="http://www.google.com/jsapi"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
 	<script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -148,7 +149,7 @@
 	$(document).ready(function() {
 		
 		//select all the a tag with name equal to modal
-	     
+	   
 		$("#pdfMiembros").click(function(event) {
             $("#TablaMiembros th").css("width","auto");
         	$("#content").val($("#TablaMiembros").html());
@@ -296,18 +297,6 @@
 			}
 		});	
 	 });
-         
-		        /* Get the rows which are currently selected */
-	function fnGetSelected( oTableLocal )
-	{
-		var aReturn = new Array();
-		var aTrs = oTableLocal.fnGetNodes();
-		
-		for ( var i=0 ; i<aTrs.length ; i++ )	            
-			if ( $(aTrs[i]).hasClass('row_selected'))
-				aReturn.push( aTrs[i] );
-		return aReturn;
-	}
 
     </script>
 {%endblock %} 

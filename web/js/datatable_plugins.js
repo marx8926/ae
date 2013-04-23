@@ -154,3 +154,15 @@ jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
 jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
 		return ((x < y) ?  1 : ((x > y) ? -1 : 0));
 };
+
+
+function fnGetSelected( oTableLocal )
+{
+	var aReturn = new Array();
+	var aTrs = oTableLocal.fnGetNodes();
+	
+	for ( var i=0 ; i<aTrs.length ; i++ )	            
+		if ( $(aTrs[i]).hasClass('row_selected'))
+			aReturn.push( aTrs[i] );
+	return aReturn;
+}
