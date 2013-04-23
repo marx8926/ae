@@ -25,19 +25,13 @@
     <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
         <script src="{{asset('js/mapa.js')}}"></script>
-<!--
-
-//-->
-</script>
-  	  
-    <script type="text/javascript">
-              
-            </script>
+        <script src="{{asset('js/ganar.js')}}"></script>
+           
             
             <script type="text/javascript">
              $(document).ready(function(){
                  
-                   mapeo_position('lat','lng','addresspicker_map','map');
+                  
                                             
                      //lista de redes
                      $.ajax(
@@ -57,9 +51,7 @@
                         async: false,
                         }
                         ).done(departamentos);
-                 
-    
-                        
+ 
                         //lista de lugares
                         $.getJSON('{{path('servicio_lugar')}}',lug);
                  
@@ -110,23 +102,10 @@
                     );
                     return false;});
                     
-                      
+                  mapeo_position('lat','lng','addresspicker_map','map');     
   
             });
-    
-            //lugares
-            function lug(dato)
-            {
-             
-                $('#lugar').empty();
-                for(var i=0; i<dato.length; i++)
-                {
-                      
-                    $('<option value='+dato[i].id+'>'+dato[i].nombre+'</option>').appendTo('#lugar');
 
-                }
-                
-            }
             function redes(dato)
             {        
                 $('#red_lista').empty();
@@ -387,8 +366,8 @@
             <label>Ubicación</label>
                    <div id="map-ll">
 		            	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
-						<label>Latitud:</label> <input id="lat" name="latitud" value="">
-		                <label>Longitud:</label> <input id="lng" name="longitud" value=""> <br/>
+						<label>Latitud:</label> <input id="lat" name="latitud"  value="-8.116752">
+		                <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
 		            </div>
             <div id="map"></div>
    
