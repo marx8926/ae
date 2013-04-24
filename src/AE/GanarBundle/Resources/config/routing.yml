@@ -62,3 +62,7 @@ ganar_asignar_red_actualizar:
   defaults: {_controller: AEGanarBundle:Default:asignarupdate}
   requirements:
     _method: POST
+
+ganar_eliminar_miembro:
+  pattern: /eliminarmiembro/{id}
+  defaults: {_controller: AEGanarBundle:Default:eliminarmiembro}

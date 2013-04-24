@@ -21,21 +21,7 @@ class DefaultController extends Controller
         return $this->render('AEServiciosBundle:Default:index.html.twig', array('name' => $name));
     }
   
-    public function ubigeoAction($id)
-    {
-        $sql = 'select * from ubigeo where id=:iddep';
 
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute(array(':iddep'=>$id));
- 
-        $redes = $smt->fetchAll();
-   
-       return new JsonResponse($redes);
-       
-    }
-    
     //ubicacion por id
     public function ubicacionidAction($id)
     {
@@ -216,19 +202,7 @@ class DefaultController extends Controller
         return new JsonResponse ((array('aaData'=>$todo)));
     }
     
-    public function personaAction($id)
-    {        
-        $sql_persona = "select * from persona inner join ubicacion on (ubicacion.id=persona.id_ubicacion) where persona.id = :id";
-
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $smt = $em->getConnection()->prepare($sql_persona);
-        $smt->execute(array(':id'=>$id));
- 
-        $redes = $smt->fetch();
-   
-       return new JsonResponse($redes);
-    }
+    
     
     public function miembroAction($id)
     {
@@ -243,33 +217,7 @@ class DefaultController extends Controller
    
        return new JsonResponse($redes);
     }
-    
-    public function nuevoconvertidoAction($id)
-    {
-         $sql = "select * from nuevo_convertido where nuevo_convertido.id = :id and consolidado=false";
 
-        $em = $this->getDoctrine()->getEntityManager();
-       
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute(array(':id'=>$id));
- 
-        $redes = $smt->fetch();
-   
-       return new JsonResponse($redes);
-    }
-
-    public function listaconvertidosAction()
-    {
-        $sql = "select *from nuevos_convertidos";
-        
-        $em = $this->getDoctrine()->getEntityManager();
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
-        
-        $redes = $smt->fetchAll();
-                
-        return new JsonResponse(array('aaData'=>$redes));
-    }
     public function usuarioAction()
     {
         $sql = "select id, nombre from usuario";

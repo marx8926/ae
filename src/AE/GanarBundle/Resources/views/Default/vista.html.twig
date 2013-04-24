@@ -25,11 +25,11 @@
 					</li>
 					<li>
 						<label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" />
+                                                <input type="text" name="nombre" id="nombre" value="{{nombre}}"/>
 					</li>
 					<li>
 						<label for="apellidos">Apellidos</label>
-                        <input type="text" name="apellidos"  id="apellidos"/>
+                        <input type="text" name="apellidos"  id="apellidos" value='{{apellidos}}'/>
 					</li>
 					<div class="en-linea">
 						<li>
@@ -42,55 +42,55 @@
 						</li>
 						<li>
 							<label for="edad">Edad</label>
-                            <input type="text" name="edad" id="edad"/>
+                            <input type="text" name="edad" id="edad" value='{{edad}}'/>
 						</li>
 					</div>
 					<div class="en-linea">
                                                 <li>
 							<label for="nacimiento">Nacimiento</label>
-                            <input type="text" name="nacimiento" id="nacimiento" id="nacimiento" />
+                            <input type="text" name="nacimiento" id="nacimiento" id="nacimiento" value='{{fecha_nacimiento}}' />
 						</li>
 						<li>
 							<label for="telefono">Telefono</label>
-                            <input type="text" name="telefono" id="telefono" id="telefono" />
+                            <input type="text" name="telefono" id="telefono" id="telefono" value='{{telefono}}' />
 						</li>
 						<li>
 							<label for="celular">Celular</label>
-                            <input type="text" name="celular" id="celular" id="celular" />
+                            <input type="text" name="celular" id="celular" id="celular" value='{{celular}}' />
 						</li>
 						
 					</div>
 					<li>
 						<label for="direccion">Dirección</label>
-                        <input type="text" name="direccion" id="direccion"  />
+                        <input type="text" name="direccion" id="direccion" value='{{direccion}}' />
 					</li>
 					<li>
 						<label for="referencia">Referencia </label>
-                        <input type="text" name="referencia" id="referencia" >
+                        <input type="text" name="referencia" id="referencia" value='{{referencia}}'>
 					</li>
 					<div class="en-linea">
                                                 <li>
 							<label for="departamento">Departamento</label>
-                            <input type="text" name="departamento" id="departamento" />
+                                                        <input type="text" name="departamento" id="departamento" value="{{departamento}}"/>
 						</li>
 						<li>
 							<label for="provincia">Provincia</label>
-                            <input type="text" name="provincia"  id="provincia"/>
+                            <input type="text" name="provincia"  id="provincia" value='{{provincia}}'/>
 						</li>
 						
 						<li>
 							<label for="distrito">Distrito</label>
-                            <input type="text" name="distrito" id="distrito" />
+                            <input type="text" name="distrito" id="distrito" value='{{distrito}}' />
 						</li>
 					</div>
 					<div class="en-linea-2">
 						<li>
 							<label for="email">Email</label>
-                            <input type="email" name="email" id="email" />
+                            <input type="email" name="email" id="email"value='{{email}}' />
 						</li>
 						<li>
 							<label for="web">Web</label>
-							<input type="text" name="web" />
+                                                        <input type="text" name="web"  value="{{website}}"/>
 						</li>
 					</div>
 				</ul>
@@ -102,25 +102,25 @@
 						
 						<li>
 							<label for="red">Red</label>
-                                                        <input type="text" name="red"  id="red"/>
+                                                        <input type="text" name="red"  id="red" value='{{red}}'/>
 						</li>
                                                 <li>
 							<label for="celula">Celula</label>
-                                                        <input type="text" name="celula" id="celula" />
+                                                        <input type="text" name="celula" id="celula" value="{{celula}}"/>
 						</li>
 						
 						<li>
 							<label for="consolidador">Consolidador</label>
-                                                        <input type="text" name="consolidador" id="consolidador" />
+                                                        <input type="text" name="consolidador" id="consolidador" value='{{cons}}'/>
 						</li>
 						<li>
 							<label for="lider">Lider</label>
-                                                        <input type="text" name="lider" id="lider" />
+                                                        <input type="text" name="lider" id="lider" value="{{lider}}" />
 						</li>
 						
 						<li>
 							<label for="fecha1">Conversión</label>
-                                                        <input type="text" name="fecha1" id="fecha1" />
+                                                        <input type="text" name="fecha1" id="fecha1" value="{{conversion}}"/>
 						</li>
 						<li>
 							<label for="lugar">Lugar</label>
@@ -154,18 +154,8 @@
                 
             //recuperar los datos
                         var codigo = {{id}};
-             //nombres
-                 
-                        url = '{{path( 'servicio_persona_id', {'id':'cod'} )}}';
-                        ruta = url.replace('cod',codigo);
-                        $.ajax(
-                            {   url : ruta,
-                                dataType:"json",
-                                type: "POST",
-                                async: false,
-                            }
-                        ).done(nombres);
-                 
+                        init();
+         
                         //nuevo convertido
                         url = '{{path( 'servicio_nuevo_convertido_id', {'id':'cod'} )}}';
                         ruta = url.replace('cod',codigo);
@@ -192,24 +182,18 @@
                 
             });
             
-            function nombres(dato)
-             {
-
-                 if(dato!=false)
-                 { 
-                     $('#nombre').val(dato.nombre); $('#nombre').text(dato.nombre);
-                     $('#apellidos').val(dato.apellidos); $('#apellidos').text(dato.apellidos);
-                     
-                     //estado civil
-                     if(dato.estado_civil ==0)
-                     {  
+            function init()
+            {
+                 if({{estado_civil}} ==0)
+                 {  
                          $("#estado").val('Solter@');  $("#estado").text('Solter@');
-                     }                     
-                     else {
+                 }                     
+                 else {
                          $('#estado').val('Casad@');  $('#estado').text('Casad@');
-                     }
-                     //sexo
-                     if(dato.sexo==1)
+                 }
+                 
+                  //sexo
+                  if({{sexo}}==1)
                      {
                          $('#sexo').val('Masculino'); $('#sexo').text('Masculino');
                      }   
@@ -217,81 +201,16 @@
                      {
                          $('#sexo').val('Femenino'); $('#sexo').text('Femenino');
                      }   
-                    
-                     //email
-                     $('#email').val(dato.email); $('#email').text(dato.email);
                      
-                     //edad
-                     $('#edad').val(dato.edad); $('#edad').text(dato.edad);
-                     
-                     //Fecha nacimiento
-                      $('#nacimiento').val(dato.fecha_nacimiento);  $('#nacimiento').text(dato.fecha_nacimiento);
-                      
-                      //telefono
-                      $('#telefono').val(dato.telefono); $('#telefono').text(dato.telefono);
-                      
-                      //celular
-                      $('#celular').val(dato.celular); $('#celular').text(dato.celular);
-                     
-                      //webpage
-                      $('#web').val(dato.website); $('#web').text(dato.website);
-                      
-                      //direccion
-                      $('#direccion').val(dato.direccion); $('#direccion').text(dato.direccion);
-                      
-                      //referencia
-                      $('#referencia').val(dato.referencia); $('#referencia').text(dato.referencia);
-                      
-                      latitud = dato.latitud;
-                      longitud = dato.longitud;
-                      
-                      //departamento, provincia y distrito
-                      var url = '{{path('servicio_ubigeo',{'id':'cod'}) }}';
-                       var ruta = url.replace('cod',dato.id_ubigeo);
-                       
-                      ubigeo = dato.id_ubicacion;
+                  mapa({{latitud}}, {{longitud}});
+            }
 
-                      $.ajax(
-                            {   url : ruta,
-                                dataType:"json",
-                                type: "POST",
-                                async: false,
-                            }
-                        ).done(ubicacion);
-                      
-                      //mapa
-                     mapa(dato.latitud, dato.longitud);
-                 }
-             }
-             function ubicacion(dato)
-             {
-                 if(dato!=false)
-                 {
-                    //lista de departamentos
-
-                   $('#departamento').val(dato[0].departamento);
-
-                   $('#provincia').val(dato[0].provincia);
-
-                   $('#distrito').val(dato[0].id);
-                  
-                 }
-                 
-             }
-             
             function convertido(dato)
              {
                  if(dato!=false)
                  {
-                     $('#red').val(dato.id_red); $('#red').text(dato.id_red);
-                     recargar_celula(dato.id_red);
-                     
-                     $('#celula').val(dato.id_celula); $('#celula').text(dato.id_celula);
-                     
-                     $('#fecha1').val(dato.fecha_conversion); $('#fecha1').text(dato.fecha_conversion);
-                     //peticion 
-                    //$('#inputDescripcion').val(dato.peticion);
-                    
+                   
+                      
                     var url = '{{path('servicio_lugar_id',{'id':'cod'}) }}';
                     var ruta = url.replace('cod',dato.id_lugar);
                     
@@ -311,36 +230,9 @@
                 $('#lugar').val(dato[0].nombre);
              }
              
-             function recargar_celula(nombre)
-            {
-                //var nombre = $("#red_lista option:selected").val();  
-            
-                 var route = '{{path('servicio_celula',{'id': 'name'})}}';
-            
-                 var rutas = route.replace('name',nombre);
-         
-            
-                 $.ajax(
-                        {url : rutas,
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                        ).done(celula);           
-     
-            }
-            function celula(dato)
-            {
-                $('#celula_lista').empty();
-                for(var i=0;i<dato.length; i++)
-                {   
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#celula_lista');
-                }
-        
-            }
              function mapa(latitud, longitud)
              {
-                  var ruta ="https://maps.googleapis.com/maps/api/staticmap?zoom=16&size=700x400&maptype=roadmap&markers=color:blue%7Clabel:S%7C"+latitud+','+longitud+"&sensor=false&key=AIzaSyCSLn3MOXmjCshXPj48FhUFg94X9ZgQZgA";
+                  var ruta ="https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=700x400&maptype=roadmap&markers=color:blue%7Clabel:S%7C"+latitud+','+longitud+"&sensor=false&key=AIzaSyCSLn3MOXmjCshXPj48FhUFg94X9ZgQZgA";
                          
                  var imagen = '<img src="'+ruta+'">'
                  

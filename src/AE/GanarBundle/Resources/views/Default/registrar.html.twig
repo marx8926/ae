@@ -30,42 +30,15 @@
             
             <script type="text/javascript">
              $(document).ready(function(){
-                 
-                  
-                                            
-                     //lista de redes
-                     $.ajax(
-                        {url : '{{path('servicio_red')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                      ).done(redes);
-           
-            
-                       //lista de departamentos
-                        $.ajax(
-                        {url : '{{path('servicio_region')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                        ).done(departamentos);
+                  //init red
+                  initRed('{{path('servicio_red')}}');
+
+                  //lista de departamentos
+                  initDepartamentos('{{path('servicio_region')}}');
  
-                        //lista de lugares
-                        $.getJSON('{{path('servicio_lugar')}}',lug);
-                 
-    
-                        //cambio de departamento
-                        $("#departamento_lista").change(recarga_provincias);
-                  
-                        //cambio de provincia
-                        $("#provincia_lista").change(recarga_distritos);
-              
-                   
-                        $("#red_lista").change(recargar_celula);
-                        
-                          
+                  //lista de lugares
+                  initLugar('{{path('servicio_lugar')}}');
+      
                   var x =$("login");
                     x.click();
     
@@ -106,22 +79,6 @@
   
             });
 
-            function redes(dato)
-            {        
-                $('#red_lista').empty();
-                     
-                $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
-                
-                for(var i=0;i<dato.length;i++)
-                {
-               
-                    
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#red_lista');
-                }    
-          
-                recargar_celula();
-            }
-            
             function recargar_celula()
             {
                 var nombre = $("#red_lista option:selected").val();  
@@ -138,14 +95,7 @@
                         }
                         ).done(celula);     
             }
-            function celula(dato)
-            {
-                $('#celula_lista').empty();
-                for(var i=0;i<dato.length; i++)
-                {
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#celula_lista');
-                }
-            }
+            
          
              function departamentos(datos)
                 {
@@ -153,14 +103,15 @@
                     {
                         $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
                     } 
-                    
+
                     recarga_provincias();
                 }
     
-                function recarga_provincias()
-                {
-                 var id = $("#departamento_lista option:selected").val();              
+             function recarga_provincias()
+             {
                  var route = '{{path('servicio_provincia',{'id': 'nom'})}}';            
+
+                 var id = $("#departamento_lista option:selected").val();              
                  var rutas = route.replace('nom',id);         
                  $.ajax(
                         {   url : rutas,
@@ -169,7 +120,8 @@
                             async: false,
                         }
                     ).done(provincias);
-                }
+                        
+             }  
             
                 function provincias(dato)
                 {
@@ -178,16 +130,18 @@
                     {
                         $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
                     }
-                    
+
                     recarga_distritos();
+                    
                 }
                 
                 function recarga_distritos()
                 {
+                    var route = '{{path('servicio_distrito',{'dep':'id1','prov':'id2'})}}';
+
                     var dep=$("#departamento_lista option:selected").val();
                     var prov = $("#provincia_lista option:selected").val();
    
-                    var route = '{{path('servicio_distrito',{'dep':'id1','prov':'id2'})}}';
                     
                     var rutas = route.replace('id1', dep);                    
                     rutas = rutas.replace('id2', prov);
@@ -200,15 +154,7 @@
                         }
                     ).done(distrito);
                 }
-                function distrito(dato)
-                {
-                   
-                     $("#distrito_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
-                    }
-                }
+ 
             </script>             
      {%endblock%}
             
@@ -225,21 +171,21 @@
                 <div class="control-group">
                     <label class="control-label" >Usuario</label>
                     <div class="controls">
-                        <input type="text" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xxlarge" pattern="|^[a-zA-Z0-9]+$|" required autofocus />
+                        <input type="text" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xxlarge" pattern="|^[a-zA-Z0-9]+$|" />
                     </div>
                 </div>
         
                 <div class="control-group">     
                     <label class="control-label" >Email</label>      
                     <div class="controls">
-                        <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xxlarge" pattern="[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+" required />      
+                        <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xxlarge" pattern="[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+" />      
                     </div>      
                 </div>
        
                 <div class="control-group">     
                     <label class="control-label" >Contraseña</label>      
                     <div class="controls">
-                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xxlarge" required />      
+                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xxlarge"/>      
                     </div>
                 </div>
           
@@ -305,6 +251,7 @@
                     <label class="control-label" >Teléfono</label>
                     <div class="controls">
                         <input type="text" class="input-large" placeholder="Telefono" id="inputTelefono" name="inputTelefono" pattern="[0-9]{9}"/>
+                        <p class="help-block">0-codigo-número</p>
                     </div>
                 </div>
         
@@ -323,7 +270,7 @@
                 <div class="control-group">
                     <label class="control-label">Dirección</label>
                     <div class="controls">
-                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" pattern="|^([a-zA-ZñÑáéíóúüç0-9.]+\s*)+$" required />
+                        <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required />
                     </div>
                 </div>
         
@@ -366,8 +313,8 @@
             <label>Ubicación</label>
                    <div id="map-ll">
 		            	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
-						<label>Latitud:</label> <input id="lat" name="latitud"  value="-8.116752">
-		                <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+						<label>Latitud:</label> <input id="lat" name="latitud"  value="">
+		                <label>Longitud:</label> <input id="lng" name="longitud" value=""> <br/>
 		            </div>
             <div id="map"></div>
    
@@ -379,7 +326,7 @@
         <div class="control-group">
             <label class="control-label" >Red</label>
             <div class="controls">
-                <select id="red_lista" name="red_lista" required>
+                <select id="red_lista" name="red_lista" >
                    
                 </select>
             </div>
@@ -388,7 +335,7 @@
         <div class="control-group">
             <label class="control-label">Célula</label>
             <div class="controls">
-                <select id="celula_lista" name="celula_lista" required>
+                <select id="celula_lista" name="celula_lista" >
                    
                 </select>
             </div>
@@ -396,7 +343,7 @@
         <div class="control-group">
             <label class="control-label">Fecha</label>
             <div class="controls">
-                <input type= "text" class="mask_date input-medium" id="inputFechaConversion" name="inputFechaConversion"/>
+                <input type= "text" class="mask_date input-medium" id="inputFechaConversion" name="inputFechaConversion" required/>
                 <p class="help-block">Año/Mes/Dia</p>  
             </div>
         </div>
@@ -438,28 +385,27 @@
             
     </fieldset>
             
-            <fieldset>
+   <fieldset>
                 <legend>Descripción</legend>
                 
-                <div class="control-group">
+               <div class="control-group">
                     <label class="control-label">Descripción</label>
                     <div class="controls">
-                        <textarea rows="5" id="inputDescripcion" name="inputDescripcion" class="input-xxlarge" required=""> </textarea>
+                        <textarea rows="5" id="inputDescripcion" name="inputDescripcion" class="input-xxlarge" required> </textarea>
                     <p class="help-block">Pedido de oración u otro detalle</p>
                     </div>
                 </div>          
             
-            </fieldset>
-         
-              
-              <div class="control-group">
-                  <label></label>
-                  <div class="controls">
+   </fieldset>
+
+   <div class="control-group">
+        <label></label>
+        <div class="controls">
                       <input class="btn btn-small btn-primary" type="submit" id="login" name="login" value="Registrar" />
-                  </div>
-              </div>
+        </div>
+   </div>
               
-        </form>
+   </form>
         
 
 </div>

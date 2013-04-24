@@ -33,3 +33,27 @@ servicio_celula:
   requirements:
     _method: POST
     
+servicio_nuevo_convertido_all:
+  pattern: /lista_convertidos
+  defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos}
+  
+servicio_persona_id:
+  pattern: /persona/{id}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:persona}
+  requirements:
+   _method: POST
+   
+   
+servicio_ubigeo:
+  pattern: /servicioubigeo/{id}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:ubigeo}
+  
+servicio_nuevo_convertido_id:
+  pattern: /nuevoconvertido/{id}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:nuevoconvertido}
+  requirements:
+    _method: POST
+    
+servicio_lugar_id:
+  pattern: /serviciolugarid/{id}
+  defaults: {_controller: AEServiciosBundle:Default:lugarid}

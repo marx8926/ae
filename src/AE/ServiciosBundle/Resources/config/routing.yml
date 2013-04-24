@@ -1,13 +1,7 @@
 ae_servicios_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: AEServiciosBundle:Default:index }
-    
-  
-servicio_ubigeo:
-  pattern: /servicioubigeo/{id}
-  defaults: {_controller: AEServiciosBundle:Default:ubigeo}
- ## requirements:
-  ##  _method: POST
+ 
   
 servicio_ubicacion_id:
   pattern: /servicioubicacionid/{id}
@@ -35,9 +29,7 @@ servicio_celula_id:
   defaults: {_controller: AEServiciosBundle:Default:celulaid}
   
  
-servicio_lugar_id:
-  pattern: /serviciolugarid/{id}
-  defaults: {_controller: AEServiciosBundle:Default:lugarid}
+
   
 servicio_persona_lista:
   pattern: /listapersona
@@ -47,27 +39,11 @@ servicio_persona_asignar:
   pattern: /asignarpersona
   defaults: {_controller: AEServiciosBundle:Default:asignarpersona}
   
-servicio_persona_id:
-  pattern: /persona/{id}
-  defaults: {_controller: AEServiciosBundle:Default:persona}
-  requirements:
-    _method: POST
+
   
 servicio_miembro_id:
   pattern: /miembro/{id}
   defaults: {_controller: AEServiciosBundle:Default:miembro}
-  
-servicio_nuevo_convertido_id:
-  pattern: /nuevoconvertido/{id}
-  defaults: {_controller: AEServiciosBundle:Default:nuevoconvertido}
-  requirements:
-    _method: POST
-    
-servicio_nuevo_convertido_all:
-  pattern: /lista_convertidos
-  defaults: {_controller: AEServiciosBundle:Default:listaconvertidos}
- ## requirements:
-  ##  _method: POST
   
 servicio_usuario:
   pattern: /serviciousuario

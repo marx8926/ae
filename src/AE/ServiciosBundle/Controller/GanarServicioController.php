@@ -183,5 +183,85 @@ class GanarServicioController extends Controller
 
        return new JsonResponse($redes);
     }
+
+    public function listaconvertidosAction()
+    {
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $redes = array();
+        try {
+            $em->beginTransaction();
+            
+            $sql = "select *from nuevos_convertidos";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+            $redes = $smt->fetchAll();
+            
+            $em->commit();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+        
+        return new JsonResponse(array('aaData'=>$redes));
+    }
+    
+    public function personaAction($id)
+    {        
+        $sql_persona = "select * from get_persona(:id)";
+
+        $em = $this->getDoctrine()->getEntityManager();
+       
+        $smt = $em->getConnection()->prepare($sql_persona);
+        $smt->execute(array(':id'=>$id));
+ 
+        $redes = $smt->fetch();
+   
+       return new JsonResponse($redes);
+    }
+    
+    public function ubigeoAction($id)
+    {
+        $sql = 'select * from ubigeo where id=:iddep';
+
+        $em = $this->getDoctrine()->getEntityManager();
+       
+        $smt = $em->getConnection()->prepare($sql);
+        $smt->execute(array(':iddep'=>$id));
+ 
+        $redes = $smt->fetchAll();
+   
+       return new JsonResponse($redes);
+       
+    }
+    
+    public function nuevoconvertidoAction($id)
+    {
+        $sql = "select * from get_convertido(:id)";
+
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+       
+        try{
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$id));
+ 
+            $redes = $smt->fetch();
+            
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse($redes);
+    }
 }
 
