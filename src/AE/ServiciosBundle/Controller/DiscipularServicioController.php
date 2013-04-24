@@ -119,7 +119,12 @@ class DiscipularServicioController extends Controller
 	public function getAsignacionCursoAction(){
 		$em = $this->getDoctrine()->getEntityManager();
 		
-		$sql = "select miembro.id, persona.nombre, persona.apellidos,  miembro.id_red as red, docente.activo as estado,docente.fecha_inicio as inicio, docente.fecha_fin as fin from miembro inner join persona on (persona.id = miembro.id) inner join docente on (miembro.id = docente.id_persona) where miembro.activo=true";
+		$sql = "select 
+				miembro.id, persona.nombre, persona.apellidos,  miembro.id_red as red, docente.activo as estado,docente.fecha_inicio as inicio, docente.fecha_fin as fin 
+				from miembro 
+				inner join persona on (persona.id = miembro.id) 
+				inner join docente on (miembro.id = docente.id_persona) 
+				where miembro.activo=true";
 		
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -156,41 +161,20 @@ class DiscipularServicioController extends Controller
 	
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select miembro.id, persona.nombre, persona.apellidos, curso.titulo, horario.dia, horario.hora_inicio, horario.hora_fin,curso_impartido.id as idasignacion,curso_impartido.id_horario  from miembro inner join persona on (persona.id = miembro.id) inner join docente on (miembro.id = docente.id_persona) inner join curso_impartido on (docente.id_persona = curso_impartido.id_persona_docente) inner join horario on (curso_impartido.id_horario= horario.id) inner join curso on (curso.id = curso_impartido.id_curso)";
+		$sql = "select
+				curso_impartido.id as id, persona.nombre, persona.apellidos, curso.titulo as curso,
+				horario.dia, horario.hora_inicio, horario.hora_fin  
+				from persona
+				inner join curso_impartido on (persona.id = curso_impartido.id_persona_docente) 
+				inner join horario on (curso_impartido.id_horario= horario.id)
+				inner join curso on (curso.id = curso_impartido.id_curso)";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
 	
 		$todo = $smt->fetchAll();
-		$result = "<table cellpadding='0' cellspacing='0' border='0' class='display table table-striped dataTable table-bordered'>
-			<tbody>
-				<tr>
-					<th>Id</th>
-					<th>Nombre</th>
-					<th>Apellido</th>
-					<th>Curso</th>
-					<th>Dia</th>
-					<th>Hora Inicio</th>
-					<th>Hora Fin</th>
-					<th>Seleccionar</th>
-				</tr>";
-		
-		foreach ($todo as $key => $val){
-			$result =$result."
-					<tr>
-					<td>".$val['id']."</td>
-					<td>".$val['nombre']."</td>
-					<td>".$val['apellidos']."</td>
-					<td>".$val['titulo']."</td>
-					<td>".$val['dia']."</td>
-					<td>".$val['hora_inicio']."</td>
-					<td>".$val['hora_fin']."</td>
-					<td><input type='checkbox' name='id[]' value='".$key."'><input type='hidden' name='asignacion".$key."' value='".$val['idasignacion']."'><input type='hidden' name='horario".$key."' value='".$val['id_horario']."'></td>
-					</tr>
-					";
-		}
-		$result = $result."</table>";
-		return new Response($result);
+	
+		return new JsonResponse(array('aaData'=>$todo));
 	}
 	
 	public function getTablaAsignacionMatriculaAction($curso){
