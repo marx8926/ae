@@ -20,5 +20,8 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class InformeController extends Controller
 {
+	function InformeGanarFechasAction(){
+		return $this->render('AEGanarBundle:Default:informeganarfechas.html.twig');
+	}
 
 }

@@ -57,3 +57,8 @@ servicio_nuevo_convertido_id:
 servicio_lugar_id:
   pattern: /serviciolugarid/{id}
   defaults: {_controller: AEServiciosBundle:Default:lugarid}
+  
+servicio_tabla_ganar_fecha:
+  pattern: /servicio_tabla_ganar_fecha/{fecha1}/{fecha2}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:getTablaGanarFecha}
+  

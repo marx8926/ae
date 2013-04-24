@@ -263,5 +263,65 @@ class GanarServicioController extends Controller
         }
        return new JsonResponse($redes);
     }
+    
+    function getTablaGanarFechaAction($fecha1,$fecha2){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	
+    	$fecha1_formateada = date("Y-m-d", strtotime($fecha1));
+    	$fecha2_formateada = date("Y-m-d", strtotime($fecha2));
+    	 
+    	$sql = "SELECT 
+				CONCAT(lcel.nombre,' ',lcel.apellidos) as lider_red , cel.id as celula, 
+				CONCAT(pnc.nombre,' ', pnc.apellidos) as nuevo_convertido, nc.fecha_conversion, 
+				CONCAT(pcdor.nombre,' ',pcdor.apellidos) as consolidador, l.nombre as lugar
+				FROM nuevo_convertido nc
+				inner join lugar l on (l.id = nc.id_lugar)
+				inner join celula cel on(nc.id = nc.id_celula)
+				inner join consolida c on (nc.id= c.id_nuevo_convertido)
+				inner join consolidador cdor on (c.id_consolidador = cdor.id)
+				inner join persona pcdor on (pcdor.id = cdor.id)
+				inner join persona pnc on (nc.id = pnc.id)
+				inner join persona lcel on (lcel.id = cel.id_lider_red)
+				where nc.fecha_conversion BETWEEN '".$fecha1."' AND '".$fecha2."'";
+    
+    	$result = "<table id='tabla_informe_ganar' name='tabla_asignacion_estado' class='table table-striped table-bordered'>
+					<thead>
+					<tr>
+					<th style='width: 22%;'>DOCE DEL PASTOR</th>
+					<th style='width: 6;'>CODIGO</th>
+					<th style='width: 22%;'>NOMBRE DEL NUEVO<br>CONVERTIDO</th>
+					<th style='width: 15;'>FECHA</th>
+					<th style='width: 22%;'>NOMBRE DEL<br>CONSOLIDADOR</th>
+    				<th style='width: 13;'>DONDE LO GANO</th>
+					</tr>
+					</thead>
+					<tbody>";
+    	$smt = $em->getConnection()->prepare($sql);
+    	$smt->execute();
+    
+    	$todo = $smt->fetchAll();
+    	$flag = true;
+    	foreach ($todo as $key => $val){
+    		$flag = false;
+    		$result = $result."
+						<tr>
+						<td>".$val['lider_red']."</td>
+						<td>".$val['celula']."</td>
+						<td>".$val['nuevo_convertido']."</td>
+						<td>".$val['fecha_conversion']."</td>
+						<td>".$val['consolidador']."</td>
+						<td>".$val['lugar']."</td>
+						</tr>";
+    	}
+    	if($flag)
+    		$result = $result."
+						<tr>
+						<td colspan='6'>Datos No Disponibles</td>
+						</tr>";
+    		
+    	$result = $result."</tbody></table>";
+    	return new Response($result);
+    }
 }
 

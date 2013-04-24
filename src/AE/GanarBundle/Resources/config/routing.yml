@@ -50,3 +50,7 @@ ganar_asignar_red_actualizar:
 ganar_eliminar_miembro:
   pattern: /eliminarmiembro/{id}
   defaults: {_controller: AEGanarBundle:Modificar:eliminarmiembro}
+  
+ganar_informe_ganar_fechas:
+  pattern: /informe_ganar_fechas
+  defaults: {_controller: AEGanarBundle:Informe:InformeGanarFechas}
