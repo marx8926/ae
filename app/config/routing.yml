@@ -34,6 +34,9 @@ clm_data:
     resource: "@CLMDataBundle/Resources/config/routing.yml"
     prefix:   /
     
+    
+_security_logout:
+    pattern:  /salir
 
 
 # Internal routing configuration to handle ESI

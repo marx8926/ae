@@ -54,3 +54,7 @@ ganar_eliminar_miembro:
 ganar_informe_ganar_fechas:
   pattern: /informe_ganar_fechas
   defaults: {_controller: AEGanarBundle:Informe:InformeGanarFechas}
+  
+ganar_informe_semanal:
+  pattern: /informe_semanal
+  defaults: {_controller: AEGanarBundle:Informe:InformeSemanal}

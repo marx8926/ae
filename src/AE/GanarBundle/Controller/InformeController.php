@@ -23,5 +23,10 @@ class InformeController extends Controller
 	function InformeGanarFechasAction(){
 		return $this->render('AEGanarBundle:Default:informeganarfechas.html.twig');
 	}
+        
+        public function InformeSemanalAction()
+        {
+            return $this->render('AEGanarBundle:Default:informesemanal.html.twig');
+        }
 
 }
