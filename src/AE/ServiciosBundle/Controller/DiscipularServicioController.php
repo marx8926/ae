@@ -375,4 +375,63 @@ class DiscipularServicioController extends Controller
 		$result = $result."</tbody></table>";
 		return new Response($result);
 	}
+	
+	function getTablaVisionAction($idred){
+		$em = $this->getDoctrine()->getEntityManager();
+		//Procedimiento almacenado clm_sel_clasesyasistenciacurso_by_idcursoimpartido
+		$sql = "select concat(p.nombre,' ', p.apellidos) as nombre , p.id from matric m
+				inner join curso_impartido ci on (m.id_curso_impartido = ci.id)
+				inner join curso c on(c.id=ci.id_curso)
+				inner join persona p on (p.id = m.id_persona_estudiante)
+				inner join miembro mbr on (m.id_persona_estudiante = mbr.id)
+				where mbr.id_red = '".$idred."'";
+		
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();		
+		$Estudiantes = $smt->fetchAll();
+		
+		$sql = "SELECT id, titulo FROM curso order by 1";
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+		$Cursos = $smt->fetchAll();
+		
+		$result = 	"<table id='tabla_vision' name='tabla_vision' class='table table-striped table-bordered'>
+					<thead>
+					<tr>
+					<th>Miembro</th>";
+		
+		foreach ($Cursos as $key => $val1){
+			$result = $result."
+						<th>".$val1["titulo"]."</th>";
+		}
+		$result = $result."</tr>
+					</thead>
+					<tbody>";
+		$flag = true;
+		foreach ($Estudiantes as $key2 => $val2){
+			$result = $result."<tr><td>".$val2["nombre"]."</td>";
+			$flag = false;
+			foreach ($Cursos as $key3 => $val3){
+				$sql = "select m.id from matric m
+						inner join estudiante e on (m.id_persona_estudiante = e.id)
+						inner join curso_impartido ci on (m.id_curso_impartido = ci.id)
+						inner join curso c on (ci.id_curso = c.id)
+						where c.id=".$val3["id"]."  and e.id=".$val2["id"];
+				$smt = $em->getConnection()->prepare($sql);
+				$smt->execute();
+				$Matriculado = $smt->fetchAll();
+				if(count($Matriculado)>0)
+					$result = $result."<td>X </td>";
+				else
+					$result = $result."<td> </td>";
+			}
+			$result = $result."</tr>";
+		}
+		
+		if($flag)
+			$result = $result."<tr><td colspan='6'>Datos No Disponibles</td></tr>";
+		
+		$result = $result."</tbody></body>";
+		return new Response($result);
+	}	
 }

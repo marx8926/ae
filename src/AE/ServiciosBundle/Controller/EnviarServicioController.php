@@ -31,7 +31,7 @@ class EnviarServicioController extends Controller
        
         for($i=0; $i<$n; $i++)
         {
-           $temp = "<option value='". $todo[$i]['id']."' >";
+           $temp = "<option  value='". $todo[$i]['id']."' >";
            
            $temp = $temp." ".$todo[$i]['id']."-";
            $temp = $temp." ".$todo[$i]['nombre']." ".$todo[$i]['apellidos']."</option>";
@@ -39,7 +39,7 @@ class EnviarServicioController extends Controller
            $cadena = $cadena.$temp;
         }
         
-        return new Response('<select>'.$cadena.'</select>');
+        return new Response("<select id='redes_select_option'>".$cadena."</select>");
         
     }
     

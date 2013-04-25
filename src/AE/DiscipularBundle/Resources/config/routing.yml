@@ -139,3 +139,7 @@ discipular_actualizar_fecha_clase:
     defaults: { _controller: AEDiscipularBundle:Clase:ActualizarFechaClase }
     requirements:
           _method: POST
+          
+discipular_informe_vision:
+    pattern: /informe_vision
+    defaults: { _controller: AEDiscipularBundle:Informe:InformeVision }
