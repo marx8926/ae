@@ -32,6 +32,16 @@ function ajaxResposeData(namediv,path){
 	$('#'+namediv).html(data);
 }
 
+function ajaxResposeDataPost(namediv,path){
+	var data = $.ajax(
+            {
+                url: path,
+                async: false,
+                type: "POST",
+            }).responseText;
+	$('#'+namediv).html(data);
+}
+
 function ajaxTableDataPost(nametable,path)
 {
         $.ajax(

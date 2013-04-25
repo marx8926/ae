@@ -49,3 +49,7 @@ _tabla_clase_asistencia:
 _tabla_asignacion_clases:
   pattern: /_tabla_asignacion_clases/{idasignacion}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaClaseAsignacion }
+
+_tabla_vision:
+  pattern: /_tabla_vision/{idred}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaVision }
