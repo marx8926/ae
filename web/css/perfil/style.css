@@ -2,11 +2,11 @@ section{
 	margin: 0 auto;
 	width: 100%;
 }
-.form-perfil .en-linea li{
+.form-perfil .en-linea div{
 	/*padding-right: 20px;*/
 	display: inline-block;
 }
-.form-perfil .en-linea-2 li{
+.form-perfil .en-linea-2 div{
 	/*padding-right: 40px;*/
 	display: inline-block;
 }
@@ -27,13 +27,13 @@ section{
     text-shadow: 1px 1px 1px #CCCCCC;
     width: 100%;
 }
-.form-perfil ul {
+.form-perfil div.grupo {
 	list-style-type:none;
     margin:0px;
     padding:0px;
     /*width:750px;*/
 }
-.form-perfil li{
+.form-perfil div.fila{
 	/*border-bottom:1px solid #eee;*/
     padding:12px;
     position:relative;

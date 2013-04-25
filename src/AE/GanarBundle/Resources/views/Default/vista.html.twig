@@ -17,140 +17,122 @@
 </head>
 <body>
 	<section>
-		<form class="form-perfil" action="#" method="post">
-			<article>
-				<ul>
-					<li>
+		<form id="form" class="form-perfil" method="post">
+			<input id='content' type='hidden' name='content' >
+            <input id='title' type='hidden' name='title' >
+			<div id="todo">
+				<div class="grupo">
+					<div class="fila">
 						<h2>Datos Personales {{id}}</h2>
-					</li>
-					<li>
-						<label for="nombre">Nombre</label>
-                                                <input type="text" name="nombre" id="nombre" value="{{nombre}}"/>
-					</li>
-					<li>
-						<label for="apellidos">Apellidos</label>
-                        <input type="text" name="apellidos"  id="apellidos" value='{{apellidos}}'/>
-					</li>
-					<div class="en-linea">
-						<li>
-							<label for="estado">Estado</label>
-                            <input type="text" name="estado"  id="estado"/>
-						</li>
-						<li>
-							<label for="sexo">Sexo</label>
-                            <input type="text" name="sexo" id="sexo"/>
-						</li>
-						<li>
-							<label for="edad">Edad</label>
-                            <input type="text" name="edad" id="edad" value='{{edad}}'/>
-						</li>
+					</div>
+					<div class="fila">
+						<p><strong>Nombre: </strong>{{nombre}}</p>
+					</div>
+					<div class="fila">
+						<p><strong>Apellidos: </strong>{{apellidos}}</p>
 					</div>
 					<div class="en-linea">
-                                                <li>
-							<label for="nacimiento">Nacimiento</label>
-                            <input type="text" name="nacimiento" id="nacimiento" id="nacimiento" value='{{fecha_nacimiento}}' />
-						</li>
-						<li>
-							<label for="telefono">Telefono</label>
-                            <input type="text" name="telefono" id="telefono" id="telefono" value='{{telefono}}' />
-						</li>
-						<li>
-							<label for="celular">Celular</label>
-                            <input type="text" name="celular" id="celular" id="celular" value='{{celular}}' />
-						</li>
-						
+						<div class="fila">
+							<p id="estado"></p>
+						<div class="fila">
+							<p id="sexo"></p>
+						</div>
+						<div class="fila">
+							<p><strong>Edad: </strong>{{edad}}</p>
+						</div>
 					</div>
-					<li>
-						<label for="direccion">Dirección</label>
-                        <input type="text" name="direccion" id="direccion" value='{{direccion}}' />
-					</li>
-					<li>
-						<label for="referencia">Referencia </label>
-                        <input type="text" name="referencia" id="referencia" value='{{referencia}}'>
-					</li>
 					<div class="en-linea">
-                                                <li>
-							<label for="departamento">Departamento</label>
-                                                        <input type="text" name="departamento" id="departamento" value="{{departamento}}"/>
-						</li>
-						<li>
-							<label for="provincia">Provincia</label>
-                            <input type="text" name="provincia"  id="provincia" value='{{provincia}}'/>
-						</li>
-						
-						<li>
-							<label for="distrito">Distrito</label>
-                            <input type="text" name="distrito" id="distrito" value='{{distrito}}' />
-						</li>
+                        <div class="fila">
+                        	<p><strong>Nacimiento: </strong>{{fecha_nacimiento}}</p>
+						</div>
+						<div class="fila">
+							<p><strong>Teléfono: </strong>{{telefono}}</p>
+						</div>
+						<div class="fila">
+							<p><strong>Celular: </strong>{{celular}}</p>
+						</div>
+					</div>
+					<div class="fila">
+						<p><strong>Dirección: </strong>{{direccion}}</p>
+					</div>
+					<div class="fila">
+						<p><strong>Referencia: </strong>{{referencia}}</p>
+					</div>
+					<div class="en-linea">
+                        <div class="fila">
+                        	<p><strong>Departamento: </strong>{{departamento}}</p>
+						</div>
+						<div class="fila">
+							<p><strong>Provincia: </strong>{{provincia}}</p>
+						</div>
+						<div class="fila">
+							<p><strong>Distrito: </strong>{{distrito}}</p>
+						</div>
 					</div>
 					<div class="en-linea-2">
-						<li>
-							<label for="email">Email</label>
-                            <input type="email" name="email" id="email"value='{{email}}' />
-						</li>
-						<li>
-							<label for="web">Web</label>
-                                                        <input type="text" name="web"  value="{{website}}"/>
-						</li>
+						<div class="fila">
+							<p><strong>Email: </strong>{{email}}</p>
+						</div>
+						<div class="fila">
+							<p><strong>Web: </strong>{{website}}</p>
+						</div>
 					</div>
-				</ul>
-			</article>
-			<article>
-				<ul>
-					<li><h2>Datos de la Iglesia</h2></li>
+				</div>
+			</div>
+			<div>
+				<div class="grupo">
+					<div class="fila"><h2>Datos de la Iglesia</h2></div>
 					<div class="en-linea-2">
-						
-						<li>
-							<label for="red">Red</label>
-                                                        <input type="text" name="red"  id="red" value='{{red}}'/>
-						</li>
-                                                <li>
-							<label for="celula">Celula</label>
-                                                        <input type="text" name="celula" id="celula" value="{{celula}}"/>
-						</li>
-						
-						<li>
-							<label for="consolidador">Consolidador</label>
-                                                        <input type="text" name="consolidador" id="consolidador" value='{{cons}}'/>
-						</li>
-						<li>
-							<label for="lider">Lider</label>
-                                                        <input type="text" name="lider" id="lider" value="{{lider}}" />
-						</li>
-						
-						<li>
-							<label for="fecha1">Conversión</label>
-                                                        <input type="text" name="fecha1" id="fecha1" value="{{conversion}}"/>
-						</li>
-						<li>
-							<label for="lugar">Lugar</label>
-                                                        <input type="text" name="lugar" id="lugar" />
-						</li>
+						<div class="fila">
+							<p><strong>Red: </strong>{{red}}</p>
+						</div>
+                        <div class="fila">
+                        	<p><strong>Célula: </strong>{{celula}}</p>
+						</div>
+						<div class="fila">
+							<p><strong>Consolidador: </strong>{{cons}}</p>
+						</div>
+						<div class="fila">
+							<p><strong>Líder: </strong>{{lider}}</p>
+						</div>
+						<div class="fila">
+							<p><strong>Conversión: </strong>{{conversion}}</p>
+						</div>
+						<div class="fila">
+							<p id="lugar"></p>
+						</div>
 					</div>
-				</ul>
-			</article>
+				</div>
+			</div>
 			<h2>Mapa</h2>
-			<article class="map">
-                             <div id="ubicacionexacta" name="ubicacionexacta">
-
-                            </div>
-			</article>
+			<div class="map">
+            	<div id="ubicacionexacta" name="ubicacionexacta">
+				</div>
+			</div>
+		</div>
 			<div class="botones">
-				<input class="submit" type="submit" name="imprimir" value="Imprimir" />
-				<input class="submit" type="submit" name="salir" value="Salir" />
+				<input class="submit" type="button" id="pdfbutton" name="imprimir" value="Imprimir" />
+				<input class="submit" type="button" id="salir" name="salir" value="Salir" />
 			</div>
 		</form>
 	</section>
 </body>
 {%block javascript %}
            
-            
-            <script type="text/javascript">
+<script src="{{asset('js/jquery.js')}}"></script>
+<script type="text/javascript">
                 
             var latitud = 0;
             var longitud = 0;
             
             $(document).ready(function(){
+
+            	$("#pdfbutton").click(function(event) {
+                	$("#content").val($("#todo").html());
+                	$("#title").val("{{nombre}}" + " " + "{{apellidos}}");
+                    $("#form").attr("action", "{{asset('extensiones/exportpdf-perfil.php')}}");
+    		 		$("#form").submit();
+                });
                 
             //recuperar los datos
                         var codigo = {{id}};
@@ -186,20 +168,20 @@
             {
                  if({{estado_civil}} ==0)
                  {  
-                         $("#estado").val('Solter@');  $("#estado").text('Solter@');
+                         $("#estado").html('<strong>Estado: </strong>Solter@'); //$("#estado").text('Solter@');
                  }                     
                  else {
-                         $('#estado').val('Casad@');  $('#estado').text('Casad@');
+                         $('#estado').html('<strong>Estado: </strong>Casad@');  //$('#estado').text('Casad@');
                  }
                  
                   //sexo
                   if({{sexo}}==1)
                      {
-                         $('#sexo').val('Masculino'); $('#sexo').text('Masculino');
+                         $('#sexo').html('<strong>Sexo: </strong>Masculino'); //$('#sexo').text('Masculino');
                      }   
                     else
                      {
-                         $('#sexo').val('Femenino'); $('#sexo').text('Femenino');
+                         $('#sexo').html('<strong>Sexo: </strong>Femenino'); //$('#sexo').text('Femenino');
                      }   
                      
                   mapa({{latitud}}, {{longitud}});
@@ -227,7 +209,7 @@
              }
              function lugar(dato)
              {
-                $('#lugar').val(dato[0].nombre);
+                $('#lugar').html('<strong>Lugar: </strong>' + dato[0].nombre);
              }
              
              function mapa(latitud, longitud)
