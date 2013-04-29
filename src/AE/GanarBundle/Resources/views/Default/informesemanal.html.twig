@@ -41,23 +41,21 @@
     <script type="text/javascript">
             $(document).ready(function() {
             	 $(".rango").change(function(){
- 	               	ajaxResposeData("informeganar","{{ path('servicio_tabla_ganar_fecha',{'fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
+            		 ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
+            		 ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
+            		 ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
  				});
-                ajaxResposeData("informeganar","{{ path('servicio_tabla_ganar_fecha',{'fecha1':'2013-01-01','fecha2':'2013-02-01'})}}");
+                ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'2013-01-01','fecha2':'2013-02-01'})}}");
+                ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'2013-01-01','fecha2':'2013-02-01'})}}");
+                ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'2013-01-01','fecha2':'2013-02-01'})}}");
 
                 $("#pdfInforme").click(function(event) {
                     //$("#tabla_informe_ganar th").css("width","16%");
-                	$("#content").val($("#tabla_informe_ganar").html());
+                	$("#content").val($("#informe_tablas").html());
                 	$("#title").val($("#titulo").html());
-                    $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+                    $("#ExportForm").attr("action", "{{asset('extensiones/exportpdfdiv.php')}}");
         	 		$("#ExportForm").submit();
                 });
-
-                $("#excelInforme").click(function(event) {
-                	$("#content").val("<table>" + $("#tabla_informe_ganar").html() + "</table>");
-        			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
-        			$("#ExportForm").submit();
-        		        });
             });
             
             var sayhola = function(data){
@@ -90,12 +88,23 @@
         		<input id='content' type='hidden' name='content' >
                 <input id='title' type='hidden' name='title' >
                 <input id='pdfInforme' type='button' value='PDF' class="btn-success">
-                <input id='excelInforme' type='button' value='Excel' class="btn-success">
             </form>
-			<div class="box-head">
-				<h3>Informe Ganar</h3>
-			</div>
-			<div class="box-content box-nomargin" id="informeganar">
+			<div id="informe_tablas">
+				<div class="box-head">
+					<h3>LUGAR DE ALMAS GANADAS</h3>
+				</div>
+				<div class="box-content box-nomargin" id="tabla_lugar">
+				</div>
+				<div class="box-head">
+				<h3>DOCE DEL PASTOR</h3>
+				</div>
+				<div class="box-content box-nomargin" id="tabla_semanal_mujeres">
+				</div>
+				<div class="box-head">
+				<h3>DOCE DE LA PASTORA</h3>
+				</div>
+				<div class="box-content box-nomargin" id="tabla_semanal_varones">
+				</div>
 			</div>
 		</div>
 	</div>
