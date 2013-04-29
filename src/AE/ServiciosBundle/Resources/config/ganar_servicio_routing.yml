@@ -62,3 +62,10 @@ servicio_tabla_ganar_fecha:
   pattern: /servicio_tabla_ganar_fecha/{fecha1}/{fecha2}
   defaults: {_controller: AEServiciosBundle:GanarServicio:getTablaGanarFecha}
   
+servicio_tabla_semanal:
+  pattern: /servicio_tabla_semanal/{tipo}/{nombre}/{fecha1}/{fecha2}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:getTablaGanarSemanal}
+  
+servicio_tabla_lugar_ganados:
+  pattern: /servicio_tabla_lugar_ganados/{nombre}/{fecha1}/{fecha2}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:getTablaLugarGanados}

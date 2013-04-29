@@ -323,5 +323,145 @@ class GanarServicioController extends Controller
     	$result = $result."</tbody></table>";
     	return new Response($result);
     }
+    
+    //tipo: 0 mujeres , 1 hombres , 2 otros
+    //    
+    public function getTablaGanarSemanalAction($tipo, $nombre, $fecha1, $fecha2)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+    	
+    	
+    	$fecha1_formateada = date("Y-m-d", strtotime($fecha1));
+    	$fecha2_formateada = date("Y-m-d", strtotime($fecha2));
+    	 
+    	
+    
+    	$result = "<table id='".$nombre."' name='".$nombre."' class='table table-striped table-bordered'>
+					<thead>
+					<tr>
+                                        <th style='width: 8%;'>CODIGO</th>
+					<th style='width: 22%;'>DOCE DEL PASTOR</th>
+					<th style='width: 10%;'>N° ALMAS</th>
+					</tr>
+					</thead>
+					<tbody>";
+        
+        try{
+            
+            $em->beginTransaction();
+            
+            $sql = "select * from get_reporte_ganar(:tipo,:inicio,:fin)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':tipo'=>$tipo,':inicio'=>$fecha1_formateada,':fin'=>$fecha2_formateada));
+    
+            $todo = $smt->fetchAll();
+            $flag = true;
+            
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $todo = array();
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+    	foreach ($todo as $key => $val){
+    		$flag = false;
+    		$result = $result."
+						<tr>
+						<td>".$val['id']."</td>
+						<td>".$val['nombre']." ".$val['apellidos']."</td>
+						<td>".$val['almas']."</td>
+						</tr>";
+    	}
+    	if($flag)
+    		$result = $result."
+						<tr>
+						<td colspan='6'>Datos No Disponibles</td>
+						</tr>";
+    		
+    	$result = $result."</tbody></table>";
+    	return new Response($result);
+        
+    }
+    
+    public function  getTablaLugarGanadosAction($nombre, $fecha1, $fecha2)
+    {
+           $em = $this->getDoctrine()->getEntityManager();
+    	
+    	
+    	$fecha1_formateada = date("Y-m-d", strtotime($fecha1));
+    	$fecha2_formateada = date("Y-m-d", strtotime($fecha2));
+    	 
+    	
+    
+    	$result = "<table id='".$nombre."' name='".$nombre."' class='table table-striped table-bordered'>
+					<thead>
+					<tr>
+                                        <th style='width: 28%;'>NOMBRE</th>
+					<th style='width: 20%;'>VARONES</th>
+					<th style='width: 20%;'>MUJERES</th>
+					</tr>
+					</thead>
+					<tbody>";
+        
+        try{
+            
+            $em->beginTransaction();
+            
+            //mujeres
+            $sql = "select * from get_reporte_lugar_ganar(:tipo,:inicio,:fin)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':tipo'=>0,':inicio'=>$fecha1_formateada,':fin'=>$fecha2_formateada));
+            $todo_m = $smt->fetchAll();
+            
+            //hombres
+            $sql = "select * from get_reporte_lugar_ganar(:tipo,:inicio,:fin)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':tipo'=>1,':inicio'=>$fecha1_formateada,':fin'=>$fecha2_formateada));
+            $todo_h = $smt->fetchAll();
+            
+            $flag = true;
+            
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $todo_m = array();
+            $todo_h = array();
+            
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        $n = count($todo_h);
+        $flag = true;
+        
+    	for($i=0; $i<$n; $i++)            
+        {
+                $val_h = $todo_h[$i];
+                $val_m = $todo_m[$i];
+              
+    		$flag = false;
+    		$result = $result."
+			<tr>
+			<td>".$val_h['nombre']."</td>
+			<td>".$val_h['almas']."</td>
+                        <td>".$val_m['almas']."</td>
+			</tr>";
+    
+    	}
+    	if($flag)
+    		$result = $result."
+						<tr>
+						<td colspan='6'>Datos No Disponibles</td>
+						</tr>";
+    		
+    	$result = $result."</tbody></table>";
+    	return new Response($result);
+    }
 }
 
