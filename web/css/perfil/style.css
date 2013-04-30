@@ -1,82 +1,24 @@
-section{
-	margin: 0 auto;
-	width: 100%;
+table {
+   width: 100%;
+   border: 1px solid #000;
 }
-.form-perfil .en-linea div{
-	/*padding-right: 20px;*/
-	display: inline-block;
+th, td {
+   width: 25%;
+   text-align: left;
+   vertical-align: top;
+   border: 1px solid #000;
+   border-collapse: collapse;
+   padding: 0.3em;
+   caption-side: bottom;
 }
-.form-perfil .en-linea-2 div{
-	/*padding-right: 40px;*/
-	display: inline-block;
+.tit {
+   padding: 0.3em;
+   color: #fff;
+    background: #000;
 }
-.form-perfil .en-linea input{
-	width: 80px;
+th {
+   background: #eee;
 }
-.form-perfil .en-linea-2 input{
-	width: 56%;
-}
-.form-perfil h2 {
-    background: none repeat scroll 0 0 #F3F3F3;
-    border-radius: 5px;
-    color: #3c519c;
-    display: block;
-    font-family: sans-serif;
-    font-size: 20px;
-    padding: 5px;
-    text-shadow: 1px 1px 1px #CCCCCC;
-    width: 100%;
-}
-.form-perfil div.grupo {
-	list-style-type:none;
-    margin:0px;
-    padding:0px;
-    /*width:750px;*/
-}
-.form-perfil div.fila{
-	/*border-bottom:1px solid #eee;*/
-    padding:12px;
-    position:relative;
-}
-.form-perfil label {
-    color: #555555;
-    display: inline-block;
-    float: left;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    margin-top: 3px;
-    padding: 3px;
-    width: 90px;
-}
-
-.form-perfil input {
-    height:20px; 
-    padding:5px 8px;
-    width:82%; 
-}
-.form-perfil textarea {
-    padding:8px; 
-    width:300px;
-}
-.form-perfil input, .form-perfil textarea { 
-    border:1px solid #aaa;
-    border-radius:2px;
-    color: #888;
-    font-size: 12px;
-    /*padding-right:30px;*/
-    /*-moz-transition: padding .25s; 
-    -webkit-transition: padding .25s; 
-    -o-transition: padding .25s;
-    transition: padding .25s;*/
-}
-/*
-.form-perfil input:focus, .form-perfil textarea:focus {
-    background: #fff; 
-    border:1px solid #555; 
-    box-shadow: 0 0 3px #aaa; 
-    padding-right:80px;
-}*/
 input.submit {
    	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#bbb));
    	background-image: -moz-linear-gradient(0% 100% 90deg, #BBBBBB, #FFFFFF);
