@@ -43,7 +43,7 @@ class Consolidador
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
      */
-    private $id;
+    public $id;
 
 
 

@@ -117,34 +117,7 @@ servicio_lista_pastor_asoc:
 servicio_nuevos_consolidadores:
   pattern: /nuevos_consolidadores
   defaults: {_controller: AEServiciosBundle:Default:nuevos_consolidadores}
-  
-
-#consolidadores activos y no activos
-servicio_consolidadores:
-  pattern: /lconsolidadores
-  defaults: {_controller: AEServiciosBundle:Default:lconsolidadores}
-  
-#consolidadores activos
-servicio_consolidadores_act:
-  pattern: /l_act_consolidadores
-  defaults: {_controller: AEServiciosBundle:Default:l_act_consolidadores}
-  requirements:
-    _method: POST
-
- 
-#leche espirituales
-servicio_leche_espiritual:
-  pattern: /leche_espiritual
-  defaults: {_controller: AEServiciosBundle:Default:lista_espiritual}
-  requirements:
-    _method: POST
-
-#leche espiritual temas
-
-servicio_leche_esp_temas:
-  pattern: /leche_esp_temas/{id}
-  defaults: {_controller: AEServiciosBundle:Default:leche_esp_temas}
-  
+   
 servicio_consolidado:
   pattern: /consolidado/{id}
   defaults: {_controller: AEServiciosBundle:Default:consolidado}
@@ -171,6 +144,9 @@ enviar_servicio_routing:
     
 ganar_servicio_routing:
     resource: "@AEServiciosBundle/Resources/config/ganar_servicio_routing.yml"
+    
+consolidar_servicio_routing:
+    resource: "@AEServiciosBundle/Resources/config/consolidar_servicio_routing.yml"
     
 servicio_por_descartar:
   pattern: /pordescartar

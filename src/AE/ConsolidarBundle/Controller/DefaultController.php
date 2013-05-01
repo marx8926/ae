@@ -189,17 +189,7 @@ class DefaultController extends Controller
             }
         return $this->render('AEConsolidarBundle:Default:modificar.html.twig');
      }
-     
-     public function busquedaAction()
-     {
-         return $this->render('AEConsolidarBundle:Default:busqueda.html.twig');
-     }
-     
-     public function asignar_consolidarAction()
-     {
-         return $this->render('AEConsolidarBundle:Default:asignar.html.twig');
-     }
-     
+
      public function lista_consolidarAction()
      {
          return $this->render('AEConsolidarBundle:Default:lista_consolidador.html.twig');
@@ -243,22 +233,29 @@ class DefaultController extends Controller
                 $time_fin[]= $datos['time_limite'.strval($i)];
                 
              }
-             
-              $this->getDoctrine()->getEntityManager()->beginTransaction();
+           
+              $em->beginTransaction();
             try
             {
                 if($consolidador != $id)
                 {    
                    
                     //consolidador
-                    $consolidador_q = $em->getRepository('AEDataBundle:Consolidador');
-                    $consolidador_f = $consolidador_q->findOneBy(array('id'=>$consolidador));
+                  
+                    
+                    $query = $em->createQuery('SELECT u FROM AE\DataBundle\Entity\Consolidador u WHERE u.id =:id');
+                    $query->setParameter('id', $consolidador);
+                    $consolidador_q= $query->getResult();
+                    $consolidador_f = $consolidador_q[0];
                     
                     
                     //nuevo_convertido
                     
-                    $per = $em->getRepository('AEDataBundle:Persona');
-                    $persona = $per->findOneBy(array('id'=>$id));
+                    $query = $em->createQuery('SELECT u FROM AE\DataBundle\Entity\Persona u where u.id=:id');
+                    $query->setParameter('id', $id);
+                    $per   = $query->getResult();
+                    $persona = $per[0];
+                    
                     
                     $new_convert = $em->getRepository('AEDataBundle:NuevoConvertido');
                     $new_convert_f = $new_convert->findOneBy(array('id'=>$id));
@@ -266,6 +263,7 @@ class DefaultController extends Controller
                     $em->persist($new_convert_f);
                     $em->flush();
                     
+                     /*
                     //miembro
                     $miembro = $em->getRepository('AEDataBundle:Miembro');
                     $miembro_f = $miembro->findOneBy(array('id'=>$id));
@@ -325,10 +323,10 @@ class DefaultController extends Controller
                        }
                      
                      }
-                
-                    $this->getDoctrine()->getEntityManager()->commit();
-
-                    $return=array("responseCode"=>200,  "greeting"=>$time_ini);
+                    */
+                    $em->commit();
+                    
+                    $return=array("responseCode"=>200,  "greeting"=>$persona->getId());
                 }
                 else
                 {
@@ -338,16 +336,16 @@ class DefaultController extends Controller
  
             }catch(Exception $e)
             {
-               $this->getDoctrine()->getEntityManager()->rollback();
-               $this->getDoctrine()->getEntityManager()->close();
+               $em->rollback();
+               $em->close();
                 
                $return=array("responseCode"=>400, "greeting"=>"Bad");
 
                throw $e;
                
             }
-             
-            // $return=array("responseCode"=>200, "greeting"=>$num);
+
+           // $return=array("responseCode"=>200, "greeting"=>$num);
          }
          else  $return=array("responseCode"=>400, "greeting"=>"Bad");
              

@@ -681,63 +681,7 @@ class DefaultController extends Controller
         
         return new JsonResponse(array('aaData'=>$todo));
    }
-   
-   public function lconsolidadoresAction()
-   {
-        $em = $this->getDoctrine()->getEntityManager();
 
-        $sql = " select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha, consolidador.activo from consolidador left join miembro on miembro.id = consolidador.id left join persona on persona.id=miembro.id" ;
-                
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
-        
-        $todo = $smt->fetchAll();
-        
-        return new JsonResponse(array('aaData'=>$todo));
-   }
-   
-   public function l_act_consolidadoresAction()
-   {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $sql = " select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha, consolidador.activo from consolidador left join miembro on miembro.id = consolidador.id left join persona on persona.id=miembro.id where consolidador.activo=true ";    
-        
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
-        
-        $todo = $smt->fetchAll();
-        
-        return new JsonResponse($todo);
-   }
-   
-   public  function lista_espiritualAction()
-   {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $sql = " select * from leche_espiritual";    
-        
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
-        
-        $todo = $smt->fetchAll();
-        
-        return new JsonResponse($todo);
-   }
-   
-   public function leche_esp_temasAction($id)
-   {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $sql = " select * from tema_leche where id_leche_espiritual = :id ";    
-        
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute(array(':id'=>$id));
-        
-        $todo = $smt->fetchAll();
-        
-        return new JsonResponse($todo);
-   }
-   
    public function consolidadoAction($id)
    {
        $em = $this->getDoctrine()->getEntityManager();

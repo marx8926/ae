@@ -30,13 +30,13 @@ consolidar_modificar_desactivar:
     
 consolidar_busqueda:
   pattern: /busqueda
-  defaults: {_controller: AEConsolidarBundle:Default:busqueda}
-  
+  defaults: {_controller: AEConsolidarBundle:Busqueda:busqueda}
+
   
 consolidar_asignar_consolidar:
   pattern: /asignar_consolidar
-  defaults: {_controller: AEConsolidarBundle:Default:asignar_consolidar}
- 
+  defaults: {_controller: AEConsolidarBundle:Asignar:asignar_consolidar}
+  
 consolidar_registrar_asignacion:
    pattern: /registrar_asignacion
    defaults: {_controller: AEConsolidarBundle:Default:registrar_asignacion}

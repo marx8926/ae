@@ -71,17 +71,13 @@
                     </div>
             </div>
             
-            <div class="control-group">
-                  <label></label>
-                  <div class="controls">
-                      <input type="submit" class="btn-success" id="asignar" name="asignar" value="Asignar">
-                  </div>
-              </div>               
+            <div id="temas" name="temas">
+         
+          
+           </div>
                
                     
-            <div id="temas" name="temas"> 
-                      
-            </div>
+            
 
        </form>
 
@@ -95,8 +91,6 @@
 			<script src="{{asset('js/bootstrap.min.js')}}"></script>
 			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
 			<script src="{{asset('js/bootstrap.js')}}"></script>
-			<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
-			<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
 			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
 			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
@@ -110,134 +104,15 @@
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
-            <script src="http://www.google.com/jsapi"></script>
+                        <script src="https://www.google.com/jsapi"></script>
+                        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                        <script src="{{asset('js/functiongen.js')}}"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
-            
-            <script type="text/javascript" charset="utf-8">
-			/* Default class modification */
-			$.extend( $.fn.dataTableExt.oStdClasses, {
-				"sSortAsc": "header headerSortDown",
-				"sSortDesc": "header headerSortUp",
-				"sSortable": "header"
-			} );
-
-			/* API method to get paging information */
-			$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
-			{
-				return {
-					"iStart":         oSettings._iDisplayStart,
-					"iEnd":           oSettings.fnDisplayEnd(),
-					"iLength":        oSettings._iDisplayLength,
-					"iTotal":         oSettings.fnRecordsTotal(),
-					"iFilteredTotal": oSettings.fnRecordsDisplay(),
-					"iPage":          Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
-					"iTotalPages":    Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
-				};
-			}
-
-			/* Bootstrap style pagination control */
-			$.extend( $.fn.dataTableExt.oPagination, {
-				"bootstrap": {
-					"fnInit": function( oSettings, nPaging, fnDraw ) {
-						var oLang = oSettings.oLanguage.oPaginate;
-						var fnClickHandler = function ( e ) {
-							e.preventDefault();
-							if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) ) {
-								fnDraw( oSettings );
-							}
-						};
-
-						$(nPaging).addClass('pagination').append(
-							'<ul>'+
-								'<li class="prev disabled"><a href="#">&larr; '+oLang.sPrevious+'</a></li>'+
-								'<li class="next disabled"><a href="#">'+oLang.sNext+' &rarr; </a></li>'+
-							'</ul>'
-						);
-						var els = $('a', nPaging);
-						$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
-						$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
-					},
-
-					"fnUpdate": function ( oSettings, fnDraw ) {
-						var iListLength = 5;
-						var oPaging = oSettings.oInstance.fnPagingInfo();
-						var an = oSettings.aanFeatures.p;
-						var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
-
-						if ( oPaging.iTotalPages < iListLength) {
-							iStart = 1;
-							iEnd = oPaging.iTotalPages;
-						}
-						else if ( oPaging.iPage <= iHalf ) {
-							iStart = 1;
-							iEnd = iListLength;
-						} else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
-							iStart = oPaging.iTotalPages - iListLength + 1;
-							iEnd = oPaging.iTotalPages;
-						} else {
-							iStart = oPaging.iPage - iHalf + 1;
-							iEnd = iStart + iListLength - 1;
-						}
-
-						for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
-							// Remove the middle elements
-							$('li:gt(0)', an[i]).filter(':not(:last)').remove();
-
-							// Add the new list items and their event handlers
-							for ( j=iStart ; j<=iEnd ; j++ ) {
-								sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
-								$('<li '+sClass+'><a href="#">'+j+'</a></li>')
-									.insertBefore( $('li:last', an[i])[0] )
-									.bind('click', function (e) {
-										e.preventDefault();
-										oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
-										fnDraw( oSettings );
-									} );
-							}
-
-							// Add / remove disabled classes from the static elements
-							if ( oPaging.iPage === 0 ) {
-								$('li:first', an[i]).addClass('disabled');
-							} else {
-								$('li:first', an[i]).removeClass('disabled');
-							}
-
-							if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 ) {
-								$('li:last', an[i]).addClass('disabled');
-							} else {
-								$('li:last', an[i]).removeClass('disabled');
-							}
-						}
-					}
-				}
-			} );
-
-			/* Table initialisation */
-			/*$(document).ready(function() {
-				$('#example').dataTable( {
-					"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
-					"sPaginationType": "bootstrap",
-					"oLanguage": {
-						"sLengthMenu": "_MENU_ records per page"
-					}
-				} );
-			} );*/
-		</script>
- 
- 
+           
     <script type="text/javascript">
-          
-          
-    /* Define two custom functions (asc and desc) for string sorting */
-        jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
-				return ((x < y) ? -1 : ((x > y) ?  1 : 0));
-	};
-			
-	jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
-				return ((x < y) ?  1 : ((x > y) ? -1 : 0));
-	};
+
          var trselected; 
 	 var oTable;
          
@@ -250,99 +125,7 @@
             $('#code').text(dato[0]); $('#code').val(dato[0]);
             $('#nuevo').text(dato[1]+' '+dato[2]);
         }
-         
-        function leche_espiritual(dato)
-        {
-           $('#select_leche').empty();
-           
-           $('<option value=-1> ------ </option>').appendTo('#select_leche');
-           
-            
-
-           for(var i=0;i<dato.length; i++)
-           {
-                    $('<option value='+dato[i].id+'>'+dato[i].nombre+' </option>').appendTo('#select_leche');
-           }
-        }
-        
-    
-        function agregar_temas(dato)
-        {
-            $('#temas').empty();
-            
-            var someDate = new Date();
-            var someDateF = new Date();
-            
-        
-            var ini, fin;
-            var tema;
-            num = dato.length;
-            
-        
-            $("<fieldset>  <legend>Limites </legend>"+
-                "<div class='control-group'>"+
-                   "<div class='control-row'>"+ 
-                  
-                     "<li>"+
-                         "<p class='help-block' >Fecha Inicio</p>"+
-                         "<input type='date' id='begin' name='begin' >"+
-                         
-                     "</li>"+
-                     "<li>"+
-                         "<p class='help-block' >Fecha Fin</p>"+
-                         "<input type='date' id='end' name='end'>"+                         
-                     "</li>"+
-                    "</div>"+
-                "</div>"+
-                "</fieldset>  ").appendTo('#temas');
-        
-        
-            for(var i=0;i<dato.length;i++)
-            {
-                
-                
-                
-                someDateF.setDate(someDate.getDate()+6);
-                
-            
-                var text_ini = someDate.getFullYear()+'-'+someDate.getMonth()+'-'+someDate.getDay();
-               
-                var text_fin = someDateF.getFullYear()+'-'+someDateF.getMonth()+'-'+someDateF.getDay();
-                var numberOfDaysToAdd = 7;
-                
-                someDate.setDate(someDate.getDate() + numberOfDaysToAdd); 
-                                
-             $("<fieldset>"+
-                "<div class='control-group'>"+
-                   "<div class='control-row'>"+ 
-                    "<li>"+
-                    "<label>Tema"+i+"</label>"+
-                        "<input type= 'text' class='input-xlarge' id='tema"+i+"' name='tema"+i+"'/>" +
-                     "</li>"+
-                     "<li>"+
-                         "<p class='help-block' >Inicio</p>"+
-                         "<input type='date' id='inicio"+i+"' name='inicio"+i+"' value='2013-04-13' >"+ 
-                         "<input type='time' id='time_inicio"+i+"' name='time_inicio"+i+"' value='23:15:00' >"+  
-
-                     "</li>"+
-                     "<li>"+
-                         "<p class='help-block' >Limite</p>"+
-                         "<input type='date' id='limite"+i+"' name='limite"+i+"' value='2013-04-13' >"+  
-                         "<input type='time' id='time_limite"+i+"' name='time_limite"+i+"' value='23:15:00' >"+  
-                     "</li>"+
-                    "</div>"+
-                "</div>"+
-                "</fieldset>  ").appendTo('#temas');
-        
-                ini = "#inicio"+i;
-                fin = "#limite"+i;
-                
-                tema = "#tema"+i;
-     
-                $(tema).val(dato[i].titulo); $(tema).text(dato[i].titulo);
-            } 
-        }
-        
+       
         function cambio_leche()
         {
             var nombre = $("#select_leche option:selected").val();  
@@ -355,34 +138,23 @@
                 
                 $.ajax(
                         {url : rutas,
-                         dataType:"json",
                         type: "POST",
                         async: false,
                         }
-                  ).done(agregar_temas);
+                  ).done(function(data){
+                          $('#temas').html(data);
+                  });
             }
 
         }
 	$(document).ready(function() {
+  
+           
+            init_leche_espiritual("{{path('servicio_leche_espiritual')}}");
+            init_consolidadores("{{path('servicio_consolidadores_act')}}");
             
-        
-            //lista de consolidadores
-            $.ajax(
-                        {url : "{{path('servicio_consolidadores_act')}}",
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                  ).done(consolidadores);   
-            
-            //lista de leche espiritual
-            $.ajax(
-                        {url : "{{path('servicio_leche_espiritual')}}",
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                  ).done(leche_espiritual); 
+            //bloquear div temas
+            $('#temas').css({'display':'none'});
             
              //cambio de leche espiritual
              $('#select_leche').change(cambio_leche);
@@ -417,8 +189,9 @@
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
                 });        
-                
-               miembro(values);
+                 //desbloquear div temas
+                $('#temas').css({'display':'block'});
+                miembro(values);
             });
             
             
@@ -427,19 +200,22 @@
                              
                     //get the url for the form
                     var url=$("#registro").attr("action");
+                    
+                    console.log($("#registro").serialize());
                                         
                     //start send the post request
                     $.post(url,{
                         formName:$("#registro").serialize(),
                         other:"attributes",
                         id: $('#code').text(),
-                        numero: num
+                        num: $('#numero').val()
                     },function(data){
+                        console.log(data);
                     //the response is in the data variable
                     if(data.responseCode==200 ){           
                       
                         alert('Registro Completado');
-                        location.reload();
+                        //location.reload();
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');
@@ -493,45 +269,8 @@
 					}
             } );	
    
-            /*
-                $('#persona tbody td').click(function(){
-                var theRow = $(this).parent().index();
-                console.log(theRow);
-            });
-              */   
-
-            /* Add a click handler for the delete row */
-            /*$('#delete').click( function() {
-		var anSelected = fnGetSelected( oTable );
-		oTable.fnDeleteRow( anSelected[0] );
-           
-            } );
-            */
+          
 	 });
-         
-        /* Get the rows which are currently selected */
-function fnGetSelected( oTableLocal )
-{
-	var aReturn = new Array();
-	var aTrs = oTableLocal.fnGetNodes();
-	
-	for ( var i=0 ; i<aTrs.length ; i++ )
-	{
-            
-		if ( $(aTrs[i]).hasClass('row_selected') )
-		{
-			aReturn.push( aTrs[i] );
-		}
-	}
-	return aReturn;
-}
-       function consolidadores(dato)
-       {
-           $('#select_consolidador').empty();
-           for(var i=0;i<dato.length; i++)
-           {
-                    $('<option value='+dato[i].id+'>'+dato[i].nombre+' '+dato[i].apellidos+' </option>').appendTo('#select_consolidador');
-           }
-       }
+ 
        </script>
 {%endblock %}

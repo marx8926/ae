@@ -1,0 +1,27 @@
+
+#consolidadores activos y no activos
+servicio_consolidadores:
+  pattern: /lconsolidadores
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:lconsolidadores}
+  
+#leche espirituales
+servicio_leche_espiritual:
+  pattern: /leche_espiritual
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:lista_espiritual}
+  requirements:
+    _method: POST
+    
+#consolidadores activos
+servicio_consolidadores_act:
+  pattern: /l_act_consolidadores
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:l_act_consolidadores}
+  requirements:
+    _method: POST
+    
+#leche espiritual temas
+
+servicio_leche_esp_temas:
+  pattern: /leche_esp_temas/{id}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:leche_esp_temas}
+  requirements:
+    _method: POST
