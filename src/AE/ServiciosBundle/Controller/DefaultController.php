@@ -666,51 +666,6 @@ class DefaultController extends Controller
         
         return new JsonResponse($todo);
    }
-   
-   public function nuevos_consolidadoresAction()
-   {
-       $em = $this->getDoctrine()->getEntityManager();
-
-        $sql = " select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha from miembro inner join persona on persona.id = miembro.id where miembro.activo=true and miembro.apto_consolidar=false;
-";
-                
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
-        
-        $todo = $smt->fetchAll();
-        
-        return new JsonResponse(array('aaData'=>$todo));
-   }
-
-   public function consolidadoAction($id)
-   {
-       $em = $this->getDoctrine()->getEntityManager();
-
-        $sql = "select persona.id, persona.nombre, persona.apellidos, consolida.fecha_inicio as inicio, consolida.fecha_fin as fin, consolida.id_consolidador as consolidador, consolida.id as code from consolida left join persona on persona.id = consolida.id_miembro where consolida.id =:id".
-                " and consolida.termino=false and consolida.pausa=false";
-    
-        
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute(array(':id'=>$id));
-        
-        $todo = $smt->fetch();
-        
-        return new JsonResponse($todo);
-   }
- 
-   public function temasAction($cons)
-   {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $sql = " select id_consolida as id, id_tema_leche as leche, fecha_hora_inicio as inicio, fecha_hora_fin as fin, fecha_hora_limite as limite, tema_leche.titulo  from many_consolidacion_has_many_tema_leche inner join tema_leche on tema_leche.id = many_consolidacion_has_many_tema_leche.id_tema_leche where id_consolida = :id ";    
-        
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute(array(':id'=>$cons));
-        
-        $todo = $smt->fetchAll();
-        
-        return new JsonResponse($todo);
-   }
 
    public function consolidadorAction($id)
    {
@@ -848,57 +803,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        
        return new JsonResponse(array('aaData'=>$todo));
    }
-   
-   public function consolidado_terminoAction()
-   {
-       $this->getDoctrine()->getEntityManager()->beginTransaction();
-       
-       $todo = array();
-       
-       try
-       {
-           $em = $this->getDoctrine()->getEntityManager();
-           $sql = "select *from consolidado_termino";
-           $smt = $em->getConnection()->prepare($sql);
-           $smt->execute();
-           $todo = $smt->fetchAll();
-           
-           $this->getDoctrine()->getEntityManager()->commit();
-       }
-       catch (Exception $e)
-       {
-           $this->getDoctrine()->getEntityManager()->rollback();
-           $this->getDoctrine()->getEntityManager()->close();
-       }
-       
-       return new JsonResponse(array('aaData'=>$todo));
-   }
-   
-   public  function consolidado_seguirAction()
-   {
-       $this->getDoctrine()->getEntityManager()->beginTransaction();
-       
-       $todo = array();
-       
-       try
-       {
-           $em = $this->getDoctrine()->getEntityManager();
-           $sql = "select *from consolidando";
-           $smt = $em->getConnection()->prepare($sql);
-           $smt->execute();
-           $todo = $smt->fetchAll();
-           
-           $this->getDoctrine()->getEntityManager()->commit();
-       }
-       catch (Exception $e)
-       {
-           $this->getDoctrine()->getEntityManager()->rollback();
-           $this->getDoctrine()->getEntityManager()->close();
-       }
-       
-       return new JsonResponse(array('aaData'=>$todo));
-   }
-   
+
    public function temas_celulaAction()
    {
        $this->getDoctrine()->getEntityManager()->beginTransaction();

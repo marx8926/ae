@@ -4,11 +4,11 @@ ae_consolidar_homepage:
 
 consolidar_registro:
   pattern: /registro
-  defaults: {_controller: AEConsolidarBundle:Default:registro}
+  defaults: {_controller: AEConsolidarBundle:Registro:registro}
   
 consolidar_registro_update:
   pattern: /registroupdate/{id}
-  defaults: {_controller: AEConsolidarBundle:Default:registroupdate}
+  defaults: {_controller: AEConsolidarBundle:Registro:registroupdate}
   requirements:
     _method: POST
     
@@ -39,30 +39,30 @@ consolidar_asignar_consolidar:
   
 consolidar_registrar_asignacion:
    pattern: /registrar_asignacion
-   defaults: {_controller: AEConsolidarBundle:Default:registrar_asignacion}
+   defaults: {_controller: AEConsolidarBundle:Asignar:registrar_asignacion}
    requirements:
      _method: POST
    
 consolidar_lista_consolidador:
   pattern: /lista_consolidador
-  defaults: {_controller: AEConsolidarBundle:Default:lista_consolidar}
+  defaults: {_controller: AEConsolidarBundle:Vista:lista_consolidar}
   
 consolidar_lista_consolidados:
   pattern: /lista_consolidados
-  defaults: {_controller: AEConsolidarBundle:Default:lista_consolidados}
+  defaults: {_controller: AEConsolidarBundle:Vista:lista_consolidados}
   
 consolidar_lista_seguir:
   pattern: /lista_seguir
-  defaults: {_controller: AEConsolidarBundle:Default:lista_seguir}
+  defaults: {_controller: AEConsolidarBundle:Seguir:lista_seguir}
 
   
 consolidar_seguir:
   pattern: /seguir/{id}
-  defaults: {_controller: AEConsolidarBundle:Default:seguir}
+  defaults: {_controller: AEConsolidarBundle:Seguir:seguir}
   
 consolidar_seguir_update:
   pattern: /seguir_update
-  defaults: {_controller: AEConsolidarBundle:Default:seguir_update}
+  defaults: {_controller: AEConsolidarBundle:Seguir:seguir_update}
   requirements:
     _method: POST
  

@@ -14,35 +14,42 @@
        <div class="control-group">
             <label class="control-label">ID</label>
             <div class="controls">
-                <label  class="input-xlarge" id="code" name="code" > </label>
+                <label  class="input-xxlarge" id="code" name="code" >{{id}} </label>
             </div>
        </div>
         
        <div class="control-group">
             <label class="control-label">Nombres</label>
             <div class="controls">
-                <label class="control-label input-xxlarge" id="nombre" name="nombre" ></label>
+                <label class=" input-xxlarge" id="nombre" name="nombre" >{{nombre}}</label>
+            </div>
+       </div>
+        
+        <div class="control-group">
+            <label class="control-label">Apellidos</label>
+            <div class="controls">
+                <label class="input-xxlarge" id="nombre" name="nombre" >{{apellidos}}</label>
             </div>
        </div>
         
        <div class="control-group">
             <label class="control-label">Fecha Inicio</label>
             <div class="controls">
-                <label class="control-label input-xxlarge" id="fecha_inicio" name="fecha_inicio" ></label>
+                <label class=" input-xxlarge" id="fecha_inicio" name="fecha_inicio" >{{inicio}}</label>
             </div>
        </div>
         
        <div class="control-group">
             <label class="control-label">Fecha Fin</label>
             <div class="controls">
-                <label class="control-label input-xxlarge" id="fecha_fin" name="fecha_fin" ></label>
+                <label class="input-xxlarge" id="fecha_fin" name="fecha_fin" >{{fin}}</label>
             </div>
        </div>
         
        <div class="control-group">
             <label class="control-label">Consolidador</label>
             <div class="controls">
-                <label class="control-label input-xxlarge" id="consolidador" name="consolidador" ></label>
+                <label class=" input-xxlarge" id="consolidador" name="consolidador" ></label>
             </div>
        </div>
         
@@ -51,17 +58,24 @@
         <form method="POST" id="myForm" name="myForm" class="form-horizontal" action="{{path('consolidar_seguir_update')}}">
 
     <fieldset>
-        <legend>Temas</legend>
-        <div id="temas" name="temas">
+
+        <div class="box">
+            <div class="box-head tabs">
+                <h3>Temas</h3>	
+            </div>
+        
+        <div id="temas" name="temas" class="box-content  box-nomargin">
             
            
         </div>
-               <div class="control-group" >
-                  <label class="control-label"></label>
-                  <div class="controls">
+                </div>
+                
+        <div class="control-group" >
+            <label class="control-label"></label>
+            <div class="controls">
                       <input class="btn btn-small btn-primary" type="submit" name="login" title="Guardar" value="Guardar" />
-                  </div>
-              </div>
+             </div>
+        </div>
     </fieldset>
    </form>
 
@@ -89,6 +103,12 @@
 			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
 			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
+                        <script src="{{asset('js/jquery.jgrowl_minimized.js')}}"></script>
+                        <script src="{{asset('js/jquery.form.js')}}"></script>
+                        <script src="{{asset('js/jquery.validate.min.js')}}"></script>
+                        <script src="{{asset('js/bbq.js')}}"></script>
+                        <script src="{{asset('js/jquery-ui-1.8.22.custom.min.js')}}"></script>
+                        <script src="{{asset('js/jquery.form.wizard-min.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
     <script src="https://www.google.com/jsapi"></script>
 
@@ -100,48 +120,7 @@
         
         var ids = new Array();
                
-        function recarga_tema(dato)
-        {
-            $('#temas').empty();
-            num_temas = dato.length;
-            
-            for(var i=0;i<dato.length; i++)
-            {   
-                ids[i] = dato[i].leche;
-                $(
-                "<div class='control-group'>"+
-                "<div class='form-inline' id='inline"+i+"' name='inline"+i+"'>"+
-                    "<label class='control-label' >"+dato[i].leche+"  </label>"+
-                    "<label class='control-label'></label>"+
-                 
-                    "<label class='control-label' id='tema' name='tema'>"+dato[i].titulo+"</label>"+
-                    "<label class='control-labe'></label>"+
-                 
-                    "<input type='datetime' id='fecha"+i+"' name='fecha"+i+"' >"+
-                    "<label class='control-label'></label>"+
-
-                    "<label class='checkbox'>"+
-                        "<input type='checkbox' id='check"+i+"' name='check"+i+"'> Terminado"+
-                    "</label>               "+
-                    "<input type='datetime' id='fecha_fin"+i+"' name='fecha_fin"+i+"' >"+
-                "</div>"+
-                "</div>").appendTo('#temas');
-                if(dato[i].fin!=null)
-                {
-                    var es = 'check'+i;
-                    document.getElementById(es).checked=true;
-                    
-                    document.getElementById('fecha_fin'+i).value = dato[i].fin;
-                    
-                     document.getElementById('fecha_fin'+i).disabled = true;
-                     document.getElementById('check'+i).disabled= true;
-                    
-                    //$(es).attr('checked', true); 
-                  
-                }
-                document.getElementById('fecha'+i).value = dato[i].limite;
-            }
-        }
+        
         function tema(id)
         {
              var route = '{{path('servicio_temas_id',{'cons': 'nom'})}}';
@@ -151,11 +130,13 @@
              console.log(rutas);
             $.ajax(
                   {url : rutas,
-                   dataType:"json",   
+                  // dataType:"json",   
                    type: "POST",
                   async: false,
                   }
-            ).done(recarga_tema);
+            ).done(function(data){
+                    $("#temas").html(data);
+            });
         
         }
                    
@@ -166,9 +147,7 @@
             $('#consolidador').text(dato.nombre+' '+dato.apellidos);
 
         }
-        
-        
-         
+
         function consolidador(id)
         {
             //ruta de consolidador
@@ -184,32 +163,11 @@
                   }
             ).done(cargar_consolidador);
         }
-        function consolidado(dato)
-        {
-           
-            $('#code').val(dato.id); $('#code').text(dato.id);
-            $('#nombre').val(dato.nombre+' '+dato.apellidos); $('#nombre').text(dato.nombre+' '+dato.apellidos);
-            $('#fecha_inicio').val(dato.inicio); $('#fecha_inicio').text(dato.inicio);
-            $('#fecha_fin').val(dato.fin); $('#fecha_fin').text(dato.fin);
-            
-            tema(dato.code);
-            
-        }
+        
 	$(document).ready(function() {
-                 
-            //recuperar noombres de consolida
-            var route = '{{path('servicio_consolidado',{'id': 'nom'})}}';
-   
-            var rutas = route.replace('nom',code);                  
-                    
-            $.ajax(
-                  {url : rutas,
-                   dataType:"json",   
-                   type: "POST",
-                  async: false,
-                  }
-            ).done(consolidado);
-           
+
+          tema({{code}});
+          consolidador({{consolidador}});
     
             $("#myForm").submit(function(){
             //get the url for the form
@@ -221,17 +179,17 @@
             $.post(url,{
              formName:$("#myForm").serialize(),
                 other:"attributes",
-                num: num_temas,
-                list: ids
+                num: $("#numero").val(),
+                consol: {{code}}
              },function(data){
                     //the response is in the data variable
                     console.log(data);
               if(data.responseCode==200 ){           
                       
                  alert('Registro Completado');
-                 var href="/sym/web/app_dev.php/main";
-                   
-              //   $(location).attr('href',href); 
+                 var href="{{path('main')}}";
+             
+                 $(location).attr('href',href); 
           
                }
                else if(data.responseCode==400){//bad request

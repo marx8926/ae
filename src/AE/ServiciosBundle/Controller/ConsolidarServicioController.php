@@ -163,7 +163,7 @@ class ConsolidarServicioController extends Controller
             	foreach ($todo as $key => $val){
 			
 			$result =$result."<tr>
-                                            <td>".$val["id"]."</td>
+                                            <td>".$val["id"]." <input type='hidden' id='id".$key."' name='id".$key."' value='".$val["id"]."'> </td>
                                             <td>".$val["titulo"]."</td>
                                             <td><input type='date' id='inicio".$key."' name='inicio".$key."' value='".$e->format('Y-m-d') ."' > </td>";
 
@@ -196,6 +196,183 @@ class ConsolidarServicioController extends Controller
             throw $e;
         }
 
+        return new Response($result);
+   }
+   
+   public function nuevos_consolidadoresAction()
+   {
+       
+       $todo = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+
+       try{
+         
+           $em->beginTransaction();
+           $sql = "select * from lista_nuevos_consolidadores_reg";
+                
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+        
+           $todo = $smt->fetchAll();
+           
+           $em->commit();
+        }
+        catch (Exception $e){
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+   
+    
+        
+        return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+      
+   public function consolidado_terminoAction()
+   {
+       
+       $todo = array();
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       $em->beginTransaction();
+       try
+       {
+           
+           $sql = "select *from consolidado_termino";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+           
+           $em->commit();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+   public  function consolidado_seguirAction()
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       $em->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+          
+           $sql = "select *from consolidando";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+           
+           $em->commit();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+    public function consolidadoAction($id)
+    {
+       $em = $this->getDoctrine()->getEntityManager();
+
+        $sql = "select persona.id, persona.nombre, persona.apellidos, consolida.fecha_inicio as inicio, consolida.fecha_fin as fin, consolida.id_consolidador as consolidador, consolida.id as code from consolida left join persona on persona.id = consolida.id_miembro where consolida.id =:id".
+                " and consolida.termino=false and consolida.pausa=false";
+    
+        
+        $smt = $em->getConnection()->prepare($sql);
+        $smt->execute(array(':id'=>$id));
+        
+        $todo = $smt->fetch();
+        
+        return new JsonResponse($todo);
+   }
+   
+   
+    public function temasAction($cons)
+   {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $sql = " select * from get_consolidado_temas(:id)";
+        
+        $todo = array();
+        try
+        {
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$cons));
+        
+            $todo = $smt->fetchAll();
+            
+            $em->commit();
+        }
+        catch (Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+                    
+            throw $e;
+        }
+        
+                
+         $result="<div> <input type='hidden' id='numero' name='numero' value='".count($todo)."'><table id='tabla_temas' name='tabla_temas' class='table table-striped table-bordered'>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Tema</th>
+							<th>Fecha de Inicio</th>							
+                                                        <th>Fecha de Fin</th>
+							<th>Hora de Fin</th>
+                                                        <th>Completado</th>
+					    </tr>
+					</thead>
+					<tbody>";
+            
+       
+            	foreach ($todo as $key => $val){
+			
+                    
+			$result =$result."<tr>
+                                            <td>".$val["id"]." <input type='hidden' id='list".$key."' name='list".$key."' value='".$val['leche']."' > </td>
+                                            <td>".$val["titulo"]."</td>
+                                            <td>".$val['inicio']."</td>";
+                                             
+                        if($val['fin']!=NULL)
+                        {
+                            $d = new \DateTime($val['fin']);
+                            $d->format('Y-m-d');
+                        
+                            $result = $result."<td> <input type='date' id='dia".$key."' name='dia".$key."' class='datepick' value='".$d->format('Y-m-d')."' disabled> </td>
+                                            <td> <input type='datetime' id='hora".$key."' name='hora".$key."' class='timepicker' value='".$d->format('H:i:s')."' disabled> </td>
+                                            <td><input type='checkbox' id='check".$key."' name='check".$key."' ".(($val['fin']!=NULL)?("checked disabled"):"").">
+                                                <input type='hidden' id='dat".$key."' name='dat".$key."' value='".$key."' >
+                                                </td>.
+                                           </tr>";
+                         }
+                         else {
+                                $result = $result."<td> <input type='date' id='dia".$key."' name='dia".$key."' class='datepick' > </td>
+                                            <td> <input type='datetime' id='hora".$key."' name='hora".$key."' class='timepicker' > </td>
+                                            <td><input type='checkbox' id='check".$key."' name='check".$key."' ></td>.
+                                           </tr>";
+                         }
+                                               
+		}
+                
+                $result = $result."</tbody>  </table> </div>";
+        
         return new Response($result);
    }
 }

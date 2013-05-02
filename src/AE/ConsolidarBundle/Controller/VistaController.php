@@ -16,6 +16,14 @@ use AE\DataBundle\Entity\Miembro;
 
 class VistaController extends Controller
 {
+   public function lista_consolidarAction()
+   {
+        return $this->render('AEConsolidarBundle:Default:lista_consolidador.html.twig');
+   }
    
+    public function lista_consolidadosAction()
+    {
+         return $this->render('AEConsolidarBundle:Default:lista_consolidados.html.twig');
+    }
 }
 

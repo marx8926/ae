@@ -112,24 +112,7 @@ servicio_lista_pastor_asoc:
   defaults: {_controller: AEServiciosBundle:Default:lista_pastor_asoc}
   requirements:
    _method: POST
-    
-    
-servicio_nuevos_consolidadores:
-  pattern: /nuevos_consolidadores
-  defaults: {_controller: AEServiciosBundle:Default:nuevos_consolidadores}
-   
-servicio_consolidado:
-  pattern: /consolidado/{id}
-  defaults: {_controller: AEServiciosBundle:Default:consolidado}
-  requirements:
-    _method: POST
-  
-servicio_temas_id:
-  pattern: /temas/{cons}
-  defaults: {_controller: AEServiciosBundle:Default:temas}
-  requirements:
-    _method: POST
-  
+
 servicio_consolidador_id:
   pattern: /consolidador/{id}
   defaults: {_controller: AEServiciosBundle:Default:consolidador}
@@ -179,17 +162,7 @@ servicio_lider_red_id:
 servicio_consolidador_consolidado:
   pattern: /consolidador_consolidado
   defaults: {_controller: AEServiciosBundle:Default:consolidador_consolidado}
-  
-servicio_consolidado_termino:
-  pattern: /consolidado_termino
-  defaults: {_controller: AEServiciosBundle:Default:consolidado_termino}
-  
-servicio_consolidado_seguir:
-  pattern: /consolidado_seguir
-  defaults: {_controller: AEServiciosBundle:Default:consolidado_seguir}
-  
-  
-  
+    
 servicio_enviar_temas_celula:
   pattern: /temas_celula
   defaults: {_controller: AEServiciosBundle:Default:temas_celula}
