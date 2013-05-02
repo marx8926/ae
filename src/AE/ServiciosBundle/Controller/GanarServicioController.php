@@ -339,9 +339,9 @@ class GanarServicioController extends Controller
     	$result = "<table id='".$nombre."' name='".$nombre."' class='table table-striped table-bordered'>
 					<thead>
 					<tr>
-                                        <th style='width: 8%;'>CODIGO</th>
-					<th style='width: 22%;'>DOCE DEL PASTOR</th>
-					<th style='width: 10%;'>N° ALMAS</th>
+                    <th>CODIGO</th>
+					<th>DOCE DEL PASTOR</th>
+					<th>N° ALMAS</th>
 					</tr>
 					</thead>
 					<tbody>";
@@ -400,9 +400,9 @@ class GanarServicioController extends Controller
     	$result = "<table id='".$nombre."' name='".$nombre."' class='table table-striped table-bordered'>
 					<thead>
 					<tr>
-                                        <th style='width: 28%;'>NOMBRE</th>
-					<th style='width: 20%;'>VARONES</th>
-					<th style='width: 20%;'>MUJERES</th>
+                    <th>NOMBRE</th>
+					<th>VARONES</th>
+					<th>MUJERES</th>
 					</tr>
 					</thead>
 					<tbody>";

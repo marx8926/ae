@@ -26,16 +26,21 @@
     h1{
     		text-align: center;
     }
-    .box-content{
+    .informe_tabla{
     		width: 30%;
     		float:left;
+    		vertical-align:top;
     }
+   	#contenedor{
+    	
+	}
 </style>
 	
 <page >
     		<h1> ".$title."</h1>
-    		
+    <div id='contenedor'>
     ".$tabla."
+    		</div>
 </page>
     ";
 
