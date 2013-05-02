@@ -89,7 +89,7 @@ class CrearCursoController extends Controller{
 					$File = new Archivo();
 					
 					$FileName = $datos['filename'.$j];
-					$uploadFileName = date("Y-m-d-H-i-s").$FileName;
+					$uploadFileName = date("Y-m-d-H-i-s")."-".$FileName;
 					$url = "uploads/".$uploadFileName;
 					
 					$File->setNombre($uploadFileName);
