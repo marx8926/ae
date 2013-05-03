@@ -116,17 +116,30 @@ class AsignarController extends Controller
                     $consolida->setIdNuevoConvertido($new_convert_f);
                     $consolida->setPausa(FALSE);
                     $consolida->setTermino(FALSE);
-                    
-                    
+       
                     $em->persist($consolida);
                     $em->flush();
+
+                    //recuperar herramientas 
+                    $tools = $em->getRepository('AEDataBundle:Herramienta')->findAll();
+                    
+                    foreach ($tools as $key => $value) {
+                        $tiempo = $value->getTiempoOptimo();
+                        
+                        $date = new \DateTime();
+                        $date->modify('+'.$tiempo);
+                        
+                        $sql = "select insert_consolida_herramienta(:tool,:consol,:tiempo)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':tool'=>$value->getId(),':consol'=>$consolida->getId(),
+                            ':tiempo'=>$date->format('Y-m-d H:i:s')));
+                    }
                     
           
                      $n = $num_clases;
                      
                      for($i =0; $i< $n; $i++)
                      {
-                        
                          $sql ="select insert_consolida_leche(:idc, :idtl,:fIn,:fLim)";
                          
                          //, :fIn,:fLim

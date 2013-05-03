@@ -79,8 +79,7 @@
     <div class="control-group">
         <label class="control-label"></label>
         <div class="controls">
-            <button class="btn-success" id="vista" name="vista"> 
-                </button>
+            <input id="vista" name="vista" type="submit">
         </div>
     </div>   
    </form>
@@ -168,34 +167,38 @@
 
             });
 
-            //click para activar
-            $('#otro').click(function(){
-                 var anSelected = fnGetSelected(oTable);
-                //oTable.fnDeleteRow(anSelected[0]);
-                if(anSelected.length !=0)
-                {
-                    var tds = $(anSelected).find('td');
-                    var val = [];
-                    $.each(tds, function(index, item) {
-                    val.push(item.innerHTML); 
-  
-                      }); 
-                                         
-                   var route = '{{path('consolidar_seguir',{'id': 'nom'})}}';
             
-                    var rutas = route.replace('nom',val[5]);
-     
-                    $('#otro').attr("href",rutas);
-                    
-                    $(this).target = "_blank";
-                    window.open($(this).prop('href'));
-                    return false;
-                    //window.open(rutas, '_blank', 'toolbar=0,location=0,menubar=0');
-                }
+            
+            //click par asignar consolidacion y herramienta
+             $("#contactoForm").submit(function(event){
+            event.preventDefault();
+             var url=$("#contactoForm").attr("action");
+                     
+                    //start send the post request
+                    $.post(url,{
+                        formName:$("#contactoForm").serialize(),
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
                
-            });
-            
-            //click handler para vista
+                    if(data.responseCode==200 ){           
+                      
+                        alert('Registro Completado');
+                        location.reload(); 
+                    }
+                    else if(data.responseCode==400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    return false;});
             
    
             /* Build the DataTable with third column using our custom sort functions */

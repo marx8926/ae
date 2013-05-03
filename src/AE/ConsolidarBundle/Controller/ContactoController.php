@@ -20,5 +20,58 @@ class ContactoController extends Controller
     {
         return $this->render('AEConsolidarBundle:Default:contacto.html.twig');
     }
+    
+    public function contacto_upAction()
+    {
+        $request = $this->get('request');
+        $name=$request->request->get('formName');
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+        
+       $em = $this->getDoctrine()->getEntityManager();         
+
+        
+       if($name!=NULL){
+                   
+            $consolida = $datos['consolida'];
+            $tool = $datos['tools'];
+            $dia = $datos['dia'];
+            $hora = $datos['hora'];
+            
+
+            $em->beginTransaction();
+            try
+            {
+                $tool = new Herramienta();
+                $tool->setNombre($nombre);
+                $tool->setTiempoOptimo($dias.' '.$horas);
+                $em->persist($tool);
+                $em->flush();
+                $em->commit();
+                
+                $return=array("responseCode"=>200,  "greeting"=>'OK');
+                
+            }catch(Exception $e)
+            {
+                     $em->rollback();
+                     $em->close();
+                     $return=array("responseCode"=>400, "greeting"=>"Bad");
+
+               throw $e;
+            }
+        
+       }else
+       {
+           $return=array("responseCode"=>400, "greeting"=>"Bad");     
+       }
+
+        
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+   
+    }
 }
 

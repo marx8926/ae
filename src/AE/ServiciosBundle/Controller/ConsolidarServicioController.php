@@ -93,7 +93,7 @@ class ConsolidarServicioController extends Controller
         $temp = "";
         for($i=0; $i<$n; $i++)
         {
-               $temp = $temp. "<option value='". $todo[$i]['id']."' >". $todo[$i]['nombre']."  ". $todo[$i]['apellidos']." </option>";
+               $temp = $temp. "<option value='". $todo[$i]['id']."' >". $todo[$i]['red']." ".$todo[$i]['nombre']."  ". $todo[$i]['apellidos']." </option>";
               
         }
   
