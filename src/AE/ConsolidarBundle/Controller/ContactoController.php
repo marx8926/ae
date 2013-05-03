@@ -20,9 +20,10 @@ class ContactoController extends Controller
     {
         return $this->render('AEConsolidarBundle:Default:contacto.html.twig');
     }
-    
-    public function contacto_upAction()
+
+    public function contactoherramientaAction()
     {
+        
         $request = $this->get('request');
         $name=$request->request->get('formName');
         
@@ -30,11 +31,11 @@ class ContactoController extends Controller
 
         parse_str($name,$datos);
         
-       $em = $this->getDoctrine()->getEntityManager();         
+        $em = $this->getDoctrine()->getEntityManager();         
 
         
-       if($name!=NULL){
-                   
+        if($name!=NULL){
+                 
             $consolida = $datos['consolida'];
             $tool = $datos['tools'];
             $dia = $datos['dia'];
@@ -44,11 +45,11 @@ class ContactoController extends Controller
             $em->beginTransaction();
             try
             {
-                $tool = new Herramienta();
-                $tool->setNombre($nombre);
-                $tool->setTiempoOptimo($dias.' '.$horas);
-                $em->persist($tool);
-                $em->flush();
+                $sql = "select update_consolida_herramienta(:tool,:consol,:tiempo)";
+                $smt = $em->getConnection()->prepare($sql);
+                
+                $smt->execute(array(':tool'=>$tool,':consol'=>$consolida,':tiempo'=>$dia.' '.$hora));
+                
                 $em->commit();
                 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
@@ -66,8 +67,8 @@ class ContactoController extends Controller
        {
            $return=array("responseCode"=>400, "greeting"=>"Bad");     
        }
+        $return=array("responseCode"=>200,  "greeting"=>'ook');
 
-        
         $return=json_encode($return);//jscon encode the array
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       

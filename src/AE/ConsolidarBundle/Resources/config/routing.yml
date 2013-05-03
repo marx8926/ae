@@ -105,8 +105,8 @@ consolidar_contacto:
   pattern: /contacto
   defaults: {_controller: AEConsolidarBundle:Contacto:contacto}
   
-consolidar_contacto_up:
-  pattern: /contactoup
-  defaults: {_controller: AEConsolidarBunlde:Contacto:contacto_up}
+consolidar_contacto_herramienta:
+  pattern: /contactoherramienta
+  defaults: {_controller: AEConsolidarBundle:Contacto:contactoherramienta}
   requirements:
     _method: POST

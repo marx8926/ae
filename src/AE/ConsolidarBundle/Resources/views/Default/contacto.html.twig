@@ -48,7 +48,7 @@
         </div>
         
  
-        <form id="contactoForm" name="contactoForm" method="POST" class="form-horizontal">
+        <form id="myForm" name="myForm" method="POST" class="form-horizontal" action="{{path('consolidar_contacto_herramienta')}}">
             
             <input type="hidden" id="consolida" name="consolida" value="">
    
@@ -73,13 +73,13 @@
        <div class="control-group" >
            <label class="control-label">Hora</label>
            <div class="controls">
-               <input type="text" value="00:00:00" id="hora" name="hora" class="time-picker" required>
+               <input type="datetime" value="00:00:00" id="hora" name="hora" class="time-picker" required>
            </div>
        </div>
     <div class="control-group">
         <label class="control-label"></label>
         <div class="controls">
-            <input id="vista" name="vista" type="submit">
+            <input class="btn btn-small btn-primary" id="vista" name="vista" type="submit" value="Registrar">
         </div>
     </div>   
    </form>
@@ -170,17 +170,19 @@
             
             
             //click par asignar consolidacion y herramienta
-             $("#contactoForm").submit(function(event){
+             $("#myForm").submit(function(event){
             event.preventDefault();
-             var url=$("#contactoForm").attr("action");
+             var url=$("#myForm").attr("action");
                      
                     //start send the post request
+                   
                     $.post(url,{
-                        formName:$("#contactoForm").serialize(),
+                        formName:$("#myForm").serialize(),
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-               
+                        console.log(data);
+                        
                     if(data.responseCode==200 ){           
                       
                         alert('Registro Completado');
