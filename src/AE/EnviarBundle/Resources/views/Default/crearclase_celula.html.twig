@@ -348,6 +348,7 @@
                 trselected = $(event.target.parentNode);
                 
                 var tds = $(trselected).find('td');
+                values = [];
   
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
@@ -371,7 +372,7 @@
                 {
                     console.log(anSelected);
                     var tds = $(anSelected).find('td');
-                    
+                    val = [];
                     $.each(tds, function(index, item) {
                         val.push(item.innerHTML); 
                     }); 

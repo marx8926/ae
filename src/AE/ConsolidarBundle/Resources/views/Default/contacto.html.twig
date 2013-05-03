@@ -9,12 +9,10 @@
 {% endblock %}
 
 {% block content %}    
-
 <div class="span9" >
-	
-	<div class="box">
+<div class="box">
 		<div class="box-head tabs">
-            <h3>Registro de aptos para consolidador</h3>						
+            <h3>Lista consolidando</h3>						
         </div>
 
         <div class="box-content box-nomargin">
@@ -24,17 +22,20 @@
                     <input id='title' type='hidden' name='title' >
                     <input id='pdfbutton' type='button' value='PDF' class="btn-success">
                     <input id='excelbutton' type='button' value='Excel' class="btn-success">
-            
     <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
         <thead>
             <tr>
                 <th>ID</th>
 		<th>Nombres</th>
 		<th>Apellidos</th>
-		<th>Edad</th>
 		<th>Red</th>
                 <th>Célula</th>
-                <th>Conversión</th>
+                <th>Con. ID</th>
+                <th>Inicio</th>
+                <th>Pausa</th>
+                <th>Reanuda</th>
+                <th>Nom. Con</th>
+                <th>Ap. Con</th>
             </tr>
 	</thead>
 	<tbody id="tablas1" name="tablas1" >
@@ -46,18 +47,47 @@
     </div>
         </div>
         
-        <form  method="POST" id="myForm">
-            <div class="form-horizontal" id="reg" name="reg">
-        
-            <button class="btn-success" id="registro" name="registro">Registro</button>
+ 
+        <form id="contactoForm" name="contactoForm" method="POST" class="form-horizontal">
+            
+            <input type="hidden" id="consolida" name="consolida" value="">
+   
+       <fieldset>
+           <legend> Contacto</legend>
+       </fieldset>
+       <div class="control-group">
+           <label class="control-label">Herramientas</label>
+           <div class="controls" id="tools" name='tools'>
+           
+           </div>
+       </div>
+       
+       <div class="control-group">
+           <label class="control-label">Dia</label>
+           <div class="controls" >
+               <input type="date" class="datepicker" id="dia" name="dia" required>
+           </div>
+       
+       </div>
+       
+       <div class="control-group" >
+           <label class="control-label">Hora</label>
+           <div class="controls">
+               <input type="text" value="00:00:00" id="hora" name="hora" class="time-picker" required>
+           </div>
+       </div>
+    <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+            <button class="btn-success" id="vista" name="vista"> 
+                </button>
         </div>
-        </form>
-        
+    </div>   
+   </form>
  </div>    
- {% endblock %}
+{% endblock %}
       
  {%block javascript %}
- 	
  	<script src="{{asset('js/jquery.js')}}"></script>
 			<script src="{{asset('js/less.js')}}"></script>
 			<script src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -79,23 +109,27 @@
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                        <script src="{{asset('js/functiongen.js')}}"></script>
 			
-            <script src="http://www.google.com/jsapi"></script>
+            <script src="https://www.google.com/jsapi"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
-       
-    <script type="text/javascript">
 
+    <script type="text/javascript">
+          
          var trselected; 
 	 var oTable;
          
         var values = [];
-         
+ 
 	$(document).ready(function() {
             
-            $("#reg").css({'display':'none'});
+            ajaxResposeData("tools",'{{path('servicio_getHerramientas')}}');
             
+           
+            $("#vista").css({"display":"none"});
+
 		$("#pdfbutton").click(function(event) {
             $("#persona th").css("width","auto");
         	$("#content").val($("#persona").html());
@@ -110,8 +144,7 @@
 	$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
 	$("#form").submit();
         });
-            
-        
+
             $('#persona tbody').click(function(event){
                 $(oTable.fnSettings().aoData).each(function(){
                     $(this.nTr).removeClass('row_selected');
@@ -122,19 +155,22 @@
                 trselected = $(event.target.parentNode);
                 
                 var tds = $(trselected).find('td');
+                
                 values = [];
   
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
-                }); 
+                });     
                 
-                $("#reg").css({'display':'block'});
+                $("#vista").css({"display":"block"});
+                
+                $('#consolida').val(values[5]);
 
             });
-            
-            //click handler para eliminar
-            $('#registro').click(function(){
-                var anSelected = fnGetSelected(oTable);
+
+            //click para activar
+            $('#otro').click(function(){
+                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
                 if(anSelected.length !=0)
                 {
@@ -144,19 +180,19 @@
                     val.push(item.innerHTML); 
   
                       }); 
-                    var route = '{{path('consolidar_registro_update',{'id': 'nom'})}}';
-                    
+                                         
+                   var route = '{{path('consolidar_seguir',{'id': 'nom'})}}';
             
-                    var rutas = route.replace('nom',val[0]);
-                    $("#myForm").attr('action',rutas);
+                    var rutas = route.replace('nom',val[5]);
+     
+                    $('#otro').attr("href",rutas);
                     
-                    $.ajax(
-                        {url : rutas,
-                        type: "POST",
-                        async: false,
-                        }
-                        );
+                    $(this).target = "_blank";
+                    window.open($(this).prop('href'));
+                    return false;
+                    //window.open(rutas, '_blank', 'toolbar=0,location=0,menubar=0');
                 }
+               
             });
             
             //click handler para vista
@@ -168,15 +204,19 @@
             	"bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_nuevos_consolidadores')}}',
+                "sAjaxSource": '{{path('servicio_consolidado_seguir')}}',
                 "aoColumns": [
                     { "mDataProp": "id" },
-                    { "mDataProp": "nombre" },
-                    { "mDataProp": "apellidos" },
-                    { "mDataProp": "edad" },
+                    { "mDataProp": "nom" },
+                    { "mDataProp": "ap" },
                     { "mDataProp": "red" },
-                    { "mDataProp": "celula"},
-                    { "mDataProp":"fecha"}
+                    { "mDataProp": "cell"},
+                    {"mDataProp":"conid"},
+                    { "mDataProp":"inicio"},
+                    { "mDataProp":"pausa"},
+                    { "mDataProp": "reanuda" },
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos"}
                 ],
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
@@ -195,9 +235,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-   
-           
 	 });
-         
-       </script>
+      
+</script>
 {%endblock %}

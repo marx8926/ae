@@ -100,3 +100,7 @@ consolidar_cambiar_consolidador_update:
 consolidar_vista:
   pattern: /vista/{id}
   defaults: {_controller: AEConsolidarBundle:Default:vista}
+  
+consolidar_contacto:
+  pattern: /contacto
+  defaults: {_controller: AEConsolidarBundle:Contacto:contacto}

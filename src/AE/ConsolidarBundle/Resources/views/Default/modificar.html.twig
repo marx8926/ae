@@ -122,6 +122,7 @@
                 trselected = $(event.target.parentNode);
                 
                 var tds = $(trselected).find('td');
+                values = [];
   
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 

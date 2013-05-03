@@ -457,6 +457,37 @@ class ConsolidarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$todo));
    }
 
-   
+   public function getToolsAction()
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+       $todo = array();
+       $result = "<select id='tools' name='tools' required>";
+       try
+       {
+           $em->beginTransaction();
+           $sql = "select * from herramienta";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+           
+           
+           foreach ($todo as $key => $value) {
+               $result = $result."<option value='".$value['id'].
+                       "'>".$value['nombre']." </option>";
+           }
+           
+           $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw  $e;
+       }
+       
+       $result = $result." </select>";
+       
+       return new Response($result);
+   }
 }
 
