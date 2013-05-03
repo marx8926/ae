@@ -682,21 +682,6 @@ class DefaultController extends Controller
         return new JsonResponse($todo); 
    }
 
-   public function lista_descartadosAction()
-   {
-       $em = $this->getDoctrine()->getEntityManager();
-
-
-        $sql = "select * from lista_descartar";
-          
-        $smt = $em->getConnection()->prepare($sql);
-        $smt->execute();
-        
-        $todo = $smt->fetchAll();
-        
-        return new JsonResponse(array('aaData'=>$todo)); 
-   }
- 
    public function consolida_idAction($id)
    {
        $em = $this->getDoctrine()->getEntityManager();
@@ -766,28 +751,6 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        return new JsonResponse($todo);
    }
    
-   public function consolidador_consolidadoAction()
-   {
-       $this->getDoctrine()->getEntityManager()->beginTransaction();
-       $todo = array();
-       try
-       {
-           $em = $this->getDoctrine()->getEntityManager();
-           $sql = "select *from consolidador_consolidado";
-           $smt = $em->getConnection()->prepare($sql);
-           $smt->execute();
-           $todo = $smt->fetchAll();
-           
-           $this->getDoctrine()->getEntityManager()->commit();
-       }
-       catch (Exception $e)
-       {
-           $this->getDoctrine()->getEntityManager()->rollback();
-           $this->getDoctrine()->getEntityManager()->close();
-       }
-       
-       return new JsonResponse(array('aaData'=>$todo));
-   }
 
    public function temas_celulaAction()
    {
@@ -984,9 +947,11 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        
        $est = array();
        
+       $em = $this->getDoctrine()->getEntityManager();
+       
        try
        {
-           $em = $this->getDoctrine()->getEntityManager();
+           $em->beginTransaction();
           
            $sql = "select * from lista_red_ubicacion";
            $smt = $em->getConnection()->prepare($sql);
@@ -996,12 +961,12 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
            
            $em->flush();
            
-           $this->getDoctrine()->getEntityManager()->commit();
+           $em->commit();
        }
        catch (Exception $e)
        {
-           $this->getDoctrine()->getEntityManager()->rollback();
-           $this->getDoctrine()->getEntityManager()->close();
+           $em->rollback();
+           $em->close();
        }
        
        return new JsonResponse(array("aaData"=>$est));

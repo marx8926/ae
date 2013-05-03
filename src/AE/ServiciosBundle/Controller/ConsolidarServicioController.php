@@ -404,5 +404,59 @@ class ConsolidarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$todo)); 
    }
    
+   public function lista_descartadosAction()
+   {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $todo = array();
+        
+        $em->beginTransaction();
+        try
+        {
+            
+            $sql = "select * from lista_descartar";
+          
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+        
+            $todo = $smt->fetchAll();
+            
+            $em->commit();
+            
+        }catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse(array('aaData'=>$todo)); 
+   }
+   
+      public function consolidador_consolidadoAction()
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       $todo = array();
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from consolidador_consolidado";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+           
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+
+   
 }
 

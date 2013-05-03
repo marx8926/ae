@@ -39,7 +39,7 @@
 	
     </table>
         
-    <div class="span2">
+    <div class="span2" id="ocultar" name="ocultar">
             <fieldset class="form-horizontal">
             	<div class="control-group">
 		            <label class="control-label">ID:</label>
@@ -48,18 +48,24 @@
 		            </div>
 		       	</div>                
             </fieldset>
-    </div>
-    <br>
+    
     <br>
     <form class="form-horizontal" method="POST" id="myForm" name="myForm" action="{{path('consolidar_descartar_update')}}">
                 <div class="control-group" >
                 	<label class="control-label"></label>
-                  <div class="controls">
-                      <button class="btn-success" id="registro" name="registro"> Registro</button>
+                        <input type='hidden' id="nomb" name="nomb" value="">
                   </div>
-              	</div>
-            </form>
-        </div>
+            <div class="control-group" >
+                <label class="control-label"></label>
+                    <div class="controls">
+                        <button class="btn-success" id="registro" name="registro"> Descartar</button>
+                    </div>
+            </div>
+    </form>
+    
+    </div>
+    
+   </div>
    </div>
  </div>    
                  
@@ -104,7 +110,8 @@
          
 	$(document).ready(function() {
             
-        
+            $('#ocultar').css({'display':'none'});
+            
             $('#persona tbody').click(function(event){
                 $(oTable.fnSettings().aoData).each(function(){
                     $(this.nTr).removeClass('row_selected');
@@ -120,6 +127,10 @@
                     values.push(item.innerHTML); 
                 }); 
                  $('#nombre').text(values[0]);
+                 $('#nomb').val(values[0]);
+                 
+                $('#ocultar').css({'display':'block'});
+
             });
             
             //click handler para eliminar
@@ -135,10 +146,8 @@
   
                       }); 
                       
-                    var id = $('#nombre').text();
-                    console.log(id);
-               
-              
+                    var id = $('#nomb').val();
+                 
                     var url=$("#myForm").attr("action");
                      
                     //start send the post request
@@ -147,14 +156,11 @@
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-                        console.log(data);
-                        
+
                     if(data.responseCode==200 ){           
                       
                         alert('Registro Completado');
                         location.reload();
-
-
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');
@@ -172,10 +178,7 @@
                 }
                 return false;
             });
-            
-            //click handler para vista
-            
-   
+ 
             /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
@@ -213,11 +216,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-   
-           
 	 });
-         
-     
        </script>
 {%endblock %} 
 

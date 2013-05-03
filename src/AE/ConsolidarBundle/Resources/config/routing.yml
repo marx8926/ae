@@ -82,20 +82,21 @@ consolidar_lista_descartar:
   
 consolidar_activar_nuevo:
   pattern: /activar_nuevo
-  defaults: {_controller: AEConsolidarBundle:Default:activar_nuevo}
+  defaults: {_controller: AEConsolidarBundle:Activar:activar_nuevo}
   requirements:
     _method: POST
+  
+consolidar_cambiar_consolidador:
+  pattern: /cambiar_consolidador
+  defaults: {_controller: AEConsolidarBundle:Cambiar:cambiar_consolidador}
+  
+consolidar_cambiar_consolidador_update:
+  pattern: /cambiar_consolidador_update
+  defaults: {_controller: AEConsolidarBundle:Cambiar:cambiar_consolidador_update}
+  requirements:
+    _method: POST
+    
 
 consolidar_vista:
   pattern: /vista/{id}
   defaults: {_controller: AEConsolidarBundle:Default:vista}
-  
-consolidar_cambiar_consolidador:
-  pattern: /cambiar_consolidador
-  defaults: {_controller: AEConsolidarBundle:Default:cambiar_consolidador}
-  
-consolidar_cambiar_consolidador_update:
-  pattern: /cambiar_consolidador_update
-  defaults: {_controller: AEConsolidarBundle:Default:cambiar_consolidador_update}
-  requirements:
-    _method: POST

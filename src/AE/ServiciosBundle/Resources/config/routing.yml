@@ -149,11 +149,7 @@ servicio_lider_red_id:
   defaults: {_controller: AEServiciosBundle:Default:lider_red_id}
   requirements:
     _method: POST
-    
-servicio_consolidador_consolidado:
-  pattern: /consolidador_consolidado
-  defaults: {_controller: AEServiciosBundle:Default:consolidador_consolidado}
-    
+
 servicio_enviar_temas_celula:
   pattern: /temas_celula
   defaults: {_controller: AEServiciosBundle:Default:temas_celula}

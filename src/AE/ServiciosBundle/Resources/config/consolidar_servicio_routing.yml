@@ -16,7 +16,7 @@ servicio_consolidadores_act:
   pattern: /l_act_consolidadores
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:l_act_consolidadores}
   requirements:
-    _method: POST
+   _method: POST
     
 #leche espiritual temas
 
@@ -58,4 +58,9 @@ servicio_por_descartar:
   
 servicio_lista_descartados:
   pattern: /lista_descartados
-  defaults: {_controller: AEServiciosBundle:Default:lista_descartados}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:lista_descartados}
+  
+  
+servicio_consolidador_consolidado:
+  pattern: /consolidador_consolidado
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidador_consolidado}

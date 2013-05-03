@@ -50,11 +50,11 @@ class DescartarController extends Controller
   
             }
             
-            $this->getDoctrine()->getEntityManager()->commit();
+            $em->commit();
         }catch(Exception $e)
         {
-             $this->getDoctrine()->getEntityManager()->rollback();
-             $this->getDoctrine()->getEntityManager()->close();
+             $em->rollback();
+             $em->close();
                 
              $return=array("responseCode"=>400, "greeting"=>"Bad");
 
