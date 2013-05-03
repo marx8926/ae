@@ -1,0 +1,316 @@
+{% extends "::base.html.twig" %}
+        
+{% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">  
+{% endblock %}
+
+{%block content %} 
+
+<div class="span9" >
+<div class="box">
+		<div class="box-head tabs">
+            <h3>Herramientas</h3>						
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                
+                    <input id='content' type='hidden' name='content' >
+                    <input id='title' type='hidden' name='title' >
+                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
+                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+        <thead>
+            <tr>
+                <th>ID</th>
+		<th>Nombre</th>
+		<th>Tiempo Óptimo</th>
+            </tr>
+	</thead>
+	<tbody id="tablas1" name="tablas1" >
+	
+	</tbody>
+	
+    </table>
+    </form>
+    </div>
+        </div>
+        
+        <div class="form-horizontal">
+            <form method="POST" name="myForm1" id="myForm1" class="alineados">
+                <input type="hidden" id="codigoM" name="codigoM" value="">
+                <input type="button" id="modificar" name="modificar" value="Modificar" class="btn-success" >
+            </form>
+                
+            <form method="POST" name="myForm" id="myForm" class="alineados">
+                <input type="hidden" id="codigoE" name="codigoE" value="">
+                <input type="button" id="eliminar" name="eliminar" value="Eliminar" class="btn-success" >
+            </form>
+        </div>
+        
+        <div id="modf" name="modf" >
+             <form id="modForm" name="modyForm" method="POST" action="{{path('tool_modificar')}}" class="form-horizontal">
+                 
+                 <input id="toolid" name="toolid" type="hidden" value="">
+                 
+            <fieldset>
+                <legend>Nombre</legend>
+                <div class="control-group">
+                    <label class="control-label" >Nombre</label>
+                    <div class="controls">
+                        <input type="text" id="inputNombres" name="inputNombres" placeholder="Nombre" class="input-large" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                    <legend>Intervalo</legend>
+                    
+                <div class="control-group">
+                    <label class="control-label" >Dias</label>
+                    <div class="controls">
+                        <input type="number" id="dias" name="dias" value="0" class="input-large" required />
+                    </div>
+                </div>
+                    
+                    <div class="control-group" hidden>
+                    <label class="control-label" >Horas</label>
+                    <div class="controls">
+                        <input type="datetime" id="horas" name="horas" value="00:00:00" class="input-large time-picker" required/>
+                    </div>
+                </div>
+            </fieldset>
+                
+            <div class="control-group">
+                <label></label>
+                <div class="controls">
+                      <input class="btn btn-small btn-primary" type="submit" id="login" name="login" value="Actualizar" />
+                </div>
+            </div>
+            
+            </form>
+        
+        </div>
+        
+     
+ </div>    
+{% endblock %}
+      
+ {%block javascript %}
+                        <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+			<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+                        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+ 	
+    <script src="https://www.google.com/jsapi"></script>
+
+    <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+    <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
+ 
+    <script type="text/javascript">
+          
+   
+         var trselected; 
+	 var oTable;
+         
+        var values = [];
+        
+         
+	$(document).ready(function() {
+            
+            $('#modf').css({'display':'none'});
+            
+		$("#pdfbutton").click(function(event) {
+            $("#persona th").css("width","auto");
+        	$("#content").val($("#persona").html());
+        	$("#title").val($("h3").html());
+        	//$("#content").val($("#lol").html() + $("tbody").html());
+            $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#form").submit();
+        });
+
+        $("#excelbutton").click(function(event) {
+        	$("#content").val("<table>" + $("#persona").html() + "</table>");
+	$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+	$("#form").submit();
+        });
+            
+        
+            $('#persona tbody').click(function(event){
+                $(oTable.fnSettings().aoData).each(function(){
+                    $(this.nTr).removeClass('row_selected');
+                });
+                
+                $(event.target.parentNode).addClass('row_selected');
+                
+                trselected = $(event.target.parentNode);
+                
+                var tds = $(trselected).find('td');
+  
+                $.each(tds, function(index, item) {
+                    values.push(item.innerHTML); 
+                });
+                $('#codigoM').val(values[0]);
+                $('#codigoE').val(values[0]);
+                
+                $('#toolid').val(values[0]);
+                $('#inputNombres').val(values[1]);
+                $('#dias').val(values[2].replace(' days',''));
+                
+      
+
+
+            });
+            
+            //click handler para eliminar
+            $('#eliminar').click(function(){
+                var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !=0)
+                {
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                    val.push(item.innerHTML); 
+  
+                      }); 
+                    var route = '{{path('tool_eliminar',{'id': 'nom'})}}';
+  
+                    var rutas = route.replace('nom',val[0]);
+                   
+                     $.ajax(
+                            {url : rutas,
+                            type: "POST",
+                            async: false,
+                            }
+                        ).done(function(data){
+
+                                if(data.responseCode==200 ){           
+                      
+                                    alert('Registro Completado');
+                                    location.reload(); 
+                                }
+                                else if(data.responseCode==400){//bad request
+                                    alert('Error bad request');
+                                    }
+                                else{                        
+                                        if(data.responseCode==500)
+                                        {
+                                        alert('Error bad request');
+                                        }       
+                                        else alert("An unexpeded error occured.");
+                                    }
+                        
+                              
+                     });     
+                    
+                }
+                
+            });
+            
+            //click para activar
+            $('#modificar').click(function(){
+                 var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !=0)
+                {
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                    val.push(item.innerHTML); 
+  
+                      }); 
+                  
+                    $('#modf').css({'display':'block'});
+
+                }
+               
+            });
+            
+            //click handler para vista
+
+            /* Build the DataTable with third column using our custom sort functions */
+            oTable = $('#persona').dataTable( {
+                                    
+            	"bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": '{{path('administrar_herramientas')}}',
+                "aoColumns": [
+                    { "mDataProp": "id" },
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "tiempo_optimo" }
+                ],
+		"aaSorting": [ [0,'asc'], [1,'asc'] ],
+		"aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+		],"sDom": 'T<"clear">lfrtip',
+                "oTableTools": {
+			"sRowSelect": "single",
+                        "fnRowSelected": function ( node ) {
+                            var s=$(node).children();
+                            alert("Selected Row : " + s[0]);
+                        }
+		},
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ registros por página"
+					}
+            } );	
+   
+          
+          $("#modForm").submit(function(event){
+            event.preventDefault();
+             var url=$("#modForm").attr("action");
+                     
+                    //start send the post request
+                    $.post(url,{
+                        formName:$("#modForm").serialize(),
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
+               
+                    if(data.responseCode==200 ){           
+                      
+                        alert('Registro Completado');
+                        location.reload(); 
+                    }
+                    else if(data.responseCode==400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    return false;});
+	
+	 });
+
+       </script>
+{%endblock %}

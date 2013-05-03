@@ -128,3 +128,7 @@ administrar_lista_redes_eliminar:
   defaults: {_controller: AEAdministrarBundle:Default:lista_redes_eliminar}
   requirements:
     _method: POST
+    
+    
+tools_consolidar_routing:
+    resource: "@AEAdministrarBundle/Resources/config/Tools_routing.yml"

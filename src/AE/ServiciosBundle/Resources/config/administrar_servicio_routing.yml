@@ -1,0 +1,3 @@
+administrar_herramientas:
+  pattern: /herramientas_all
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:herramientas}

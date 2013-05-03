@@ -1,0 +1,125 @@
+{% extends "::base.html.twig" %}
+        
+{% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">  
+{% endblock %}
+
+{%block content %} 
+
+<div class="span9" >
+<div class="box">
+        <div class="box-head tabs">
+            <h3>Registrar Herramientas de Consolidación</h3>						
+        </div>
+        
+        
+        <form id="myForm" name="myForm" action="{{path('tool_registrar_update')}}" method="POST" class="form-horizontal">
+            <fieldset>
+                <legend>Nombre</legend>
+                <div class="control-group">
+                    <label class="control-label" >Nombre</label>
+                    <div class="controls">
+                        <input type="text" id="inputNombres" name="inputNombres" placeholder="Nombre" class="input-large" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                    <legend>Intervalo</legend>
+                    
+                <div class="control-group">
+                    <label class="control-label" >Dias</label>
+                    <div class="controls">
+                        <input type="number" id="dias" name="dias" value="0" class="input-large" required />
+                    </div>
+                </div>
+                    
+                    <div class="control-group" hidden="">
+                    <label class="control-label" >Horas</label>
+                    <div class="controls">
+                        <input type="datetime" id="horas" name="horas" value="00:00:00" class="input-large time-picker" required/>
+                    </div>
+                </div>
+            </fieldset>
+                
+           <div class="control-group">
+                <label></label>
+                <div class="controls">
+                      <input class="btn btn-small btn-primary" type="submit" id="login" name="login" value="Registrar" />
+                </div>
+          </div>
+            
+        </form>
+ </div> 
+ </div>
+{% endblock %}
+      
+ {%block javascript %}
+                        <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+			<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+ 	
+    <script src="https://www.google.com/jsapi"></script>
+
+    <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+    <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
+ 
+    <script type="text/javascript">
+          
+  
+         
+	$(document).ready(function() {
+            
+            $("#myForm").submit(function(event){
+            event.preventDefault();
+             var url=$("#myForm").attr("action");
+                     
+                    //start send the post request
+                    $.post(url,{
+                        formName:$("#myForm").serialize(),
+                        other:"attributes"
+                    },function(data){
+                    //the response is in the data variable
+               
+                    if(data.responseCode==200 ){           
+                      
+                        alert('Registro Completado');
+                        location.reload(); 
+                    }
+                    else if(data.responseCode==400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode==500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    return false;});
+	 });
+
+       </script>
+{%endblock %}

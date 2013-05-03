@@ -130,6 +130,10 @@ ganar_servicio_routing:
     
 consolidar_servicio_routing:
     resource: "@AEServiciosBundle/Resources/config/consolidar_servicio_routing.yml"
+    
+administrar_servicio_routing:
+    resource: "@AEServiciosBundle/Resources/config/administrar_servicio_routing.yml"
+
 
 servicio_consolida_id:
   pattern: /consolida_id/{id}

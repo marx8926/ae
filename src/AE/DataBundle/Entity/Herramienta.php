@@ -39,7 +39,7 @@ class Herramienta
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Consolida", inversedBy="idHerramienta")
+     * @ORM\ManyToMany(targetEntity="Consolida", inversedBy="idHerramienta" ,cascade={"persist", "merge", "remove"})
      * @ORM\JoinTable(name="many_herramienta_has_many_consolidacion",
      *   joinColumns={
      *     @ORM\JoinColumn(name="id_herramienta", referencedColumnName="id")

@@ -1,0 +1,26 @@
+tool_registrar:
+  pattern: /tool_registrar
+  defaults: {_controller: AEAdministrarBundle:Tools:registrar}
+  
+tool_registrar_update:
+  pattern: /tool_registrar_update
+  defaults: {_controller: AEAdministrarBundle:Tools:registrar_up}
+  requirements:
+    _method: POST
+    
+    
+tool_busqueda:
+  pattern: /tool_busqueda
+  defaults: {_controller: AEAdministrarBundle:Tools:busqueda}
+  
+tool_modificar:
+  pattern: /tool_modificar
+  defaults: {_controller: AEAdministrarBundle:Tools:modificar}
+  requirements:
+    _method: POST
+  
+tool_eliminar:
+  pattern: /tool_eliminar/{id}
+  defaults: {_controller: AEAdministrarBundle:Tools:eliminar}
+  requirements:
+    _method: POST
