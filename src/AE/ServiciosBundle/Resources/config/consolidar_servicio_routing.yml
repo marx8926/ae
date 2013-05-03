@@ -50,3 +50,12 @@ servicio_temas_id:
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:temas}
   requirements:
     _method: POST
+    
+    
+servicio_por_descartar:
+  pattern: /pordescartar
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:pordescartar}
+  
+servicio_lista_descartados:
+  pattern: /lista_descartados
+  defaults: {_controller: AEServiciosBundle:Default:lista_descartados}

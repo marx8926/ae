@@ -375,5 +375,34 @@ class ConsolidarServicioController extends Controller
         
         return new Response($result);
    }
+
+   
+      
+   public function pordescartarAction()
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+       $todo = array();
+
+       try{
+           $em->beginTransaction();
+           
+            $sql = "select * from descartar";
+          
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+        
+            $todo = $smt->fetchAll();
+            
+          $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw $e;
+       }
+        return new JsonResponse(array('aaData'=>$todo)); 
+   }
+   
 }
 

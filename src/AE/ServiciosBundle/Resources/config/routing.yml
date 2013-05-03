@@ -130,16 +130,7 @@ ganar_servicio_routing:
     
 consolidar_servicio_routing:
     resource: "@AEServiciosBundle/Resources/config/consolidar_servicio_routing.yml"
-    
-servicio_por_descartar:
-  pattern: /pordescartar
-  defaults: {_controller: AEServiciosBundle:Default:pordescartar}
-  
-servicio_lista_descartados:
-  pattern: /lista_descartados
-  defaults: {_controller: AEServiciosBundle:Default:lista_descartados}
-  
-  
+
 servicio_consolida_id:
   pattern: /consolida_id/{id}
   defaults: {_controller: AEServiciosBundle:Default:consolida_id}

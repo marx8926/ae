@@ -14,17 +14,17 @@ consolidar_registro_update:
     
 consolidar_modificar:
   pattern: /modificar
-  defaults: {_controller: AEConsolidarBundle:Default:modificar}
+  defaults: {_controller: AEConsolidarBundle:Modificar:modificar}
   
 consolidar_modificar_activar:
   pattern: /modificar_activar/{id}
-  defaults: {_controller: AEConsolidarBundle:Default:modificar_activar}
+  defaults: {_controller: AEConsolidarBundle:Modificar:modificar_activar}
   requirements:
     _method: POST
   
 consolidar_modificar_desactivar:
   pattern: /modificar_desactivar/{id}
-  defaults: {_controller: AEConsolidarBundle:Default:modificar_desactivar}
+  defaults: {_controller: AEConsolidarBundle:Modificar:modificar_desactivar}
   requirements:
     _method: POST
     
@@ -68,25 +68,24 @@ consolidar_seguir_update:
  
 consolidar_descartar:
   pattern: /descartar
-  defaults: {_controller: AEConsolidarBundle:Default:descartar}
+  defaults: {_controller: AEConsolidarBundle:Descartar:descartar}
   
 consolidar_descartar_update:
   pattern: /descartar_update
-  defaults: {_controller: AEConsolidarBundle:Default:descartar_update}
+  defaults: {_controller: AEConsolidarBundle:Descartar:descartar_update}
   requirements:
     _method: POST
+    
+consolidar_lista_descartar:
+  pattern: /lista_descartar
+  defaults: {_controller: AEConsolidarBundle:Descartar:lista_descartar}
   
 consolidar_activar_nuevo:
   pattern: /activar_nuevo
   defaults: {_controller: AEConsolidarBundle:Default:activar_nuevo}
   requirements:
     _method: POST
-  
-    
-consolidar_lista_descartar:
-  pattern: /lista_descartar
-  defaults: {_controller: AEConsolidarBundle:Default:lista_descartar}
-  
+
 consolidar_vista:
   pattern: /vista/{id}
   defaults: {_controller: AEConsolidarBundle:Default:vista}
