@@ -39,7 +39,7 @@
 	
     </table>
         
-    <div class="span2" id="ocultar" name="ocultar">
+    <div  id="ocultar" name="ocultar">
             <fieldset class="form-horizontal">
             	<div class="control-group">
 		            <label class="control-label">ID:</label>
@@ -54,7 +54,16 @@
                 <div class="control-group" >
                 	<label class="control-label"></label>
                         <input type='hidden' id="nomb" name="nomb" value="">
+                        <input type="hidden" id="pers" name="pers" value="">
                   </div>
+            
+            <div class="control-group" >
+                <label class="control-label">Motivo</label>
+                <div class="controls">
+                    <textarea rows="5" id="motivo" name="motivo" class="input-xxlarge" required> </textarea>
+                    <p class="help-block">Motivo por el que se descarto</p>
+                </div>
+            </div>
             <div class="control-group" >
                 <label class="control-label"></label>
                     <div class="controls">
@@ -119,6 +128,7 @@
                 
                 $(event.target.parentNode).addClass('row_selected');
                 
+                
                 trselected = $(event.target.parentNode);
                 
                 var tds = $(trselected).find('td');
@@ -129,8 +139,11 @@
                 }); 
                  $('#nombre').text(values[0]);
                  $('#nomb').val(values[0]);
+                 $('#pers').val(values[5]);
                  
                 $('#ocultar').css({'display':'block'});
+                
+            	
 
             });
             
@@ -150,18 +163,19 @@
                     var id = $('#nomb').val();
                  
                     var url=$("#myForm").attr("action");
+                    
                      
                     //start send the post request
                     $.post(url,{
-                        formName:id,
+                        formName:$("#myForm").serialize(),
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-
                     if(data.responseCode==200 ){           
                       
-                        alert('Registro Completado');
-                        location.reload();
+                       alert('Registro Completado');
+                       var anSelected = fnGetSelected( oTable );
+                       oTable.fnDeleteRow( anSelected[0] );
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');

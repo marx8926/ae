@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
+use AE\DataBundle\Entity\Descartado;
 
 
 class DescartarController extends Controller
@@ -28,26 +29,45 @@ class DescartarController extends Controller
               
         $em = $this->getDoctrine()->getEntityManager();
         
-        $this->getDoctrine()->getEntityManager()->beginTransaction();
+        $em->beginTransaction();
+        $id= NULL;
+        $descripcion = NULL;
+        $idP = NULL; //id persona
         
         if($name!=NULL)
         {
         try
         {
+             $datos = array();
+
+            parse_str($name,$datos);
+            
+            $id = $datos['nomb'];
+            $descripcion = $datos['motivo'];
+            $idP = $datos['pers'];
+        
+            $descartado = new Descartado();
+            $descartado->setFechaDescarte(new \DateTime());
+            $descartado->setCometario($descripcion);
+           
+            $persona = $em->getRepository('AEDataBundle:Persona')->findOneBy(array('id'=>$idP));
+            
+            $descartado->setId($persona);
+            
+            $em->persist($descartado);
+            $em->flush();
+           
             $sql = "select update_consolida(:id)";
             
             $smt = $em->getConnection()->prepare($sql);
                          
-                        // $td = $todo[$i];
-                         
-            if(!$smt->execute(array(':id'=>$name)))
+            if(!$smt->execute(array(':id'=>$id)))
             {
                 $return=array("responseCode"=>400, "greeting"=>"Bad");
 
                 $return=json_encode($return);//jscon encode the array
      
                 return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-  
             }
             
             $em->commit();
@@ -60,7 +80,7 @@ class DescartarController extends Controller
 
              throw $e;
         }
-        $return=array("responseCode"=>200, "greeting"=>"Good");
+        $return=array("responseCode"=>200, "greeting"=>$descripcion);
         }
         else  $return=array("responseCode"=>400, "greeting"=>"Bad");
             

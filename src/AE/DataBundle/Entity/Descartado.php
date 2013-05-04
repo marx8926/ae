@@ -31,7 +31,7 @@ class Descartado
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\OneToOne(targetEntity="Persona",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })

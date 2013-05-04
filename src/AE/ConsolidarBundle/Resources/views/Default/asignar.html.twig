@@ -215,7 +215,8 @@
                     if(data.responseCode==200 ){           
                       
                         alert('Registro Completado');
-                        location.reload();
+                        var anSelected = fnGetSelected( oTable );
+                       oTable.fnDeleteRow( anSelected[0] );
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');
