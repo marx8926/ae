@@ -513,7 +513,18 @@ class ConsolidarServicioController extends Controller
        
        return new JsonResponse(array('aaData'=>$todo));
    }
-   
+   //funcion de reemplazo de herramientas por falso
+   public function reemplazo($source, $tools)
+   {
+       $retorno =$source;
+       foreach ($tools as $key => $value) {
+           $retorno= str_replace($tools[$key],'F',$retorno); //titulo
+
+       }
+       return $retorno;
+   }
+
+
    public function getHerramientaNuevosAction($inicio, $fin)
    {
       $em = $this->getDoctrine()->getEntityManager();
@@ -557,15 +568,47 @@ class ConsolidarServicioController extends Controller
            $temp = $temp." </thead> </tr>";
            $cuerpo = $cuerpo." </tr>";
            
-           $result = $result.$temp."<tbody id='tablas1' name='tablas1'>";
+           $result = $result.$temp;
+           
+           $body="<tbody id='tablas1' name='tablas1'>";
            
            //creamos el cuerpo
            
+           if(count($todo)>0)
+           {
+                $old = $todo[0]['idx'];
+                $newe = $todo[0]['idx'];
+           }
+           $cont =0;
+           $cadena = $cuerpo; 
            foreach ($todo as $key => $value) {               
-               $result = $result.$cuerpo; 
+                
+               
+               
+               $newe = $value['idx'];
+               if($newe == $old && $cont!=0)
+               {
+                    $body = str_replace($value['titulo'], ($value['hecho']==TRUE)?'T':'F', $body); //titulo
+
+               }
+               else
+               {
+                  $body = $this->reemplazo($body, $herramienta);
+                  
+                  $cadena = $cuerpo; 
+                  $cadena = str_replace('ID', $value['idx'], $cadena); //id
+                  $cadena = str_replace('Nombres', $value['nombre'], $cadena); //nombre
+                  $cadena = str_replace('Apellidos', $value['apellidos'], $cadena); //apellidos
+                  $cadena = str_replace('Red', $value['id_red'], $cadena); //red
+                  $cadena = str_replace($value['titulo'], ($value['hecho']==TRUE)?'T':'F', $cadena); //titulo
+                  
+                  $body = $body.$cadena;
+                  $cont =$cont+1;
+               }
+               $old = $newe;
            }
            
-           $result = $result."</tbody> </table>";
+           $result = $result.$body."</tbody> </table>";
 
            $em->commit();
        }
@@ -575,8 +618,8 @@ class ConsolidarServicioController extends Controller
            $em->close();
            throw  $e;
        }  
-       
-       return new Response($result); 
+       return new Response($result);
+       //return new JsonResponse($todo); 
    }
 }
 
