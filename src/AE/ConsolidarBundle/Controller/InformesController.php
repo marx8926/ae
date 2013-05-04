@@ -16,6 +16,9 @@ use AE\DataBundle\Entity\Miembro;
 
 class InformesController extends Controller
 {
-
+    public function informeNoconsolidadoAction()
+    {
+        return $this->render('AEConsolidarBundle:Default:informeNoconsolidado.html.twig');
+    }
 }
 

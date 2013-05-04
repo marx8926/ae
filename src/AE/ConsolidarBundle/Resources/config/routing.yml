@@ -110,3 +110,8 @@ consolidar_contacto_herramienta:
   defaults: {_controller: AEConsolidarBundle:Contacto:contactoherramienta}
   requirements:
     _method: POST
+    
+    
+consolidar_informe_no_consolidado:
+  pattern: /informe_no_consolidado
+  defaults: {_controller: AEConsolidarBundle:Informes:informeNoconsolidado}
