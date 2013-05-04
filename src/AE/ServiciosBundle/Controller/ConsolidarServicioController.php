@@ -489,5 +489,29 @@ class ConsolidarServicioController extends Controller
        
        return new Response($result);
    }
+   
+   public function getNoConsolidadosAction($inicio, $fin)
+   {
+        $em = $this->getDoctrine()->getEntityManager();
+       $todo = array();
+
+       try
+       {
+           $em->beginTransaction();
+           $sql = "select * from get_reporte_no_consolidados(:inicio,:fin)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':inicio'=>$inicio,':fin'=>$fin));          
+           $todo = $smt->fetchAll(); 
+           $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw  $e;
+       }  
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
 }
 

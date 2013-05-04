@@ -68,3 +68,8 @@ servicio_consolidador_consolidado:
 servicio_getHerramientas:
   pattern: /get_tools
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getTools}
+  
+  
+servicio_no_consolidados:
+  pattern: /get_no_consolidados/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getNoConsolidados}

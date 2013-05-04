@@ -17,6 +17,13 @@
         </div>
 
         <div class="box-content box-nomargin">
+            
+            <fieldset >
+                <legend></legend>
+                <h3 id="titulo"> DEL <input type="date" id="inicio" name="inicio" class="rango" value="2012-12-12" > AL <input type="date" id="fin" name="fin" class="rango" value="2013-12-12">
+                    <input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> <h3>
+
+              </fieldset>
         	<form id='form' method='POST'>
                 
                     <input id='content' type='hidden' name='content' >
@@ -32,10 +39,8 @@
                                     <th>Apellidos</th>
                                     <th width="5%">Edad</th>
                                     <th width="5%">Red</th>
-                                    <th width="10%">Convertido</th>
-                                    <th width="10%">Inicio Leche</th>
-                                    <th width="10%">Descarte</th>
-                                    <th width="30%">Motivo</th>
+                                    <th width="10%">Célula</th>
+                                    <th width="10%">Conversión</th>
 		                </tr>
 			</thead>
 			<tbody id="tablas1" name="tablas1" >
@@ -90,10 +95,21 @@
         var values = [];
          
 	$(document).ready(function() {
-            
+
             $('#ocultar').css({'display':'none'});
             
         
+            $('#rang').click(function(event){
+                event.preventDefault();
+                
+                var url = '{{path('servicio_no_consolidados',{'inicio':'init','fin':'end'}) }}';
+                var ruta = url.replace('init',$('#inicio').val());
+                ruta = ruta.replace('end',$('#fin').val());
+                
+                cargar_tabla(ruta);
+                
+            });
+            
             $("#pdfbutton").click(function(event) {
                 $("#persona th").css("width","auto");
         	$("#content").val($("#persona").html());
@@ -108,89 +124,26 @@
                 $("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
                 $("#form").submit();
             });
-        
-            $('#persona tbody').click(function(event){
-                $(oTable.fnSettings().aoData).each(function(){
-                    $(this.nTr).removeClass('row_selected');
-                });
-                
-                $(event.target.parentNode).addClass('row_selected');
-                
-                trselected = $(event.target.parentNode);
-                
-                var tds = $(trselected).find('td');
-                values = [];
-  
-                $.each(tds, function(index, item) {
-                    values.push(item.innerHTML); 
-                });   
-                
-                $('#ocultar').css({'display':'block'});
 
-            });
-            
-            //click handler para activar
-            $('#vista').click(function(event){
-                event.preventDefault();
-                var anSelected = fnGetSelected(oTable);
-                //oTable.fnDeleteRow(anSelected[0]);
-                if(anSelected.length !=0)
-                {
-
-                    var tds = $(anSelected).find('td');
-                    var val = [];
-                    $.each(tds, function(index, item) {
-                        val.push(item.innerHTML); 
-                    }); 
- 
-                    var rutas='{{path('consolidar_activar_nuevo')}}';
-                    
-                     $.post(rutas,{
-                        formName:val[7],
-                        other:"attributes"
-                    },function(data){
-                    //the response is in the data variable
-                       
-                    if(data.responseCode==200 ){           
-                      
-                        alert('Registro Completado');
-                        var anSelected = fnGetSelected( oTable );
-                        oTable.fnDeleteRow( anSelected[0] );
-
-                    }
-                    else if(data.responseCode==400){//bad request
-                       alert('Error bad request');
-                        }
-                    else{                        
-                        if(data.responseCode==500)
-                        {
-                            alert('Error bad request');
-                        }
-                        else alert("An unexpeded error occured.");
-                        }
-                    }
-                    );
- 
-                }
-            });
- 
-            /* Build the DataTable with third column using our custom sort functions */
+	 });
+         
+         function cargar_tabla(url)
+         {
+              /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_lista_descartados')}}',
+                "sAjaxSource": url,
                 "aoColumns": [
                     { "mDataProp": "id" },
-                    { "mDataProp": "nombres" },
+                    { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
                     { "mDataProp": "red" },
-                    { "mDataProp":"convertido"},
-                    { "mDataProp":"inicio_leche"},
-                    { "mDataProp": "descarte"},
-                    { "mDataProp":"motivo"}
+                    { "mDataProp":"celula"},
+                    { "mDataProp":"fecha"}
                 ],
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
@@ -209,8 +162,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
- 
-	 });
+         }
   
        </script>
 {%endblock %} 
