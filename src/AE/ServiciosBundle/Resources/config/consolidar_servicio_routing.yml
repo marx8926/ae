@@ -73,3 +73,7 @@ servicio_getHerramientas:
 servicio_no_consolidados:
   pattern: /get_no_consolidados/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getNoConsolidados}
+  
+servicio_herramienta_nuevos:
+  pattern: /get_herramienta_nuevos/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getHerramientaNuevos}

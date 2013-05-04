@@ -492,7 +492,7 @@ class ConsolidarServicioController extends Controller
    
    public function getNoConsolidadosAction($inicio, $fin)
    {
-        $em = $this->getDoctrine()->getEntityManager();
+       $em = $this->getDoctrine()->getEntityManager();
        $todo = array();
 
        try
@@ -512,6 +512,71 @@ class ConsolidarServicioController extends Controller
        }  
        
        return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+   public function getHerramientaNuevosAction($inicio, $fin)
+   {
+      $em = $this->getDoctrine()->getEntityManager();
+       $todo = array();
+       $tools = array();
+
+       try
+       {
+           $init = new \DateTime($inicio);
+           $end  = new \DateTime($fin);
+           
+           $em->beginTransaction();
+           $sql = "select * from get_reporte_herramientas(:inicio,:fin)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':inicio'=>$init->format('Y-m-d H:i:s'),':fin'=>$end->format('Y-m-d H:i:s')));          
+           $todo = $smt->fetchAll(); 
+           
+           
+           $sql1 = "select * from herramienta";
+           $smt  = $em->getConnection()->prepare($sql1);
+           $smt->execute();
+           
+           $tools = $smt->fetchAll();
+           
+           
+           $herramienta = array();
+           
+           //creamos la cabezera
+           $temp = "<thead> <tr> <th>ID</th> <th>Nombres</th><th>Apellidos</th><th>Red</th>";
+           $cuerpo = "<tr> <td>ID</td> <td>Nombres</td><td>Apellidos</td><td>Red</td>";
+           
+            $result="<table id='persona' name='persona' class='table table-striped table-bordered'>";
+
+           foreach ($tools as $key => $value) {
+               $herramienta[$value['nombre']]=$value['nombre'];
+               
+               $temp = $temp."<th>".$value['nombre']."</th>";
+               $cuerpo = $cuerpo."<td>".$value['nombre']."</td>";
+               
+           }
+           $temp = $temp." </thead> </tr>";
+           $cuerpo = $cuerpo." </tr>";
+           
+           $result = $result.$temp."<tbody id='tablas1' name='tablas1'>";
+           
+           //creamos el cuerpo
+           
+           foreach ($todo as $key => $value) {               
+               $result = $result.$cuerpo; 
+           }
+           
+           $result = $result."</tbody> </table>";
+
+           $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw  $e;
+       }  
+       
+       return new Response($result); 
    }
 }
 
