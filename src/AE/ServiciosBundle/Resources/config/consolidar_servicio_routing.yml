@@ -77,3 +77,5 @@ servicio_no_consolidados:
 servicio_herramienta_nuevos:
   pattern: /get_herramienta_nuevos/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getHerramientaNuevos}
+  requirements:
+    _method: POST

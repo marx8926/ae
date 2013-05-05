@@ -20,5 +20,10 @@ class InformesController extends Controller
     {
         return $this->render('AEConsolidarBundle:Default:informeNoconsolidado.html.twig');
     }
+    
+    public function informeHerramientasAction()
+    {
+        return $this->render('AEConsolidarBundle:Default:informeHerramientas.html.twig');
+    }
 }
 

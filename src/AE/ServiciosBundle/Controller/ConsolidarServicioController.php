@@ -554,7 +554,7 @@ class ConsolidarServicioController extends Controller
            
            //creamos la cabezera
            $temp = "<thead> <tr> <th>ID</th> <th>Nombres</th><th>Apellidos</th><th>Red</th>";
-           $cuerpo = "<tr> <td>ID</td> <td>Nombres</td><td>Apellidos</td><td>Red</td>";
+           $cuerpo = "<tr> <td>N°</td><td>ID</td> <td>Nombres</td><td>Apellidos</td><td>Red</td>";
            
             $result="<table id='persona' name='persona' class='table table-striped table-bordered'>";
 
@@ -596,6 +596,8 @@ class ConsolidarServicioController extends Controller
                   $body = $this->reemplazo($body, $herramienta);
                   
                   $cadena = $cuerpo; 
+                  $cadena = str_replace('N°', strval($key), $cadena); //id
+
                   $cadena = str_replace('ID', $value['idx'], $cadena); //id
                   $cadena = str_replace('Nombres', $value['nombre'], $cadena); //nombre
                   $cadena = str_replace('Apellidos', $value['apellidos'], $cadena); //apellidos

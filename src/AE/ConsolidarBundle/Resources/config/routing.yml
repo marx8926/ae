@@ -115,3 +115,7 @@ consolidar_contacto_herramienta:
 consolidar_informe_no_consolidado:
   pattern: /informe_no_consolidado
   defaults: {_controller: AEConsolidarBundle:Informes:informeNoconsolidado}
+  
+consolidar_informe_herramientas:
+  pattern: /informe_herramientas
+  defaults: {_controller: AEConsolidarBundle:Informes:informeHerramientas}

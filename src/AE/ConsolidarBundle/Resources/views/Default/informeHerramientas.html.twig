@@ -13,7 +13,7 @@
 <div class="span9" >
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Lista de No Consolidados</h3>							
+            <h3>Informe Herramienta-Consolidados</h3>							
         </div>
 
         <div class="box-content box-nomargin">
@@ -31,22 +31,9 @@
                     <input id='pdfbutton' type='button' value='PDF' class="btn-success">
                     <input id='excelbutton' type='button' value='Excel' class="btn-success">
             
-            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
-            		<thead>
-                		<tr>
-                                    <th width="5%">ID</th>
-                                    <th>Nombres</th>
-                                    <th>Apellidos</th>
-                                    <th width="5%">Edad</th>
-                                    <th width="5%">Red</th>
-                                    <th width="10%">Célula</th>
-                                    <th width="10%">Conversión</th>
-		                </tr>
-			</thead>
-			<tbody id="tablas1" name="tablas1" >
-	
-			</tbody>
-                </table>
+                    <div  id="primer" name="primer">
+                        
+                    </div>
 
                 </form>
     	</div>
@@ -82,6 +69,7 @@
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                        <script src="{{asset('js/functiongen.js')}}">   </script>
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -102,11 +90,11 @@
             $('#rang').click(function(event){
                 event.preventDefault();
                 
-                var url = '{{path('servicio_no_consolidados',{'inicio':'init','fin':'end'}) }}';
+                var url = '{{path('servicio_herramienta_nuevos',{'inicio':'init','fin':'end'}) }}';
                 var ruta = url.replace('init',$('#inicio').val());
                 ruta = ruta.replace('end',$('#fin').val());
                 
-                cargar_tabla(ruta);
+                ajaxResposeDataPost("primer",ruta);
                 
             });
             
@@ -126,42 +114,7 @@
             });
 
 	 });
-         
-         function cargar_tabla(url)
-         {
-              /* Build the DataTable with third column using our custom sort functions */
-            oTable = $('#persona').dataTable( {
-                "bProcessing": true,
-                "bServerSide": false,
-                "bDestroy": true,
-                "sAjaxSource": url,
-                "aoColumns": [
-                    { "mDataProp": "id" },
-                    { "mDataProp": "nombre" },
-                    { "mDataProp": "apellidos" },
-                    { "mDataProp": "edad" },
-                    { "mDataProp": "red" },
-                    { "mDataProp":"celula"},
-                    { "mDataProp":"fecha"}
-                ],
-		"aaSorting": [ [0,'asc'], [1,'asc'] ],
-		"aoColumnDefs": [
-                    { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
-                "oTableTools": {
-			"sRowSelect": "single",
-                        "fnRowSelected": function ( node ) {
-                            var s=$(node).children();
-                            alert("Selected Row : " + s[0]);
-                        }
-		},
-                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
-					"sPaginationType": "bootstrap",
-					"oLanguage": {
-						"sLengthMenu": "_MENU_ registros por página"
-					}
-            } );	
-         }
+   
   
        </script>
 {%endblock %} 
