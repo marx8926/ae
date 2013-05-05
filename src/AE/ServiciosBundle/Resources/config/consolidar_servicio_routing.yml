@@ -85,3 +85,8 @@ servicio_reporte_leche_espiritual_consolida:
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getLecheEspiritualConsolida}
   requirements:
    _method: POST
+   
+   
+servicio_reporte_descartados:
+  pattern: /getDescartados/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getDescartados}

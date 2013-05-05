@@ -123,3 +123,7 @@ consolidar_informe_herramientas:
 consolidar_informe_leche_espiritual:
   pattern: /informe_leche_espiritual
   defaults: {_controller: AEConsolidarBundle:Informes:informeLecheEspiritual}
+  
+consolidar_informe_descartados:
+  pattern: /informe_descartados
+  defaults: {_controller: AEConsolidarBundle:Informes:informeDescartados}
