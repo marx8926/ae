@@ -79,3 +79,9 @@ servicio_herramienta_nuevos:
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getHerramientaNuevos}
   requirements:
     _method: POST
+    
+servicio_reporte_leche_espiritual_consolida:
+  pattern: /getLecheEspiritualConsolida/{inicio}/{fin}/{leche}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getLecheEspiritualConsolida}
+  requirements:
+   _method: POST

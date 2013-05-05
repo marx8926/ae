@@ -581,6 +581,7 @@ class ConsolidarServicioController extends Controller
            }
            $cont =0;
            $cadena = $cuerpo; 
+           $numero = 0;
            foreach ($todo as $key => $value) {               
                 
                
@@ -596,7 +597,7 @@ class ConsolidarServicioController extends Controller
                   $body = $this->reemplazo($body, $herramienta);
                   
                   $cadena = $cuerpo; 
-                  $cadena = str_replace('N°', strval($key), $cadena); //id
+                  $cadena = str_replace('N°', strval($numero), $cadena); //id
 
                   $cadena = str_replace('ID', $value['idx'], $cadena); //id
                   $cadena = str_replace('Nombres', $value['nombre'], $cadena); //nombre
@@ -606,6 +607,7 @@ class ConsolidarServicioController extends Controller
                   
                   $body = $body.$cadena;
                   $cont =$cont+1;
+                  $numero = $numero+1;
                }
                $old = $newe;
            }
@@ -622,6 +624,117 @@ class ConsolidarServicioController extends Controller
        }  
        return new Response($result);
        //return new JsonResponse($todo); 
+   }
+   
+   
+   public function getLecheEspiritualConsolidaAction($inicio, $fin, $leche)
+   {
+       $result = "";
+       
+       
+      $em = $this->getDoctrine()->getEntityManager();
+       $todo = array();
+       $tools = array();
+
+       try
+       {
+           $init = new \DateTime($inicio);
+           $end  = new \DateTime($fin);
+           
+           $em->beginTransaction();
+           $sql = "select * from get_reporte_leche_espiritual_consolida(:inicio,:fin,:leche)";
+
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':inicio'=>$init->format('Y-m-d H:i:s'),':fin'=>$end->format('Y-m-d H:i:s'),
+               ':leche'=>$leche));          
+           $todo = $smt->fetchAll(); 
+           
+           
+           $sql1 = " select * from tema_leche where id_leche_espiritual=:leche";
+           $smt  = $em->getConnection()->prepare($sql1);
+           $smt->execute(array(':leche'=>$leche));
+           
+           $tools = $smt->fetchAll();
+           
+           
+           $herramienta = array();
+           
+           //creamos la cabezera
+           $temp = "<thead> <tr> <th>ID</th> <th>Nombres</th><th>Apellidos</th><th>Red</th>";
+           $cuerpo = "<tr> <td>N°</td><td>ID</td> <td>Nombres</td><td>Apellidos</td><td>Red</td>";
+           
+            $result="<table id='persona' name='persona' class='table table-striped table-bordered'>";
+
+           foreach ($tools as $key => $value) {
+               $herramienta[$value['titulo']]=$value['titulo'];
+               
+               $temp = $temp."<th>".$value['titulo']."</th>";
+               $cuerpo = $cuerpo."<td>".$value['titulo']."</td>";
+               
+           }
+           $temp = $temp." </thead> </tr>";
+           $cuerpo = $cuerpo." </tr>";
+           
+           $result = $result.$temp;
+           
+           $body="<tbody id='tablas1' name='tablas1'>";
+           
+           //creamos el cuerpo
+           
+           if(count($todo)>0)
+           {
+                $old = $todo[0]['id'];
+                $newe = $todo[0]['id'];
+           }
+           $cont =0;
+           $cadena = $cuerpo; 
+           $numero = 0;
+           
+           foreach ($todo as $key => $value) {               
+                
+               
+               
+               $newe = $value['id'];
+               if($newe == $old && $cont!=0)
+               {
+              //      $body = str_replace($value['titulo'], ($value['hecho']==TRUE)?'T':'F', $body); //titulo
+                    $body = str_replace($value['titulo'], (count($value['fin'])>0)?'T':'F', $body); //titulo
+
+               }
+               else
+               {
+                  $body = $this->reemplazo($body, $herramienta);
+                  
+                  $cadena = $cuerpo; 
+                  $cadena = str_replace('N°', strval($numero), $cadena); //id
+                  
+
+                  $cadena = str_replace('ID', $value['id'], $cadena); //id
+                  $cadena = str_replace('Nombres', $value['nombre'], $cadena); //nombre
+                  $cadena = str_replace('Apellidos', $value['apellidos'], $cadena); //apellidos
+                  $cadena = str_replace('Red', $value['red'], $cadena); //red
+
+                  $cadena = str_replace($value['titulo'], (count($value['fin'])>0)?'T':'F', $cadena); //titulo
+                  
+                  $body = $body.$cadena;
+                  $cont =$cont+1;
+                  $numero = $numero+1;
+               }
+               $old = $newe;
+           }
+           
+           $result = $result.$body."</tbody> </table>";
+
+           $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw  $e;
+       }
+       
+       return new Response($result);
    }
 }
 

@@ -25,5 +25,10 @@ class InformesController extends Controller
     {
         return $this->render('AEConsolidarBundle:Default:informeHerramientas.html.twig');
     }
+    
+    public function informeLecheEspiritualAction()
+    {
+        return $this->render('AEConsolidarBundle:Default:InformeLecheEspiritual.html.twig');
+    }
 }
 

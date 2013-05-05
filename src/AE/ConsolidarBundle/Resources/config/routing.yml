@@ -119,3 +119,7 @@ consolidar_informe_no_consolidado:
 consolidar_informe_herramientas:
   pattern: /informe_herramientas
   defaults: {_controller: AEConsolidarBundle:Informes:informeHerramientas}
+  
+consolidar_informe_leche_espiritual:
+  pattern: /informe_leche_espiritual
+  defaults: {_controller: AEConsolidarBundle:Informes:informeLecheEspiritual}
