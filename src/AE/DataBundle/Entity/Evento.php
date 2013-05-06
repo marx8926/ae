@@ -50,6 +50,15 @@ class Evento
      */
     private $fechafin;
 
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
 
 
     /**
@@ -152,5 +161,28 @@ class Evento
     public function getFechafin()
     {
         return $this->fechafin;
+    }
+    
+    /**
+     * Set idUbicacion
+     *
+     * @param \AE\DataBundle\Entity\Ubicacion $idUbicacion
+     * @return Evento
+     */
+    public function setIdUbicacion(\AE\DataBundle\Entity\Ubicacion $idUbicacion = null)
+    {
+    	$this->idUbicacion = $idUbicacion;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get idUbicacion
+     *
+     * @return \AE\DataBundle\Entity\Ubicacion
+     */
+    public function getIdUbicacion()
+    {
+    	return $this->idUbicacion;
     }
 }

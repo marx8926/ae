@@ -132,3 +132,13 @@ administrar_lista_redes_eliminar:
     
 tools_consolidar_routing:
     resource: "@AEAdministrarBundle/Resources/config/Tools_routing.yml"
+    
+administrar_administrar_evento:
+  pattern: /administrar_evento
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:index}
+  
+administrar_registrar_evento:
+  pattern: /registrar_evento
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:RegistrarEvento}
+  requirements:
+    _method: POST

@@ -23,20 +23,6 @@ class EventoRealizado
     private $id;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fecha_inicio", type="datetime", nullable=false)
-     */
-    private $fechaInicio;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fecha_fin", type="datetime", nullable=false)
-     */
-    private $fechaFin;
-
-    /**
      * @var \Persona
      *
      * @ORM\ManyToOne(targetEntity="Persona")
@@ -56,16 +42,6 @@ class EventoRealizado
      */
     private $idEvento;
 
-    /**
-     * @var \Ubicacion
-     *
-     * @ORM\ManyToOne(targetEntity="Ubicacion")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
-     * })
-     */
-    private $idUbicacion;
-
 
 
     /**
@@ -78,51 +54,6 @@ class EventoRealizado
         return $this->id;
     }
 
-    /**
-     * Set fechaInicio
-     *
-     * @param \DateTime $fechaInicio
-     * @return EventoRealizado
-     */
-    public function setFechaInicio($fechaInicio)
-    {
-        $this->fechaInicio = $fechaInicio;
-    
-        return $this;
-    }
-
-    /**
-     * Get fechaInicio
-     *
-     * @return \DateTime 
-     */
-    public function getFechaInicio()
-    {
-        return $this->fechaInicio;
-    }
-
-    /**
-     * Set fechaFin
-     *
-     * @param \DateTime $fechaFin
-     * @return EventoRealizado
-     */
-    public function setFechaFin($fechaFin)
-    {
-        $this->fechaFin = $fechaFin;
-    
-        return $this;
-    }
-
-    /**
-     * Get fechaFin
-     *
-     * @return \DateTime 
-     */
-    public function getFechaFin()
-    {
-        return $this->fechaFin;
-    }
 
     /**
      * Set idPersona
@@ -168,28 +99,5 @@ class EventoRealizado
     public function getIdEvento()
     {
         return $this->idEvento;
-    }
-
-    /**
-     * Set idUbicacion
-     *
-     * @param \AE\DataBundle\Entity\Ubicacion $idUbicacion
-     * @return EventoRealizado
-     */
-    public function setIdUbicacion(\AE\DataBundle\Entity\Ubicacion $idUbicacion = null)
-    {
-        $this->idUbicacion = $idUbicacion;
-    
-        return $this;
-    }
-
-    /**
-     * Get idUbicacion
-     *
-     * @return \AE\DataBundle\Entity\Ubicacion 
-     */
-    public function getIdUbicacion()
-    {
-        return $this->idUbicacion;
     }
 }
