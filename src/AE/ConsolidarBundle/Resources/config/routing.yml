@@ -95,12 +95,7 @@ consolidar_cambiar_consolidador_update:
   defaults: {_controller: AEConsolidarBundle:Cambiar:cambiar_consolidador_update}
   requirements:
     _method: POST
-    
 
-consolidar_vista:
-  pattern: /vista/{id}
-  defaults: {_controller: AEConsolidarBundle:Default:vista}
-  
 consolidar_contacto:
   pattern: /contacto
   defaults: {_controller: AEConsolidarBundle:Contacto:contacto}
@@ -127,3 +122,8 @@ consolidar_informe_leche_espiritual:
 consolidar_informe_descartados:
   pattern: /informe_descartados
   defaults: {_controller: AEConsolidarBundle:Informes:informeDescartados}
+  
+  
+consolidar_vista:
+  pattern: /vista/{id}
+  defaults: {_controller: AEConsolidarBundle:Vista:vista}

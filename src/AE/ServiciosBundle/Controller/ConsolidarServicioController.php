@@ -363,8 +363,8 @@ class ConsolidarServicioController extends Controller
                                            </tr>";
                          }
                          else {
-                                $result = $result."<td> <input type='date' id='dia".$key."' name='dia".$key."' class='datepick' > </td>
-                                            <td> <input type='datetime' id='hora".$key."' name='hora".$key."' class='timepicker' > </td>
+                                $result = $result."<td> <input type='date' id='dia".$key."' name='dia".$key."' class='datepicker' > </td>
+                                            <td> <input type='datetime' id='hora".$key."' name='hora".$key."' class='timepicker' value='00:00:00' > </td>
                                             <td><input type='checkbox' id='check".$key."' name='check".$key."' ></td>.
                                            </tr>";
                          }
@@ -553,7 +553,7 @@ class ConsolidarServicioController extends Controller
            $herramienta = array();
            
            //creamos la cabezera
-           $temp = "<thead> <tr> <th>ID</th> <th>Nombres</th><th>Apellidos</th><th>Red</th>";
+           $temp = "<thead> <tr> <th>N°</th><th>ID</th> <th>Nombres</th><th>Apellidos</th><th>Red</th>";
            $cuerpo = "<tr> <td>N°</td><td>ID</td> <td>Nombres</td><td>Apellidos</td><td>Red</td>";
            
             $result="<table id='persona' name='persona' class='table table-striped table-bordered'>";

@@ -16,13 +16,5 @@ class DefaultController extends Controller
         return $this->render('AEConsolidarBundle:Default:index.html.twig', array('name' => $name));
     }
 
-     
-     
-     public function vistaAction($id)
-     {
-         return $this->render('AEConsolidarBundle:Default:vista.html.twig', array('id'=>$id));
-     }
-     
 
-     
 }

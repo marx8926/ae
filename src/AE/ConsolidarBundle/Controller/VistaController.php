@@ -25,5 +25,12 @@ class VistaController extends Controller
     {
          return $this->render('AEConsolidarBundle:Default:lista_consolidados.html.twig');
     }
+    
+     public function vistaAction($id)
+     {
+         return $this->render('AEConsolidarBundle:Default:vista.html.twig', array('id'=>$id));
+     }
+     
+
 }
 

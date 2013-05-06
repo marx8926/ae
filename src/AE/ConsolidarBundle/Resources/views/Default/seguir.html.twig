@@ -166,15 +166,11 @@
         
 	$(document).ready(function() {
 
-          tema({{code}});
-          consolidador({{consolidador}});
-    
+            tema({{code}});
+            consolidador({{consolidador}});
             $("#myForm").submit(function(){
             //get the url for the form
             var url=$("#myForm").attr("action");
-            
-            
-            console.log($("#myForm").serialize());
 
             $.post(url,{
              formName:$("#myForm").serialize(),
