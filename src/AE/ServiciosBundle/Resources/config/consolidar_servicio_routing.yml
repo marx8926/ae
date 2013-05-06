@@ -90,3 +90,8 @@ servicio_reporte_leche_espiritual_consolida:
 servicio_reporte_descartados:
   pattern: /getDescartados/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getDescartados}
+  
+  
+servicio_reporte_almas_por_consolidador:
+  pattern: /getReporteAlmasConsolidador/{id}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getReporteAlmasConsolidador}

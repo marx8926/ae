@@ -740,7 +740,7 @@ class ConsolidarServicioController extends Controller
    
    public function getDescartadosAction($inicio, $fin)
    {
-        $em = $this->getDoctrine()->getEntityManager();
+       $em = $this->getDoctrine()->getEntityManager();
        $todo = array();
 
        try
@@ -749,6 +749,30 @@ class ConsolidarServicioController extends Controller
            $sql = "select * from get_reporte_descartados(:inicio,:fin)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':inicio'=>$inicio,':fin'=>$fin));          
+           $todo = $smt->fetchAll(); 
+           $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw  $e;
+       }  
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+   
+   public function getReporteAlmasConsolidadorAction($id)
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+       $todo = array();
+
+       try
+       {
+           $em->beginTransaction();
+           $sql = "select * from get_reporte_consolidados_consolidador(:id)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':id'=>$id));          
            $todo = $smt->fetchAll(); 
            $em->commit();
        }
