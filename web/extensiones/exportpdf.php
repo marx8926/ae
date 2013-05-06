@@ -9,6 +9,7 @@
 		border: 1px solid #000;
     	text-align: left;
     	width: 100%;
+    	margin: 0 auto;
 	}
 	th, td {
 		border: 1px solid #000;
