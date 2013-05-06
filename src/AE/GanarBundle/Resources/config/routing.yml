@@ -58,3 +58,9 @@ ganar_informe_ganar_fechas:
 ganar_informe_semanal:
   pattern: /informe_semanal
   defaults: {_controller: AEGanarBundle:Informe:InformeSemanal}
+  
+  
+ganar_test:
+  pattern: /test_tiempo
+  pattern: /test_tiempo
+  defaults: {_controller: AEGanarBundle:Default:test}
