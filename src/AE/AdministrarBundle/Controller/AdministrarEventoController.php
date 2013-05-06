@@ -98,16 +98,11 @@ class AdministrarEventoController extends Controller{
                 $em->persist($Ubicacion);
                 $em->flush();
                 
-                // Evento
+                $sql = "INSERT INTO evento(nombre, descripcion, \"fechaIni\", \"fechaFin\", id_ubicacion)
+    					VALUES ('".$nombre."', '".$descripcion."','".date("Y-m-d", strtotime($fecha_inicio))."', '".date("Y-m-d", strtotime($fecha_fin))."', ".$Ubicacion->getId().");";
                 
-               	$Evento =  new Evento();
-                $Evento->setNombre($nombre);
-                $Evento->setDescripcion($descripcion);
-                $Evento->setFechaini($date_fecha_inicio);
-                $Evento->setFechafin($date_fecha_fin);
-                $Evento->setIdUbicacion($Ubicacion);
-                $em->persist($Evento);
-                $em->flush();
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute();
 		
 			}catch(Exception $e)
 			{
@@ -130,26 +125,26 @@ class AdministrarEventoController extends Controller{
 		
 	}
 	
-	public function EliminarAsignacionAction(){
+	public function EliminarEventoAction(){
 		$request = $this->get('request');
 		$form=$request->request->get('formName');		
 		$datos = array();		
 		parse_str($form,$datos);
-		$idAsignacion = null;
+		$idEvento = null;
 		
 		if($form!=NULL){						
 			$em = $this->getDoctrine()->getEntityManager();
 			$this->getDoctrine()->getEntityManager()->beginTransaction();                        
           
-			$idAsignacion = intval($datos["id"]);
-			$sql = "select delete_curso_impartido(:idx)";
+			$idEvento =$datos["id"];
+			$sql = "delete FROM evento where id =".$idEvento;
 							
 			$smt = $em->getConnection()->prepare($sql);
-			$smt->execute(array(':idx'=> $idAsignacion));
+			$smt->execute();
                           
                          
             $this->getDoctrine()->getEntityManager()->commit();
-			$return=array("responseCode"=>200, "datos"=>$idAsignacion);
+			$return=array("responseCode"=>200, "datos"=>$datos);
 		}
 		else{
                     $this->getDoctrine()->getEntityManager()->rollback();
