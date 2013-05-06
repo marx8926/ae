@@ -161,29 +161,18 @@
 	<script src="{{asset('js/jquery.color.js')}}"></script>
 	<script src="{{asset('js/jquery.flot.resize.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>            
-    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
-    <script src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
-    <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
-    <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+        <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+        <script src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
+        <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
+        <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
         <script src="{{asset('js/functiongen.js')}}"> </script>
+        <script src="{{asset('js/mapa.js')}}"></script>
+        <script src="{{asset('js/ganar.js')}}"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->
 	
 	<script type="text/javascript">
-                $(function() {
-		
-		var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
-		  elements: {
-		    map:      "#map",
-		    lat:      "#lat",
-		    lng:      "#lng"
-		  }
-		});
-		var gmarker = addresspickerMap.addresspicker( "marker");
-		gmarker.setVisible(true);
-		addresspickerMap.addresspicker( "updatePosition");
-		
-                });
+          
                 
                 function listas(entrada)
                 {
@@ -233,34 +222,15 @@
                         ).done(iglesias);
                  
            
-                          //lista de redes
-                     $.ajax(
-                        {url : '{{path('servicio_red')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                      ).done(redes);
-           
-            
-                       //lista de departamentos
-                        $.ajax(
-                        {url : '{{path('servicio_region')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                        ).done(departamentos);
-                 
+                        //lista de redes
+                      initRed('{{path('servicio_red')}}');
 
-                        //cambio de departamento
-                        $("#departamento_lista").change(recarga_provincias);
-                  
-                        //cambio de provincia
-                        $("#provincia_lista").change(recarga_distritos);
-              
-                   
-                        $("#red_lista").change(recargar_celula);
+                        //lista de departamentos
+                        initDepartamentos('{{path('servicio_region')}}'); 
+ 
+                        //lista de lugares
+                        initLugar('{{path('servicio_lugar')}}');
+            
                     
                     var x =$("login");
                     x.click();
@@ -275,9 +245,7 @@
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-                   
-                    console.log(data);
-                    
+                                       
                     if(data.responseCode==200 ){           
                        // $('#output').html(data.greeting);
                         //$('#output').css("color","red");
@@ -312,6 +280,9 @@
 
                     //we dont what the browser to submit the form
                     return false;});
+                    
+                    mapeo_position('lat','lng','addresspicker_map','map');     
+
 
                 });
 
@@ -324,37 +295,7 @@
                         $('<option value='+datos.id+'>'+datos.nombre+'</option>').appendTo('#iglesia_lista');
                     } 
                 }
-               
-            
-                 //lugares
-            function lug(dato)
-            {
-             
-                $('#lugar').empty();
-                for(var i=0; i<dato.length; i++)
-                {
-                      
-                    $('<option value='+dato[i].id+'>'+dato[i].nombre+'</option>').appendTo('#lugar');
-
-                }
-                
-            }
-            function redes(dato)
-            {        
-                $('#red_lista').empty();
-                     
-                $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
-                
-                for(var i=0;i<dato.length;i++)
-                {
-               
-                    
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#red_lista');
-                }    
-          
-                recargar_celula();
-            }
-            
+   
             function recargar_celula()
             {
                 var nombre = $("#red_lista option:selected").val();  
@@ -371,15 +312,7 @@
                         }
                         ).done(celula);     
             }
-            function celula(dato)
-            {
-                $('#celula_lista').empty();
-                for(var i=0;i<dato.length; i++)
-                {
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#celula_lista');
-                }
-            }
-         
+                  
              function departamentos(datos)
                 {
                     for(var i=0; i<datos.length ; i++)
@@ -433,14 +366,6 @@
                         }
                     ).done(distrito);
                 }
-                function distrito(dato)
-                {
-                   
-                     $("#distrito_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
-                    }
-                }
+                
             </script>            
 {%endblock%}

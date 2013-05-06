@@ -196,8 +196,16 @@ class EnviarServicioController extends Controller
             $smt2 = $em->getConnection()->prepare($sql);
             $pastor = $smt2->fetchAll();
             
-            $todo = $lider_red+$misionero;
-            $todo = $todo+$pastor;
+            $todo = $lider_red;
+            foreach ($misionero as $key => $value) {
+                $todo[]=$value;                
+            }
+            
+            foreach ($pastor as $key => $value) {
+                $todo[]=$value;
+            }
+            //$todo = $misionero;
+           // $todo = $todo+$pastor;
             
             $em->commit();
         }
