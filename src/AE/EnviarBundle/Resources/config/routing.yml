@@ -42,11 +42,11 @@ enviar_temacelula_updated:
 
 enviar_lista_clases:
   pattern: /lista_clases
-  defaults: {_controller: AEEnviarBundle:Default:lista_clases}
+  defaults: {_controller: AEEnviarBundle:Clase:lista_clases}
   
 enviar_lista_clases_descarga:
   pattern: /lista_clases_descarga
-  defaults: {_controller: AEEnviarBundle:Default:lista_clases_descarga}
+  defaults: {_controller: AEEnviarBundle:Clase:lista_clases_descarga}
   requirements:
     _method: POST
     
