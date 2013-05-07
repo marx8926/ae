@@ -171,8 +171,7 @@
         <script src="{{asset('js/ganar.js')}}"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->
 	
-	<script type="text/javascript">
-          
+	<script type="text/javascript">          
                 
                 function listas(entrada)
                 {
@@ -180,8 +179,7 @@
                     console.log('rede'+rede);
                     if(rede!='-1')
                     switch(entrada)
-                    {
-                        
+                    {                        
                         case 0: //lider de red
                             
                             ajaxListPost('{{path('_enviar_lista_lider_red_cell')}}','ids',rede);
@@ -263,34 +261,18 @@
                         {
                             alert('Solo se puede registrar una iglesia');
                         }
-                        //if we got to this point we know that the controller
-                        //did not return a json_encoded array. We can assume that           
-                        //an unexpected PHP error occured
+                      
                         else alert("An unexpeded error occured.");
 
-                        //if you want to print the error:
-                        //$('#output').html(data);
                         }
-                    }
-       
+                    }       
                     );
-
-
-                    //It is silly. But you should not write 'json' or any thing as the fourth parameter. It should be undefined. I'll explain it futher down
-
-                    //we dont what the browser to submit the form
-                    return false;});
-                    
+                    return false;});                    
                     mapeo_position('lat','lng','addresspicker_map','map');     
-
-
-                });
+            });
 
                 function iglesias(datos)
                 {
-                    //console.log(datos.length);
-                    
-                    //for(var i=0; i<datos.length ; i++)
                     {
                         $('<option value='+datos.id+'>'+datos.nombre+'</option>').appendTo('#iglesia_lista');
                     } 

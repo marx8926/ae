@@ -204,9 +204,7 @@ class EnviarServicioController extends Controller
             foreach ($pastor as $key => $value) {
                 $todo[]=$value;
             }
-            //$todo = $misionero;
-           // $todo = $todo+$pastor;
-            
+       
             $em->commit();
         }
         catch(Exception $e)
