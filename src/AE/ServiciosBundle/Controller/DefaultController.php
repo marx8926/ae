@@ -776,52 +776,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        return new JsonResponse(array('aaData'=>$todo));
    }
    
-   public function contar_clase_celulaAction()
-   {
-      $this->getDoctrine()->getEntityManager()->beginTransaction();
-       
-       $todo = array();
-       
-       try
-       {
-           $em = $this->getDoctrine()->getEntityManager();
-           $sql = "select *from lista_tema_celula";
-           $smt = $em->getConnection()->prepare($sql);
-           $smt->execute();
-           $temp = $smt->fetchAll();
-           
-           $n = count($temp);
-           
-           for($i=0; $i<$n; $i++)
-           {
-               $sql1 = "select count(*) as num from clase_cell c where c.id_tema_celula=:id";
-               $smt1 = $em->getConnection()->prepare($sql1);
-               $smt1->execute(array(':id'=>$temp[$i]['id']));
-               $total = $smt1->fetch();
-               
-               $fila = array();
-               
-               $fila['id'] = $temp[$i]['id'];
-               $fila['titulo'] = $temp[$i]['titulo'];
-               $fila['fecha'] = $temp[$i]['fecha'];
-               $fila['autor'] = $temp[$i]['autor'];
-               $fila['tipo'] = $temp[$i]['tipo'];
-               $fila['enviado'] = $total['num'];
-
-
-               $todo[] = $fila;
-           }
-           $this->getDoctrine()->getEntityManager()->commit();
-       }
-       catch (Exception $e)
-       {
-           $this->getDoctrine()->getEntityManager()->rollback();
-           $this->getDoctrine()->getEntityManager()->close();
-       }
-       
-       return new JsonResponse(array('aaData'=>$todo));  
-   }
-   
+ 
    public function enviar_lista_celulaAction($id)
    {
          $this->getDoctrine()->getEntityManager()->beginTransaction();

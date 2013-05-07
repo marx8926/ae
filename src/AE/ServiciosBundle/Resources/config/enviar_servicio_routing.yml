@@ -49,3 +49,7 @@ servicio_enviar_temas_celula:
   pattern: /temas_celula
   defaults: {_controller: AEServiciosBundle:EnviarServicio:temas_celula}
    
+   
+servicio_enviar_contar_clase_celula:
+  pattern: /contar_clase_celula
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:contar_clase_celula}

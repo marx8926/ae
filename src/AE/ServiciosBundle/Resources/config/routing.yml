@@ -157,11 +157,7 @@ servicio_lider_red_id:
 servicio_enviar_clase_celula:
   pattern: /clase_celula
   defaults: {_controller: AEServiciosBundle:Default:clase_celula}
-  
-servicio_enviar_contar_clase_celula:
-  pattern: /contar_clase_celula
-  defaults: {_controller: AEServiciosBundle:Default:contar_clase_celula}
-  
+    
 servicio_enviar_lista_celula:
   pattern: /enviar_lista_celula/{id}
   defaults: {_controller: AEServiciosBundle:Default:enviar_lista_celula}
