@@ -76,11 +76,11 @@ enviar_asistencia:
   pattern: /asistencia
   defaults: {_controller: AEEnviarBundle:Asistencia:asistencia}
 
-enviar_redes:
-  pattern: /redes
-  defaults: {_controller: AEEnviarBundle:Default:red}  
+##enviar_redes:
+  #pattern: /redes
+  #defaults: {_controller: AEEnviarBundle:Default:red}  
   
-enviar_celulas_por_red:
-  pattern: /celulas_por_red
-  defaults: {_controller: AEEnviarBundle:Default:celulasbyred}  
+#enviar_celulas_por_red:
+  #pattern: /celulas_por_red
+  #defaults: {_controller: AEEnviarBundle:Default:celulasbyred}  
   

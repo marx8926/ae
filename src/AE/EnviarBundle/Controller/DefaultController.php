@@ -24,6 +24,7 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class DefaultController extends Controller
 {
+    /*
     public function indexAction($name)
     {
         return $this->render('AEEnviarBundle:Default:index.html.twig', array('name' => $name));
@@ -37,5 +38,7 @@ class DefaultController extends Controller
     {
     	return $this->render('AEEnviarBundle:Default:celulasbyred.html.twig');
     }
+     * 
+     */
 
 }

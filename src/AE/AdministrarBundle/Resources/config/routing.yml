@@ -3,7 +3,7 @@ ae_administrar_homepage:
     defaults: { _controller: AEAdministrarBundle:Default:index }
 administrar_iglesia:
     pattern: /iglesias
-    defaults: {_controller: AEAdministrarBundle:Default:igle}
+    defaults: {_controller: AEAdministrarBundle:Iglesia:igle}
     
 administrar_addigle:
     pattern: /regigle
