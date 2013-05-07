@@ -7,17 +7,17 @@ administrar_iglesia:
     
 administrar_addigle:
     pattern: /regigle
-    defaults: {_controller: AEAdministrarBundle:Default:addigle}
+    defaults: {_controller: AEAdministrarBundle:Iglesia:addigle}
     requirements:
           _method: POST
     
 administrar_modiglesia:
   pattern: /modiglesia
-  defaults: {_controller: AEAdministrarBundle:Default:modiglesia}
+  defaults: {_controller: AEAdministrarBundle:Iglesia:modiglesia}
   
 administrar_updateiglesia:
   pattern: /updateiglesia
-  defaults: {_controller: AEAdministrarBundle:Default:updateiglesia}
+  defaults: {_controller: AEAdministrarBundle:Iglesia:updateiglesia}
   requirements:
       _method: POST
 
