@@ -42,7 +42,7 @@ class EnviarServicioController extends Controller
         return new Response("<select id='redes_select_option'>".$cadena."</select>");
         
     }
-    
+    //por eliminar este codigo
     public function getListaCelulaAction()
     {
         
@@ -59,7 +59,7 @@ class EnviarServicioController extends Controller
            
             $em = $this->getDoctrine()->getEntityManager();
        }
-        
+        return new Response();
        
     }
     public function   getLiderRedCellAction()
@@ -253,7 +253,7 @@ class EnviarServicioController extends Controller
 					<td>".$val['nombre']."</td>
 					<td>".$val['apellidos']."</td>
 					<td>".$val['fecha_creacion']."</td>
-					<td>".($val['tipo']=0?'Evangelistica':'Discipulado')."</td>
+					<td>".(($val['tipo']==0)?'Evangelistica':'Discipulado')."</td>
 					<td><input type='button' id='ver' class='button_ver' data='".$val["id"]."' onclick='IrATema(this)' value='Ver'></td>
 					</tr>
 					";
@@ -344,9 +344,7 @@ class EnviarServicioController extends Controller
        
        return new Response($result);
     }
-    
-       
-
+  
    public function temas_celulaAction()
    {
        $this->getDoctrine()->getEntityManager()->beginTransaction();

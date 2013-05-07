@@ -87,8 +87,11 @@ class ClaseController extends Controller
         return $this->render('AEEnviarBundle:Default:crearclase_celula.html.twig');
     }
     
-      public function crear_class_cell_updateAction()
+    public function crear_class_cell_updateAction()
     {
+        
+        //cambiar a procedimientos almacenados
+        
         $request = $this->get('request');
         
         $form=$request->request->get('formName');
@@ -97,15 +100,7 @@ class ClaseController extends Controller
         $datos = array();
 
         parse_str($form,$datos);
-       
-        /*
-        $return=array("responseCode"=>200, "greeting"=>$fila);     
-       
-        $return=json_encode($return);//jscon encode the array
-        
-        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-        */
-        
+               
        if($form!=NULL){
                    
             $id = $fila[0];
@@ -119,7 +114,7 @@ class ClaseController extends Controller
             
             $em = $this->getDoctrine()->getEntityManager();
       
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             { 
                 
@@ -231,14 +226,14 @@ class ClaseController extends Controller
                           
                     }
                 }
-               $this->getDoctrine()->getEntityManager()->commit();
+               $em->commit();
   
                $return=array("responseCode"=>200,  "greeting"=>'good');
 
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
     
                throw $e;

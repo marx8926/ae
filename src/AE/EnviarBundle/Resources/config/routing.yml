@@ -62,17 +62,19 @@ enviar_crear_class_cell_update:
   
 enviar_asistencia_celula:
   pattern: /asistencia_celula
-  defaults: {_controller: AEEnviarBundle:Default:asistencia_celula}
+  defaults: {_controller: AEEnviarBundle:Asistencia:asistencia_celula}
+  requirements:
+    _method: POST
   
 enviar_asistencia_celula_update:
   pattern: /asistencia_celula_update
-  defaults: {_controller: AEEnviarBundle:Default:asistencia_celula_update}
+  defaults: {_controller: AEEnviarBundle:Asistencia:asistencia_celula_update}
   requirements:
     _method: POST
     
 enviar_asistencia:
   pattern: /asistencia
-  defaults: {_controller: AEEnviarBundle:Default:asistencia}
+  defaults: {_controller: AEEnviarBundle:Asistencia:asistencia}
 
 enviar_redes:
   pattern: /redes
