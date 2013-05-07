@@ -1,0 +1,305 @@
+{% extends "::base.html.twig" %}
+  {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+ {% endblock %}
+         
+  {%block javascript %}
+  	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>			
+	<script src="{{asset('js/functiongen.js')}}"></script>
+	<script src="{{asset('js/datatable_plugins.js')}}"></script>
+	<script src="{{asset('js/mapa.js')}}"></script>
+	<script src="{{asset('js/ganar.js')}}"></script>
+	<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+	<script src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
+    <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>   
+            
+    <script type="text/javascript">
+
+		    var trselected; 
+			var oTable = null;
+			var values = [];
+            $(document).ready(function() {
+				     	
+				enviar("RegistrarEventoForm",sayhola);
+				enviar("EliminarEventoForm",sayhola);
+
+				$("#pdfAsignacion").click(function(event) {
+		            $("#tabla_asignacion th").css("width","auto");
+		        	$("#content").val($("#tabla_asignacion").html());
+		        	$("#title").val($("h3").html());
+		            $("#AsignacionExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+			 		$("#AsignacionExportForm").submit();
+		        });
+
+				//lista de departamentos
+				initDepartamentos('{{path("servicio_region")}}');
+
+              	//lista de lugares
+                initLugar('{{path("servicio_lugar")}}');
+
+                mapeo_position('lat','lng','addresspicker_map','map'); 
+				
+		        $("#excelPAsignacion").click(function(event) {
+		        	$("#content").val("<table>" + $("#tabla_asignacion").html() + "</table>");
+					$("#AsignacionExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+					$("#AsignacionExportForm").submit();
+				        });
+		    	
+		        $('#tabla_asignacion tbody').click(function(event){
+					$(oTable.fnSettings().aoData).each(function(){
+						$(this.nTr).removeClass('row_selected');
+			 		});
+			        $(event.target.parentNode).addClass('row_selected');
+			        	trselected = $(event.target.parentNode);
+			            var tds = $(trselected).find('td');
+			  			$.each(tds, function(index, item) {
+			            	values.push(item.innerHTML); 
+			            });
+			  			var anSelected = fnGetSelected(oTable);
+						if(anSelected.length !=0){
+							var tds = $(anSelected).find('td');
+							var val = [];
+							$.each(tds, function(index, item) {
+								val.push(item.innerHTML); 
+							});
+							$("#eliminar").prop('disabled', false);
+							$("#idEventoEliminar").val(val[0]);       
+							}
+						});
+			        oTable = $('#tabla_asignacion').dataTable({
+						"bProcessing": true,
+						"bServerSide": false,
+						"bDestroy": true,
+						"sAjaxSource": '{{path("_tabla_eventos")}}',
+						"aoColumns": [
+					            { "mDataProp": "id" },
+			                    { "mDataProp": "nombre" },
+			                    { "mDataProp": "descripcion" },
+			                    { "mDataProp": "fechaFin"},
+			                    { "mDataProp":"fechaIni"}
+					                ],
+						"aaSorting": [ [0,'asc'], [1,'asc'] ],
+						"aoColumnDefs": [
+				        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
+						"sDom": 'T<"clear">lfrtip',
+				        "oTableTools": {
+							"sRowSelect": "single",
+				            "fnRowSelected": function ( node ) {
+				            	var s=$(node).children();
+				                alert("Selected Row : " + s[0]);
+				            }
+						},
+						"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+						"sPaginationType": "bootstrap",
+						"oLanguage": {
+							"sLengthMenu": "_MENU_ registros por página"
+						}
+					});
+            	});
+            
+            var sayhola = function(data){
+        		console.log(data);
+        		$("#RegistrarEventoForm").reset();
+        		oTable.fnReloadAjax();
+        		 };
+
+        	function departamentos(datos)
+            {
+                for(var i=0; i<datos.length ; i++)
+                {
+                    $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
+                } 
+
+                recarga_provincias();
+            }
+
+         function recarga_provincias()
+         {
+             var route = '{{path('servicio_provincia',{'id': 'nom'})}}';            
+
+             var id = $("#departamento_lista option:selected").val();              
+             var rutas = route.replace('nom',id);         
+             $.ajax(
+                    {   url : rutas,
+                        dataType:"json",
+                        type: "POST",
+                        async: false,
+                    }
+                ).done(provincias);
+                    
+         }  
+        
+            function provincias(dato)
+            {
+                 $("#provincia_lista").empty();
+                 for(var i=0;i<dato.length;i++)
+                {
+                    $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
+                }
+
+                recarga_distritos();
+                
+            }
+            
+            function recarga_distritos()
+            {
+                var route = '{{path('servicio_distrito',{'dep':'id1','prov':'id2'})}}';
+
+                var dep=$("#departamento_lista option:selected").val();
+                var prov = $("#provincia_lista option:selected").val();
+
+                
+                var rutas = route.replace('id1', dep);                    
+                rutas = rutas.replace('id2', prov);
+                
+                 $.ajax(
+                    {   url : rutas,
+                        dataType:"json",
+                        type: "POST",
+                        async: false,
+                    }
+                ).done(distrito);
+            };
+
+    </script>             
+{%endblock%}
+            
+            
+{% block content %}
+    <fieldset>
+		<form id="RegistrarEventoForm" class="form-horizontal" method="POST" action="{{path('administrar_registrar_evento')}}">
+			<legend>Crear Evento</legend>
+			<div class="control-group">
+				<label class="control-label">Nombre</label>
+				<div class="controls">
+					<input type="text" class="input-xxlarge" id="inputNombre" name="inputNombre" required />
+                </div>
+            </div>
+			<div class="control-group">
+				<label class="control-label">Descripcion</label>
+				<div class="controls">
+					<input type="text" class="input-xxlarge" id="inputDescripcion" name="inputDescripcion" required />
+                </div>
+            </div>
+			<div class="control-group">
+				<label class="control-label">Fecha de Inicio</label>
+				<div class="controls">
+					<input type="date" name="fecha_inicio" required>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">Fecha de Fin</label>
+				<div class="controls">
+					<input type="date" name="fecha_fin" required>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">Dirección</label>
+				<div class="controls">
+					<input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" required />
+                </div>
+            </div>
+        
+			<div class="control-group">
+				<label class="control-label">Referencia</label>
+				<div class="controls" >
+					<input type="text" class="input-xxlarge" id="inputReferencia" name="inputReferencia" />
+				</div>
+			</div>
+                
+			<div class="control-group">
+				<label class="control-label" >Departamento</label>
+				<div class="controls">
+					<select name="departamento_lista" id="departamento_lista" required ></select>
+				</div>
+			</div>
+        
+			<div class="control-group">
+				<label class="control-label" >Provincia</label>
+				<div class="controls">
+					<select name="provincia_lista" id="provincia_lista" required></select>
+                </div>
+			</div>
+        
+			<div class="control-group">
+				<label class="control-label">Distrito</label>
+				<div class="controls">
+					<select name="distrito_lista" id="distrito_lista" required></select>
+				</div>        
+			</div>
+			
+			<div class="control-group">
+	            <label>Ubicación</label>
+	                   <div id="map-ll">
+			            	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
+							<label>Latitud:</label> <input id="lat" name="latitud"  value="">
+			                <label>Longitud:</label> <input id="lng" name="longitud" value=""> <br/>
+			            </div>
+	            <div id="map"></div>
+			</div>			
+			
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" value="Enviar">
+				</div>
+			</div>
+		</form>
+	</fieldset>
+	<fieldset>
+		<div class="box">
+		<div class="box-head tabs">
+            <h3>Administrar Asignaciones</h3>						
+        </div>
+        <div class="box-content box-nomargin">
+        	<form id='AsignacionExportForm' method='POST'>
+        		<input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+                <input id='pdfAsignacion' type='button' value='PDF' class="btn-success">
+                <input id='excelPAsignacion' type='button' value='Excel' class="btn-success">
+            </form>
+		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="tabla_asignacion" name="tabla_asignacion">
+		    	<thead>
+		            <tr>
+						<th>ID</th>
+						<th>Nombre</th>
+						<th>Descripcion</th>
+						<th>Fecha Inicio</th>
+						<th>Fecha Fin</th>
+		            </tr>
+				</thead>
+				<tbody id="tablas2" name="tablas2" ></tbody>
+		    </table>
+		</div>
+		<form  method="POST" id="EliminarEventoForm" action='{{path('administrar_eliminar_evento')}}'>
+		<div class="form-horizontal">
+			<input id="idEventoEliminar" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="eliminar" name="enviar" value="Eliminar">
+		</div>
+		</form>
+	</div>
+	</fieldset>
+{% endblock %}  

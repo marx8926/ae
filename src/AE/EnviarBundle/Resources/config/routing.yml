@@ -1,56 +1,80 @@
 enviar_celula:
   pattern: /celula
-  defaults: {_controller: AEEnviarBundle:Default:celula}
+  defaults: {_controller: AEEnviarBundle:Celula:celula}
   
 enviar_addcelula:
   pattern: /regcelula
-  defaults: {_controller: AEEnviarBundle:Default:addcelula}
+  defaults: {_controller: AEEnviarBundle:Celula:addcelula}
+  requirements:
+    _method: POST
+
+enviar_busqueda_celula:
+  pattern: /busqueda_celula
+  defaults: {_controller: AEEnviarBundle:Busqueda:busqueda_celula}
+
+enviar_modificar_celula:
+  pattern: /modificar_celula
+  defaults: {_controller: AEEnviarBundle:Modificar:modificar_celula}
+  requirements:
+    _method: POST
+    
+enviar_modificar_celula_update:
+  pattern: /modificar_celula_update
+  defaults: {_controller: AEEnviarBundle:Modificar:modificarCelulaUpdate}
+  requirements:
+    _method: POST
+    
+enviar_eliminar_celula:
+  pattern: /eliminar_celula
+  defaults: {_controller: AEEnviarBundle:Eliminar:eliminarCelula}
   requirements:
     _method: POST
 
 enviar_temacelula:
   pattern: /temacelula
-  defaults: {_controller: AEEnviarBundle:Default:temacelula}
+  defaults: {_controller: AEEnviarBundle:Temas:temacelula}
   
 enviar_temacelula_updated:
   pattern: /temacelula_updated
-  defaults: {_controller: AEEnviarBundle:Default:temacelula_updated}
+  defaults: {_controller: AEEnviarBundle:Temas:temacelula_updated}
   requirements:
     _method: POST
 
 enviar_lista_clases:
   pattern: /lista_clases
-  defaults: {_controller: AEEnviarBundle:Default:lista_clases}
+  defaults: {_controller: AEEnviarBundle:Clase:lista_clases}
   
 enviar_lista_clases_descarga:
   pattern: /lista_clases_descarga
-  defaults: {_controller: AEEnviarBundle:Default:lista_clases_descarga}
+  defaults: {_controller: AEEnviarBundle:Clase:lista_clases_descarga}
   requirements:
     _method: POST
     
 enviar_crear_class_cell:
   pattern: /crear_class_cell
-  defaults: {_controller: AEEnviarBundle:Default:crear_class_cell}
+  defaults: {_controller: AEEnviarBundle:Clase:crear_class_cell}
 
 enviar_crear_class_cell_update:
   pattern: /crear_class_cell_update
-  defaults: {_controller: AEEnviarBundle:Default:crear_class_cell_update}
+  defaults: {_controller: AEEnviarBundle:Clase:crear_class_cell_update}
   requirements:
     _method: POST
   
 enviar_asistencia_celula:
   pattern: /asistencia_celula
-  defaults: {_controller: AEEnviarBundle:Default:asistencia_celula}
+  defaults: {_controller: AEEnviarBundle:Asistencia:asistencia_celula}
+  requirements:
+    _method: POST
   
 enviar_asistencia_celula_update:
   pattern: /asistencia_celula_update
-  defaults: {_controller: AEEnviarBundle:Default:asistencia_celula_update}
+  defaults: {_controller: AEEnviarBundle:Asistencia:asistencia_celula_update}
   requirements:
     _method: POST
     
 enviar_asistencia:
   pattern: /asistencia
-  defaults: {_controller: AEEnviarBundle:Default:asistencia}
+  defaults: {_controller: AEEnviarBundle:Asistencia:asistencia}
 
 enviar_redes:
   pattern: /redes
@@ -60,24 +84,3 @@ enviar_celulas_por_red:
   pattern: /celulas_por_red
   defaults: {_controller: AEEnviarBundle:Default:celulasbyred}  
   
-enviar_busqueda_celula:
-  pattern: /busqueda_celula
-  defaults: {_controller: AEEnviarBundle:Default:busqueda_celula}
-  
-enviar_modificar_celula:
-  pattern: /modificar_celula
-  defaults: {_controller: AEEnviarBundle:Default:modificar_celula}
-  requirements:
-    _method: POST
-    
-enviar_modificar_celula_update:
-  pattern: /modificar_celula_update
-  defaults: {_controller: AEEnviarBundle:Default:modificarCelulaUpdate}
-  requirements:
-    _method: POST
-    
-enviar_eliminar_celula:
-  pattern: /eliminar_celula
-  defaults: {_controller: AEEnviarBundle:Default:eliminarCelula}
-  requirements:
-    _method: POST

@@ -42,7 +42,7 @@ class EnviarServicioController extends Controller
         return new Response("<select id='redes_select_option'>".$cadena."</select>");
         
     }
-    
+    //por eliminar este codigo
     public function getListaCelulaAction()
     {
         
@@ -59,7 +59,7 @@ class EnviarServicioController extends Controller
            
             $em = $this->getDoctrine()->getEntityManager();
        }
-        
+        return new Response();
        
     }
     public function   getLiderRedCellAction()
@@ -196,9 +196,15 @@ class EnviarServicioController extends Controller
             $smt2 = $em->getConnection()->prepare($sql);
             $pastor = $smt2->fetchAll();
             
-            $todo = $lider_red+$misionero;
-            $todo = $todo+$pastor;
+            $todo = $lider_red;
+            foreach ($misionero as $key => $value) {
+                $todo[]=$value;                
+            }
             
+            foreach ($pastor as $key => $value) {
+                $todo[]=$value;
+            }
+       
             $em->commit();
         }
         catch(Exception $e)
@@ -247,7 +253,7 @@ class EnviarServicioController extends Controller
 					<td>".$val['nombre']."</td>
 					<td>".$val['apellidos']."</td>
 					<td>".$val['fecha_creacion']."</td>
-					<td>".($val['tipo']=0?'Evangelistica':'Discipulado')."</td>
+					<td>".(($val['tipo']==0)?'Evangelistica':'Discipulado')."</td>
 					<td><input type='button' id='ver' class='button_ver' data='".$val["id"]."' onclick='IrATema(this)' value='Ver'></td>
 					</tr>
 					";
@@ -338,4 +344,76 @@ class EnviarServicioController extends Controller
        
        return new Response($result);
     }
+  
+   public function temas_celulaAction()
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from lista_tema_celula";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+           
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+     public function contar_clase_celulaAction()
+   {
+      $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from lista_tema_celula";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $temp = $smt->fetchAll();
+           
+           $n = count($temp);
+           
+           for($i=0; $i<$n; $i++)
+           {
+               $sql1 = "select count(*) as num from clase_cell c where c.id_tema_celula=:id";
+               $smt1 = $em->getConnection()->prepare($sql1);
+               $smt1->execute(array(':id'=>$temp[$i]['id']));
+               $total = $smt1->fetch();
+               
+               $fila = array();
+               
+               $fila['id'] = $temp[$i]['id'];
+               $fila['titulo'] = $temp[$i]['titulo'];
+               $fila['fecha'] = $temp[$i]['fecha'];
+               $fila['autor'] = $temp[$i]['autor'];
+               $fila['tipo'] = $temp[$i]['tipo'];
+               $fila['enviado'] = $total['num'];
+
+
+               $todo[] = $fila;
+           }
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));  
+   }
+   
 }

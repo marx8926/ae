@@ -22,20 +22,10 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
-class DefaultController extends Controller
+class BusquedaController extends Controller
 {
-    public function indexAction($name)
+    public function busqueda_celulaAction()
     {
-        return $this->render('AEEnviarBundle:Default:index.html.twig', array('name' => $name));
-    }
-    
-    public function redAction()
-    {
-    	return $this->render('AEEnviarBundle:Default:red.html.twig');
-    }
-    public function celulasbyredAction()
-    {
-    	return $this->render('AEEnviarBundle:Default:celulasbyred.html.twig');
-    }
-
+        return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+    }   
 }

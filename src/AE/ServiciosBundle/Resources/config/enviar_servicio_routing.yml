@@ -44,4 +44,12 @@ _enviar_lista_celula_temas:
 _enviar_asistencia_celula_class:
   pattern: /enviar_asistencia_celula_class/{id}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getAsistenciaCelulaClass}
+  
+servicio_enviar_temas_celula:
+  pattern: /temas_celula
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:temas_celula}
    
+   
+servicio_enviar_contar_clase_celula:
+  pattern: /contar_clase_celula
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:contar_clase_celula}
