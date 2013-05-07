@@ -1,3 +1,11 @@
 _tabla_eventos:
   pattern: /_tabla_eventos
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:getTablaEventos }
+  
+_tabla_personas_no_evento:
+  pattern: /_tabla_personas_no_evento/{idEvento}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:getTablaPersonasNoEvento }
+  
+_tabla_asistencia_evento:
+  pattern: /_tabla_asistencia_evento/{idEvento}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:getTablaAsistenciaEvento }

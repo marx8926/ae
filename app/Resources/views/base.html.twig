@@ -77,9 +77,22 @@
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" class='light toggle-collapsed'>
 							Informes
+							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 						</a>
+						<ul class='collapsed-nav closed dentro'>
+							<li>
+								<a href="{{path('ganar_informe_semanal')}}">
+									Informe Semanal
+								</a>
+							</li>
+							<li>
+								<a href="{{path('ganar_informe_ganar_fechas')}}">
+									Informe General
+								</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</li>
@@ -181,62 +194,24 @@
 						</a>
 					</li>
 					<li>
-						<a href="{{path('discipular_crearcurso')}}">
+						<a href="{{path('discipular_administrar_estudiante')}}">
+							Administrar Estudiante
+						</a>
+					</li>
+					<li>
+						<a href="{{path('discipular_registrar_curso')}}">
 							Registrar Cursos
 						</a>
 					</li>
 					<li>
-						<a href="tooltips.html">
-							Matricular
+						<a href="{{path('discipular_curso')}}">
+							Cursos
 						</a>
 					</li>
 					<li>
-						<a href="tabs.html">
+						<a href="{{path('discipular_asignar_curso')}}">
 							Asignar Personal
 						</a>
-					</li>
-					<li>
-						<a href="tabs.html">
-							Registrar Calificación
-						</a>
-					</li>
-					<li>
-						<a href="tabs.html">
-							Registrar Asistencia
-						</a>
-					</li>
-					<li>
-						<a href="tabs.html">
-							Registro de Ofrendas
-						</a>
-					</li>
-					<li>
-						<a href="tabs.html">
-							Liderazgo
-						</a>
-					</li>
-					<li>
-						<a href="#" class='light toggle-collapsed'>
-							Informes
-							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
-						</a>
-						<ul class='collapsed-nav closed dentro'>
-							<li>
-								<a href="tabs.html">
-									Notas
-								</a>
-							</li>
-							<li>
-								<a href="tabs.html">
-									Asistencia
-								</a>
-							</li>
-							<li>
-								<a href="tabs.html">
-									Ofrendas
-								</a>
-							</li>
-						</ul>
 					</li>
 				</ul>
 			</li>
@@ -376,6 +351,25 @@
 						<a href="results.html">
 							Crear Red
 						</a>
+					</li>
+					
+					<li>
+						<a href="#" class='light toggle-collapsed'>
+							Eventos
+							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
+						</a>
+						<ul class='collapsed-nav closed dentro'>
+							<li>
+								<a href="{{path('administrar_administrar_evento')}}">
+									Administrar Eventos
+								</a>
+							</li>
+							<li>
+								<a href="{{path('administrar_ver_eventos')}}">
+									Asistencia Eventos
+								</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</li>

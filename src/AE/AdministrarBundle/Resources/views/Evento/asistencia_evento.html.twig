@@ -12,7 +12,7 @@
 <div class="span9" >
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Estudiantes</h3>						
+            <h3>Personas</h3>						
         </div>
         <div class="box-content box-nomargin">
         	<form id='ExportForm' method='POST'>
@@ -26,27 +26,27 @@
 		            <tr>
 						<th>ID</th>
 						<th>Nombres</th>
-						<th>Apellidos</th>
 						<th>Edad</th>
-						<th>Red</th>
-		                <th>Célula</th>
-		                <th>Conversión</th>
+						<th>Telefono</th>
+						<th>Celular</th>
+		                <th>E-mail</th>
+		                <th>Sexo</th>
 		            </tr>
 				</thead>
 				<tbody id="tablas1" name="tablas1" ></tbody>
 		    </table>
 		</div>
 	</div>
-	<form  method="POST" id="RegPersonalForm" action='{{path('discipular_registrar_matricula')}}'>
+	<form  method="POST" id="RegPersonaEventoForm" action='{{path('administrar_registrar_persona_evento')}}'>
 		<div class="form-horizontal">
-			<input id="idAsignacion" type="hidden" name="idasignacion" value="{{idCurso}}">
-			<input id="idMiembro" type="hidden" name="id">
+			<input id="idEvento" type="hidden" name="idevento" value="{{ idEvento }}">
+			<input id="idPersonaRegistrar" type="hidden" name="id">
 			<input type='submit' class="btn-success" id="registro" name="registro" value="Registrar">
 		</div>
 	</form>
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Administrar Alumnos</h3>						
+            <h3>Asistentes</h3>						
         </div>
         <div class="box-content box-nomargin">
         	<form id='PersonalExportForm' method='POST'>
@@ -58,22 +58,22 @@
 		            <tr>
 						<th>ID</th>
 						<th>Nombres</th>
-						<th>Apellidos</th>
-						<th>Red</th>
-						<th>Celula</th>
-		                <th>Inicio</th>
-		                <th>Fin</th>
+						<th>Edad</th>
+						<th>Telefono</th>
+						<th>Celular</th>
+		                <th>E-mail</th>
+		                <th>Sexo</th>
 		        	</tr>
 				</thead>
 				<tbody id="tablas2" name="tablas2" ></tbody>
 		    </table>
 		</div>
 	</div>
-	<form  method="POST" id="EliminarPersonalForm" action='{{path('discipular_eliminar_matricula')}}'>
+	<form  method="POST" id="EliminarPersonaEventoForm" action='{{path('discipular_eliminar_matricula')}}'>
 		<div class="form-horizontal">
-			<input id="idPersonalEliminar" type="hidden" name="id">
+			<input id="idEvento" type="hidden" name="idevento" value="{{ idEvento }}">
+			<input id="idPersonaEliminar" type="hidden" name="id">
 			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Eliminar">
-			<input type="button" value="Atras" onClick="window.open('/ae/web/app_dev.php/discipular/curso','_self');">
 		</div>
 	</form>
 	
@@ -175,7 +175,7 @@
 						val.push(item.innerHTML); 
 					});
 					$("#registro").prop('disabled', false);
-					$("#idMiembro").val(val[0]);       
+					$("#idPersonaRegistrar").val(val[0]);       
 					}
 				});
 		$('#TablaPersonal tbody').click(function(event){
@@ -195,9 +195,7 @@
 					$.each(tds, function(index, item) {
 						val.push(item.innerHTML); 
 					});
-					 $("#idPersonalDesactivar").val(val[0]);  
-					 $("#idPersonalEliminar").val(val[0]);
-					 $("#idPersonalActivar").val(val[0]);   
+					 $("#idPersonaEliminar").val(val[0]);
 					}
 				});
 		
@@ -206,8 +204,8 @@
             });
         
 		//click handler para eliminar
-		enviar("RegPersonalForm",sayhola);
-		enviar("EliminarPersonalForm",sayhola);
+		enviar("RegPersonaEventoForm",sayhola);
+		enviar("EliminarPersonaEventoForm",sayhola);
 
 		
 		/* Build the DataTable with third column using our custom sort functions */
@@ -215,15 +213,15 @@
 			"bProcessing": true,
 			"bServerSide": false,
 			"bDestroy": true,
-			"sAjaxSource": '{{path("_tabla_estudiantes_activo",{"activo":"false"})}}',
+			"sAjaxSource": '{{path("_tabla_personas_no_evento",{"idEvento":""})}}'+'/{{idEvento}}',
 			"aoColumns": [
 		            { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
-                    { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
-                    { "mDataProp": "red" },
-                    { "mDataProp": "celula"},
-                    { "mDataProp":"fecha"}
+                    { "mDataProp": "telefono" },
+                    { "mDataProp": "celular" },
+                    { "mDataProp": "e-mail"},
+                    { "mDataProp":"sexo"}
 		                ],
 			"aaSorting": [ [0,'asc'], [1,'asc'] ],
 			"aoColumnDefs": [
@@ -247,15 +245,15 @@
 			"bProcessing": true,
 			"bServerSide": false,
 			"bDestroy": true,
-			"sAjaxSource": '{{path("_tabla_estudiantes_curso",{"curso":""})}}'+'/{{idCurso}}',
+			"sAjaxSource": '{{path("_tabla_asistencia_evento",{"idEvento":""})}}'+'/{{idEvento}}',
 			"aoColumns": [
 		            { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
-                    { "mDataProp": "apellidos" },
-                    { "mDataProp": "red" },
-                    { "mDataProp": "celula" },
-                    { "mDataProp": "inicio"},
-                    { "mDataProp":"fin"}
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "telefono" },
+                    { "mDataProp": "celular" },
+                    { "mDataProp": "e-mail"},
+                    { "mDataProp":"sexo"}
 		                ],
 			"aaSorting": [ [0,'asc'], [1,'asc'] ],
 			"aoColumnDefs": [

@@ -40,7 +40,11 @@ class DiscipularServicioController extends Controller
 	
 			$em = $this->getDoctrine()->getEntityManager();
 	
-			$sql = "select miembro.id, persona.nombre, persona.apellidos from miembro inner join persona on (persona.id = miembro.id) inner join docente on (miembro.id = docente.id_persona) where miembro.activo=true and docente.activo=true";
+			$sql = "select 
+					miembro.id, persona.nombre, persona.apellidos 
+					from miembro inner join persona on (persona.id = miembro.id) 
+					inner join docente on (miembro.id = docente.id_persona) 
+					where miembro.activo=true and docente.activo=true";
 	
 			$smt = $em->getConnection()->prepare($sql);
 			$smt->execute();
@@ -63,7 +67,12 @@ class DiscipularServicioController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha from miembro inner join persona on persona.id = miembro.id where miembro.activo=true and NOT EXISTS (SELECT * FROM docente as d where d.id_persona = miembro.id)";
+		$sql = "select 
+				miembro.id, persona.nombre, persona.apellidos, persona.edad, 
+				miembro.id_red as red, miembro.id_celula as celula, 
+				miembro.fecha_obtencion as fecha from miembro 
+				inner join persona on persona.id = miembro.id 
+				where miembro.activo=true and NOT EXISTS (SELECT * FROM docente as d where d.id_persona = miembro.id)";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -78,7 +87,12 @@ class DiscipularServicioController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select miembro.id, persona.nombre, persona.apellidos, persona.edad, miembro.id_red as red, miembro.id_celula as celula, miembro.fecha_obtencion as fecha from miembro inner join persona on persona.id = miembro.id where miembro.activo=true and NOT EXISTS (SELECT * FROM estudiante as d where d.id = miembro.id)";
+		$sql = "select 
+				miembro.id, persona.nombre, persona.apellidos, persona.edad, 
+				miembro.id_red as red, miembro.id_celula as celula, 
+				miembro.fecha_obtencion as fecha from miembro 
+				inner join persona on persona.id = miembro.id 
+				where miembro.activo=true and NOT EXISTS (SELECT * FROM estudiante as d where d.id = miembro.id)";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
