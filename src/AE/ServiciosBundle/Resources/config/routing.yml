@@ -1,5 +1,5 @@
 ae_servicios_homepage:
-    pattern:  /hello/{name}
+    pattern:  /test
     defaults: { _controller: AEServiciosBundle:Default:index }
  
   

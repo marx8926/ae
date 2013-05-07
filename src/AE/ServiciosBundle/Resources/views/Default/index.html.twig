@@ -1,1 +1,41 @@
-Hello {{ name }}!
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+	<script src="{{asset('js/infobox/infobox.js')}}"></script>
+	<script src="{{asset('js/infobox/prueba.js')}}"></script>
+	<style>
+	#mapa{
+		height: 400px;
+		margin: 0 auto;
+		width: 70%;
+	}
+	</style>
+</head>
+<body>
+	<div id="mapa"></div>
+	<script type="text/javascript">
+		var url = '{{path('servicio_enviar_lista_celulas')}}';
+		
+		//$(document).on('ready',start(url));
+		$(document).on('ready',prueba);
+
+		function prueba(){
+			$.ajax({
+	            url: url,
+	            async: false,
+	        }).done(function(data){
+	        	console.log(data[1].id);
+	        	setGlobalJSON("data",data);
+            });
+			console.log(getGlobalJSON("data"));
+		}
+		function setGlobalJSON(variable, json) {
+			localStorage.setItem(variable, JSON.stringify(json));
+		}
+		function getGlobalJSON(variable) {
+		   return JSON.parse(localStorage.getItem(variable));
+		}
+	</script>
+</body>
+</html>

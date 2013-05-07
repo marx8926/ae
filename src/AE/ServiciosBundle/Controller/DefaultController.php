@@ -16,9 +16,9 @@ use AE\DataBundle\Entity\Miembro;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
-        return $this->render('AEServiciosBundle:Default:index.html.twig', array('name' => $name));
+        return $this->render('AEServiciosBundle:Default:index.html.twig');
     }
   
 
