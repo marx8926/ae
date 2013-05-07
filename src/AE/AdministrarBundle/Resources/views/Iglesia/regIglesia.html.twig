@@ -4,7 +4,7 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
+        <link rel="stylesheet" href="{{asset('js/jquery-addresspic.ker/demos/themes/base/jquery.ui.all.css')}}">
         <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
 {% endblock %}
         
@@ -109,91 +109,25 @@
 	
 	<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>            
-    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>            
+    <script src="https://maps.google.com/maps/api/js?sensor=true"></script>            
     <script type="text/javascript" src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
 	<script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>
     <script type="text/javascript" src="{{asset('js/html5.js')}}"></script>   
     <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
+    <script src="{{asset('js/mapa.js')}}"></script>
+    <script src="{{asset('js/ganar.js')}}"></script>
     <script type="text/javascript">
-    var patronTel = new Array(2,3,4);
-
-    function mascara(d,sep,pat,nums){
-    	if(d.valant != d.value){
-    		val = d.value
-    		largo = val.length
-    		val = val.split(sep)
-    		val2 = ''
-    		for(r=0;r<val.length;r++){
-    			val2 += val[r]	
-    		}
-    		if(nums){
-    			for(z=0;z<val2.length;z++){
-    				if(isNaN(val2.charAt(z))){
-    					letra = new RegExp(val2.charAt(z),"g")
-    					val2 = val2.replace(letra,"")
-    				}
-    			}
-    		}
-    		val = ''
-    		val3 = new Array()
-    		for(s=0; s<pat.length; s++){
-    			val3[s] = val2.substring(0,pat[s])
-    			val2 = val2.substr(pat[s])
-    		}
-    		for(q=0;q<val3.length; q++){
-    			if(q ==0){
-    				val = val3[q]
-    			}
-    			else{
-    				if(val3[q] != ""){
-    					val += sep + val3[q]
-    				}
-    			}
-    		}
-    		d.value = val
-    		d.valant = val
-    	}
-    }
-    
-                $(function() {
-		
-		var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
-		  elements: {
-		    map:      "#map",
-		    lat:      "#lat",
-		    lng:      "#lng"
-		  }
-		});
-		var gmarker = addresspickerMap.addresspicker( "marker");
-		gmarker.setVisible(true);
-		addresspickerMap.addresspicker( "updatePosition");
-		
-                });
-            
+  
                $(document).ready(function(){
-           
-               
-              //lista de departamentos
-                  $.ajax(
-                    {url : '{{path('servicio_region')}}',
-                     dataType:"json",
-                     type: "POST",
-                     async: false,
-                    }
-                    ).done(departamentos);
-                 
-    
-                  //cambio de departamento
-                   $("#departamento_lista").change(recarga_provincias);
-                  
-                  //cambio de provincia
-                  $("#provincia_lista").change(recarga_distritos);
-                  
+ 
+                  //lista de departamentos
+                  initDepartamentos('{{path('servicio_region')}}'); 
                   
                   var x =$("reg");
                     x.click();
            
-                    $("#myForm").submit(function(){
+                    $("#myForm").submit(function(event){
+                        event.preventDefault();
                     //get the url for the form
                     var url=$("#myForm").attr("action");
    
@@ -222,18 +156,13 @@
                         {
                             alert('Solo se puede registrar una iglesia');
                         }
-                        //if we got to this point we know that the controller
-                        //did not return a json_encoded array. We can assume that           
-                        //an unexpected PHP error occured
                         else alert("An unexpeded error occured.");
-
                         }
                     }
        
                     );
-
-                    return false;});
-
+                    return false;});                    
+                    mapeo_position('lat','lng','addresspicker_map','map');     
                 });
                 
                 function departamentos(datos)
@@ -241,8 +170,7 @@
                     for(var i=0; i<datos.length ; i++)
                     {
                         $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
-                    } 
-                    
+                    }                    
                     recarga_provincias();
                 }
     
@@ -289,26 +217,5 @@
                         }
                     ).done(distrito);
                 }
-                function distrito(dato)
-                {
-                   
-                     $("#distrito_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
-                    }
-                }
-
-                function Solo_Numerico(variable){
-                    Numer=parseInt(variable);
-                    if (isNaN(Numer)){
-                        return "";
-                    }
-                    return Numer;
-                }
-                function ValNumero(Control){
-                    Control.value=Solo_Numerico(Control.value);
-                }
-            
             </script>            
 {%endblock%}  
