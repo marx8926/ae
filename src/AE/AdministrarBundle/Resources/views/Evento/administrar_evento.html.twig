@@ -43,7 +43,7 @@
             $(document).ready(function() {
 				     	
 				enviar("RegistrarEventoForm",sayhola);
-				enviar("EliminarAsignacionForm",sayhola);
+				enviar("EliminarEventoForm",sayhola);
 
 				$("#pdfAsignacion").click(function(event) {
 		            $("#tabla_asignacion th").css("width","auto");
@@ -85,22 +85,20 @@
 								val.push(item.innerHTML); 
 							});
 							$("#eliminar").prop('disabled', false);
-							$("#idAsignacionEliminar").val(val[0]);       
+							$("#idEventoEliminar").val(val[0]);       
 							}
 						});
 			        oTable = $('#tabla_asignacion').dataTable({
 						"bProcessing": true,
 						"bServerSide": false,
 						"bDestroy": true,
-						"sAjaxSource": '{{path("_tabla_asignacion")}}',
+						"sAjaxSource": '{{path("_tabla_eventos")}}',
 						"aoColumns": [
 					            { "mDataProp": "id" },
 			                    { "mDataProp": "nombre" },
-			                    { "mDataProp": "apellidos" },
-			                    { "mDataProp": "curso" },
-			                    { "mDataProp": "dia" },
-			                    { "mDataProp": "hora_inicio"},
-			                    { "mDataProp":"hora_fin"}
+			                    { "mDataProp": "descripcion" },
+			                    { "mDataProp": "fechaFin"},
+			                    { "mDataProp":"fechaIni"}
 					                ],
 						"aaSorting": [ [0,'asc'], [1,'asc'] ],
 						"aoColumnDefs": [
@@ -123,6 +121,7 @@
             
             var sayhola = function(data){
         		console.log(data);
+        		$("#RegistrarEventoForm").reset();
         		oTable.fnReloadAjax();
         		 };
 
@@ -286,20 +285,18 @@
 		    	<thead>
 		            <tr>
 						<th>ID</th>
-						<th>Nombres</th>
-						<th>Apellidos</th>
-						<th>Curso</th>
-						<th>Dia</th>
-		                <th>Hora Inicio</th>
-		                <th>Hora Fin</th>
+						<th>Nombre</th>
+						<th>Descripcion</th>
+						<th>Fecha Inicio</th>
+						<th>Fecha Fin</th>
 		            </tr>
 				</thead>
 				<tbody id="tablas2" name="tablas2" ></tbody>
 		    </table>
 		</div>
-		<form  method="POST" id="EliminarAsignacionForm" action='{{path('discipular_eliminar_asignacion')}}'>
+		<form  method="POST" id="EliminarEventoForm" action='{{path('administrar_eliminar_evento')}}'>
 		<div class="form-horizontal">
-			<input id="idAsignacionEliminar" type="hidden" name="id">
+			<input id="idEventoEliminar" type="hidden" name="id">
 			<input type="submit" class="btn-success" id="eliminar" name="enviar" value="Eliminar">
 		</div>
 		</form>

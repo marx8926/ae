@@ -44,4 +44,19 @@ class AdministrarServicioController extends Controller
 
         return new JsonResponse(array('aaData'=>$todo));
     }
+    
+    public function getTablaEventosAction()
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    
+    	$sql = "SELECT id, nombre, descripcion, \"fechaIni\", \"fechaFin\"
+  				FROM evento";
+    
+    	$smt = $em->getConnection()->prepare($sql);
+    	$smt->execute();
+    
+    	$todo = $smt->fetchAll();
+    
+    	return new JsonResponse(array('aaData'=>$todo));
+    }
 }

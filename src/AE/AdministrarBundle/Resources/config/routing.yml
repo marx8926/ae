@@ -142,3 +142,9 @@ administrar_registrar_evento:
   defaults: {_controller: AEAdministrarBundle:AdministrarEvento:RegistrarEvento}
   requirements:
     _method: POST
+    
+administrar_eliminar_evento:
+  pattern: /eliminar_evento
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:EliminarEvento}
+  requirements:
+    _method: POST
