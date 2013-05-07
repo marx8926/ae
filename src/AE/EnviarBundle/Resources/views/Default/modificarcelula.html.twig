@@ -171,6 +171,7 @@
     <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
         <script src="{{asset('js/functiongen.js')}}"> </script>
+        <script src="{{asset('js/ganar.js')}}"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->
 	
 	<script type="text/javascript">
@@ -235,35 +236,15 @@
                         }
                         ).done(iglesias);
                  
-           
-                          //lista de redes
-                     $.ajax(
-                        {url : '{{path('servicio_red')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                      ).done(redes);
-           
-            
-                       //lista de departamentos
-                        $.ajax(
-                        {url : '{{path('servicio_region')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                        ).done(departamentos);
-                 
+                            //init red
+                  initRed('{{path('servicio_red')}}');
 
-                        //cambio de departamento
-                        $("#departamento_lista").change(recarga_provincias);
-                  
-                        //cambio de provincia
-                        $("#provincia_lista").change(recarga_distritos);
-              
-                   
-                        $("#red_lista").change(recargar_celula);
+                  //lista de departamentos
+                  initDepartamentos('{{path('servicio_region')}}');
+ 
+                  //lista de lugares
+                  initLugar('{{path('servicio_lugar')}}');
+           
                     
                     var x =$("login");
                     x.click();
@@ -273,9 +254,7 @@
                     var url=$("#myForm").attr("action");
    
                     //start send the post request
-                    
-                    
-                    
+
                     $.post(url,{
                         formName:$("#myForm").serialize(),
                         other:"attributes"
@@ -283,10 +262,11 @@
                     //the response is in the data variable
                   
                     if(data.responseCode==200 ){           
-                       // $('#output').html(data.greeting);
-                        //$('#output').css("color","red");
+
                         alert('Registro Completado por redireccionar');
-                        location.reload();
+                        var href="{{path('enviar_busqueda_celula')}}";
+             
+                        $(location).attr('href',href); 
                     }
                     else if(data.responseCode==400){//bad request
                        // $('#output').html(data.greeting);
@@ -336,37 +316,7 @@
                         $('<option value='+datos.id+'>'+datos.nombre+'</option>').appendTo('#iglesia_lista');
                     } 
                 }
-               
-            
-                 //lugares
-            function lug(dato)
-            {
-             
-                $('#lugar').empty();
-                for(var i=0; i<dato.length; i++)
-                {
-                      
-                    $('<option value='+dato[i].id+'>'+dato[i].nombre+'</option>').appendTo('#lugar');
 
-                }
-                
-            }
-            function redes(dato)
-            {        
-                $('#red_lista').empty();
-                     
-                $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
-                
-                for(var i=0;i<dato.length;i++)
-                {
-               
-                    
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#red_lista');
-                }    
-          
-                recargar_celula();
-            }
-            
             function recargar_celula()
             {
                 var nombre = $("#red_lista option:selected").val();  
@@ -383,15 +333,7 @@
                         }
                         ).done(celula);     
             }
-            function celula(dato)
-            {
-                $('#celula_lista').empty();
-                for(var i=0;i<dato.length; i++)
-                {
-                    $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#celula_lista');
-                }
-            }
-         
+              
              function departamentos(datos)
                 {
                     for(var i=0; i<datos.length ; i++)
@@ -445,14 +387,6 @@
                         }
                     ).done(distrito);
                 }
-                function distrito(dato)
-                {
-                   
-                     $("#distrito_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
-                    }
-                }
+                
             </script>            
 {%endblock%}
