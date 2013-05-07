@@ -1,6 +1,8 @@
 <?php
 namespace AE\AdministrarBundle\Controller;
 
+use AE\DataBundle\Entity\EventoRealizado;
+
 use AE\DataBundle\Entity\Evento;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,6 +29,20 @@ class AdministrarEventoController extends Controller{
 	
 	public function indexAction(){
 		return $this->render('AEAdministrarBundle:Evento:administrar_evento.html.twig');
+	}
+	
+	public function VerEventosAction(){
+		return $this->render('AEAdministrarBundle:Evento:ver_eventos.html.twig');
+	}
+	
+	public function AsistenciaEventoAction(){
+	{
+		$request = $this->get('request');
+		$idEvento = $request->request->get('id');				
+		return $this->render('AEAdministrarBundle:Evento:asistencia_evento.html.twig',array(
+            'idEvento' => $idEvento
+        ));
+	}
 	}
 	
 	public function RegistrarEventoAction(){
@@ -158,4 +174,39 @@ class AdministrarEventoController extends Controller{
 		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
 		
 	}
+	
+	public function RegistrarPersonaEventoAction(){
+		$request = $this->get('request');
+		$form=$request->request->get('formName');
+		$datos = array();
+		parse_str($form,$datos);
+		
+		$idpersona = null;
+		$idevento = null;
+		
+		if($form!=NULL){
+			$idpersona = $datos['id'];
+			$idevento = $datos['idevento'];
+		
+			$em = $this->getDoctrine()->getEntityManager();
+			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			
+			$sql = "INSERT INTO evento_realizado(
+					id_persona, id_evento)
+			VALUES (".$idpersona.", ".$idevento.")";
+			
+			$smt = $em->getConnection()->prepare($sql);
+			$smt->execute();
+			
+			$this->getDoctrine()->getEntityManager()->commit();
+			$return=array("responseCode"=>200, "id"=>$datos );
+		}
+		else{
+			$return = array("responseCode"=>400, "greeting"=>"Bad");
+		}
+			
+		$return=json_encode($return);//jscon encode the array
+		
+		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
+		}
 }

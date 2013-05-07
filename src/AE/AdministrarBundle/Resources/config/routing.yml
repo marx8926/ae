@@ -7,17 +7,17 @@ administrar_iglesia:
     
 administrar_addigle:
     pattern: /regigle
-    defaults: {_controller: AEAdministrarBundle:Default:addigle}
+    defaults: {_controller: AEAdministrarBundle:Iglesia:addigle}
     requirements:
           _method: POST
     
 administrar_modiglesia:
   pattern: /modiglesia
-  defaults: {_controller: AEAdministrarBundle:Default:modiglesia}
+  defaults: {_controller: AEAdministrarBundle:Iglesia:modiglesia}
   
 administrar_updateiglesia:
   pattern: /updateiglesia
-  defaults: {_controller: AEAdministrarBundle:Default:updateiglesia}
+  defaults: {_controller: AEAdministrarBundle:Iglesia:updateiglesia}
   requirements:
       _method: POST
 
@@ -43,22 +43,21 @@ administrar_mod_permiso_update:
   
 administrar_red:
   pattern: /red
-  defaults: {_controller: AEAdministrarBundle:Default:red}
+  defaults: {_controller: AEAdministrarBundle:Red:red}
   
 administrar_addred:
   pattern: /regred
-  defaults: {_controller: AEAdministrarBundle:Default:addred}
+  defaults: {_controller: AEAdministrarBundle:Red:addred}
   requirements:
     _method: POST
     
-    
 administrar_asignarlider:
   pattern: /asignar_lider_red
-  defaults: {_controller: AEAdministrarBundle:Default:asignared}
+  defaults: {_controller: AEAdministrarBundle:Red:asignared}
   
 administrar_add_asignar_lider:
   pattern: /add_lider_red
-  defaults: {_controller: AEAdministrarBundle:Default:addasignarlider}
+  defaults: {_controller: AEAdministrarBundle:Red:addasignarlider}
   
   
 administrar_lista_pastor_asociado:
@@ -85,33 +84,15 @@ administrar_lista_miembros_all:
   pattern: /lista_miembros_all
   defaults: {_controller: AEAdministrarBundle:Default:lista_miembros_all}
   
+administrar_lista_redes:
+  pattern: /lista_redes
+  defaults: {_controller: AEAdministrarBundle:Default:lista_redes}
+  
+  
 administrar_lista_usuario:
   pattern: /lista_usuarios
   defaults: {_controller: AEAdministrarBundle:Default:lista_usuarios}
  
-administrar_clase:
-  pattern: /clase
-  defaults: {_controller: AEAdministrarBundle:Default:clase}
-  
-administrar_clase_registrar:
-  pattern: /clase_reg
-  defaults: {_controller: AEAdministrarBundle:Default:clase_reg}
-  requirements:
-    _method: POST
-    
-administrar_tema_leche:
-  pattern: /temas_leche
-  defaults: {_controller: AEAdministrarBundle:Default:temas_leche}
-  requirements:
-    _method: POST
-    
-administrar_file_leche:
-  pattern: /file_leche
-  defaults: {_controller: AEAdministrarBundle:Default:file_leche}
-
-administrar_lista_redes:
-  pattern: /lista_redes
-  defaults: {_controller: AEAdministrarBundle:Default:lista_redes}
   
 administrar_lista_redes_modificar_vista:
   pattern: /lista_redes_modificar_vista/{id}
@@ -129,7 +110,27 @@ administrar_lista_redes_eliminar:
   requirements:
     _method: POST
     
+administrar_clase:
+  pattern: /clase
+  defaults: {_controller: AEAdministrarBundle:Default:clase}
+  
+  
+administrar_clase_registrar:
+  pattern: /clase_reg
+  defaults: {_controller: AEAdministrarBundle:Default:clase_reg}
+  requirements:
+    _method: POST
     
+administrar_tema_leche:
+  pattern: /temas_leche
+  defaults: {_controller: AEAdministrarBundle:Default:temas_leche}
+  requirements:
+    _method: POST
+    
+administrar_file_leche:
+  pattern: /file_leche
+  defaults: {_controller: AEAdministrarBundle:Default:file_leche}
+     
 tools_consolidar_routing:
     resource: "@AEAdministrarBundle/Resources/config/Tools_routing.yml"
     
@@ -137,14 +138,30 @@ administrar_administrar_evento:
   pattern: /administrar_evento
   defaults: {_controller: AEAdministrarBundle:AdministrarEvento:index}
   
+administrar_ver_eventos:
+  pattern: /ver_eventos
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:VerEventos}
+  
 administrar_registrar_evento:
   pattern: /registrar_evento
   defaults: {_controller: AEAdministrarBundle:AdministrarEvento:RegistrarEvento}
+  requirements:
+    _method: POST
+
+administrar_asistencia_evento:
+  pattern: /asistencia_evento
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:AsistenciaEvento}
   requirements:
     _method: POST
     
 administrar_eliminar_evento:
   pattern: /eliminar_evento
   defaults: {_controller: AEAdministrarBundle:AdministrarEvento:EliminarEvento}
+  requirements:
+    _method: POST
+    
+administrar_registrar_persona_evento:
+  pattern: /registrar_persona_evento
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:RegistrarPersonaEvento}
   requirements:
     _method: POST

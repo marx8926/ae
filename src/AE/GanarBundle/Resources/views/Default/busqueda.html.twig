@@ -178,6 +178,13 @@
                     }).done(function(data){
                        // oTable.fnReloadAjax();
                        //aporte de carlos para esto
+                       if(data.responseCode==200 ){           
+                      
+                        var anSelected = fnGetSelected( oTable );
+                        if(anSelected.length)
+                            oTable.fnDeleteRow( anSelected[0] );
+                    }
+
                     });
                                    
                 }

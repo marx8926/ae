@@ -36,6 +36,8 @@ function redes(dato)
 function celula(dato)
 {
                 $('#celula_lista').empty();
+                    $("<option value='-1'>Sin  Celula </option>").appendTo('#celula_lista');
+
                 for(var i=0;i<dato.length; i++)
                 {
                     $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#celula_lista');

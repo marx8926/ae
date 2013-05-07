@@ -77,9 +77,22 @@
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" class='light toggle-collapsed'>
 							Informes
+							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 						</a>
+						<ul class='collapsed-nav closed dentro'>
+							<li>
+								<a href="{{path('ganar_informe_semanal')}}">
+									Informe Semanal
+								</a>
+							</li>
+							<li>
+								<a href="{{path('ganar_informe_ganar_fechas')}}">
+									Informe General
+								</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</li>
@@ -181,62 +194,24 @@
 						</a>
 					</li>
 					<li>
-						<a href="{{path('discipular_crearcurso')}}">
+						<a href="{{path('discipular_administrar_estudiante')}}">
+							Administrar Estudiante
+						</a>
+					</li>
+					<li>
+						<a href="{{path('discipular_registrar_curso')}}">
 							Registrar Cursos
 						</a>
 					</li>
 					<li>
-						<a href="tooltips.html">
-							Matricular
+						<a href="{{path('discipular_curso')}}">
+							Cursos
 						</a>
 					</li>
 					<li>
-						<a href="tabs.html">
+						<a href="{{path('discipular_asignar_curso')}}">
 							Asignar Personal
 						</a>
-					</li>
-					<li>
-						<a href="tabs.html">
-							Registrar Calificación
-						</a>
-					</li>
-					<li>
-						<a href="tabs.html">
-							Registrar Asistencia
-						</a>
-					</li>
-					<li>
-						<a href="tabs.html">
-							Registro de Ofrendas
-						</a>
-					</li>
-					<li>
-						<a href="tabs.html">
-							Liderazgo
-						</a>
-					</li>
-					<li>
-						<a href="#" class='light toggle-collapsed'>
-							Informes
-							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
-						</a>
-						<ul class='collapsed-nav closed dentro'>
-							<li>
-								<a href="tabs.html">
-									Notas
-								</a>
-							</li>
-							<li>
-								<a href="tabs.html">
-									Asistencia
-								</a>
-							</li>
-							<li>
-								<a href="tabs.html">
-									Ofrendas
-								</a>
-							</li>
-						</ul>
 					</li>
 				</ul>
 			</li>
@@ -342,6 +317,9 @@
 							Asignar Líder a Red
 						</a>
 					</li>
+                                        <li>
+                                            <a href="{{path('administrar_lista_redes')}}">Lista de redes</a>
+                                        </li>
 					<li>
 						<a href="{{path('administrar_permisos')}}">
 							Asignar Permisos
@@ -353,29 +331,63 @@
 						</a>
 					</li>
 					<li>
-						<a href="gallery.html">
+						<a href="{{path('administrar_lista_lider_red')}}">
 							Líderes de Red
 						</a>
 					</li>
 					<li>
-						<a href="messages.html">
-							Consolidadores
+						<a href="{{path('administrar_lista_pastor_asociado')}}">
+							Pastores Asociados
 						</a>
 					</li>
 					<li>
-						<a href="userprofile.html">
-							Pastores
+						<a href="{{path('administrar_lista_pastor_ejecutivo')}}">
+							Pastores Ejecutivos
 						</a>
 					</li>
 					<li>
-						<a href="index.html">
-							Encargados de Área
+						<a href="{{path('administrar_lista_misionero')}}">
+							Misioneros
 						</a>
 					</li>
 					<li>
-						<a href="results.html">
-							Crear Red
+						<a href="{{path('administrar_lista_miembros')}}">
+							Lista miembros
 						</a>
+					</li>
+                                        
+                                        <li>
+                                            <a href="{{path('administrar_lista_miembros_all')}}">
+                                                Todos los miembros
+                                            </a>
+                                            
+                                        </li>
+                                        <li>
+                                            <a href="{{path('administrar_lista_usuario')}}">Lista de Usuarios</a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href="{{path('administrar_clase')}}"> Crear Leche Espiritual
+                                            </a>
+                                        </li>
+					
+					<li>
+						<a href="#" class='light toggle-collapsed'>
+							Eventos
+							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
+						</a>
+						<ul class='collapsed-nav closed dentro'>
+							<li>
+								<a href="{{path('administrar_administrar_evento')}}">
+									Administrar Eventos
+								</a>
+							</li>
+							<li>
+								<a href="{{path('administrar_ver_eventos')}}">
+									Asistencia Eventos
+								</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</li>

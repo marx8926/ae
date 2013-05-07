@@ -350,6 +350,29 @@ class ModificarController extends Controller
                     }
                 }
                 
+                //miembro
+                //añadido para miembro
+                if(strcmp($red,'-1')==0)
+                {
+                    $sql = "UPDATE miembro SET id_celula=:cel, id_red=:red  WHERE id=:code";
+                    $smt_con = $em->getConnection()->prepare($sql);
+                    if(!$smt_con->execute(array(':cel'=>NULL,':red'=>NULL,':code'=>$id)))
+                    {
+                        
+                    }
+                    
+                }
+                else {
+                    if(strcmp($cel,'-1')==0 && strcmp($red,'-1')==0)
+                    {
+                        $sql = "UPDATE miembro SET id_celula =:cel, id_red=:red WHERE id=:code";
+                        $smt_con = $em->getConnection()->prepare($sql);
+                        if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':code'=>$id)))
+                        {
+                        
+                        }
+                    }
+                }
                 //redes sociales
                 //facebook
                 if(strlen($face)>0)
@@ -379,7 +402,8 @@ class ModificarController extends Controller
             $return=array("responseCode"=>200,  "greeting"=>'OK');
             } catch (Exception $exc) {
                 $this->getDoctrine()->getEntityManager()->rollback();
-                 $return=array("responseCode"=>400, "greeting"=>"Bad");     
+                 $return=array("responseCode"=>400, "greeting"=>"Bad"); 
+                 throw $exc;
             }
         }
         else
@@ -400,7 +424,7 @@ class ModificarController extends Controller
         try{
             $em->beginTransaction();
             
-            $sql = "select delete_persona(:idx)";
+            $sql = "select delete_persona_miembro(:idx)"; //lo cambie por delete_persona en psql
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute(array(':idx'=>$id));
             

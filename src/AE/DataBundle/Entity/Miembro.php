@@ -45,7 +45,7 @@ class Miembro
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\OneToOne(targetEntity="Persona",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
@@ -55,7 +55,7 @@ class Miembro
     /**
      * @var \Celula
      *
-     * @ORM\ManyToOne(targetEntity="Celula")
+     * @ORM\ManyToOne(targetEntity="Celula",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
      * })
@@ -65,7 +65,7 @@ class Miembro
     /**
      * @var \Red
      *
-     * @ORM\ManyToOne(targetEntity="Red")
+     * @ORM\ManyToOne(targetEntity="Red",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
      * })
