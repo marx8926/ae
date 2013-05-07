@@ -32,11 +32,11 @@ enviar_eliminar_celula:
 
 enviar_temacelula:
   pattern: /temacelula
-  defaults: {_controller: AEEnviarBundle:Default:temacelula}
+  defaults: {_controller: AEEnviarBundle:Temas:temacelula}
   
 enviar_temacelula_updated:
   pattern: /temacelula_updated
-  defaults: {_controller: AEEnviarBundle:Default:temacelula_updated}
+  defaults: {_controller: AEEnviarBundle:Temas:temacelula_updated}
   requirements:
     _method: POST
 
