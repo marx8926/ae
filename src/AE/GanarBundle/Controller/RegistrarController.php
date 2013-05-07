@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AE\DataBundle\Entity\Ubicacion;
 use AE\DataBundle\Entity\RedSocial;
 use AE\DataBundle\Entity\Persona;
+use AE\DataBundle\Entity\Miembro;
 use AE\DataBundle\Entity\Usuario;
 use AE\DataBundle\Entity\NuevoConvertido;
 
@@ -185,7 +186,7 @@ class RegistrarController extends Controller
                 $em->flush();
                 
                 //miembro
-                /*
+                
                 $miembro = new Miembro();
                 $miembro->setId($persona);
                 
@@ -200,7 +201,7 @@ class RegistrarController extends Controller
                 
                 $em->persist($miembro);
                 $em->flush();
-                */
+                
                 
                 $this->getDoctrine()->getEntityManager()->commit();
 
