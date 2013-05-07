@@ -27,13 +27,7 @@ class DefaultController extends Controller
     {
         return $this->render('AEAdministrarBundle:Default:index.html.twig', array('name' => $name));
     }
-    
-       //iglesia
-    public function igleAction()
-    {
-      return $this->render('AEAdministrarBundle:Iglesia:regIglesia.html.twig');
-
-    }
+        
     //registrar iglesia
     public function addigleAction()
     {

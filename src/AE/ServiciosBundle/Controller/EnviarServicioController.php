@@ -416,4 +416,29 @@ class EnviarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$todo));  
    }
    
+   public function serv_enviar_lista_celulasAction()
+   {
+        $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from lista_celulas";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           $todo = $smt->fetchAll();
+ 
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse($todo);  
+   }
+   
 }
