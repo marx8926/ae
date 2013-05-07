@@ -137,14 +137,30 @@ administrar_administrar_evento:
   pattern: /administrar_evento
   defaults: {_controller: AEAdministrarBundle:AdministrarEvento:index}
   
+administrar_ver_eventos:
+  pattern: /ver_eventos
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:VerEventos}
+  
 administrar_registrar_evento:
   pattern: /registrar_evento
   defaults: {_controller: AEAdministrarBundle:AdministrarEvento:RegistrarEvento}
+  requirements:
+    _method: POST
+
+administrar_asistencia_evento:
+  pattern: /asistencia_evento
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:AsistenciaEvento}
   requirements:
     _method: POST
     
 administrar_eliminar_evento:
   pattern: /eliminar_evento
   defaults: {_controller: AEAdministrarBundle:AdministrarEvento:EliminarEvento}
+  requirements:
+    _method: POST
+    
+administrar_registrar_persona_evento:
+  pattern: /registrar_persona_evento
+  defaults: {_controller: AEAdministrarBundle:AdministrarEvento:RegistrarPersonaEvento}
   requirements:
     _method: POST

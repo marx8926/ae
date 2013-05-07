@@ -59,4 +59,67 @@ class AdministrarServicioController extends Controller
     
     	return new JsonResponse(array('aaData'=>$todo));
     }
+    
+    public function getTablaPersonasNoEventoAction($idEvento)
+    {
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$sql = "select 
+persona.id, Concat(persona.nombre,' ',persona.apellidos) as nombre, persona.edad, 
+persona.telefono, persona.celular,persona.email, persona.sexo
+from persona
+where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_persona = persona.id and er.id_evento=".$idEvento.")";
+    	
+    	$smt = $em->getConnection()->prepare($sql);
+    	$smt->execute();
+    	
+    	$pre_todo = $smt->fetchAll();
+        $todo=array();
+        
+        foreach($pre_todo as $per)
+        {
+        	if($per['sexo']==1)
+        		$sexo="Masculino";
+        	else
+        		$sexo="Femenino";
+        	
+			$todo[] = array('id'=>$per['id'],'nombre'=>$per['nombre'],
+						'edad'=>$per['edad'],'telefono'=>$per['telefono'],'celular'=>$per['celular'],
+        				'e-mail'=>$per['email'], 'sexo'=>$sexo);        
+        	}
+    
+    	return new JsonResponse(array('aaData'=>$todo));
+    
+    }
+    
+    public function getTablaAsistenciaEventoAction($idEvento)
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$evento_realizado = $this->getDoctrine()
+    	->getRepository('AEDataBundle:EventoRealizado')
+    	->findBy(
+			    array('idEvento' => $idEvento)
+			);
+    	
+    	$todo=array();
+    	
+    	foreach($evento_realizado as $er)
+    	{
+    		$per = $er->getIdPersona();
+    		
+    		if($per->getSexo()==1)
+    			$sexo="Masculino";
+    		else
+    			$sexo="Femenino";
+    		 
+    		$todo[] = array('id'=>$per->getId(),'nombre'=>$per->getNombre()." ".$per->getApellidos(),
+    				'edad'=>$per->getEdad(),'telefono'=>$per->getTelefono(),'celular'=>$per->getCelular(),
+    				'e-mail'=>$per->getEmail(), 'sexo'=>$sexo);
+    	}
+    
+    	return new JsonResponse(array('aaData'=>$todo));
+    
+    }
 }
