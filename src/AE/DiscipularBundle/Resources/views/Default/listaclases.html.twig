@@ -33,7 +33,53 @@
     <script type="text/javascript">
 	    $(document).ready(function() {
 	    	ajaxResposeData("tabla_clases","{{ path('_tabla_asignacion_clases',{'idasignacion':''}) }}/{{idasignacion}}");
-	    });
+
+	    	$("#pdfPersonal").click(function(event) {
+	            $("#TablaPersonal th").css("width","auto");
+	        	$("#content").val($("#TablaPersonal").html());
+	        	$("#title").val($("h3").html());
+	            $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+		 		$("#ExportForm").submit();
+	        });
+
+	        $("#excelPersonal").click(function(event) {
+	        	$("#content").val("<table>" + $("#TablaPersonal").html() + "</table>");
+				$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+				$("#ExportForm").submit();
+	        });
+
+	    	TablaPersonal = $('#TablaPersonal').dataTable({
+				"bProcessing": true,
+				"bServerSide": false,
+				"bDestroy": true,
+				"sAjaxSource": '{{path("_tabla_estudiantes_curso",{"curso":""})}}'+'/{{idasignacion}}',
+				"aoColumns": [
+			            { "mDataProp": "id" },
+	                    { "mDataProp": "nombre" },
+	                    { "mDataProp": "apellidos" },
+	                    { "mDataProp": "red" },
+	                    { "mDataProp": "celula" },
+	                    { "mDataProp": "inicio"},
+	                    { "mDataProp":"fin"}
+			                ],
+				"aaSorting": [ [0,'asc'], [1,'asc'] ],
+				"aoColumnDefs": [
+		        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
+				"sDom": 'T<"clear">lfrtip',
+		        "oTableTools": {
+					"sRowSelect": "single",
+		            "fnRowSelected": function ( node ) {
+		            	var s=$(node).children();
+		                alert("Selected Row : " + s[0]);
+		            }
+				},
+				"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+				"sPaginationType": "bootstrap",
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ registros por página"
+				}
+			});
+		});
 
 	    function IrAClase(boton){
     		$("#idclase").val($(boton).attr("data"));
@@ -43,7 +89,7 @@
 {%endblock%}
 
 {% block content %}
-
+<div class="span9" >
 <div id="cursos">
 </div>
 <div class="row-fluid">
@@ -62,5 +108,33 @@
 		<input type="button" value="Atras" onClick="window.open('/ae/web/app_dev.php/discipular/curso','_self');">
 	</div>
 </div>
+<div class="box">
+		<div class="box-head tabs">
+            <h3>Lista de Alumnos</h3>					
+        </div>
+        <div class="box-content box-nomargin">
+        	<form id='ExportForm' method='POST'>
+        		<input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+                <input id='pdfPersonal' type='button' value='PDF' class="btn-success">
+                <input id='excelPersonal' type='button' value='Excel' class="btn-success">
+            </form>
+		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaPersonal" name="TablaPersonal">
+		    	<thead>
+		            <tr>
+						<th>ID</th>
+						<th>Nombres</th>
+						<th>Apellidos</th>
+						<th>Red</th>
+						<th>Celula</th>
+		                <th>Inicio</th>
+		                <th>Fin</th>
+		        	</tr>
+				</thead>
+				<tbody id="tablas2" name="tablas2" ></tbody>
+		    </table>
+		</div>
+	</div>
+	</div>
 
 {% endblock %}
