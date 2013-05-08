@@ -9,8 +9,7 @@ servicio_region:
   defaults: {_controller: AEServiciosBundle:GanarServicio:region}
   requirements:
     _method: POST
-    
-  
+ 
 servicio_provincia:
   pattern: /servicioprovincia/{id}
   defaults: {_controller: AEServiciosBundle:GanarServicio:provincia}

@@ -209,14 +209,16 @@ class ModificarController extends Controller
             throw $exc;
         }
 
+       $nac = new \DateTime($fecha_nacimiento);
+       $conv = new \DateTime($conversion);
        
         return $this->render('AEGanarBundle:Default:modificar.html.twig',array('id'=>$id,'nombre'=>$nombre,
             'apellidos'=>$apellidos,'estado_civil'=>$estado_civil,'edad'=>$edad, 'telefono'=>$telefono,'celular'=>$celular,
-            'fecha_nacimiento'=>$fecha_nacimiento,'email'=>$email,'website'=>$website,'sexo'=>$sexo,'id_ubicacion'=>$id_ubicacion,
+            'fecha_nacimiento'=>$nac->format('d/m/Y'),'email'=>$email,'website'=>$website,'sexo'=>$sexo,'id_ubicacion'=>$id_ubicacion,
             'direccion'=>$direccion,'referencia'=>$referencia,'latitud'=>$latitud,'longitud'=>$longitud,'id_ubigeo'=>$id_ubigeo,
             'departamento'=>$departamento,'provincia'=>$provincia,'distrito'=>$distrito,
             'red'=>$red,'celula'=>$celula,'lider'=>$lider_ap.' '.$lider_nom,'cons'=>$cons_ap.' '.$cons_nom,
-            'conversion'=>$conversion,'peticion'=>$peticion,'lugar'=>$lugar));
+            'conversion'=>$conv->format('d/m/Y'),'peticion'=>$peticion,'lugar'=>$lugar));
        //return $this->render('AEGanarBundle:Default:modificar.html.twig',array('id'=>$id));
     }
     

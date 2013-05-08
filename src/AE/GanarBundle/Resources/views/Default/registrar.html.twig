@@ -235,15 +235,15 @@
                 <div class="control-group">
                     <label class="control-label" >Fecha nacimiento</label>
                     <div class="controls">
-                        <input type= "text" class="mask_date input-medium" id="inputFechaNacimiento" name="inputFechaNacimiento"/>
-                       <p class="help-block">Año/Mes/Día</p>  
+                        <input type= "text" class="datepick" id="inputFechaNacimiento" name="inputFechaNacimiento"/>
+                       <p class="help-block">Día/Mes/Año</p>  
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label class="control-label" >Edad</label>
                     <div class="controls">
-                        <input type="text" class="input-large" placeholder="Edad" id="inputEdad" name="inputEdad" required pattern="[0-9]{2}"/>
+                        <input type="number" min="0"  max="120" class="input-large" placeholder="Edad" id="inputEdad" name="inputEdad" required pattern="[0-9]{2}"/>
                     </div>
                 </div>
         
@@ -251,7 +251,7 @@
                     <label class="control-label" >Teléfono</label>
                     <div class="controls">
                         <input type="text" class="input-large" placeholder="Telefono" id="inputTelefono" name="inputTelefono" pattern="[0-9]{9}"/>
-                        <p class="help-block">0-codigo-número</p>
+                        <p class="help-block">0codigonúmero</p>
                     </div>
                 </div>
         
@@ -259,6 +259,7 @@
                     <label class="control-label" >Celular</label>
                     <div class="controls">
                         <input type="text" class="input-large" placeholder="Celular" id="inputCelular" name="inputCelular" pattern="[0-9]{9}" />
+                        <p class="help-block">9 digitos</p>
                     </div>
                 </div>
 
@@ -343,7 +344,7 @@
         <div class="control-group">
             <label class="control-label">Fecha</label>
             <div class="controls">
-                <input type= "text" class="mask_date input-medium" id="inputFechaConversion" name="inputFechaConversion" required/>
+                <input type= "text" class="datepick" id="inputFechaConversion" name="inputFechaConversion" required/>
                 <p class="help-block">Año/Mes/Dia</p>  
             </div>
         </div>

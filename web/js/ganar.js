@@ -80,3 +80,16 @@ function celula(dato)
          
     $("#red_lista").change(recargar_celula);
  }
+ 
+ function FechaActual(div){
+			var f= new Date();
+			var mes = "";
+			var day = "";
+			if(f.getMonth()<"10")
+				mes = f.getMonth() + 1;
+				mes = "0" + mes;
+			if(f.getDate()<"10")
+				day = "0" + f.getDate();
+				
+			$("#"+div).val(mes + "/" + day + "/" + f.getFullYear());
+		}

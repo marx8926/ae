@@ -54,6 +54,7 @@ class BusquedaController extends Controller
         $cons_ap = NULL;
         $cons_nom = NULL;
         $conversion = NULL;
+        $peticion = NULL;
         
         $ubigeo = array();
         $redes = array();
@@ -110,6 +111,7 @@ class BusquedaController extends Controller
             $red = $convertido['id_red'];
             $celula = $convertido['id_celula'];
             $conversion = $convertido['fecha_conversion'];
+            $peticion = $convertido['peticion'];
             
             //lider de red
             
@@ -145,7 +147,7 @@ class BusquedaController extends Controller
             'direccion'=>$direccion,'referencia'=>$referencia,'latitud'=>$latitud,'longitud'=>$longitud,'id_ubigeo'=>$id_ubigeo,
             'departamento'=>$departamento,'provincia'=>$provincia,'distrito'=>$distrito,
             'red'=>$red,'celula'=>$celula,'lider'=>$lider_ap.' '.$lider_nom,'cons'=>$cons_ap.' '.$cons_nom,
-            'conversion'=>$conversion));
+            'conversion'=>$conversion,'peticion'=>$peticion));
     }
     
 }
