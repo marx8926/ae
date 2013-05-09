@@ -10,8 +10,7 @@ function mapeo_position(lati, lngi, mapa, dib)
 
             $('#'+lati).val(position.coords.latitude);
             $('#'+lngi).val(position.coords.longitude);
-           
-                     
+      
             dibujar_mapa(dib,lati, lngi,mapa);
         });
         
