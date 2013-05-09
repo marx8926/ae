@@ -75,8 +75,8 @@
                     );
                     return false;});
                     
-                  mapeo_position('lat','lng','addresspicker_map','map');     
-  
+                  //mapeo_position('lat','lng','addresspicker_map','map');     
+                  dibujar_mapa('map','lat','lng','addresspicker_map');
             });
 
             function recargar_celula()
@@ -314,8 +314,8 @@
             <label>Ubicación</label>
                    <div id="map-ll">
 		            	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
-						<label>Latitud:</label> <input id="lat" name="latitud"  value="">
-		                <label>Longitud:</label> <input id="lng" name="longitud" value=""> <br/>
+						<label>Latitud:</label> <input id="lat" name="latitud"  value="-8.097944">
+		                <label>Longitud:</label> <input id="lng" name="longitud" value="-79.03704479999999"> <br/>
 		            </div>
             <div id="map"></div>
    

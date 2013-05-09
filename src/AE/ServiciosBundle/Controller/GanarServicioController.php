@@ -339,7 +339,7 @@ class GanarServicioController extends Controller
     	$result = "<table id='".$nombre."' name='".$nombre."' class='table table-striped table-bordered'>
 					<thead>
 					<tr>
-                    <th>CODIGO</th>
+                    <th width='15%'>CODIGO</th>
 					<th>DOCE DEL PASTOR</th>
 					<th>N° ALMAS</th>
 					</tr>
@@ -347,7 +347,7 @@ class GanarServicioController extends Controller
 					<tbody>";
         
         try{
-            
+           
             $em->beginTransaction();
             
             $sql = "select * from get_reporte_ganar(:tipo,:inicio,:fin)";
