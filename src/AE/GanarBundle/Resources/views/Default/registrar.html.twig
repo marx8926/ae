@@ -6,6 +6,7 @@
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
         <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
  {% endblock %}
          
   {%block javascript %}
@@ -48,6 +49,8 @@
                     var url=$("#myForm").attr("action");
                      
                     //start send the post request
+                    console.log($("#myForm").serialize());
+                    
                     $.post(url,{
                         formName:$("#myForm").serialize(),
                         other:"attributes"
