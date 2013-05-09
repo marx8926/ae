@@ -2,9 +2,10 @@
 function mapeo_position(lati, lngi, mapa, dib)
 {      
 
-    console.log('mapeo_position');
     
     if (navigator.geolocation!==null) {
+            console.log('mapeo_position');
+
         navigator.geolocation.getCurrentPosition(function(position){
 
             $('#'+lati).val(position.coords.latitude);
