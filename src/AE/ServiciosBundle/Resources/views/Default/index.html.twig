@@ -4,6 +4,7 @@
 	<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
 	<script src="{{asset('js/infobox/infobox.js')}}"></script>
 	<script src="{{asset('js/infobox/prueba.js')}}"></script>
+	<script src="{{asset('js/ganar.js')}}"></script>
 	<style>
 	#mapa{
 		height: 400px;
@@ -12,30 +13,117 @@
 	}
 	</style>
 </head>
-<body>
+<body> 
+	<label>Departamento</label>
+	<select name="departamento_lista" id="departamento_lista" style="width: 165px; height: 24px;" ></select>
+	
+	<label>Provincia</label>
+	<select name="provincia_lista" id="provincia_lista" style="width: 165px; height: 24px;" disabled="disabled"></select>
+	
+	<label>Distrito</label>
+	<select name="distrito_lista" id="distrito_lista" style="width: 165px; height: 24px;" disabled="disabled" ></select>
+	
+	<input type="button" value="Buscar" onClick="getUbigeo()">
+		
 	<div id="mapa"></div>
 	<script type="text/javascript">
-		var url = '{{path('servicio_enviar_lista_celulas')}}';
 		
-		//$(document).on('ready',start(url));
+		var url = '{{path('servicio_enviar_lista_celulas')}}';
+
 		$(document).on('ready',prueba);
 
 		function prueba(){
+			//lista de departamentos
+			initDepartamentos('{{path("servicio_region")}}');
+			
 			$.ajax({
 	            url: url,
 	            async: false,
 	        }).done(function(data){
-	        	console.log(data[1].id);
 	        	setGlobalJSON("data",data);
+	        	start();
             });
-			console.log(getGlobalJSON("data"));
 		}
-		function setGlobalJSON(variable, json) {
-			localStorage.setItem(variable, JSON.stringify(json));
+
+		function departamentos(datos)
+        {
+	        $('<option value="-1"></option>').appendTo('#departamento_lista');
+            for(var i=0; i<datos.length ; i++)
+            {
+                $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
+            } 
+
+            recarga_provincias();
+        }
+
+		function recarga_provincias()
+     	{
+        	var route = '{{path('servicio_provincia',{'id': 'nom'})}}';            
+
+         	var id = $("#departamento_lista option:selected").val();              
+         	var rutas = route.replace('nom',id);         
+         	$.ajax(
+            	{   url : rutas,
+                    dataType:"json",
+                    type: "POST",
+                    async: false,
+                }
+            ).done(provincias);        
+     	}  
+    
+        function provincias(dato)
+        {
+             $("#provincia_lista").empty();
+             $('<option value="-1"></option>').appendTo('#provincia_lista');
+             for(var i=0;i<dato.length;i++)
+            {
+                $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
+            }
+             $('#provincia_lista').attr('disabled',false);
+            recarga_distritos();
+            
+        }
+        
+        function recarga_distritos()
+        {
+            var route = '{{path('servicio_distrito',{'dep':'id1','prov':'id2'})}}';
+
+            var dep=$("#departamento_lista option:selected").val();
+            var prov = $("#provincia_lista option:selected").val();
+
+            
+            var rutas = route.replace('id1', dep);                    
+            rutas = rutas.replace('id2', prov);
+            
+             $.ajax(
+                {   url : rutas,
+                    dataType:"json",
+                    type: "POST",
+                    async: false,
+                }
+            ).done(distrito);
+            $('#distrito_lista').attr('disabled',false);
+        };
+
+		function getUbigeo(){
+			var ruta = '{{ path('servicio_ubigeo',{'id':'iddist'}) }}';
+
+			var id = $('#distrito_lista').val();
+
+			ruta = ruta.replace('iddist',id);
+
+			var ubigeo = $.ajax({
+				url: ruta,
+				dataType:"json",
+				type: "POST",
+				async: false,	
+			}).responseText;
+			ubigeo = JSON.parse(ubigeo)[0];
+			//console.log(ubigeo);
+			
+			buscarDireccion(ubigeo);
 		}
-		function getGlobalJSON(variable) {
-		   return JSON.parse(localStorage.getItem(variable));
-		}
+        
 	</script>
 </body>
 </html>

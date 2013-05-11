@@ -166,7 +166,7 @@ class GanarServicioController extends Controller
                     dep as departamento,
                     prov as provincia,
                     dist as distrito,
-                    lati as provincia,
+                    lati as lati,
                     longi as "long" from ver_distrito(:dep,:prov)';
              $smt = $em->getConnection()->prepare($sql);
              $smt->execute(array(':dep'=>$dep,':prov'=>$prov));

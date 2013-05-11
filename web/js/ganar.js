@@ -10,8 +10,7 @@ function lug(dato)
 }
 
 function distrito(dato)
-{
-                   
+{                   
     $("#distrito_lista").empty();
     for(var i=0;i<dato.length;i++)
     {
