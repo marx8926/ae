@@ -34,7 +34,7 @@ security:
             default_target_path: /main
           logout:
             path: /salir
-            target: /
+            target: /ingreso
 
           remember_me:
             key: MiPassphrase
@@ -50,6 +50,9 @@ security:
 
     access_control:
         - { path: ^/ingreso, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/sobre, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/contacto, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/contacto_up, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - {path: /user, roles: ROLE_USER }
         - {path: /admin, roles: ROLE_ADMIN}
         - {path: /.*, roles: ROLE_ADMIN ,requires_channel: https }

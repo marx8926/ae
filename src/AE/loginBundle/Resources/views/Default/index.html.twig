@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
-    
-    
+     {% if app.user %}
+         <input type = "hidden" id="user" name="user" value="{{app.user.username}}">
+         <title>{{app.user.username}}</title>
+                
+    {% else %}
+         <input type = "hidden" id="user" name="user" value="">
+
+             
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Administración EclesiásticaE</title>
+        <title>Administration Church</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Le styles -->
         
@@ -252,11 +258,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-            <a class="brand" href="#"> AE </a>
+            <a class="brand" href="{{path('ingreso')}}"> AC </a>
                 <ul class="nav pull-left">
-                            <li class="active"><a href="#">Inicio</a></li>
-                            <li ><a href="#">Sobre</a></li>
-                            <li ><a href="#">Contacto</a></li>             
+                            <li class="active"><a href="{{path('ingreso')}}">Inicio</a></li>
+                            <li ><a href="{{path('sobre')}}">Sobre</a></li>
+                            <li ><a href="{{path('contacto')}}">Contacto</a></li>             
                 </ul>
             
  
@@ -329,7 +335,8 @@
 
   <div class="marketing">
 
-    <h1>CLM-Net</h1>
+    <h1>AC</h1>
+  
     <p class="marketing-byline">Porqué mi congregación no crece? Look no further.</p>
 
     <div class="row-fluid">
@@ -348,6 +355,7 @@
         <h2>Packed with features.</h2>
         <p>A 12-column responsive <a href="./scaffolding.html#grid">grid</a>, dozens of components, <a href="./javascript.html">JavaScript plugins</a>, typography, form controls, and even a <a href="./customize.html">web-based Customizer</a> to make Bootstrap your own.</p>
       </div>
+            
     </div>
   </div>
 
@@ -381,7 +389,7 @@
     </div> <!-- /container -->        
     <div>
     	<footer>
-        	<p align="center">&copy; 2013 por CLM Developers All rights reserved.</p>
+            <p align="center">&copy; 2013 by  <a href="http://www.clmdevelopers.com">CLM Developers</a> All rights reserved.</p>
             <p align="center">
 	            <a href="http://www.w3.org/html/logo/">
 	            	<img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" width="197" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
@@ -389,7 +397,11 @@
             </p>
         </footer>
 	</div>            
-            
+    
+</body>
+
+    {% endif %} 
+        
      {%block javascripts %}    
         <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
@@ -405,7 +417,22 @@
         });
       }(window.jQuery);
     </script>
+    
+    <script type="text/javascript">
+    
+        $(document).ready(function() {
+            
+            var name= $('#user').val();
+            console.log(name.length);
+            if(name.length > 0)
+                {
+                   
+                   var href="{{path('main')}}";
+             
+                   $(location).attr('href',href); 
+                }
+        });
+    </script>
 <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
     {%endblock%}
-</body>
 </html>

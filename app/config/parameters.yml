@@ -2,13 +2,15 @@ parameters:
   database_driver: pdo_pgsql
   database_host: 127.0.0.1
   database_port: 5432
-  database_name: AE_DB_T_v3
+  database_name: AE_DB_alfa
   database_user: postgres
-  database_password: '260489'
-  mailer_transport: smtp
-  mailer_host: 127.0.0.1
-  mailer_user: null
-  mailer_password: null
+  database_password: 'cs*marx*26041989'
+  mailer_transport: gmail
+  mailer_encryption: ssl
+  mailer_auth_mode: login
+  mailer_host: smtp.gmail.com
+  mailer_user: artmar89
+  mailer_password: 
   locale: en
   secret: ac9bd8548969f5321bae93b6dd13043ba0e475a7
   database_path: null

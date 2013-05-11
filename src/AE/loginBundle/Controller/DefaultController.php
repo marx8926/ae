@@ -11,7 +11,8 @@ class DefaultController extends Controller
 {
      public function indexAction()
     {
-       
+               return $this->redirect($this->generateUrl('ingreso'));
+
     }
     
     public function loginAction()
@@ -68,5 +69,70 @@ class DefaultController extends Controller
         
         
         return $this->render('AEloginBundle:Default:main.html.twig');
+    }
+    
+    public function sobreAction()
+    {
+             $request = $this->getRequest();
+        $session = $request->getSession();
+        
+        $securityContext = $this->get('security.context');
+
+ 
+        // get the login error if there is one
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+        } else {
+            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
+        }
+        
+        return $this->render('AEloginBundle:Default:sobre.html.twig', array(
+            // last username entered by the user
+            'last_username' => $session->get(SecurityContext::LAST_USERNAME),
+            'error'         => $error,
+        ));
+    }
+    
+    public function contactoAction()
+    {
+             $request = $this->getRequest();
+        $session = $request->getSession();
+        
+        $securityContext = $this->get('security.context');
+
+ 
+        // get the login error if there is one
+        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+        } else {
+            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
+        }
+        
+        return $this->render('AEloginBundle:Default:contacto.html.twig', array(
+            // last username entered by the user
+            'last_username' => $session->get(SecurityContext::LAST_USERNAME),
+            'error'         => $error,
+        ));        
+    }
+    
+    public function contactoUpAction()
+    {
+        
+        $request = $this->getRequest();
+        $message = \Swift_Message::newInstance()
+            ->setSubject($request->get('subject'))
+            ->setFrom('artmar89@gmail.com')
+            ->setTo('contacto@clmdevelopers.com')
+            ->setBody($this->renderView('AEloginBundle:Default:holamundo.txt.twig', array('nombres' => $request->get('nombres'),
+                'apellidos'=>$request->get('apellidos'),'email'=>$request->get('email'),
+                'subject'=>$request->get('subject'),'message'=>$request->get('message')
+                )));
+        $this->get('mailer')->send($message);
+
+        $this->get('session')->setFlash('notice', 'Tu contacto fue enviado exitosamente. Dios te bendiga!');
+            
+        
+        return $this->redirect($this->generateUrl('contacto'));
+
     }
 }

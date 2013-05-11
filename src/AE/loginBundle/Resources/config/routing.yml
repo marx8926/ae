@@ -11,3 +11,17 @@ salir:
 main:
   pattern: /main
   defaults: {_controller: AEloginBundle:Default:main}
+  
+sobre:
+  pattern: /sobre
+  defaults: {_controller: AEloginBundle:Default:sobre}
+  
+contacto:
+  pattern: /contacto
+  defaults: {_controller: AEloginBundle:Default:contacto}
+  
+contacto_up:
+  pattern: /contacto_up
+  defaults: {_controller: AEloginBundle:Default:contactoUp}
+  requirements:
+    _method: POST
