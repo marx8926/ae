@@ -14,7 +14,11 @@ function distrito(dato)
     $("#distrito_lista").empty();
     for(var i=0;i<dato.length;i++)
     {
-                        $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
+            if(dato[i].distrito=='TRUJILLO')
+                $('<option value='+dato[i].id+' data-long='+dato[i].long+' data-lat='+ dato[i].lati+' selected>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
+            else
+                $('<option value='+dato[i].id+' data-long='+dato[i].long+' data-lat='+ dato[i].lati+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
+
     }
 }
 

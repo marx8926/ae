@@ -660,7 +660,7 @@ class ConsolidarServicioController extends Controller
            $herramienta = array();
            
            //creamos la cabezera
-           $temp = "<thead> <tr> <th>ID</th> <th>Nombres</th><th>Apellidos</th><th>Red</th>";
+           $temp = "<thead> <tr> <th>N°</th> <th>ID</th> <th>Nombres</th><th>Apellidos</th><th>Red</th>";
            $cuerpo = "<tr> <td>N°</td><td>ID</td> <td>Nombres</td><td>Apellidos</td><td>Red</td>";
            
             $result="<table id='persona' name='persona' class='table table-striped table-bordered'>";
@@ -708,7 +708,6 @@ class ConsolidarServicioController extends Controller
                   $cadena = $cuerpo; 
                   $cadena = str_replace('N°', strval($numero), $cadena); //id
                   
-
                   $cadena = str_replace('ID', $value['id'], $cadena); //id
                   $cadena = str_replace('Nombres', $value['nombre'], $cadena); //nombre
                   $cadena = str_replace('Apellidos', $value['apellidos'], $cadena); //apellidos
