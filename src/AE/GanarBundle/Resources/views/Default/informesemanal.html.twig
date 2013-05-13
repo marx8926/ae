@@ -2,9 +2,11 @@
 
 {% block stylesheets %}
 	<link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
-    <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
-    <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+
     <style>
     	.encurso{
     		color: #008500;
@@ -37,17 +39,24 @@
 	<script src="{{asset('js/ui.spinner.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>			
 	<script src="{{asset('js/functiongen.js')}}"></script>
+        <script src="{{asset('js/tiempo.js')}}"></script>
             
     <script type="text/javascript">
             $(document).ready(function() {
-            	 $(".rango").change(function(){
-            		 ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
+            	 
+                FechaActualT('fecha1');
+                FechaActualT('fecha2');
+                
+                $(".rango").change(function(){
+            		 
+                         console.log($('#fecha1').val()+$('#fecha2').val());
+                         ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
             		 ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
             		 ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
  				});
-                ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'2013-01-01','fecha2':'2013-02-01'})}}");
-                ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'2013-01-01','fecha2':'2013-02-01'})}}");
-                ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'2013-01-01','fecha2':'2013-02-01'})}}");
+                ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
+                ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
+                ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
 
                 $("#pdfInforme").click(function(event) {
                     //$("#tabla_informe_ganar th").css("width","16%");
@@ -79,7 +88,7 @@
 {% block content %}
 
 <div id="cursos">
-<h3 id="titulo">INFORME DEL AREA DE GANAR <br></>DEL <input type="date" id="fecha1" class="rango" value="2013-01-01" > AL <input type="date" id="fecha2" class="rango" value="2013-02-01" ><h3>
+<h3 id="titulo">INFORME DEL AREA DE GANAR <br></>DEL <input type="date" id="fecha1" class="rango"> AL <input type="date" id="fecha2" class="rango"><h3>
 </div>
 <div class="row-fluid">
 	<div class="span12">

@@ -93,6 +93,8 @@ function celula(dato)
 				mes = "0" + mes;
 			if(f.getDate()<"10")
 				day = "0" + f.getDate();
+                        else
+                               day = f.getDate();
 				
 			$("#"+div).val(mes + "/" + day + "/" + f.getFullYear());
 		}
