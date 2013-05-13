@@ -60,9 +60,9 @@
                     if(data.responseCode==200 ){           
                       
                         alert('Registro Completado');
-                        var href="{{path('main')}}";
-             
-                        $(location).attr('href',href); 
+                        //var href="{{path('main')}}";
+                        location.reload();
+                        //$(location).attr('href',href); 
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');
@@ -104,8 +104,13 @@
                 {
                     for(var i=0; i<datos.length ; i++)
                     {
-                        $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
+                        if(datos[i].departamento=='LA LIBERTAD')
+                         $('<option value='+datos[i].coddepartamento+' selected>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
+                        else
+                         $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
+
                     } 
+                    
 
                     recarga_provincias();
                 }
@@ -131,7 +136,11 @@
                      $("#provincia_lista").empty();
                      for(var i=0;i<dato.length;i++)
                     {
-                        $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
+                        if(dato[i].provincia=='TRUJILLO')
+                            $('<option value='+dato[i].codprovincia+' selected>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
+                        else
+                            $('<option value='+dato[i].codprovincia+' >'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
+                         
                     }
 
                     recarga_distritos();
@@ -239,7 +248,7 @@
                     <label class="control-label" >Fecha nacimiento</label>
                     <div class="controls">
                         <input type= "text" class="datepick" id="inputFechaNacimiento" name="inputFechaNacimiento"/>
-                       <p class="help-block">Día/Mes/Año</p>  
+                       <p class="help-block">Mes/Día/Año</p>  
                     </div>
                 </div>
                 
@@ -348,7 +357,7 @@
             <label class="control-label">Fecha</label>
             <div class="controls">
                 <input type= "text" class="datepick" id="inputFechaConversion" name="inputFechaConversion" required/>
-                <p class="help-block">Año/Mes/Dia</p>  
+                <p class="help-block">Mes/Día/Año</p>  
             </div>
         </div>
         <div class="control-group">

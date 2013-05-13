@@ -11,6 +11,7 @@ use AE\DataBundle\Entity\Usuario;
 use AE\DataBundle\Entity\NuevoConvertido;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\ORM\TransactionRequiredException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -111,7 +112,25 @@ class RegistrarController extends Controller
                 $persona->setEstadoCivil($civil);
                 
                 if(strlen($email)>0)
-                    $persona->setEmail($email);
+                {    $persona->setEmail($email);
+                
+                /*
+                    $request = $this->getRequest();
+                    $message = \Swift_Message::newInstance()
+                            ->setSubject('Gracias por registrarse')
+                                ->setFrom('cmclmtrujillo@gmail.com')
+                            ->setTo($email)
+                            ->setBody($this->renderView('AEloginBundle:Default:holamundo.txt.twig',
+                                    array('nombres' => $nombres,
+                'apellidos'=>$apellidos,
+                'subject'=>'Registro en AC')));
+                $this->get('mailer')->send($message);
+                 * *
+                 */
+
+                //$this->get('session')->setFlash('notice', 'Tu contacto fue enviado exitosamente. Dios te bendiga!');
+  
+                }
                 
                 $persona->setCelular($celular);
                 $persona->setTelefono($telefono);
