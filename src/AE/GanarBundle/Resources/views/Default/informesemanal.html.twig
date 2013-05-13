@@ -49,7 +49,6 @@
                 
                 $(".rango").change(function(){
             		 
-                         console.log($('#fecha1').val()+$('#fecha2').val());
                          ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
             		 ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
             		 ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
