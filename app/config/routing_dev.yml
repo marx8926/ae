@@ -1,6 +1,6 @@
 _welcome:
     pattern:  /
-    defaults: { _controller: loginBundle:Default:index }
+    defaults: { _controller: AEloginBundle:Default:index }
 
 _demo_secured:
     resource: "@AcmeDemoBundle/Controller/SecuredController.php"

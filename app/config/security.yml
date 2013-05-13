@@ -55,7 +55,7 @@ security:
         - { path: ^/contacto_up, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - {path: /user, roles: ROLE_USER }
         - {path: /admin, roles: ROLE_ADMIN}
-        - {path: /.*, roles: ROLE_ADMIN ,requires_channel: https }
+        - {path: /.*, roles: ROLE_USER ,requires_channel: https }
    #     - { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
   
 
