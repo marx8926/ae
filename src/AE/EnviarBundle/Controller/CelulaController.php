@@ -99,7 +99,7 @@ class CelulaController extends Controller
                     case 3:
                       //lider
                         $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
-                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>0,':idx'=>$id));                        
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>3,':idx'=>$id));                        
                         break;
 
                     default:

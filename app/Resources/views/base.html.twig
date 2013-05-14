@@ -16,10 +16,8 @@
 <body>
 <div class="topbar">
 	<div class="container-fluid">
-		<a href="dashboard.html" class='company'>Administración Eclesiástica</a>
-		<form action="#">
-			<input type="text" placeholder="Buscar aquí...">
-		</form>
+		<a href="{{path('main')}}" class='company'>Administración Eclesiástica</a>
+		
 		<ul class='mini'>
 			<li>
 				<a href="#">
@@ -40,13 +38,9 @@
 	<div class="container-fluid">
 		<ul class="bread pull-left">
 			<li>
-				<a href="dashboard.html"><i class="icon-home icon-white"></i></a>
+				<a href="{{path('main')}}"><i class="icon-home icon-white"></i></a>
 			</li>
-			<li>
-				<a href="dashboard.html">
-					Dashboard
-				</a>
-			</li>
+			
 		</ul>
 
 	</div>
@@ -55,9 +49,9 @@
 	<div class="navi">
 		<ul class='main-nav'>
 			<li class='active'>
-				<a href="dashboard.html" class='light'>
+				<a href="{{path('main')}}" class='light'>
 					<div class="ico"><i class="icon-home icon-white"></i></div>
-					Home
+					Inicio
 				</a>
 			</li>
 			<li>
@@ -326,14 +320,10 @@
                                         <li>
                                             <a href="{{path('administrar_lista_redes')}}">Redes</a>
                                         </li>
-					<li>
-						<a href="{{path('administrar_permisos')}}">
-							Asignar Permisos
-						</a>
-					</li>
+					
 					<li>
 						<a href="{{path('administrar_mod_permisos')}}">
-							Modificar Permisos
+							Permisos
 						</a>
 					</li>
 					<li>

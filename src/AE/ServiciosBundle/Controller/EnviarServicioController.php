@@ -214,9 +214,10 @@ class EnviarServicioController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         
         $todo = array();
+        $em->beginTransaction();
         
         try{
-            $em->beginTransaction();
+        
             
             $sql = "select * from lista_celula_lider_red";
             $smt = $em->getConnection()->prepare($sql);
@@ -230,6 +231,7 @@ class EnviarServicioController extends Controller
             
             $sql = "select * from lista_celula_pastor_eje";
             $smt2 = $em->getConnection()->prepare($sql);
+            $smt2->execute();
             $pastor = $smt2->fetchAll();
             
             $todo = $lider_red;
@@ -240,7 +242,16 @@ class EnviarServicioController extends Controller
             foreach ($pastor as $key => $value) {
                 $todo[]=$value;
             }
-       
+            
+            $sql = "select * from lista_celula_lider";
+            $smt3 = $em->getConnection()->prepare($sql);
+            $smt3->execute();
+            $lideres = $smt3->fetchAll();
+            
+            foreach ($lideres as $key => $value) {
+                $todo[]=$value;
+            }
+           
             $em->commit();
         }
         catch(Exception $e)

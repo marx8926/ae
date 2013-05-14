@@ -128,6 +128,7 @@ class ModificarController extends Controller
             $mision = NULL;
             $pastor = NULL;
             $lider  = NULL;
+            $liderL = NULL;
             $retorna = NULL;
             
             $em = $this->getDoctrine()->getEntityManager();
@@ -136,7 +137,7 @@ class ModificarController extends Controller
             try{
                 $em->beginTransaction();
                 
-                $sql = "select update_cell(:tip, :fam, :tel,:red, :mision, :pastor, :lider, :idx, :dir,:refer,:lati,:longitu, :ubigeo, :idubi)";
+                $sql = "select update_cell(:tip, :fam, :tel,:red, :mision, :pastor, :lider,:liderl, :idx, :dir,:refer,:lati,:longitu, :ubigeo, :idubi)";
                 $smt = $em->getConnection()->prepare($sql);
                 
                 switch (intval($tipo)) {
@@ -152,12 +153,15 @@ class ModificarController extends Controller
                     case 2:
                         $mision=$id;
                         break;
+                    
+                    case 3:
+                        $liderL=$id;
                     default:
                         break;
                 }
                 
                 $retorna = array(':tip'=>$tipocell,':fam'=>$familia, ':tel'=>$telefono,':red'=>$id_red,':mision'=>$mision,':pastor'=>$pastor,
-                    ':lider'=>$lider,':idx'=>$celula, ':dir'=>$direccion, ':refer'=>$referencia,':lati'=>$latitud,':longitu'=>$longitud,
+                    ':lider'=>$lider,':liderl'=>$liderL,':idx'=>$celula, ':dir'=>$direccion, ':refer'=>$referencia,':lati'=>$latitud,':longitu'=>$longitud,
                     ':ubigeo'=>$distrito,':idubi'=>$ubicacion);
                 
                 $smt->execute($retorna);

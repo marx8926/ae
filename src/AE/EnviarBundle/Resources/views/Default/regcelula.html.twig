@@ -141,7 +141,7 @@
         <div class="control-group">
             <label></label>
                 <div class="controls">
-                    <input class="btn btn-small btn-primary" type="submit" name="login" />
+                    <input class="btn btn-small btn-primary" type="submit" name="login" value="Registrar" />
                 </div>
         </div>
         </fieldset>
@@ -194,13 +194,13 @@
                             
                         case 3: //lideres
                             ajaxListPost('{{path('_enviar_lista_lideres_cell')}}','ids',rede);
+                            break;
                     }        
                             
                 }
                 function change_tipo()
                 {
                     var valor = $('#tip_red').val();
-                    console.log(valor);
                     listas(parseInt(valor));
                 }
             

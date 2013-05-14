@@ -30,6 +30,7 @@
 		                    <th>Apellidos</th>
 		                    <th width="10%">Tipo de Lider</th>
 		                    <th width="8%">Tipo Cel.</th>
+                                    <th width="8%">Red</th>
 		                    <th>Dirección</th>
 		                    <th width="10%">Creación</th>
                                     <th width="5%">Activo</th>
@@ -38,8 +39,8 @@
 					
 	
     			</table>
-                          <p class="help-block">Tipo Lider: 0 lider, 1 misionero, 2 Pastores Ejecutivos</p>
-                          <p class="help-block"> Tipo Célula: O Evangelistica, 1 Discipulado</p>
+                          <p class="help-block">Tipo Lider: 0 Lider de Red, 1 misionero, 2 Pastores Ejecutivos, 3 Lider</p>
+                          <p class="help-block"> Tipo Célula: 0 Evangelistica, 1 Discipulado</p>
    			</form>
     	</div>
 	</div>
@@ -97,7 +98,6 @@
         var values = [];
         eq = function(data)
         {
-            console.log(data);
             if(data.responseCode==200 ){
     				var anSelected = fnGetSelected( oTable );
 		oTable.fnDeleteRow( anSelected[0] );
@@ -137,7 +137,6 @@
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
                 });   
-                console.log(values);
                 if(values[0]!=='Datos no disponibles')
                 {
                     $('#idpersona').val(values[0]);
@@ -163,11 +162,12 @@
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "tip_lider" },
                     { "mDataProp": "tipo" },
+                    {"mDataProp": "id_red"},
                     { "mDataProp": "direccion"},
                     { "mDataProp": "fecha_creacion"},
                     {"mDataProp": "activo"}
                 ],
-		"aaSorting": [ [0,'asc'], [1,'asc'] ],
+		"aaSorting": [ [5,'asc'], [4,'asc'],[3,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
 		],"sDom": 'T<"clear">lfrtip',
