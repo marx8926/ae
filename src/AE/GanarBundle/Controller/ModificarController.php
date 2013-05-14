@@ -39,8 +39,10 @@ class ModificarController extends Controller
                         
             $em = $this->getDoctrine()->getEntityManager();         
       
-            $return=array("responseCode"=>200,  "greeting"=>'OK');
-              
+            if(strcmp($red,'-1')==0)
+                    $red=NULL;
+            if(strcmp($celula,'-1')==0)
+                    $celula=NULL;
            
             $this->getDoctrine()->getEntityManager()->beginTransaction();
             try
@@ -334,8 +336,19 @@ class ModificarController extends Controller
                     
                 }
                 
+                if(strcmp($red, '-1')==0)
+                        $red = NULL;
+                if(strcmp($cell, '-1')==0)
+                        $cell = NULL;
                 //nuevo convertido
-                if(strcmp($red,'-1')==0 || strcmp($cell, '-1')==0)
+                
+                $sql = "UPDATE nuevo_convertido SET id_celula =:cel, id_red=:red,  id_lugar=:lug, peticion=:pet WHERE id=:code";
+                $smt_con = $em->getConnection()->prepare($sql);
+                if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':lug'=>$lugar,':code'=>$id, ':pet'=>$desc)))
+                {
+                        
+                }
+                /*if(strcmp($red,'-1')==0 || strcmp($cell, '-1')==0)
                 {
                     $sql = "UPDATE nuevo_convertido SET id_celula =:cel, id_red=:red,  id_lugar=:lug , peticion=:pet WHERE id=:code";
                     $smt_con = $em->getConnection()->prepare($sql);
@@ -352,10 +365,17 @@ class ModificarController extends Controller
                     {
                         
                     }
-                }
+                }*/
                 
                 //miembro
                 //añadido para miembro
+                $sql = "UPDATE miembro SET id_celula =:cel, id_red=:red WHERE id=:code";
+                $smt_con = $em->getConnection()->prepare($sql);
+                if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':code'=>$id)))
+                {
+                        
+                }
+                /*
                 if(strcmp($red,'-1')==0 || strcmp($cell, '-1')==0)
                 {
                     $sql = "UPDATE miembro SET id_celula=:cel, id_red=:red  WHERE id=:code";
@@ -377,6 +397,8 @@ class ModificarController extends Controller
                         }
                     //}
                 }
+                 * 
+                 */
                 //redes sociales
                 //facebook
                 if(strlen($face)>0)

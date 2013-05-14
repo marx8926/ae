@@ -36,6 +36,34 @@ class RegistrarController extends Controller
         $datos = array();
 
         parse_str($name,$datos);
+        
+        
+            $usuario = NULL;        
+            $email = NULL;
+            $pass = NULL;
+            $nombres = NULL;
+            $apellidos = NULL;
+            $civil = NULL;
+            $sexo = NULL;            
+            $fech = NULL;
+            $edad = NULL;            
+            $telefono = NULL;
+            $celular = NULL;            
+            $direccion = NULL;
+            $referencia = NULL;            
+            $departamento = NULL;
+            $provincia = NULL;
+            $distrito = NULL;
+            $latitud = NULL;
+            $longitud = NULL;   
+            $red = NULL;
+            $celula = NULL;            
+            $fechaConv = NULL;            
+            $lugar = NULL;            
+            $facebook = NULL;
+            $twitter = NULL;
+            $webpage = NULL;            
+            $peticion = NULL;
 
         if($name!=NULL){
 
@@ -189,10 +217,13 @@ class RegistrarController extends Controller
                     $redU = $con2->findOneBy(array('id'=>$red));
                 
                     //celula
-                    $con3 = $this->getDoctrine()->getManager()->getRepository('AEDataBundle:Celula');
-                    $cell = $con3->findOneBy(array('id'=>$celula));
+                    if(strcmp($celula, '-1')!=0)
+                    {
+                        $con3 = $this->getDoctrine()->getManager()->getRepository('AEDataBundle:Celula');
+                        $cell = $con3->findOneBy(array('id'=>$celula));
                 
-                    $nuev_con->setIdCelula($cell);
+                        $nuev_con->setIdCelula($cell);
+                    }
                     $nuev_con->setIdRed($redU);
                 }
                 
@@ -212,7 +243,8 @@ class RegistrarController extends Controller
                 if(strcmp($red, '-1')!=0)
                 {
                     $miembro->setIdRed($redU);
-                    $miembro->setIdCelula($cell);
+                    if(strcmp($celula, '-1')!=0)
+                        $miembro->setIdCelula($cell);
                 }
                 $miembro->setActivo(TRUE);
                 $miembro->setFechaObtencion(new \DateTime($fechaConv));
