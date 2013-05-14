@@ -95,6 +95,12 @@ class CelulaController extends Controller
                         $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
                                 ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>0,':idx'=>$id));                        
                         break;
+                    
+                    case 3:
+                      //lider
+                        $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>0,':idx'=>$id));                        
+                        break;
 
                     default:
                         break;

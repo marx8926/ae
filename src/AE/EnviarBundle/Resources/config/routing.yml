@@ -84,3 +84,7 @@ enviar_asistencia:
   #pattern: /celulas_por_red
   #defaults: {_controller: AEEnviarBundle:Default:celulasbyred}  
   
+enviar_lista_lideres:
+  pattern: /lista_lideres
+  defaults: {_controller: AEEnviarBundle:Lideres:lista_lideres}
+  

@@ -144,7 +144,7 @@
                 <div class="control-group">
                     <label></label>
                     <div class="controls">
-                        <input class="btn btn-small btn-primary" type="submit" name="login" id="login" />
+                        <input class="btn btn-small btn-primary" type="submit" name="login" id="login"  value="Registrar"/>
                     </div>
                 </div>
             
@@ -217,11 +217,11 @@
                        // $('#output').html(data.greeting);
                         //$('#output').css("color","red");
                         alert('Registro Completado');
-                        var href="{{path('main')}}";
+                       // var href="{{path('main')}}";
                    
-                       $(location).attr('href',href); 
+                       //$(location).attr('href',href); 
+                       location.reload();
           
-
                     }
                     else if(data.responseCode==400){//bad request
                        // $('#output').html(data.greeting);
@@ -346,18 +346,7 @@
                 {
                         $('<option value='+datos.id+'>'+datos.nombre+'</option>').appendTo('#iglesia_lista');
                 }
-                
-                  
-                function departamentos(datos)
-                {
-                    for(var i=0; i<datos.length ; i++)
-                    {
-                        $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
-                    } 
-                    
-                    recarga_provincias();
-                }
-    
+     
                 function recarga_provincias()
                 {
                  var id = $("#departamento_lista option:selected").val();              
@@ -372,17 +361,7 @@
                     ).done(provincias);
                 }
             
-                function provincias(dato)
-                {
-                     $("#provincia_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
-                    }
-                    
-                    recarga_distritos();
-                }
-                
+                               
                 function recarga_distritos()
                 {
                     var dep=$("#departamento_lista option:selected").val();

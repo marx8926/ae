@@ -9,8 +9,8 @@ parameters:
   mailer_encryption: ssl
   mailer_auth_mode: login
   mailer_host: smtp.gmail.com
-  mailer_user: cmclmtrujillo
-  mailer_password: cmclmtrujillo
+  mailer_user: artmar89
+  mailer_password: 
   locale: en
   secret: ac9bd8548969f5321bae93b6dd13043ba0e475a7
   database_path: null

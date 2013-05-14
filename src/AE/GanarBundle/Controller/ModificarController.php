@@ -29,6 +29,7 @@ class ModificarController extends Controller
         $datos = array();
 
         parse_str($name,$datos);
+              
                   
         if($name!=NULL){
 
@@ -46,7 +47,7 @@ class ModificarController extends Controller
             {
                
                 //actualizar miembro
-                
+               
                 $sql = "UPDATE miembro SET  id_celula= :celula,  id_red= :red WHERE id= :codigo";
 
                 $smt = $em->getConnection()->prepare($sql);
@@ -68,6 +69,7 @@ class ModificarController extends Controller
                  $this->getDoctrine()->getEntityManager()->commit();
                  
                  $return=array("responseCode"=>200,  "greeting"=>'OK');
+               
 
         
             }catch(Exception $e)
@@ -333,7 +335,7 @@ class ModificarController extends Controller
                 }
                 
                 //nuevo convertido
-                if(strcmp($red,'-1')==0)
+                if(strcmp($red,'-1')==0 || strcmp($cell, '-1')==0)
                 {
                     $sql = "UPDATE nuevo_convertido SET id_celula =:cel, id_red=:red,  id_lugar=:lug , peticion=:pet WHERE id=:code";
                     $smt_con = $em->getConnection()->prepare($sql);
@@ -354,7 +356,7 @@ class ModificarController extends Controller
                 
                 //miembro
                 //añadido para miembro
-                if(strcmp($red,'-1')==0)
+                if(strcmp($red,'-1')==0 || strcmp($cell, '-1')==0)
                 {
                     $sql = "UPDATE miembro SET id_celula=:cel, id_red=:red  WHERE id=:code";
                     $smt_con = $em->getConnection()->prepare($sql);
@@ -365,15 +367,15 @@ class ModificarController extends Controller
                     
                 }
                 else {
-                    if(strcmp($cel,'-1')==0 && strcmp($red,'-1')==0)
-                    {
+                    //if(strcmp($cel,'-1')==0 && strcmp($red,'-1')==0)
+                    //{
                         $sql = "UPDATE miembro SET id_celula =:cel, id_red=:red WHERE id=:code";
                         $smt_con = $em->getConnection()->prepare($sql);
                         if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':code'=>$id)))
                         {
                         
                         }
-                    }
+                    //}
                 }
                 //redes sociales
                 //facebook

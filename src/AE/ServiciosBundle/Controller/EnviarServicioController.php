@@ -136,6 +136,42 @@ class EnviarServicioController extends Controller
        return new Response($total);
     }
     
+    public function getLiderCellAction()
+    {
+         $request = $this->get('request');
+       
+       $temp = $request->request->get('dato');
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       try
+       {
+          $sql = "select *from  ver_lideres_to_celulas(:idx)";
+          $smt = $em->getConnection()->prepare($sql);
+          $smt->execute(array(':idx'=>$temp));
+          
+          $todo = $smt->fetchAll();
+          $total = "";
+          
+          $n = count($todo);
+          for($i=0; $i<$n; $i++)
+          {
+              $linea = "<option value='".$todo[$i]['id']."'>";
+                $linea = $linea.$todo[$i]['id']."-".$todo[$i]['nombre']." ".$todo[$i]['apellidos']."</option>";
+                $total = $total.$linea;
+          }
+          $em->commit();
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           
+           throw  $e;
+       }
+       
+       return new Response($total);
+    }
     public function getLiderPastorEjeCellAction()
     {
        $request = $this->get('request');

@@ -64,3 +64,7 @@ ganar_test:
   pattern: /test_tiempo
   pattern: /test_tiempo
   defaults: {_controller: AEGanarBundle:Default:test}
+  
+ganar_informe_convertidos:
+  pattern: /informe_convertidos
+  defaults: {_controller: AEGanarBundle:Informe:InformeConvertidos}

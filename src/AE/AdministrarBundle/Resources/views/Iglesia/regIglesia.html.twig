@@ -164,15 +164,7 @@
                     return false;});                    
                     mapeo_position('lat','lng','addresspicker_map','map');     
                 });
-                
-                function departamentos(datos)
-                {
-                    for(var i=0; i<datos.length ; i++)
-                    {
-                        $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
-                    }                    
-                    recarga_provincias();
-                }
+                           
     
                 function recarga_provincias()
                 {
@@ -188,17 +180,7 @@
                     ).done(provincias);
                 }
             
-                function provincias(dato)
-                {
-                     $("#provincia_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
-                    }
-                    
-                    recarga_distritos();
-                }
-                
+                                
                 function recarga_distritos()
                 {
                     var dep=$("#departamento_lista option:selected").val();

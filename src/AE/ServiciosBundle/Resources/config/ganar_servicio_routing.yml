@@ -68,3 +68,8 @@ servicio_tabla_semanal:
 servicio_tabla_lugar_ganados:
   pattern: /servicio_tabla_lugar_ganados/{nombre}/{fecha1}/{fecha2}
   defaults: {_controller: AEServiciosBundle:GanarServicio:getTablaLugarGanados}
+  
+  
+servicio_convertido_red_lugar:
+  pattern: /servicio_convertido_red_lugar/{fecha1}/{fecha2}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:convertido_Red_Lugar}

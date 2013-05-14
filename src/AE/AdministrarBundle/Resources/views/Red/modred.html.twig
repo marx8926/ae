@@ -11,7 +11,7 @@
 {% block content %}
         <div class="span9" id="registro_form">
             <form class="form-horizontal" action="{{path('administrar_lista_redes_modificar_update')}}"  method="POST" id="myForm" name="myForm">
-                 <legend>Registro de Red</legend>
+                 <legend>Modificar Red</legend>
         
                 <fieldset> 
                     <div class="control-group">
@@ -130,7 +130,7 @@
                 <div class="control-group">
                     <label></label>
                     <div class="controls">
-                        <input class="btn btn-small btn-primary" type="submit" name="login" id="login" />
+                        <input class="btn btn-small btn-primary" type="submit" name="login" id="login" value="Guardar Cambios" />
                     </div>
                 </div>
             
@@ -147,6 +147,7 @@
             <script type="text/javascript" src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
             <script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>
             <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/ganar.js')}}"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
    
       
@@ -261,20 +262,9 @@
                 
                 $.getJSON('{{path('servicio_iglesia')}}',iglesias);
                 
-                 //lista de departamentos
-                  $.ajax(
-                    {url : '{{path('servicio_region')}}',
-                     dataType:"json",
-                     type: "POST",
-                     async: false,
-                    }
-                    ).done(departamentos);
                 
-                 //cambio de departamento
-                 $("#departamento_lista").change(recarga_provincias);
-                  
-                  //cambio de provincia
-                 $("#provincia_lista").change(recarga_distritos);
+                
+                 initDepartamentos('{{path('servicio_region')}}');
                  
     
                 //lideres
@@ -417,18 +407,7 @@
                 {
                         $('<option value='+datos.id+'>'+datos.nombre+'</option>').appendTo('#iglesia_lista');
                 }
-                
-                  
-                function departamentos(datos)
-                {
-                    for(var i=0; i<datos.length ; i++)
-                    {
-                        $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
-                    } 
-                    
-                    recarga_provincias();
-                }
-    
+       
                 function recarga_provincias()
                 {
                  var id = $("#departamento_lista option:selected").val();              
@@ -443,17 +422,7 @@
                     ).done(provincias);
                 }
             
-                function provincias(dato)
-                {
-                     $("#provincia_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].codprovincia+'>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
-                    }
-                    
-                    recarga_distritos();
-                }
-                
+                              
                 function recarga_distritos()
                 {
                     var dep=$("#departamento_lista option:selected").val();
@@ -472,15 +441,7 @@
                         }
                     ).done(distrito);
                 }
-                function distrito(dato)
-                {
-                   
-                     $("#distrito_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].id+'>'+dato[i].distrito+'</option>').appendTo('#distrito_lista');
-                    }
-                }
+               
             
             </script>
             

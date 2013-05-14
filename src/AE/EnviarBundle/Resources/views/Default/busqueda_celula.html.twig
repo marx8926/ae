@@ -137,11 +137,14 @@
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
                 });   
-                $('#idpersona').val(values[0]);
-                $('#idcelula').val(values[0]);
-
-                $("#bloque").css({"display":"block"});
+                console.log(values);
+                if(values[0]!=='Datos no disponibles')
+                {
+                    $('#idpersona').val(values[0]);
+                    $('#idcelula').val(values[0]);
                 
+                    $("#bloque").css({"display":"block"});
+                }
     
             });
             
@@ -182,13 +185,7 @@
 					}
             } );	
    
-            /* Add a click handler for the delete row */
-            /*$('#delete').click( function() {
-		var anSelected = fnGetSelected( oTable );
-		oTable.fnDeleteRow( anSelected[0] );
            
-            } );
-            */
             
 	 });
 

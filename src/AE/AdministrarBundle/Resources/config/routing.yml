@@ -23,21 +23,21 @@ administrar_updateiglesia:
 
 administrar_permisos:
   pattern: /permisos
-  defaults: {_controller: AEAdministrarBundle:Default:permiso}
+  defaults: {_controller: AEAdministrarBundle:Permiso:permiso}
  
 administrar_reg_permisos:
   pattern: /regpermi
-  defaults: {_controller: AEAdministrarBundle:Default:regpermiso}
+  defaults: {_controller: AEAdministrarBundle:Permiso:regpermiso}
   requirements:
     _method: POST
   
 administrar_mod_permisos:
   pattern: /modpermisos
-  defaults: {_controller: AEAdministrarBundle:Default:modpermiso}
+  defaults: {_controller: AEAdministrarBundle:Permiso:modpermiso}
   
 administrar_mod_permiso_update:
   pattern: /modpermisoupdate
-  defaults: {_controller: AEAdministrarBundle:Default:modpermisoupdate}
+  defaults: {_controller: AEAdministrarBundle:Permiso:modpermisoupdate}
   requirements:
     _method: POST
   

@@ -26,6 +26,12 @@ _enviar_lista_pastor_ejecutivo_cell:
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getLiderPastorEjeCell}
   requirements:
     _method: POST
+    
+_enviar_lista_lideres_cell:
+  pattern: /enviar_lista_lideres_cell
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getLiderCell}
+  requirements:
+    _method: POST
    
 _enviar_lista_celula_tabla:
   pattern: /enviar_lista_celula_tabla

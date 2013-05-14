@@ -28,5 +28,10 @@ class InformeController extends Controller
         {
             return $this->render('AEGanarBundle:Default:informesemanal.html.twig');
         }
+        
+        public function InformeConvertidosAction()
+        {
+            return $this->render('AEGanarBundle:Default:informeconvertidos.html.twig');
+        }
 
 }

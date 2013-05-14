@@ -122,4 +122,38 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
     	return new JsonResponse(array('aaData'=>$todo));
     
     }
+    
+       
+   public function lista_redes_ubicacionAction()
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       try
+       {
+           $em->beginTransaction();
+          
+           $sql = "select * from lista_red_ubicacion";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           
+           $est = $smt->fetchAll();
+           
+           $em->flush();
+           
+           $em->commit();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array("aaData"=>$est));
+   }
+
+   
 }

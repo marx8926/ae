@@ -99,8 +99,19 @@ class Celula
      * })
      */
     private $idLiderRed;
+    
+    /**
+     * @var \Lider
+     * 
+     *  @ORM\ManyToOne(targetEntity="Lider",cascade={"persist", "merge", "remove"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_lider", referencedColumnName="id")
+     * })
+     */
 
-
+     private $idLider;
+             
+             
       /**
      * @var boolean
      *
@@ -342,5 +353,29 @@ class Celula
     public function getIdLiderRed()
     {
         return $this->idLiderRed;
+    }
+    
+    
+     /**
+     * Set idLider
+     *
+     * @param \AE\DataBundle\Entity\Lider $idLider
+     * @return Celula
+     */
+    public function setIdLider(\AE\DataBundle\Entity\LiderRed $idLider = null)
+    {
+        $this->idLider = $idLider;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLider
+     *
+     * @return \AE\DataBundle\Entity\Lider
+     */
+    public function getIdLider()
+    {
+        return $this->idLider;
     }
 }

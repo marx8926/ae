@@ -463,5 +463,32 @@ class GanarServicioController extends Controller
     	$result = $result."</tbody></table>";
     	return new Response($result);
     }
+    
+    public function convertido_Red_LugarAction($fecha1, $fecha2)
+    {
+        $sql = "select * from get_reporte_nuevos_convertidos_lugar(:ini, :fin)";
+
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+       
+        try{
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':ini'=>$fecha1,':fin'=>$fecha2));
+ 
+            $redes = $smt->fetchAll();
+            
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$redes));
+    }
 }
 

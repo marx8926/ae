@@ -56,6 +56,7 @@ function ajaxTableDataPost(nametable,path)
 function ajaxListPost(path,select,red)
 {   
     $.post(path,{dato:red},function(data){
+        console.log(data);
          $('#'+select).html(data);
     });
    

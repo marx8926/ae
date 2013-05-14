@@ -56,7 +56,6 @@
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-                    console.log(data);
                     if(data.responseCode==200 ){           
                       
                         alert('Registro Completado');
@@ -98,23 +97,7 @@
                         }
                         ).done(celula);     
             }
-            
-         
-             function departamentos(datos)
-                {
-                    for(var i=0; i<datos.length ; i++)
-                    {
-                        if(datos[i].departamento=='LA LIBERTAD')
-                         $('<option value='+datos[i].coddepartamento+' selected>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
-                        else
-                         $('<option value='+datos[i].coddepartamento+'>'+datos[i].departamento+'</option>').appendTo('#departamento_lista');
-
-                    } 
-                    
-
-                    recarga_provincias();
-                }
-    
+     
              function recarga_provincias()
              {
                  var route = '{{path('servicio_provincia',{'id': 'nom'})}}';            
@@ -130,23 +113,7 @@
                     ).done(provincias);
                         
              }  
-            
-                function provincias(dato)
-                {
-                     $("#provincia_lista").empty();
-                     for(var i=0;i<dato.length;i++)
-                    {
-                        if(dato[i].provincia=='TRUJILLO')
-                            $('<option value='+dato[i].codprovincia+' selected>'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
-                        else
-                            $('<option value='+dato[i].codprovincia+' >'+dato[i].provincia+'</option>').appendTo('#provincia_lista');
-                         
-                    }
-
-                    recarga_distritos();
-                    
-                }
-                
+    
                 function recarga_distritos()
                 {
                     var route = '{{path('servicio_distrito',{'dep':'id1','prov':'id2'})}}';
