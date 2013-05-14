@@ -38,12 +38,12 @@ function cargarPA(){
     if(map.getZoom()>13){
     	
     	var datos = getGlobalJSON("data");
-    	console.log(datos);
-    	console.log('NE: '+ ne);
-    	console.log('SW: '+ sw);
+    	//console.log(datos);
+    	console.log('NE: '+ ne.lat() +' ' +ne.lng());
+    	console.log('SW: '+ sw.lat() +' ' +sw.lng());
     	for(var k=0; k<datos.length;k++){
-    		//console.log(datos[k].latitud);
-    		if(datos[k].latitud > ne.lat() && datos[k].latitud < sw.lat() && datos[k].longitud > ne.lng() && datos[k].longitud < sw.lng()){
+    		console.log('Longitud '+ k + ':' + datos[k].longitud);
+    		if(datos[k].latitud < ne.lat() && datos[k].latitud > sw.lat() && datos[k].longitud < ne.lng() && datos[k].longitud > sw.lng()){
     			//console.log(datos[k].latitud);
     			arrayPA.push(datos[k]);
     		}
@@ -52,7 +52,8 @@ function cargarPA(){
     	//console.log('Array 0:' +arrayPA[0].latitud);
     	if(arrayPA.length>0){
     		for(var i=0;i<arrayPA.length;i++){
-    			ptosMarker(arrayPA[i]);
+    			icon = new google.maps.MarkerImage("https://dl.dropboxusercontent.com/u/67744385/home.png", new google.maps.Size(35,56),null,null);
+    			ptosMarker(arrayPA[i], icon);
     		}
     	}
     	
@@ -70,13 +71,13 @@ function cargarPA(){
             
 }
 
-function ptosMarker(data){
+function ptosMarker(data, icon1){
     
     var latlng = new google.maps.LatLng(data.latitud, data.longitud),
     marker=new google.maps.Marker({
         position: latlng, 
         map: map,
-        //icon : iconIdle,
+        icon : icon1,
         title : 'Célula Nro ' + data.id + ' de la Red ' + data.id_red,
         zIndex: 1
     }); 
@@ -161,7 +162,7 @@ function posMarkerLocalidad(lat, lng){
     
     var marker=new google.maps.Marker({
         title: 'Mi Direccion actual',
-        //icon : new google.maps.MarkerImage("img/icons/posicion.png", new google.maps.Size(35,56),null,null),
+        icon : new google.maps.MarkerImage("https://dl.dropboxusercontent.com/u/67744385/pedestriancrossing.png", new google.maps.Size(35,56),null,null),
         position: new google.maps.LatLng(lat, lng), 
         map: map
     });
