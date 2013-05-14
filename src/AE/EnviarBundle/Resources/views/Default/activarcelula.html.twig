@@ -45,19 +45,10 @@
     	</div>
 	</div>
     <div class="form-inline" id="bloque" name="bloque">
-        <form method="POST" action="{{path('enviar_modificar_celula')}}" id="modForm" name="modForm"> 
-            <input type="hidden" value="" id="idpersona" name="idpersona">
-            <input type="submit" class="btn-success" id="vista" name="vista" value="Modificar">
-        </form>
-
-         <form method="POST" action="{{path('enviar_eliminar_celula')}}" id="deleteForm" name="deleteForm" >   
-            <input type="submit" class="btn-success" id="elimina" name="eliminar" value="Eliminar" >
-            <input type="hidden" value="" id="idcelula" name="idcelula">
-        </form>
-            
-         <form method="POST" action="{{path('enviar_desactivar_celula')}}" id="desactivarForm" name="desactivarForm"> 
+                   
+         <form method="POST" action="{{path('enviar_activar_celula')}}" id="activarForm" name="activarForm"> 
             <input type="hidden" value="" id="idcell" name="idcell">
-            <input type="submit" class="btn-success" id="desactivar" name="desactivar" value="Desactivar">
+            <input type="submit" class="btn-success" id="activar" name="activar" value="Activar">
         </form>
         
     </div>
@@ -144,8 +135,6 @@
                 });   
                 if(values[0]!=='Datos no disponibles')
                 {
-                    $('#idpersona').val(values[0]);
-                    $('#idcelula').val(values[0]);
                     $('#idcell').val(values[0]);
                 
                     $("#bloque").css({"display":"block"});
@@ -155,7 +144,7 @@
             
             enviar("deleteForm",eq);
             
-            enviar("desactivarForm",eq);
+            enviar("activarForm",eq);
      
             /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
@@ -163,7 +152,7 @@
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('_enviar_lista_celula_tabla')}}',
+                "sAjaxSource": '{{path('_enviar_lista_celula_tabla_des')}}',
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "nombre" },

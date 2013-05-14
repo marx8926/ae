@@ -186,5 +186,90 @@ class ModificarController extends Controller
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type     
     }
     
-   
+    
+    public function activarAction()
+    {
+         $request    = $this->get('request');
+        
+        $name     = $request->request->get('formName');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $return = NULL;
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+        
+        $celula = $datos['idcell'];
+        try
+        {
+            $em->beginTransaction();
+            $sql = "select activar_celula(:idx)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':idx'=>$celula));
+            
+            $em->commit();
+            $return=array("responseCode"=>200, "greeting"=>$celula);  
+
+        }
+        catch(Exception $e)
+        {
+            $return=array("responseCode"=>400, "greeting"=>"Bad");     
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+       // return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type     
+  
+    }
+    public function desactivarAction()
+    {
+        $request    = $this->get('request');
+        
+        $name     = $request->request->get('formName');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $return = NULL;
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+        
+        $celula = $datos['idcell'];
+        $em->beginTransaction();
+
+        try
+        {
+            $sql = "select desactivar_celula(:idx)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':idx'=>$celula));
+            
+            $em->commit();
+            $return=array("responseCode"=>200, "greeting"=>$celula);  
+
+        }
+        catch(Exception $e)
+        {
+            $return=array("responseCode"=>400, "greeting"=>"Bad");     
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+       // return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type     
+  
+    }
+
+    
+    public function activar_celulaAction()
+    {
+        return $this->render('AEEnviarBundle:Default:activarcelula.html.twig');
+    }
 }

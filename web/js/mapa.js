@@ -15,13 +15,12 @@ function mapeo_position(lati, lngi, mapa, dib)
       
             dibujar_mapa(dib,lati, lngi,mapa);
         },function(error){
-            if(error.code==2)
+            if(error.code===2)
             {
                        $('#'+lati).val('-8.097944');
                        $('#'+lngi).val('-79.03704479999999');
                        dibujar_mapa(dib,lati, lngi,mapa); 
             }
-            console.log(error);
         });
         
        

@@ -219,17 +219,17 @@ class EnviarServicioController extends Controller
         try{
         
             
-            $sql = "select * from lista_celula_lider_red";
+            $sql = "select * from lista_celula_lider_red_act";
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute();
             $lider_red = $smt->fetchAll();
             
-            $sql = "select * from lista_celula_misionero";
+            $sql = "select * from lista_celula_misionero_act";
             $smt1 = $em->getConnection()->prepare($sql);
             $smt1->execute();
             $misionero = $smt1->fetchAll();
             
-            $sql = "select * from lista_celula_pastor_eje";
+            $sql = "select * from lista_celula_pastor_eje_act";
             $smt2 = $em->getConnection()->prepare($sql);
             $smt2->execute();
             $pastor = $smt2->fetchAll();
@@ -243,7 +243,64 @@ class EnviarServicioController extends Controller
                 $todo[]=$value;
             }
             
-            $sql = "select * from lista_celula_lider";
+            $sql = "select * from lista_celula_lider_act";
+            $smt3 = $em->getConnection()->prepare($sql);
+            $smt3->execute();
+            $lideres = $smt3->fetchAll();
+            
+            foreach ($lideres as $key => $value) {
+                $todo[]=$value;
+            }
+           
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse(array('aaData'=>$todo));
+    }
+    
+    
+      public function getListaCelulaTablaDesAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        $em->beginTransaction();
+        
+        try{
+        
+            
+            $sql = "select * from lista_celula_lider_red_des";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+            $lider_red = $smt->fetchAll();
+            
+            $sql = "select * from lista_celula_misionero_des";
+            $smt1 = $em->getConnection()->prepare($sql);
+            $smt1->execute();
+            $misionero = $smt1->fetchAll();
+            
+            $sql = "select * from lista_celula_pastor_eje_des";
+            $smt2 = $em->getConnection()->prepare($sql);
+            $smt2->execute();
+            $pastor = $smt2->fetchAll();
+            
+            $todo = $lider_red;
+            foreach ($misionero as $key => $value) {
+                $todo[]=$value;                
+            }
+            
+            foreach ($pastor as $key => $value) {
+                $todo[]=$value;
+            }
+            
+            $sql = "select * from lista_celula_lider_des";
             $smt3 = $em->getConnection()->prepare($sql);
             $smt3->execute();
             $lideres = $smt3->fetchAll();

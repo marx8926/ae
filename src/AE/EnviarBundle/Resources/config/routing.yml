@@ -88,3 +88,20 @@ enviar_lista_lideres:
   pattern: /lista_lideres
   defaults: {_controller: AEEnviarBundle:Lideres:lista_lideres}
   
+  
+enviar_desactivar_celula:
+  pattern: /desactivar_celula
+  defaults: {_controller: AEEnviarBundle:Modificar:desactivar}
+  requirements:
+    _method: POST
+    
+enviar_activar_celula:
+  pattern: /activar_celula_up
+  defaults: {_controller: AEEnviarBundle:Modificar:activar}
+  requirements:
+    _method: POST
+    
+enviar_activar_vista:
+  pattern: /activar_celula
+  defaults: {_controller: AEEnviarBundle:Modificar:activar_celula}
+  
