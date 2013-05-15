@@ -272,17 +272,18 @@ class GanarServicioController extends Controller
     	$fecha2_formateada = date("Y-m-d", strtotime($fecha2));
     	 
     	$sql = "SELECT 
-				CONCAT(lcel.nombre,' ',lcel.apellidos) as lider_red , cel.id as celula, 
+				CONCAT(lred.nombre,' ',lred.apellidos) as lider_red , cel.id as celula, 
 				CONCAT(pnc.nombre,' ', pnc.apellidos) as nuevo_convertido, nc.fecha_conversion, 
 				CONCAT(pcdor.nombre,' ',pcdor.apellidos) as consolidador, l.nombre as lugar
 				FROM nuevo_convertido nc
 				inner join lugar l on (l.id = nc.id_lugar)
-				inner join celula cel on(nc.id = nc.id_celula)
+				inner join celula cel on(cel.id = nc.id_celula)
 				inner join consolida c on (nc.id= c.id_nuevo_convertido)
 				inner join consolidador cdor on (c.id_consolidador = cdor.id)
+				inner join red r on (r.id = cel.id_red)
 				inner join persona pcdor on (pcdor.id = cdor.id)
 				inner join persona pnc on (nc.id = pnc.id)
-				inner join persona lcel on (lcel.id = cel.id_lider_red)
+				inner join persona lred on (lred.id = r.id_lider_red)
 				where nc.fecha_conversion BETWEEN '".$fecha1."' AND '".$fecha2."'";
     
     	$result = "<table id='tabla_informe_ganar' name='tabla_asignacion_estado' class='table table-striped table-bordered'>
