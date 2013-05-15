@@ -1,8 +1,13 @@
 <?php
-header("Content-type: application/vnd.ms-excel; name='excel'");
-header("Content-Disposition: filename=ficheroExcel.xls");
-header("Pragma: no-cache");
-header("Expires: 0");
+$str = $_POST['content'];
+if (mb_detect_encoding($str ) == 'UTF-8') {
+   $str = mb_convert_encoding($str , "HTML-ENTITIES", "UTF-8");
+}
 
-echo $_POST['content'];
+header('Content-type: application/x-msdownload; charset=utf-16');
+header('Content-Disposition: attachment; filename=reporte_exel.xls');
+header('Pragma: no-cache');
+header('Expires: 0');
+
+echo $str ; 
 ?>
