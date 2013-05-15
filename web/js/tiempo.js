@@ -1,4 +1,3 @@
- 
  function FechaActualT(div){
 			var f= new Date();
 

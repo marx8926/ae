@@ -165,13 +165,13 @@ class ConsolidarServicioController extends Controller
 			$result =$result."<tr>
                                             <td>".$val["id"]." <input type='hidden' id='id".$key."' name='id".$key."' value='".$val["id"]."'> </td>
                                             <td>".$val["titulo"]."</td>
-                                            <td><input type='date' id='inicio".$key."' name='inicio".$key."' value='".$e->format('Y-m-d') ."' > </td>";
+                                            <td><input type='date'class='input-medium' id='inicio".$key."' name='inicio".$key."' value='".$e->format('Y-m-d') ."' > </td>";
 
                         $e->modify('+6 days');
                         $result = $result."
-                                            <td><input type='time' id='time_inicio".$key."' name='time_inicio".$key."' value='00:00:00' ></td>
-                                            <td><input type='date' id='limite".$key."' name='limite".$key."' value='".$e->format('Y-m-d')."' > </td>
-                                            <td><input type='time' id='time_limite".$key."' name='time_limite".$key."' value='23:59:00' ></td>
+                                            <td><input type='time' class='input-small' id='time_inicio".$key."' name='time_inicio".$key."' value='00:00:00' ></td>
+                                            <td><input type='date' class='input-medium' id='limite".$key."' name='limite".$key."' value='".$e->format('Y-m-d')."' > </td>
+                                            <td><input type='time' class='input-small' id='time_limite".$key."' name='time_limite".$key."' value='23:59:00' ></td>
                                             </tr>";
                         
                         $e->modify('-5 days');
@@ -355,16 +355,16 @@ class ConsolidarServicioController extends Controller
                             $d = new \DateTime($val['fin']);
                             $d->format('Y-m-d');
                         
-                            $result = $result."<td> <input type='date' id='dia".$key."' name='dia".$key."' class='datepick' value='".$d->format('Y-m-d')."' disabled> </td>
-                                            <td> <input type='datetime' id='hora".$key."' name='hora".$key."' class='timepicker' value='".$d->format('H:i:s')."' disabled> </td>
+                            $result = $result."<td> <input type='date' class='input-medium' id='dia".$key."' name='dia".$key."' class='datepick' value='".$d->format('Y-m-d')."' disabled> </td>
+                                            <td> <input type='time' class='input-small' id='hora".$key."' name='hora".$key."' class='timepicker' value='".$d->format('H:i:s')."' disabled> </td>
                                             <td><input type='checkbox' id='check".$key."' name='check".$key."' ".(($val['fin']!=NULL)?("checked disabled"):"").">
                                                 <input type='hidden' id='dat".$key."' name='dat".$key."' value='".$key."' >
                                                 </td>.
                                            </tr>";
                          }
                          else {
-                                $result = $result."<td> <input type='date' id='dia".$key."' name='dia".$key."' class='datepicker' > </td>
-                                            <td> <input type='datetime' id='hora".$key."' name='hora".$key."' class='timepicker' value='00:00:00' > </td>
+                                $result = $result."<td> <input type='date'class='input-medium' id='dia".$key."' name='dia".$key."' class='datepicker' > </td>
+                                            <td> <input type='time' class='input-small' id='hora".$key."' name='hora".$key."' class='timepicker' value='00:00:00' > </td>
                                             <td><input type='checkbox' id='check".$key."' name='check".$key."' ></td>.
                                            </tr>";
                          }

@@ -20,7 +20,7 @@
             
             <fieldset >
                 <legend></legend>
-                <h3 id="titulo"> DEL <input type="date" id="inicio" name="inicio" class="rango" value="2012-12-12" > AL <input type="date" id="fin" name="fin" class="rango" value="2013-12-12">
+                <h3 id="titulo"> DEL <input type="date" id="inicio" name="inicio" > AL <input type="date" id="fin" name="fin" >
                     <input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> <h3>
 
               </fieldset>
@@ -82,6 +82,7 @@
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                        <script src="{{asset('js/tiempo.js')}}"></script>
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -95,6 +96,9 @@
         var values = [];
          
 	$(document).ready(function() {
+                       
+            FechaActualT('inicio');
+            FechaActualT('fin');
 
             $('#ocultar').css({'display':'none'});
             

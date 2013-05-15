@@ -93,11 +93,12 @@ class SeguirController extends Controller
                     {
                         //consultar si ya actualizo las fechas
  
-                            $sql = "select update_consolida_leche(:leche,:fin)";
+                            $sql = "select update_consolida_leche(:leche,:fin,:id)";
                             
                             $smt = $em->getConnection()->prepare($sql);
                             
-                            $smt->execute(array(':fin'=>$fechas[$temp].' '.$horas[$temp_h], ':leche'=>$ids));
+                            $smt->execute(array(':fin'=>$fechas[$temp].' '.$horas[$temp_h], ':leche'=>$ids,
+                                ':id'=>$consol));
 
                            // $return=array("responseCode"=>200,  "greeting"=>$ids); 
                         

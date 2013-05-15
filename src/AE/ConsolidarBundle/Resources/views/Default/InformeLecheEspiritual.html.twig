@@ -85,6 +85,7 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                         <script src="{{asset('js/functiongen.js')}}">   </script>}
                         <script src="{{asset('js/ganar.js')}}"></script>
+                        <script src="{{asset('js/tiempo.js')}}"></script>
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -101,7 +102,8 @@
 
             init_leche_espiritual("{{path('servicio_leche_espiritual')}}");
 
-            
+             FechaActualT('inicio');
+              FechaActualT('fin');
         
             $('#rang').click(function(event){
                 event.preventDefault();

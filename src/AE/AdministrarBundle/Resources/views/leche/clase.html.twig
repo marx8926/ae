@@ -6,7 +6,9 @@
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/DT_bootstrap.css')}}">
         <link href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
-        <link href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">   
+        <link href="{{asset('js/jquery-addresspicker/demos/demo.css')}}"> 
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+
 {% endblock %}
 
 {% block content %}
@@ -18,7 +20,7 @@
                   <div class="control-group">
                     <label class="control-label">Nombre</label>
                     <div class="controls">
-                        <input class="input-xxlarge" type="text" name="nombre" id="nombre" pattern="|^[a-zA-Z ñÑáéíóúüç]*$|" required />
+                        <input class="input-xxlarge" type="text" name="nombre" id="nombre" pattern="|^[a-zA-Z ñÑáéíóúüç0-9]*$|" required />
                     </div>
                   </div>
     
@@ -27,7 +29,7 @@
                     <div class="controls">
                      
                     <textarea rows="5" id="inputDescripcion" name="inputDescripcion" class="input-xxlarge"> </textarea>
-                    <p class="help-block">Descripción del docente</p>
+                    <p class="help-block">Descripción del tema del libro</p>
                     
                     </div>
                   </div> 
@@ -37,7 +39,7 @@
                   
                       <label class="control-label">Fecha Creación</label>
                       <div class="controls">
-                        <input type= "text" class="mask_date input-medium" id="inputFecha" name="inputFecha"/>
+                        <input type= "text" class="datepick" id="inputFecha" name="inputFecha"/>
                       </div>
                   </div>
                
@@ -109,11 +111,11 @@
 				<script src="{{asset('js/jquery.flot.resize.js')}}"></script>
 				<script src="{{asset('js/custom.js')}}"></script>
 			    <script src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
-			    <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
-			    <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
-			  	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
-			  	
-    <script src="https://www.google.com/jsapi"></script>
+                                <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
+                                <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			  	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>                                
+                                <script src="{{asset('js/tiempo.js')}}"></script>			  	
+                                <script src="https://www.google.com/jsapi"></script>
 
     <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
     <script type="text/javascript" src="{{asset('js/FileAPI.js')}}"></script>

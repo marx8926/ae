@@ -66,7 +66,7 @@
             <div class="control-group ">
                 <label class="control-label" for="consolidador"> Leche Espiritual</label>
                     <div class="controls">
-                        <select id="select_leche" name="select_leche">
+                        <select id="select_leche" name="select_leche" >
                                              
                         </select>
                     </div>
@@ -210,13 +210,13 @@
                         id: $('#code').text(),
                         num: $('#numero').val()
                     },function(data){
+                        console.log(data);
 
                     //the response is in the data variable
                     if(data.responseCode==200 ){           
                       
                         alert('Registro Completado');
-                        var anSelected = fnGetSelected( oTable );
-                       oTable.fnDeleteRow( anSelected[0] );
+                        location.reload();
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');
@@ -253,7 +253,7 @@
                     { "mDataProp": "celula"},
                     { "mDataProp":"conversion"}
                 ],
-		"aaSorting": [ [0,'asc'], [1,'asc'] ],
+		"aaSorting": [ [6,'desc'], [4,'desc'],[5,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
 		],"sDom": 'T<"clear">lfrtip',

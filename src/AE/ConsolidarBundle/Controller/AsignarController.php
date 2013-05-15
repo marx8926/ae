@@ -67,7 +67,7 @@ class AsignarController extends Controller
               $em->beginTransaction();
             try
             {
-                if($consolidador != $id)
+                //if($consolidador != $id) //preguntar si es q se puede
                 {    
                      //consolidador
                     $consolidador_q = $em->getRepository('AEDataBundle:Consolidador');
@@ -167,18 +167,20 @@ class AsignarController extends Controller
                     
                     $return=array("responseCode"=>200,  "greeting"=>'ook');
                 }
-                else
+               /* else
                 {
-                    $return=array("responseCode"=>400,  "greeting"=>'Bad');
+                    $return=array("responseCode"=>400,  "greeting"=>'Bad3');
 
                 }
+                * 
+                */
  
             }catch(Exception $e)
             {
                $em->rollback();
                $em->close();
                 
-               $return=array("responseCode"=>400, "greeting"=>"Bad");
+               $return=array("responseCode"=>400, "greeting"=>"Bad2");
 
                throw $e;
                
@@ -187,7 +189,7 @@ class AsignarController extends Controller
            //$return=array("responseCode"=>200, "greeting"=>$time_ini);
              
          }
-         else  $return=array("responseCode"=>400, "greeting"=>"Bad");
+         else  $return=array("responseCode"=>400, "greeting"=>"Bad1");
              
     
         $return=json_encode($return);//jscon encode the array

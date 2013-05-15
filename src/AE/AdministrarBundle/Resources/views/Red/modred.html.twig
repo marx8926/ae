@@ -92,8 +92,8 @@
                    <div class='input'>
                        <div style="display:none;"><label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/></div>   <br/>
 					<div id="map-ll">
-                       <label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
-                       <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+                       <label>Latitud:</label> <input id="lat" name="latitud" >
+                       <label>Longitud:</label> <input id="lng" name="longitud" > <br/>
     				</div>
     </div>
     <div id="map"></div>
@@ -196,13 +196,22 @@
                            $('#lat').val(data.latitud);
                            $('#lng').val(data.longitud);
                            
+                           console.log(data);
+                           dibujar_mapa();
+                           
                            ubigeo(data.id_ubigeo);
                            
                     });
                     
-                    $(function() {
+                   /* $(function() {
 		
-                        var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+                        
+                    });
+                    */
+                }
+                function dibujar_mapa()
+                {
+                    var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
                             elements: {
                             map:      "#map",
                             lat:      "#lat",
@@ -212,8 +221,6 @@
         		var gmarker = addresspickerMap.addresspicker( "marker");
                 	gmarker.setVisible(true);
                         addresspickerMap.addresspicker( "updatePosition");
-                    });
-                    
                 }
                
                 function init()
@@ -256,17 +263,11 @@
                 
     
                 $(document).ready(function(){
-           
-               
-        
-                
+       
                 $.getJSON('{{path('servicio_iglesia')}}',iglesias);
-                
-                
-                
+
                  initDepartamentos('{{path('servicio_region')}}');
-                 
-    
+  
                 //lideres
                 var route = '{{path('servicio_lista_lideres')}}';            
                        
