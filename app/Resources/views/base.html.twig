@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>Admin Church</title>
+<title>{% block titulo %}Administración Eclesiástica {% endblock %}</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width">
 
@@ -16,8 +16,7 @@
 <body>
 <div class="topbar">
 	<div class="container-fluid">
-		<a href="{{path('main')}}" class='company'>Admin Church</a>
-		
+		<a href="dashboard.html" class='company'><img alt="Administración Eclesiástica" src="{{asset('images/ac-logo-horizontal-3.png')}}"></a>
 		<ul class='mini'>
 			<li>
 				<a href="#">
@@ -258,6 +257,11 @@
 					<li>
 						<a href="{{path('enviar_asistencia')}}">
 							Registro de Asistencia
+						</a>
+					</li>
+					<li>
+						<a href="{{path('ae_servicios_homepage')}}">
+							Ubica Células
 						</a>
 					</li>
 					<li>

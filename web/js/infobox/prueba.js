@@ -52,7 +52,7 @@ function cargarPA(){
     	//console.log('Array 0:' +arrayPA[0].latitud);
     	if(arrayPA.length>0){
     		for(var i=0;i<arrayPA.length;i++){
-    			icon = new google.maps.MarkerImage("https://dl.dropboxusercontent.com/u/67744385/home.png", new google.maps.Size(35,56),null,null);
+    			icon = new google.maps.MarkerImage("https://dl.dropboxusercontent.com/u/67744385/home-2.png", new google.maps.Size(35,56),null,null);
     			ptosMarker(arrayPA[i], icon);
     		}
     	}
@@ -91,7 +91,7 @@ function ptosMarker(data, icon1){
         zIndex: 2,
         boxStyle: {
             opacity: 1,
-            width: "330px"
+            width: "250px"
         },
         closeBoxMargin: "10px 0px 2px -20px",
         closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
@@ -123,12 +123,10 @@ function createHTML(data){
     var wrap_contenedor;
     
     wrap_contenedor =  "<div id='wrap_infobox'>";
-    wrap_contenedor += "<div id='content_infobox'>";
+    wrap_contenedor += "<div id='content_infobox' class='infobox_celula'>";
     wrap_contenedor += "<div id='infobox_data'>";
-    wrap_contenedor += "<p> <strong>Célula "+ data.id +' de la Red '+ data.id_red +"</strong></p>";
-//    wrap_contenedor += "<div class='separator2'></div>";
-    wrap_contenedor += "<p>"+ data.telefono +"</p>";
-//    wrap_contenedor += "<div class='separator2'></div>";
+    wrap_contenedor += "<p class='tit_infobox'><strong>Célula "+ data.id +' de la Red '+ data.id_red +"</strong></p>"; 
+    wrap_contenedor += "<p>Teléfono: "+ data.telefono +"</p>";
     wrap_contenedor += "</div>";
     wrap_contenedor += "</div>";
     wrap_contenedor += "</div>";
@@ -162,7 +160,7 @@ function posMarkerLocalidad(lat, lng){
     
     var marker=new google.maps.Marker({
         title: 'Mi Direccion actual',
-        icon : new google.maps.MarkerImage("https://dl.dropboxusercontent.com/u/67744385/pedestriancrossing.png", new google.maps.Size(35,56),null,null),
+        icon : new google.maps.MarkerImage("https://dl.dropboxusercontent.com/u/67744385/male-2.png", new google.maps.Size(35,56),null,null),
         position: new google.maps.LatLng(lat, lng), 
         map: map
     });

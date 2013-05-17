@@ -1300,12 +1300,14 @@ body {
 }
 .topbar .company {
   float: left;
-  margin: 15px 0;
+  /*margin: 15px 0;*/
+  margin-top: -3px;
   display: block;
   color: #eeeeee;
   font-size: 24px;
   text-shadow: 1px 1px 1px #000000;
   filter: dropshadow(color=#000000, offx=1px, offy=1px);
+  width:300px;
 }
 .topbar .company:hover {
   text-decoration: none;
@@ -2542,6 +2544,36 @@ ul.steps li.active span {
 	width: auto;
 	vertical-align: top;
 	display: inline-block;
+}
+/*------------------UBIGEO------------------*/
+#wrap_infobox {
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -ms-border-radius: 15px;
+    border-radius: 15px;
+    background-color: #0083ff;
+    padding: 5px;
+    height: 100px;
+}
+
+#content_infobox{
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -ms-border-radius: 15px;
+    border-radius: 15px;
+    font-family: formataregular;
+    font-style: normal;
+    padding: 5px;
+    height: 90px;
+}
+
+.infobox_celula{
+    background-color: #00c0ff;
+}
+
+.tit_infobox{
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /*------- CSS Uploader FileUp ----------*/

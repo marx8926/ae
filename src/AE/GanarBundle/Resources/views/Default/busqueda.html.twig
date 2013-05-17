@@ -44,10 +44,11 @@
 	</div>
         <div class="form-horizontal" id="select" name="select">
         <input type="button" class="btn-success" id="vista" name="vista" value="Ver Datos">
-                    <input type="button" class="btn-success" id="eliminar" name="eliminar" value="Eliminar">
-                    <button class="btn-success" id="modificar" name="modificar" >
-                         <a id="mas" href="" >Modificar</a>
-                    </button>
+        <input type="button" class="btn-success" id="eliminar" name="eliminar" value="Eliminar">
+        <input type="button" class="btn-success" id="modificar" name="modificar" value="Modificar">
+        <!-- button class="btn-success" id="modificar" name="modificar" value="Modificar">
+        	<a id="mas" href="" >Modificar</a>
+        </button -->
         
     </div>
 </div>    
@@ -191,7 +192,7 @@
             
            });
            
-           $('#mas').click(function(){
+           $('#modificar').click(function(){
            
        
                 var anSelected = fnGetSelected(oTable);
@@ -205,13 +206,14 @@
   
                       }); 
                     var route = '{{path('ganar_modificar',{'id': 'nom'})}}';
-            
+
                     var rutas = route.replace('nom',val[0]);
                     
-                    $('#mas').attr("href",rutas);
+                    //$('#mas').attr("href",rutas);
                     
                     $(this).target = "_blank";
-                    window.open($(this).prop('href'));
+                    //window.open($(this).prop('href'));
+                    window.open(rutas);
                     return false;
                                    
                 }
