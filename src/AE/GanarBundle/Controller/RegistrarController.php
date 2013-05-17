@@ -11,14 +11,6 @@ use AE\DataBundle\Entity\Usuario;
 use AE\DataBundle\Entity\NuevoConvertido;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\SecurityContext;
-use Doctrine\ORM\TransactionRequiredException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class RegistrarController extends Controller
 {
@@ -113,7 +105,7 @@ class RegistrarController extends Controller
               $return=array("responseCode"=>200,  "greeting"=>'OK');
               
            
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                 
@@ -131,6 +123,7 @@ class RegistrarController extends Controller
                             
                 $em->persist($ubicacion);
                 $em->flush();
+                $em->clear();
                   
                 //persona
                 $persona = new Persona();
@@ -174,13 +167,15 @@ class RegistrarController extends Controller
                 
                 $em->persist($persona);
                 $em->flush();
+                $em->clear();
 
                  if(strlen($usuario)>0)
                  {    
                        //roles
-                    $con = $this->getDoctrine()->getManager()->getRepository('AEDataBundle:Rol');          
+                    $con = $em->getRepository('AEDataBundle:Rol');          
                     $rol = $con->findOneBy(array('nombre'=>'ROLE_USER')); 
                     //usuario
+                    $em->clear();
                     
                     $user = new Usuario();                 
                     $user->setNombre($usuario);
@@ -190,6 +185,7 @@ class RegistrarController extends Controller
                     
                     $em->persist($user);
                     $em->flush();
+                    $em->clear();
                  }               
                  
                 
@@ -202,10 +198,13 @@ class RegistrarController extends Controller
                     $red_social->setEnlace($facebook);
                     $em->persist($red_social);
                     $em->flush();
+                    $em->clear();
                 }      
                 //lugar                  
-                $con1 = $this->getDoctrine()->getManager()->getRepository('AEDataBundle:Lugar');          
-                $lug= $con1->findOneBy(array('id'=>$lugar)); 
+                $con1 = $em->getRepository('AEDataBundle:Lugar');          
+                $lug= $con1->findOneBy(array('id'=>$lugar));
+                $em->clear();
+                
                 
                 //nuevo convertido
                 $nuev_con = new NuevoConvertido();
@@ -213,14 +212,16 @@ class RegistrarController extends Controller
                 if(strcmp($red, '-1')!=0)
                 {
                     //red
-                    $con2 = $this->getDoctrine()->getManager()->getRepository('AEDataBundle:Red');
+                    $con2 = $em->getRepository('AEDataBundle:Red');
                     $redU = $con2->findOneBy(array('id'=>$red));
+                    $em->clear();
                 
                     //celula
                     if(strcmp($celula, '-1')!=0)
                     {
-                        $con3 = $this->getDoctrine()->getManager()->getRepository('AEDataBundle:Celula');
+                        $con3 = $em->getRepository('AEDataBundle:Celula');
                         $cell = $con3->findOneBy(array('id'=>$celula));
+                        $em->clear();
                 
                         $nuev_con->setIdCelula($cell);
                     }
@@ -234,6 +235,7 @@ class RegistrarController extends Controller
                 $nuev_con->setFechaConversion(new \DateTime($fechaConv)); 
                 $em->persist($nuev_con);
                 $em->flush();
+                $em->clear();
                 
                 //miembro
                 
@@ -252,16 +254,19 @@ class RegistrarController extends Controller
                 
                 $em->persist($miembro);
                 $em->flush();
+                $em->clear();
                 
                 
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                
 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
  
             }catch(Exception $e)
             {
-               $this->getDoctrine()->getEntityManager()->rollback();
-               $this->getDoctrine()->getEntityManager()->close();
+               $em->rollback();
+               $em->clear();
+               $em->close();
                 
                $return=array("responseCode"=>400, "greeting"=>"Bad");
 

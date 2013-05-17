@@ -3,20 +3,9 @@
 namespace AE\GanarBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AE\DataBundle\Entity\Ubicacion;
-use AE\DataBundle\Entity\RedSocial;
-use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Usuario;
-use AE\DataBundle\Entity\NuevoConvertido;
 
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\TransactionRequiredException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class ModificarController extends Controller
 {
@@ -44,7 +33,7 @@ class ModificarController extends Controller
             if(strcmp($celula,'-1')==0)
                     $celula=NULL;
            
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                
@@ -68,7 +57,8 @@ class ModificarController extends Controller
                 }
                 else  $return=array("responseCode"=>400,  "greeting"=>'Bad');
            
-                 $this->getDoctrine()->getEntityManager()->commit();
+                 $em->commit();
+                 $em->clear();
                  
                  $return=array("responseCode"=>200,  "greeting"=>'OK');
                
@@ -76,8 +66,9 @@ class ModificarController extends Controller
         
             }catch(Exception $e)
             {
-               $this->getDoctrine()->getEntityManager()->rollback();
-               $this->getDoctrine()->getEntityManager()->close();
+               $em->rollback();
+               $em->clear();
+               $em->close();
                 
                $return=array("responseCode"=>400, "greeting"=>"Bad");
 
@@ -206,6 +197,7 @@ class ModificarController extends Controller
             $cons_ap = $cons['apellidos'];
             
             $em->commit();
+            $em->clear();
             
         } catch (Exception $exc) {
             $em->rollback();
