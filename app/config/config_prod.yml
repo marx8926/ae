@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
+
     
 framework:
   router:      
@@ -18,6 +19,7 @@ monolog:
             type:         fingers_crossed
             action_level: error
             handler:      nested
+            buffer_size: 100
         nested:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"

@@ -68,7 +68,11 @@ class DefaultController extends Controller
     {
         
         
-        return $this->render('AEloginBundle:Default:main.html.twig');
+        $response = $this->render('AEloginBundle:Default:main.html.twig');
+        
+        $response->setSharedMaxAge(60);
+        
+        return $response;
     }
     
     public function sobreAction()
