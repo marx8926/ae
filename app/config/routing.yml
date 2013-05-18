@@ -1,3 +1,7 @@
+_welcome:
+    pattern:  /
+    defaults: { _controller: AEloginBundle:Default:index }
+    
 ae_discipular:
     resource: "@AEDiscipularBundle/Resources/config/routing.yml"
     prefix:   /discipular/
@@ -30,9 +34,9 @@ ae_data:
     resource: "@AEDataBundle/Resources/config/routing.yml"
     prefix:   /
 
-clm_data:
-    resource: "@CLMDataBundle/Resources/config/routing.yml"
-    prefix:   /
+#clm_data:
+ #   resource: "@CLMDataBundle/Resources/config/routing.yml"
+  #  prefix:   /
     
     
 _security_logout:

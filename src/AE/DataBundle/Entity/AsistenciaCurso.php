@@ -12,6 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 
 class AsistenciaCurso {
+    
+         /**
+        * @var integer
+        *
+        * @ORM\Column(name="id", type="bigint", nullable=false)
+        * @ORM\Id
+        * @ORM\GeneratedValue(strategy="SEQUENCE")
+        * @ORM\SequenceGenerator(sequenceName="celula_id_seq", allocationSize=1, initialValue=1)
+        */
+        private $id;
 	
 	/**
 	 * @var \ClaseCurso
@@ -46,6 +56,16 @@ class AsistenciaCurso {
 	 * @ORM\Column(name="asistencia", type="boolean", nullable=true)
 	 */
 	private $asistencia;
+        
+        /**
+        * Get id
+        *
+        * @return integer 
+        */
+        public function getId()
+        {
+            return $this->id;
+        }
 	
 	/**
 	 * Set idClaseCurso
