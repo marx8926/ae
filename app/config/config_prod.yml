@@ -3,6 +3,11 @@ imports:
 
     
 framework:
+  session:
+    cookie_lifetime: 46400 # One day, cookie lifetime
+    gc_maxlifetime: 1800 # 30 minutes, session lifetime
+    gc_probability: 5
+    gc_divisor: 100
   router:      
     strict_requirements: null
 #{ resource: "%kernel.root_dir%/config/routing_prod.yml" }
