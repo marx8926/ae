@@ -11,18 +11,11 @@ use Doctrine\ORM\TransactionRequiredException;
 use AE\DataBundle\Entity\Ubicacion;
 use AE\DataBundle\Entity\Iglesia;
 use AE\DataBundle\Entity\Ubigeo;
-use AE\DataBundle\Entity\Red;
-use AE\DataBundle\Entity\Consolidador;
-use AE\DataBundle\Entity\LecheEspiritual;
 use AE\DataBundle\Entity\TemaLeche;
 use AE\DataBundle\Entity\Archivo;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class AdministrarEventoController extends Controller{
 	
@@ -64,6 +57,9 @@ class AdministrarEventoController extends Controller{
 		$distrito = null;
 		$latitud = null;
 		$longitud = null;
+                
+                $em = $this->getDoctrine()->getEntityManager();
+
 		
 		if($form!=NULL){
 			
@@ -89,10 +85,10 @@ class AdministrarEventoController extends Controller{
             $latitud = $datos['latitud'];
             $longitud = $datos['longitud'];
             
-            $em = $this->getDoctrine()->getEntityManager();
             
 			$prev_div = $em->getRepository('AEDataBundle:Ubigeo');
 			$ubigeo = $prev_div->findOneBy(array('id'=>$distrito));
+                        $em->clear();
 			
 			$date_fecha_inicio = new \DateTime();
 			$date_fecha_inicio->setDate($fecha_inicio_Y, $fecha_inicio_m, $fecha_inicio_d);
@@ -100,7 +96,7 @@ class AdministrarEventoController extends Controller{
 			$date_fecha_fin = new \DateTime();
 			$date_fecha_fin->setDate($fecha_fin_Y, $fecha_fin_m, $fecha_fin_d);
 				
-			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			$em->beginTransaction();
 			try
 			{                
 				  //ubicacion
@@ -113,22 +109,26 @@ class AdministrarEventoController extends Controller{
                             
                 $em->persist($Ubicacion);
                 $em->flush();
+                $em->clear();
                 
                 $sql = "INSERT INTO evento(nombre, descripcion, \"fechaIni\", \"fechaFin\", id_ubicacion)
     					VALUES ('".$nombre."', '".$descripcion."','".date("Y-m-d", strtotime($fecha_inicio))."', '".date("Y-m-d", strtotime($fecha_fin))."', ".$Ubicacion->getId().");";
                 
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute();
+                
+                        $em->clear();
 		
 			}catch(Exception $e)
 			{
-				$this->getDoctrine()->getEntityManager()->rollback();
-				$this->getDoctrine()->getEntityManager()->close();
+				$em->rollback();
+                                $em->clear();
+				$em->close();
 				$return=array("responseCode"=>400, "greeting"=>"Bad");
 					
 				throw $e;
 			}
-			$this->getDoctrine()->getEntityManager()->commit();
+			$em->commit();
 			$return=array("responseCode"=>200, "id"=>$datos );
 		}
 		else{
@@ -147,10 +147,10 @@ class AdministrarEventoController extends Controller{
 		$datos = array();		
 		parse_str($form,$datos);
 		$idEvento = null;
-		
+		$em = $this->getDoctrine()->getEntityManager();
+
 		if($form!=NULL){						
-			$em = $this->getDoctrine()->getEntityManager();
-			$this->getDoctrine()->getEntityManager()->beginTransaction();                        
+			$em->beginTransaction();                        
           
 			$idEvento =$datos["id"];
 			$sql = "delete FROM evento where id =".$idEvento;
@@ -159,12 +159,14 @@ class AdministrarEventoController extends Controller{
 			$smt->execute();
                           
                          
-            $this->getDoctrine()->getEntityManager()->commit();
+                        $em->commit();
 			$return=array("responseCode"=>200, "datos"=>$datos);
+                        $em->clear();
 		}
 		else{
-                    $this->getDoctrine()->getEntityManager()->rollback();
-                    $this->getDoctrine()->getEntityManager()->close();
+                    $em->rollback();
+                    $em->clear();
+                    $em->close();
                     
 			$return = array("responseCode"=>400, "greeting"=>"Bad");
 		}
@@ -183,13 +185,13 @@ class AdministrarEventoController extends Controller{
 		
 		$idpersona = null;
 		$idevento = null;
-		
+		$em = $this->getDoctrine()->getEntityManager();
+
 		if($form!=NULL){
 			$idpersona = $datos['id'];
 			$idevento = $datos['idevento'];
 		
-			$em = $this->getDoctrine()->getEntityManager();
-			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			$em->beginTransaction();
 			
 			$sql = "INSERT INTO evento_realizado(
 					id_persona, id_evento)
@@ -198,8 +200,10 @@ class AdministrarEventoController extends Controller{
 			$smt = $em->getConnection()->prepare($sql);
 			$smt->execute();
 			
-			$this->getDoctrine()->getEntityManager()->commit();
+			$em->commit();
 			$return=array("responseCode"=>200, "id"=>$datos );
+                        
+                        $em->clear();
 		}
 		else{
 			$return = array("responseCode"=>400, "greeting"=>"Bad");

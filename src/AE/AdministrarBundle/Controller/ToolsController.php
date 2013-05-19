@@ -6,10 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
 use AE\DataBundle\Entity\Herramienta;
@@ -51,12 +47,14 @@ class ToolsController extends Controller
                 $em->persist($tool);
                 $em->flush();
                 $em->commit();
+                $em->clear();
                 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
                 
             }catch(Exception $e)
             {
                      $em->rollback();
+                     $em->clear();
                      $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
 
@@ -92,6 +90,7 @@ class ToolsController extends Controller
             $smt->execute(array(':id'=>$id));
             
             $em->commit();
+            $em->clear();
            $return=array("responseCode"=>200,  "greeting"=>'OK');
 
         }
@@ -100,6 +99,7 @@ class ToolsController extends Controller
             $return=array("responseCode"=>400,  "greeting"=>'OK');
 
             $em->rollback();
+            $em->clear();
             $em->close();
             
             throw $e;
@@ -134,6 +134,8 @@ class ToolsController extends Controller
             try
             {
                 $tool = $em->getRepository('AEDataBundle:Herramienta')->findOneBy(array('id'=>$id));
+                $em->clear();
+                
                 if($tool!=NULL)
                 {
                     $tool->setNombre($nombre);
@@ -141,13 +143,17 @@ class ToolsController extends Controller
                     $em->persist($tool);
                     $em->flush();
                     $em->commit();
+                     $return=array("responseCode"=>200,  "greeting"=>'OK');
                 }
+                else                       $return=array("responseCode"=>400, "greeting"=>"Bad");
+
                 
-                $return=array("responseCode"=>200,  "greeting"=>'OK');
+               
                 
             }catch(Exception $e)
             {
                      $em->rollback();
+                     $em->clear();
                      $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
 

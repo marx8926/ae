@@ -11,8 +11,6 @@ use AE\DataBundle\Entity\Ubigeo;
 use AE\DataBundle\Entity\Red;
 use AE\DataBundle\Entity\Consolidador;
 use AE\DataBundle\Entity\LecheEspiritual;
-use AE\DataBundle\Entity\TemaLeche;
-use AE\DataBundle\Entity\Archivo;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,6 +42,8 @@ class PermisoController extends Controller
          $pastor_eje = NULL;
          $consolidador = NULL;
          $id = NULL;
+         $em = $this->getDoctrine()->getEntityManager();         
+
 
        if($name!=NULL){
                 
@@ -80,16 +80,14 @@ class PermisoController extends Controller
   
             }
            }
-           
-
-            $em = $this->getDoctrine()->getEntityManager();         
-
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+   
+            $em->beginTransaction();
             try
             {
                 //persona
                 $prev = $em->getRepository('AEDataBundle:Persona');
                 $persona = $prev->findOneBy(array('id'=>$id));
+                $em->clear();
             
                 
                 //lider de celula
@@ -97,6 +95,7 @@ class PermisoController extends Controller
                 {
                     $como = $em->getRepository('AEDataBundle:Lider');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
+                    $em->clear();
                 
                     if($result ==NULL)
                     {
@@ -117,6 +116,7 @@ class PermisoController extends Controller
                  
                     $como = $em->getRepository('AEDataBundle:LiderRed');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
+                    $em->clear();
                 
                     if($result==NULL)
                     {
@@ -136,6 +136,7 @@ class PermisoController extends Controller
                 {
                     $como = $em->getRepository('AEDataBundle:PastorAsociado');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
+                    $em->clear();
                 
                     if($result==NULL)
                     {
@@ -155,6 +156,8 @@ class PermisoController extends Controller
 
                     $como = $em->getRepository('AEDataBundle:Misionero');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
+                    $em->clear();
+                    
                     if($result==NULL)
                     {
                          $var = new \AE\DataBundle\Entity\Misionero();
@@ -177,7 +180,8 @@ class PermisoController extends Controller
 
                     $como = $em->getRepository('AEDataBundle:PastorEjecutivo');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
-                
+                    $em->clear();
+                    
                     if($result==NULL)
                     {
                         $em->persist($var);
@@ -196,6 +200,7 @@ class PermisoController extends Controller
                     $smt->execute(array(':iddep'=>$persona->getId()));
  
                     $redes = $smt->fetchAll();
+                    $em->clear();
                    
                     if($redes == NULL)
                     {
@@ -212,14 +217,16 @@ class PermisoController extends Controller
   
                 }
              
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                $em->clear();
                 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
                 
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
    
                throw $e;
@@ -257,6 +264,8 @@ class PermisoController extends Controller
          $estudiante = NULL;
          $consolidador = NULL;
          $id = NULL;
+         
+          $em = $this->getDoctrine()->getEntityManager(); 
 
        if($name!=NULL){
                 
@@ -296,20 +305,22 @@ class PermisoController extends Controller
            }
            
 
-            $em = $this->getDoctrine()->getEntityManager();         
+                   
 
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                 //persona
                 $prev = $em->getRepository('AEDataBundle:Persona');
                 $persona = $prev->findOneBy(array('id'=>$id));
+                $em->clear();
             
                 
                 //lider de celula
                 
                  $como = $em->getRepository('AEDataBundle:Lider');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
+                 $em->clear();
  
                  if($result ==NULL)
                  {
@@ -344,6 +355,7 @@ class PermisoController extends Controller
                 //lider de red
                  $como = $em->getRepository('AEDataBundle:LiderRed');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
+                 $em->clear();
                  
                  if($result ==NULL)
                  {
@@ -378,6 +390,7 @@ class PermisoController extends Controller
                 
                  $como = $em->getRepository('AEDataBundle:PastorAsociado');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
+                 $em->clear();
                 
                  if($result==NULL)
                  {
@@ -413,6 +426,7 @@ class PermisoController extends Controller
                 //misionero
                  $como = $em->getRepository('AEDataBundle:Misionero');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
+                 $em->clear();
                     
                 if($result==NULL)
                 {
@@ -447,6 +461,7 @@ class PermisoController extends Controller
                 //pastor ejecutivo
                 $como = $em->getRepository('AEDataBundle:PastorEjecutivo');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
+                $em->clear();
                 
                 if($result==NULL)
                 {
@@ -479,6 +494,7 @@ class PermisoController extends Controller
                 
                 $como = $em->getRepository('AEDataBundle:Estudiante');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
+                $em->clear();
                 
                 if($result==NULL)
                 {
@@ -511,6 +527,7 @@ class PermisoController extends Controller
                 //consolidador
                 $como = $em->getRepository('AEDataBundle:Consolidador');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
+                $em->clear();
                 
                 if($result==NULL)
                 {
@@ -539,14 +556,16 @@ class PermisoController extends Controller
                     $em->flush();
                 }
 
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                $em->clear();
                 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
                 
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
    
                throw $e;

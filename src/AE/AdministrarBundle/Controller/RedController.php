@@ -64,9 +64,12 @@ class RedController extends Controller
                 $smt->execute(array(':red'=>$nombre));
  
                 $redes = $smt->fetchAll(); 
+                
+                $em->clear();
                 if(count($redes)>0)
                 {
                      $em->rollback();
+                     $em->clear();
                      $em->close();
                      
                      $return=array("responseCode"=>400, "greeting"=>"Bad");     
@@ -80,6 +83,7 @@ class RedController extends Controller
                 //ubigeo
                $prev_div = $em->getRepository('AEDataBundle:Ubigeo');
                 $ubigeo = $prev_div->findOneBy(array('id'=>$distrito));
+                $em->clear();
              
                 
                   //ubicacion
@@ -97,10 +101,12 @@ class RedController extends Controller
                 //persona 
                 $personas = $em->getRepository('AEDataBundle:Persona');
                 $persona = $personas->findOneBy(array('id'=>$id_persona));
+                $em->clear();
 
                 //iglesia
                 $iglesias = $em->getRepository('AEDataBundle:Iglesia');
                 $iglesia = $iglesias->findOneBy(array('id'=>$id_iglesia));
+                $em->clear();
 
                 //Red
                 $red = new Red();
@@ -122,6 +128,7 @@ class RedController extends Controller
                         //$lider = $query->getResult();
                         $lider_red = $em->getRepository('AEDataBundle:LiderRed');
                         $lider = $lider_red->findOneBy(array('id'=>$persona));
+                        $em->clear();
                                          
                         $sql = 'select * from red where red.id_lider_red = :red';
             
@@ -129,6 +136,7 @@ class RedController extends Controller
                         $smt->execute(array(':red'=>$id_persona));
  
                         $redes = $smt->fetchAll();  
+                        $em->clear();
                        
                         if(count($redes)>0)
                         {
@@ -151,6 +159,7 @@ class RedController extends Controller
                         //pastor asociado 
                         $pastor_asoc = $em->getRepository('AEDataBundle:PastorAsociado');
                         $past_asoc   = $pastor_asoc->findOneBy(array('id'=>$persona));
+                        $em->clear();
                         
                         
                         $sql = 'select * from red where red.id_pastor_asociado = :red';
@@ -159,6 +168,7 @@ class RedController extends Controller
                         $smt->execute(array(':red'=>$id_persona));
  
                         $redes = $smt->fetchAll();  
+                        $em->clear();
                         
                         if(count($redes)>0)
                         {
@@ -180,12 +190,14 @@ class RedController extends Controller
                 $em->flush();
                 
                 $em->commit();
+                $em->clear();
                 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
                 
             }catch(Exception $e)
             {
                      $em->rollback();
+                     $em->clear();
                      $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
 

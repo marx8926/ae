@@ -15,11 +15,7 @@ use AE\DataBundle\Entity\TemaLeche;
 use AE\DataBundle\Entity\Archivo;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+
 
 class DefaultController extends Controller
 {
@@ -84,6 +80,8 @@ class DefaultController extends Controller
         $descripcion = NULL;
         $fecha = NULL;
         $clases = NULL;
+        $em = $this->getDoctrine()->getEntityManager();         
+
 
        if($name!=NULL){
                 
@@ -107,9 +105,8 @@ class DefaultController extends Controller
                $clases = $datos['inputClases'];
            }
            
-            $em = $this->getDoctrine()->getEntityManager();         
 
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                 $leche = new LecheEspiritual();
@@ -124,15 +121,19 @@ class DefaultController extends Controller
            
                 $em->persist($leche);
                 $em->flush();
+             
            
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                
+                   $em->clear();
                 $return=array("responseCode"=>300, "id"=>$leche->getId() ); 
 
                 
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
    
                throw $e;
@@ -162,6 +163,7 @@ class DefaultController extends Controller
 
         parse_str($name,$datos);
        
+       $em = $this->getDoctrine()->getEntityManager();         
 
        if($name!=NULL){
                 
@@ -175,14 +177,14 @@ class DefaultController extends Controller
                 $lista[] = $datos['tema'.strval($i)] ;           
   
             }
-            $em = $this->getDoctrine()->getEntityManager();         
 
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                 //leche espiritual
                 $como = $em->getRepository('AEDataBundle:LecheEspiritual');
                 $leche = $como->findOneBy(array('id'=>$id));
+                $em->clear();
            
                 for($i=0;$i<$cont; $i++)
                 {
@@ -194,13 +196,15 @@ class DefaultController extends Controller
                     $em->flush();
                 }   
 
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                $em->clear();
                 $return=array("responseCode"=>300, "greeting"=>'ok' ); 
   
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
    
                throw $e;
@@ -230,12 +234,13 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getEntityManager();         
 
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                 //leche espiritual
                 $como = $em->getRepository('AEDataBundle:LecheEspiritual');
                 $leche = $como->findOneBy(array('id'=>$id));
+                $em->clear();
            
                  $file = new Archivo();
          
@@ -246,13 +251,15 @@ class DefaultController extends Controller
                 $em->persist($file);
                 $em->flush();
                 
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                $em->clear();
                 $return=array("responseCode"=>200, "greeting"=>'ok' ); 
   
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
    
                throw $e;
@@ -282,6 +289,8 @@ class DefaultController extends Controller
         parse_str($name,$datos);
         
         $retorno = 'ok';
+        $em = $this->getDoctrine()->getEntityManager();
+
        
         if($name!=NULL){
             
@@ -297,8 +306,7 @@ class DefaultController extends Controller
             $tip_red = $datos['tip_red'];
             $ids = $datos['ids'];
             
-            $em = $this->getDoctrine()->getEntityManager();
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             
             //añadir las excepciones en los prepare
             
@@ -316,6 +324,8 @@ class DefaultController extends Controller
                         $smt = $em->getConnection()->prepare($sql);
                    
                         $smt->execute(array(':idx'=>$code,':tip'=>$tipo_red, ':igle'=>$iglesia, ':lider'=>$ids,':pastor'=>NULL));
+                        
+                        $em->clear();
                      
                     }
                     else
@@ -324,6 +334,7 @@ class DefaultController extends Controller
                         $smt = $em->getConnection()->prepare($sql);
                    
                         $smt->execute(array(':idx'=>  $code,':tip'=> $tipo_red,':igle'=>$iglesia));
+                        $em->clear();
               
                     }
 
@@ -339,6 +350,7 @@ class DefaultController extends Controller
                    
                         $smt->execute(array(':idx'=>$code,':tip'=>$tipo_red, ':igle'=>$iglesia, ':lider'=>NULL,':pastor'=>$ids));
                      
+                        $em->clear();
                     }
                     else
                     {
@@ -347,6 +359,7 @@ class DefaultController extends Controller
                    
                         $smt->execute(array(':idx'=>  $code,':tip'=> $tipo_red,':igle'=>$iglesia));
               
+                        $em->clear();
                     }
             }
             
@@ -358,14 +371,15 @@ class DefaultController extends Controller
                     ':lng'=>$longitud,':ubigeo'=>$distrito));
                 $em->flush();
             
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                $em->clear();
                 
                 $return=array("responseCode"=>200, "greeting"=>$retorno);
             }
             catch(Exception $e)
             {
-                $this->getDoctrine()->getEntityManager()->rollback();
-                $this->getDoctrine()->getEntityManager()->close();
+                $em->rollback();
+                $em->close();
                  $return=array("responseCode"=>400, "greeting"=>'bad');
                 
                 throw $e;
@@ -393,15 +407,13 @@ class DefaultController extends Controller
     {
         $request = $this->get('request');
         $code=$request->request->get('formName');
-       
+        $em = $this->getDoctrine()->getEntityManager();            
 
        
-        if($code!=NULL){
-                
+        if($code!=NULL){               
             
-            $em = $this->getDoctrine()->getEntityManager();         
 
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                 $sql = "select delete_red(:idx)";
@@ -410,13 +422,15 @@ class DefaultController extends Controller
                
                 $em->flush();
                 
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                
+                $em->clear();
                 $return=array("responseCode"=>200, "greeting"=>$code ); 
   
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
    
                throw $e;

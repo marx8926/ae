@@ -8,18 +8,7 @@ use Doctrine\ORM\TransactionRequiredException;
 use AE\DataBundle\Entity\Ubicacion;
 use AE\DataBundle\Entity\Iglesia;
 use AE\DataBundle\Entity\Ubigeo;
-use AE\DataBundle\Entity\Red;
-use AE\DataBundle\Entity\Consolidador;
-use AE\DataBundle\Entity\LecheEspiritual;
-use AE\DataBundle\Entity\TemaLeche;
-use AE\DataBundle\Entity\Archivo;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class IglesiaController extends Controller
 {
@@ -44,7 +33,7 @@ class IglesiaController extends Controller
 
         parse_str($name,$datos);
         
-       
+        $em = $this->getDoctrine()->getEntityManager();         
         
        if($name!=NULL){
                    
@@ -57,20 +46,19 @@ class IglesiaController extends Controller
             $distrito = $datos['distrito_lista'];
             $latitud = $datos['latitud'];
             $longitud = $datos['longitud'];
-
-            $em = $this->getDoctrine()->getEntityManager();         
    
             $iglesias = $em->getRepository('AEDataBundle:Iglesia');
             $iglesias = $iglesias->findAll();
             
             if(count($iglesias)==0)
             {
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                 //ubigeo
                $prev_div = $em->getRepository('AEDataBundle:Ubigeo');
                 $ubigeo = $prev_div->findOneBy(array('id'=>$distrito));
+                $em->clear();
              
                 
                   //ubicacion
@@ -92,14 +80,16 @@ class IglesiaController extends Controller
                 
                 $em->persist($iglesia);
                 $em->flush();
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                $em->clear();
                 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
                 
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
 
                      
@@ -127,7 +117,7 @@ class IglesiaController extends Controller
          
           $iglesias = $em->getRepository('AEDataBundle:Iglesia');
           $igle = $iglesias->findAll();
-          
+          $em->clear();
           
          $em->close();
          
@@ -146,6 +136,8 @@ class IglesiaController extends Controller
         $datos = array();
 
         parse_str($name,$datos);
+        $em = $this->getDoctrine()->getEntityManager();         
+
     
        if($name!=NULL){
                    
@@ -159,18 +151,15 @@ class IglesiaController extends Controller
             $latitud = $datos['latitud'];
             $longitud = $datos['longitud'];
 
-            $em = $this->getDoctrine()->getEntityManager();         
-            
             //   $em->persist($user);
             //$em->flush();
             $iglesias = $em->getRepository('AEDataBundle:Iglesia');
             $iglesia = $iglesias->findOneBy(array('id'=>$id));
+            $em->clear();
             
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
-                
-                
                 //ubicacion
                $sql = 'UPDATE ubicacion SET id_ubigeo=:idgeo, direccion=:dir, referencia=:ref, latitud= :lat, longitud= :lng where id=:iddep';
 
@@ -185,14 +174,16 @@ class IglesiaController extends Controller
                 $em->persist($iglesia);
                 $em->flush();
    
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
+                $em->clear();
                 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
                 
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
                      $return=array("responseCode"=>400, "greeting"=>"Bad");
 
                      
