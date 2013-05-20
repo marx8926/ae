@@ -1,0 +1,95 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+	<link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+
+    <style>
+    	.encurso{
+    		color: #008500;
+    	}
+    	.cerrado{
+    		color: #fb000d;
+    	}
+	</style>
+{% endblock %}
+
+{%block javascript %}
+  	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>			
+	<script src="{{asset('js/functiongen.js')}}"></script>
+        <script src="{{asset('js/tiempo.js')}}"></script>
+            
+    <script type="text/javascript">
+            $(document).ready(function() {
+            	 
+                FechaActualT('fecha1');
+                FechaActualT('fecha2');
+                
+             
+            });
+            
+           
+        	
+    </script>             
+{%endblock%}
+
+{% block content %}
+
+        <div class="span9" id="registro_form">
+
+            <div class="form-horizontal">
+                
+                <form method="POST" id="myForm" action="">
+            
+                <div class="control-group">
+                    <label class="control-label" >Red</label>
+                    <div class="controls">
+                        <select id="red_lista" name="red_lista" >
+                   
+                        </select>
+                    </div>
+                </div>
+       
+                <div class="control-group">
+                    <label class="control-label">Célula</label>
+                    <div class="controls">
+                        <select id="celula_lista" name="celula_lista" >
+                   
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Fecha</label>
+                    <div class="controls">
+                        <input type= "text" class="datepick" id="inputFechaConversion" name="inputFechaConversion" required/>
+                        <p class="help-block">Mes/Día/Año</p>  
+                    </div>
+                </div>
+                    
+                </form>
+            </div>
+                 
+        </div>
+{% endblock %}

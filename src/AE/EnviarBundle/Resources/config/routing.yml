@@ -105,3 +105,7 @@ enviar_activar_vista:
   pattern: /activar_celula
   defaults: {_controller: AEEnviarBundle:Modificar:activar_celula}
   
+  
+enviar_celulograma:
+  pattern: /celulograma
+  defaults: {_controller: AEEnviarBundle:Informe:celulograma}
