@@ -138,6 +138,9 @@
          
 	$(document).ready(function() {
             
+            
+            $('#myForm').css({'display':'none'});
+            
             $("#consolidados").css({'display':'none'});
             
         
@@ -184,7 +187,11 @@
                 values = [];
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
-                });               
+                }); 
+                
+                if(values.length>2)
+                      $('#myForm').css({'display':'block'});
+
             });
 
             //click para activar

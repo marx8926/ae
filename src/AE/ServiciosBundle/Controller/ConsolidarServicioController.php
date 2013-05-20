@@ -88,6 +88,33 @@ class ConsolidarServicioController extends Controller
         $smt->execute();
         
         $todo = $smt->fetchAll();
+        $em->clear();
+        
+        $n = count($todo);
+        $temp = "";
+        for($i=0; $i<$n; $i++)
+        {
+               $temp = $temp. "<option value='". $todo[$i]['id']."' >". $todo[$i]['red']." ".$todo[$i]['nombre']."  ". $todo[$i]['apellidos']." </option>";
+              
+        }
+  
+        return new Response($temp);
+   }
+   
+   
+   public function l_act_consolidadores_redAction($id)
+   {
+        $result = "";
+        
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $sql = "select * from get_consolidadores(:id)";    
+        
+        $smt = $em->getConnection()->prepare($sql);
+        $smt->execute(array(':id'=>$id));
+        
+        $todo = $smt->fetchAll();
+        $em->clear();
         
         $n = count($todo);
         $temp = "";

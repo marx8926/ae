@@ -17,6 +17,14 @@ servicio_consolidadores_act:
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:l_act_consolidadores}
   requirements:
    _method: POST
+   
+   
+#consolidadores activos por red
+servicio_consolidadores_act_red:
+  pattern: /l_act_consolidadores_red/{id}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:l_act_consolidadores_red}
+  requirements:
+   _method: POST
     
 #leche espiritual temas
 

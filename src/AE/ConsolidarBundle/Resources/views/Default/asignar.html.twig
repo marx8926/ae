@@ -53,6 +53,15 @@
                         <label class="control-label" id="nuevo" name="nuevo"  ></label>
                     </div>
             </div>
+            
+             <div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" >
+                   
+                </select>
+            </div>
+            </div>
 
             <div class="control-group ">
                 <label class="control-label" for="consolidador"> Consolidadores</label>
@@ -121,6 +130,18 @@
         
         var num = 0; //numero de temas de leche esperitual
         
+        function recargar_consolidadores()
+        {
+                var nombre = $("#red_lista option:selected").val();  
+            
+                 var route = '{{path('servicio_consolidadores_act_red',{'id': 'name'})}}';
+            
+                 var rutas = route.replace('name',nombre);
+                 console.log(rutas);
+                 
+                 init_consolidadores(rutas);        
+        }
+        
         function miembro(dato)
         {
             $('#code').text(dato[0]); $('#code').val(dato[0]);
@@ -131,7 +152,7 @@
         {
             var nombre = $("#select_leche option:selected").val();  
             
-            if(nombre != '-1')
+            if(nombre !== '-1')
             {
                 var route = '{{path('servicio_leche_esp_temas',{'id': 'name'})}}';
             
@@ -146,16 +167,37 @@
                           $('#temas').html(data);
                   });
             }
+            else $('#temas').empty();
 
         }
 	$(document).ready(function() {
-  
+          
+            //lista de redes
+            $.ajax(
+                        {url : '{{path('servicio_red')}}',
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+            ).done(function(dato){
+                     $('#red_lista').empty();
+                                    
+                    for(var i=0;i<dato.length;i++)
+                    {
+                        $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#red_lista');
+                    } 
+                    recargar_consolidadores();
+            }); 
+
            
             init_leche_espiritual("{{path('servicio_leche_espiritual')}}");
-            init_consolidadores("{{path('servicio_consolidadores_act')}}");
             
             //bloquear div temas
             $('#temas').css({'display':'none'});
+            
+            
+            //cambio de consolidadores
+            $('#red_lista').change(recargar_consolidadores);
             
              //cambio de leche espiritual
              $('#select_leche').change(cambio_leche);
