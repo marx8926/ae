@@ -38,8 +38,7 @@
                                     <th width="5%">Red</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th width="12%">Lugar</th>
-                                    <th width="10%">Consolidado</th>
+                                    <th width="12%">ID</th>
                                     <th width="10%">Conversión</th>
 		                </tr>
 			</thead>
@@ -110,7 +109,6 @@
                         async: false,
                         }
             ).done(function(dato){
-                    $("<option value='-1'>Todas</option>").appendTo('#red_lista');
                 
                     for(var i=0;i<dato.length;i++)
                     {
@@ -124,25 +122,13 @@
         
             $('#rang').click(function(event){
                 event.preventDefault();
-               var rede =$('#red_lista').val();
-                
-                if(rede==='-1')
-                {
-                        
-                }
-                else
-                {
-                        
-                }
-                
-                /*
-                var url = '{{path('servicio_convertido_red_lugar',{'fecha1':'init','fecha2':'end'}) }}';
-                var ruta = url.replace('init',$('#inicio').val());
-                ruta = ruta.replace('end',$('#fin').val());
-                console.log(ruta);
-                
-                cargar_tabla(ruta);
-                */
+                var rede =$('#red_lista').val();
+                var url = '{{path('_enviar_lista_lideres_celula_tabla',{'id':':iden'}) }}';
+                url = url.replace(':iden',rede);
+                console.log(url);
+
+                cargar_tabla(url);                
+               
             });
             
             $("#pdfbutton").click(function(event) {
@@ -172,14 +158,13 @@
                 "bDestroy": true,
                 "sAjaxSource": url,
                 "aoColumns": [
-                    { "mDataProp": "red" },
-                    { "mDataProp": "nombres" },
+                    { "mDataProp": "id_red" },
+                    { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
-                    { "mDataProp": "lugar" },
-                    { "mDataProp": "consolidado" },
-                    { "mDataProp":"convertido"}
+                    { "mDataProp": "id" },
+                    {"mDataProp": "fecha"}
                 ],
-		"aaSorting": [ [0,'asc'], [5,'desc'] ],
+		"aaSorting": [ [0,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
 		],"sDom": 'T<"clear">lfrtip',

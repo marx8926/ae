@@ -24,6 +24,7 @@ class EnviarServicioController extends Controller
         $smt->execute();
         
         $todo = $smt->fetchAll();
+        $em->clear();
         
         $n = count($todo);
         
@@ -78,6 +79,7 @@ class EnviarServicioController extends Controller
           $smt->execute(array(':idx'=>$temp));
           
           $todo = $smt->fetchAll();
+          $em->clear();
           $total = "";
           
           $n = count($todo);
@@ -114,6 +116,7 @@ class EnviarServicioController extends Controller
           $smt->execute(array(':idx'=>$temp));
           
           $todo = $smt->fetchAll();
+          $em->clear();
           $total = "";
           
           $n = count($todo);
@@ -151,6 +154,7 @@ class EnviarServicioController extends Controller
           $smt->execute(array(':idx'=>$temp));
           
           $todo = $smt->fetchAll();
+          $em->clear();
           $total = "";
           
           $n = count($todo);
@@ -188,7 +192,9 @@ class EnviarServicioController extends Controller
           $smt = $em->getConnection()->prepare($sql);
           $smt->execute(array(':idx'=>$temp));
           
+          
           $todo = $smt->fetchAll();
+          $em->clear();
           $total = "";
           
           $n = count($todo);
@@ -223,16 +229,19 @@ class EnviarServicioController extends Controller
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute();
             $lider_red = $smt->fetchAll();
+            $em->clear();
             
             $sql = "select * from lista_celula_misionero_act";
             $smt1 = $em->getConnection()->prepare($sql);
             $smt1->execute();
             $misionero = $smt1->fetchAll();
+            $em->clear();
             
             $sql = "select * from lista_celula_pastor_eje_act";
             $smt2 = $em->getConnection()->prepare($sql);
             $smt2->execute();
             $pastor = $smt2->fetchAll();
+            $em->clear();
             
             $todo = $lider_red;
             foreach ($misionero as $key => $value) {
@@ -247,6 +256,7 @@ class EnviarServicioController extends Controller
             $smt3 = $em->getConnection()->prepare($sql);
             $smt3->execute();
             $lideres = $smt3->fetchAll();
+            $em->clear();
             
             foreach ($lideres as $key => $value) {
                 $todo[]=$value;
@@ -266,7 +276,7 @@ class EnviarServicioController extends Controller
     }
     
     
-      public function getListaCelulaTablaDesAction()
+    public function getListaCelulaTablaDesAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
         
@@ -280,16 +290,19 @@ class EnviarServicioController extends Controller
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute();
             $lider_red = $smt->fetchAll();
+            $em->clear();
             
             $sql = "select * from lista_celula_misionero_des";
             $smt1 = $em->getConnection()->prepare($sql);
             $smt1->execute();
             $misionero = $smt1->fetchAll();
+            $em->clear();
             
             $sql = "select * from lista_celula_pastor_eje_des";
             $smt2 = $em->getConnection()->prepare($sql);
             $smt2->execute();
             $pastor = $smt2->fetchAll();
+            $em->clear();
             
             $todo = $lider_red;
             foreach ($misionero as $key => $value) {
@@ -304,6 +317,7 @@ class EnviarServicioController extends Controller
             $smt3 = $em->getConnection()->prepare($sql);
             $smt3->execute();
             $lideres = $smt3->fetchAll();
+            $em->clear();
             
             foreach ($lideres as $key => $value) {
                 $todo[]=$value;
@@ -337,6 +351,7 @@ class EnviarServicioController extends Controller
           $smt->execute(array(':red'=>$red,':tip'=>$tipo));
           
           $todo = $smt->fetchAll();
+          $em->clear();
           
           $result = "<table cellpadding='0' cellspacing='0' border='0' class='display table table-striped dataTable table-bordered'>
 			<tbody>
@@ -388,6 +403,7 @@ class EnviarServicioController extends Controller
           $smt->execute(array(':id'=>$id));
           
           $todo = $smt->fetchAll();
+          $em->clear();
           
           $em->commit();
        }
@@ -404,16 +420,17 @@ class EnviarServicioController extends Controller
     public function getAsistenciaCelulaClassAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
- 
+        $em->beginTransaction();
+
        try
        {
-          $em->beginTransaction();
           
           $sql = "select *from  asistencia_tema(:id)";
           $smt = $em->getConnection()->prepare($sql);
           $smt->execute(array(':id'=>$id));
           
           $todo = $smt->fetchAll();
+          $em->clear();
           
            $result = "<table cellpadding='0' cellspacing='0' border='0' class='display table table-striped dataTable table-bordered' id='persona' name='persona'>
 			<tbody>
@@ -451,24 +468,26 @@ class EnviarServicioController extends Controller
   
    public function temas_celulaAction()
    {
-       $this->getDoctrine()->getEntityManager()->beginTransaction();
        
        $todo = array();
-       
+       $em = $this->getDoctrine()->getEntityManager();
+
+       $em->beginTransaction();
+     
        try
        {
-           $em = $this->getDoctrine()->getEntityManager();
            $sql = "select *from lista_tema_celula";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute();
            $todo = $smt->fetchAll();
+           $em->clear();
            
-           $this->getDoctrine()->getEntityManager()->commit();
+           $em->commit();
        }
        catch (Exception $e)
        {
-           $this->getDoctrine()->getEntityManager()->rollback();
-           $this->getDoctrine()->getEntityManager()->close();
+           $em->rollback();
+           $em->close();
        }
        
        return new JsonResponse(array('aaData'=>$todo));
@@ -479,14 +498,16 @@ class EnviarServicioController extends Controller
       $this->getDoctrine()->getEntityManager()->beginTransaction();
        
        $todo = array();
+       $em = $this->getDoctrine()->getEntityManager();
+
        
        try
        {
-           $em = $this->getDoctrine()->getEntityManager();
            $sql = "select *from lista_tema_celula";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute();
            $temp = $smt->fetchAll();
+           $em->clear();
            
            $n = count($temp);
            
@@ -510,6 +531,7 @@ class EnviarServicioController extends Controller
                $todo[] = $fila;
            }
            $this->getDoctrine()->getEntityManager()->commit();
+           $em->clear();
        }
        catch (Exception $e)
        {
@@ -522,27 +544,94 @@ class EnviarServicioController extends Controller
    
    public function serv_enviar_lista_celulasAction()
    {
-        $this->getDoctrine()->getEntityManager()->beginTransaction();
        
        $todo = array();
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+
        
        try
        {
-           $em = $this->getDoctrine()->getEntityManager();
            $sql = "select *from lista_celulas";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute();
            $todo = $smt->fetchAll();
+           $em->clear();
  
-           $this->getDoctrine()->getEntityManager()->commit();
+           $em->commit();
        }
        catch (Exception $e)
        {
-           $this->getDoctrine()->getEntityManager()->rollback();
-           $this->getDoctrine()->getEntityManager()->close();
+           $em->rollback();
+           $em->close();
        }
        
        return new JsonResponse($todo);  
    }
+   
+   
+       
+    public function getLideresCelulaTablaAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        $em->beginTransaction();
+        
+        try{
+        
+            //misioneros
+            $sql = "select * from ver_lideres_celulas(:id,:caso)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$id,':caso'=>0));
+            $lider_red = $smt->fetchAll();
+            $em->clear();
+            
+            //pastores ejecutivos
+            $sql = "select * from ver_lideres_celulas(:id,:caso)";
+            $smt1 = $em->getConnection()->prepare($sql);
+            $smt1->execute(array(':id'=>$id,':caso'=>1));
+            $misionero = $smt1->fetchAll();
+            $em->clear();
+            
+            //lider de red
+            $sql = "select * from ver_lideres_celulas(:id,:caso)";
+            $smt2 = $em->getConnection()->prepare($sql);
+            $smt2->execute(array(':id'=>$id,':caso'=>2));
+            $pastor = $smt2->fetchAll();
+            $em->clear();
+            
+            $todo = $lider_red;
+            foreach ($misionero as $key => $value) {
+                $todo[]=$value;                
+            }
+            
+            foreach ($pastor as $key => $value) {
+                $todo[]=$value;
+            }
+            //lider
+            $sql1 = "select * from ver_lideres_celulas(:id,:caso)";
+            $smt3 = $em->getConnection()->prepare($sql1);
+            $smt3->execute(array(':id'=>$id,':caso'=>'3'));
+            $lideres = $smt3->fetchAll();
+            $em->clear();
+            
+            foreach ($lideres as $key => $value) {
+                $todo[]=$value;
+            }
+           
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse(array('aaData'=>$todo));
+    }
+    
    
 }

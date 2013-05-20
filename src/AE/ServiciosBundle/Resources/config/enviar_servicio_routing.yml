@@ -69,3 +69,8 @@ servicio_enviar_contar_clase_celula:
 servicio_enviar_lista_celulas:
   pattern: /serv_enviar_lista_celulas
   defaults: {_controller: AEServiciosBundle:EnviarServicio:serv_enviar_lista_celulas}
+  
+  
+_enviar_lista_lideres_celula_tabla:
+  pattern: /enviar_lideres_celula_tabla/{id}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getLideresCelulaTabla}
