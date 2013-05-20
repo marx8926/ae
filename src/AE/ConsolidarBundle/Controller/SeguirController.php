@@ -32,6 +32,7 @@ class SeguirController extends Controller
              $smt->execute(array(':id'=>$id));
              
              $td = $smt->fetch();
+             $em->clear();
   
         }
         catch (Exception $e)
@@ -50,9 +51,7 @@ class SeguirController extends Controller
         $name=$request->request->get('formName');
         $num = $request->request->get('num');
         $consol = $request->request->get('consol');
-        
-        
-        
+  
         $numero = intval($num);
   
         $datos = array();
@@ -125,6 +124,7 @@ class SeguirController extends Controller
             }
              
             $em->commit();
+            $em->clear();
             }catch(Exception $e)
              {
                             $em->rollback();

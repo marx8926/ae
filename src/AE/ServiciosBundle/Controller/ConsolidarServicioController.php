@@ -245,6 +245,7 @@ class ConsolidarServicioController extends Controller
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute();
            $todo = $smt->fetchAll();
+           $em->clear();
            
            $em->commit();
        }
@@ -318,6 +319,7 @@ class ConsolidarServicioController extends Controller
             $todo = $smt->fetchAll();
             
             $em->commit();
+            $em->clear();
         }
         catch (Exception $e)
         {
@@ -350,7 +352,7 @@ class ConsolidarServicioController extends Controller
                                             <td>".$val["titulo"]."</td>
                                             <td>".$val['inicio']."</td>";
                                              
-                        if($val['fin']!=NULL)
+                        //if($val['fin']!=NULL)
                         {
                             $d = new \DateTime($val['fin']);
                             $d->format('Y-m-d');
@@ -362,12 +364,12 @@ class ConsolidarServicioController extends Controller
                                                 </td>.
                                            </tr>";
                          }
-                         else {
+                         /*else {
                                 $result = $result."<td> <input type='date'class='input-medium' id='dia".$key."' name='dia".$key."' class='datepicker' > </td>
                                             <td> <input type='time' class='input-small' id='hora".$key."' name='hora".$key."' class='timepicker' value='00:00:00' > </td>
                                             <td><input type='checkbox' id='check".$key."' name='check".$key."' ></td>.
                                            </tr>";
-                         }
+                         }*/
                                                
 		}
                 
@@ -392,6 +394,7 @@ class ConsolidarServicioController extends Controller
             $smt->execute();
         
             $todo = $smt->fetchAll();
+            $em->clear();
             
           $em->commit();
        }
@@ -420,12 +423,14 @@ class ConsolidarServicioController extends Controller
             $smt->execute();
         
             $todo = $smt->fetchAll();
+            $em->clear();
             
             $em->commit();
             
         }catch(Exception $e)
         {
             $em->rollback();
+            $em->clear();
             $em->close();
             
             throw $e;
@@ -445,6 +450,7 @@ class ConsolidarServicioController extends Controller
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute();
            $todo = $smt->fetchAll();
+           $em->clear();
            
            $this->getDoctrine()->getEntityManager()->commit();
        }
@@ -462,14 +468,17 @@ class ConsolidarServicioController extends Controller
        $em = $this->getDoctrine()->getEntityManager();
        $todo = array();
        $result = "<select id='tools' name='tools' required>";
+       
+       $em->beginTransaction();
+
        try
        {
-           $em->beginTransaction();
            $sql = "select * from herramienta";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute();
            $todo = $smt->fetchAll();
            
+           $em->clear();
            
            foreach ($todo as $key => $value) {
                $result = $result."<option value='".$value['id'].
@@ -495,13 +504,15 @@ class ConsolidarServicioController extends Controller
        $em = $this->getDoctrine()->getEntityManager();
        $todo = array();
 
+       $em->beginTransaction();
+
        try
        {
-           $em->beginTransaction();
            $sql = "select * from get_reporte_no_consolidados(:inicio,:fin)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':inicio'=>$inicio,':fin'=>$fin));          
            $todo = $smt->fetchAll(); 
+           $em->clear();
            $em->commit();
        }
        catch(Exception $e)
@@ -531,16 +542,18 @@ class ConsolidarServicioController extends Controller
        $todo = array();
        $tools = array();
 
+       $em->beginTransaction();
+
        try
        {
            $init = new \DateTime($inicio);
            $end  = new \DateTime($fin);
            
-           $em->beginTransaction();
            $sql = "select * from get_reporte_herramientas(:inicio,:fin)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':inicio'=>$init->format('Y-m-d H:i:s'),':fin'=>$end->format('Y-m-d H:i:s')));          
            $todo = $smt->fetchAll(); 
+           $em->clear();
            
            
            $sql1 = "select * from herramienta";
@@ -548,6 +561,7 @@ class ConsolidarServicioController extends Controller
            $smt->execute();
            
            $tools = $smt->fetchAll();
+           $em->clear();
            
            
            $herramienta = array();
@@ -615,6 +629,7 @@ class ConsolidarServicioController extends Controller
            $result = $result.$body."</tbody> </table>";
 
            $em->commit();
+           $em->clear();
        }
        catch(Exception $e)
        {
@@ -636,18 +651,20 @@ class ConsolidarServicioController extends Controller
        $todo = array();
        $tools = array();
 
+       $em->beginTransaction();
+
        try
        {
            $init = new \DateTime($inicio);
            $end  = new \DateTime($fin);
            
-           $em->beginTransaction();
            $sql = "select * from get_reporte_leche_espiritual_consolida(:inicio,:fin,:leche)";
 
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':inicio'=>$init->format('Y-m-d H:i:s'),':fin'=>$end->format('Y-m-d H:i:s'),
                ':leche'=>$leche));          
            $todo = $smt->fetchAll(); 
+           $em->clear();
            
            
            $sql1 = " select * from tema_leche where id_leche_espiritual=:leche";
@@ -655,6 +672,7 @@ class ConsolidarServicioController extends Controller
            $smt->execute(array(':leche'=>$leche));
            
            $tools = $smt->fetchAll();
+           $em->clear();
            
            
            $herramienta = array();
@@ -725,10 +743,12 @@ class ConsolidarServicioController extends Controller
            $result = $result.$body."</tbody> </table>";
 
            $em->commit();
+           $em->clear();
        }
        catch(Exception $e)
        {
            $em->rollback();
+           $em->clear();
            $em->close();
            throw  $e;
        }
@@ -742,13 +762,15 @@ class ConsolidarServicioController extends Controller
        $em = $this->getDoctrine()->getEntityManager();
        $todo = array();
 
+       $em->beginTransaction();
+
        try
        {
-           $em->beginTransaction();
            $sql = "select * from get_reporte_descartados(:inicio,:fin)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':inicio'=>$inicio,':fin'=>$fin));          
            $todo = $smt->fetchAll(); 
+           $em->clear();
            $em->commit();
        }
        catch(Exception $e)
@@ -766,14 +788,18 @@ class ConsolidarServicioController extends Controller
        $em = $this->getDoctrine()->getEntityManager();
        $todo = array();
 
+       $em->beginTransaction();
+
        try
        {
-           $em->beginTransaction();
            $sql = "select * from get_reporte_consolidados_consolidador(:id)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':id'=>$id));          
            $todo = $smt->fetchAll(); 
+           
+           
            $em->commit();
+           $em->clear();
        }
        catch(Exception $e)
        {

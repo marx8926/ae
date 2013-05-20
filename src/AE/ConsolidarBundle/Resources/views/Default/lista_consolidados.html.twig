@@ -26,14 +26,14 @@
         <thead>
             <tr>
               
-                <th width='8%'>ID</th>
+                <th width='6%'>ID</th>
 		<th>Nombres</th>
 		<th>Apellidos</th>
 		<th width='6%' >Red</th>
                 <th width='6%'>Célula</th>
-                <th width='12%'>Inicio</th>
-                <th width='12%'>Fin</th>
-                <th width='12%'>Reanuda</th>
+                <th width='10%'>Inicio</th>
+                <th width='10%'>Fin</th>
+                <th width='6%'>Id. Con</th>
                 <th>Nom. Con</th>
                 <th>Ap. Con</th>
             </tr>
@@ -47,7 +47,7 @@
     </div>
         </div>
        <div class="form-horizontal">
-            <button class="btn-success" id="vista" name="vista" value="hola"> 
+            <button class="btn-success" id="vista" name="vista" > 
                 <a id="otro" name="otro" href="">Ver datos</a>
             </button>
         </div>
@@ -94,7 +94,7 @@
 	$(document).ready(function() {
             
             
-             $("#vista").css({"display":"block"});
+             $("#vista").css({"display":"none"});
 
 		$("#pdfbutton").click(function(event) {
             $("#persona th").css("width","auto");
@@ -125,44 +125,17 @@
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
                 });
-                console.log('personas');
-                console.log(values);
-               // if(values[0])
+                              // if(values[0])
                 $("#vista").css({"display":"block"});
-
+                 var route = '{{path('consolidar_seguir',{'id': 'nom'})}}';
+            
+                     var rutas = route.replace('nom',values[0]);
+   
             });
-
-            //click para activar
-            $('#vista').click(function(){
-                 var anSelected = fnGetSelected(oTable);
-                //oTable.fnDeleteRow(anSelected[0]);
-                if(anSelected.length !=0)
-                {
-                    var tds = $(anSelected).find('td');
-                    var val = [];
-                    $.each(tds, function(index, item) {
-                    val.push(item.innerHTML); 
-  
-                      }); 
-                    
-                    
-                   var route = '{{path('ganar_vistamiembro',{'id': 'nom'})}}';
-            
-                    var rutas = route.replace('nom',val[0]);
-                    
-                    console.log(rutas);
-                    window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
-               
-                }
-               
-            });
-            
-            //click handler para vista
-            
+            //click handler para vista            
    
             /* Build the DataTable with third column using our custom sort functions */
-            oTable = $('#persona').dataTable( {
-                                    
+            oTable = $('#persona').dataTable( {                                    
             	"bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
@@ -175,7 +148,7 @@
                     { "mDataProp": "cell"},
                     { "mDataProp":"inicio"},
                     { "mDataProp":"fin"},
-                    { "mDataProp": "reanuda" },
+                    { "mDataProp": "idcon" },
                     { "mDataProp": "nomq" },
                     { "mDataProp": "apq"}
                 ],
@@ -215,7 +188,7 @@
                                          
                    var route = '{{path('consolidar_seguir',{'id': 'nom'})}}';
             
-                    var rutas = route.replace('nom',val[5]);
+                    var rutas = route.replace('nom',val[7]);
      
                     $('#otro').attr("href",rutas);
                     
