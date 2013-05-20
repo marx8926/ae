@@ -2,7 +2,7 @@ parameters:
   database_driver: pdo_pgsql
   database_host: 127.0.0.1
   database_port: 5432
-  database_name: AE_DB_alfa
+  database_name: AE_DB_Beta
   database_user: postgres
   database_password: 'cs*marx*26041989'
   mailer_transport: gmail
