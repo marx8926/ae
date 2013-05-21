@@ -31,7 +31,7 @@ class GanarServicioController extends Controller
             $smt->execute();
  
             $redes = $smt->fetchAll();
-            
+            $em->clear();
             $em->commit();
             
         } catch (Exception $exc) {
@@ -60,6 +60,7 @@ class GanarServicioController extends Controller
             $smt->execute();
  
             $redes = $smt->fetchAll();
+            $em->clear();
             
             $em->commit();
         }  catch (Exception $e)
@@ -87,6 +88,7 @@ class GanarServicioController extends Controller
             $smt->execute();
  
             $redes = $smt->fetchAll();
+            $em->clear();
             
             $em->commit();
             
@@ -115,6 +117,7 @@ class GanarServicioController extends Controller
             $smt->execute(array(':red'=>$id,':tip'=>0));
  
             $redes = $smt->fetchAll();
+            $em->clear();
             
             $em->commit();
             
@@ -141,6 +144,7 @@ class GanarServicioController extends Controller
             $smt->execute(array(':id'=>$id));
  
             $redes = $smt->fetchAll();
+            $em->clear();
             $em->commit();
         } catch (Exception $exc) {
             $em->rollback();
@@ -172,6 +176,7 @@ class GanarServicioController extends Controller
              $smt->execute(array(':dep'=>$dep,':prov'=>$prov));
  
              $redes = $smt->fetchAll();
+             $em->clear();
              
              $em->commit();
         
@@ -196,7 +201,7 @@ class GanarServicioController extends Controller
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute();
             $redes = $smt->fetchAll();
-            
+            $em->clear();
             $em->commit();
             
         } catch (Exception $exc) {
@@ -218,6 +223,7 @@ class GanarServicioController extends Controller
         $smt->execute(array(':id'=>$id));
  
         $redes = $smt->fetch();
+        $em->clear();
    
        return new JsonResponse($redes);
     }
@@ -232,6 +238,7 @@ class GanarServicioController extends Controller
         $smt->execute(array(':iddep'=>$id));
  
         $redes = $smt->fetchAll();
+        $em->clear();
    
        return new JsonResponse($redes);
        
@@ -252,6 +259,7 @@ class GanarServicioController extends Controller
             $smt->execute(array(':id'=>$id));
  
             $redes = $smt->fetch();
+            $em->clear();
             
             $em->commit();
         }
@@ -302,6 +310,7 @@ class GanarServicioController extends Controller
     	$smt->execute();
     
     	$todo = $smt->fetchAll();
+        $em->clear();
     	$flag = true;
     	foreach ($todo as $key => $val){
     		$flag = false;
@@ -356,6 +365,7 @@ class GanarServicioController extends Controller
             $smt->execute(array(':tipo'=>$tipo,':inicio'=>$fecha1_formateada,':fin'=>$fecha2_formateada));
     
             $todo = $smt->fetchAll();
+            $em->clear();
             $flag = true;
             
             $em->commit();
@@ -417,12 +427,14 @@ class GanarServicioController extends Controller
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute(array(':tipo'=>0,':inicio'=>$fecha1_formateada,':fin'=>$fecha2_formateada));
             $todo_m = $smt->fetchAll();
+            $em->clear();
             
             //hombres
             $sql = "select * from get_reporte_lugar_ganar(:tipo,:inicio,:fin)";
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute(array(':tipo'=>1,':inicio'=>$fecha1_formateada,':fin'=>$fecha2_formateada));
             $todo_h = $smt->fetchAll();
+            $em->clear();
             
             $flag = true;
             
@@ -480,7 +492,7 @@ class GanarServicioController extends Controller
             $smt->execute(array(':ini'=>$fecha1,':fin'=>$fecha2));
  
             $redes = $smt->fetchAll();
-            
+            $em->clear();
             $em->commit();
         }
         catch(Exception $e)

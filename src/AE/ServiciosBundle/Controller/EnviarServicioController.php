@@ -568,8 +568,6 @@ class EnviarServicioController extends Controller
        
        return new JsonResponse($todo);  
    }
-   
-   
        
     public function getLideresCelulaTablaAction($id)
     {
@@ -633,5 +631,30 @@ class EnviarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$todo));
     }
     
-   
+    public function getCelulasDiscipuladoAction($red)
+    {
+             $em = $this->getDoctrine()->getEntityManager();
+        
+        try {
+            
+            $em->beginTransaction();
+            
+            $sql = 'select * from celulas_por_red(:red,:tip) ';
+       
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':tip'=>1));
+ 
+            $redes = $smt->fetchAll();
+            $em->clear();
+            
+            $em->commit();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+
+       return new JsonResponse($redes);
+    }
 }

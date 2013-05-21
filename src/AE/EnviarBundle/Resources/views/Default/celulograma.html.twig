@@ -40,24 +40,79 @@
 	<script src="{{asset('js/custom.js')}}"></script>			
 	<script src="{{asset('js/functiongen.js')}}"></script>
         <script src="{{asset('js/tiempo.js')}}"></script>
+        <script src="{{asset('js/ganar.js')}}"></script>
             
     <script type="text/javascript">
             $(document).ready(function() {
             	 
                 FechaActualT('fecha1');
-                FechaActualT('fecha2');
+                FechaActualT('fecha2');  
                 
-             
-            });
+                //init red
+                  initRed('{{path('servicio_red')}}');
+                  
+               $("#tipo_celula").change(recargar_celula);
+
+         
+            });   
             
+        function celula_listar()
+        {
+            var tipo = $("#tipo_celula option:selected").val();
+            var nombre = $("#red_lista option:selected").val();  
+            
+            if(tipo==='0')
+            {
+                var route = '{{path('servicio_celula',{'id': 'name'})}}';
+            
+                        var rutas = route.replace('name',nombre);
+                 
+                        $.ajax(
+                        {url : rutas,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(celula);          
+            }
+            else
+            {
+               var route = '{{path('servicio_enviar_celula_discipulado',{'red': 'name'})}}';
+            
+                        var rutas = route.replace('name',nombre);
+                 
+                        $.ajax(
+                        {url : rutas,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(celula);                  
+            }
+                 
+        }
            
-        	
+        function recargar_celula()
+        {
+                    var nombre = $("#red_lista option:selected").val();  
+                    
+                    if(nombre!=='-1')
+                    {
+                       celula_listar();
+                     }
+                     else
+                     {
+                         $('#celula_lista').empty();
+                             
+                     }
+        }	
+        
     </script>             
 {%endblock%}
 
 {% block content %}
-
-        <div class="span9" id="registro_form">
+    <div  class="row-fluid">
+        <div class="span12" id="registro_form">
 
             <div class="form-horizontal">
                 
@@ -68,6 +123,16 @@
                     <div class="controls">
                         <select id="red_lista" name="red_lista" >
                    
+                        </select>
+                    </div>
+                </div>
+                    
+                <div class="control-group">
+                    <label class="control-label" >Tipo Célulaa</label>
+                    <div class="controls">
+                        <select id="tipo_celula" name="tipo_celula" >
+                            <option value="0" >Evangelistica</option>
+                            <option value="1">Discipulado</option>
                         </select>
                     </div>
                 </div>
@@ -89,7 +154,282 @@
                 </div>
                     
                 </form>
+                
+                <div>
+                    
+                    <div class="box">
+		<div class="box-head tabs">
+            <h3>Nuevos Convertidos</h3>	
+                </div>
+       
+
+        <div class="box-content box-nomargin">
+                
+                
+<table>
+<tr>
+	<td>Datos Personal</td>
+	<td>Sexo</td>
+	<td>Codigo del Pastor</td>
+	<td>Codigo del Lider</td>
+	<td>Codigo Loder 144</td>
+	<td>Codigo Lider</td>
+</tr>
+<tr>
+	<td colspan="4">Nobre del lider de celulas</td>
+	<td>Telefono Lider</td>
+	<td>Edad</td>
+</tr>
+<tr>
+	<td>DATOS DE LA CELULA</td>
+	<td>Tipo de Celula</td>
+	<td colspan="4"></td>
+</tr>
+<tr>
+	<td colspan="4">DIreccion</td>
+	<td>Tel. Anfitrion</td>
+	<td>Familia Anfitriona</td>
+</tr>
+<tr>
+	<td>Fecha de Apertura:</td>
+	<td>Dia de la Celula:</td>
+	<td>Hora</td>
+</tr>
+</table>
+
+<table border="1">
+	<tr>
+		<th rowspan="2">Nro</th>
+		<th rowspan="2">Nombre y Apellidos</th>
+		<th rowspan="2">Telefono</th>
+		<th rowspan="2">Edad</th>
+		<th colspan="15">Asistencia Semanal</th>
+		<th colspan="13">Conocimiento Espiritual</th>
+	</tr>
+	<tr>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+
+		<th>Leche<br>Espiritual</th>
+		<th>Enc</th>
+		<th>Bau<br>tismo</th>
+		<th>Pos<br>Enc</th>
+		<th>Conso<br>lidacion</th>
+		<th>Minist<br>1</th>
+		<th>Minist<br>2</th>
+		<th>Lid<br>1</th>
+		<th>Lid<br>2</th>
+		<th>Lid<br>3</th>
+		
+	</tr>
+	<tr>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>		
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		
+	</tr>
+	<tr>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>		
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+	</tr>
+	<tr>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>		
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+	
+	</tr>
+	<tr>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>		
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+	</tr>
+	<tr>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>		
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+	</tr>
+	<tr>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>		
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+		<td>test</td>
+	</tr>
+</table>
+
+                </div>
             </div>
                  
         </div>
+        </div>
+       </div>
+   </div>
 {% endblock %}
