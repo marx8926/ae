@@ -691,6 +691,8 @@ class EnviarServicioController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $em->beginTransaction();
         
+        $num = 15;
+        
         try {            
             
             $sql = 'select * from info_asistencia(:id,:ini,:fin)';
@@ -699,6 +701,52 @@ class EnviarServicioController extends Controller
             $smt->execute(array(':id'=>$id,':ini'=>$inicio,':fin'=>$fin));
  
             $redes = $smt->fetchAll();
+                           
+            
+            $todo = array();
+                       
+            $id_ini = $redes[0]['id'];
+            $id_old = NULL;
+            
+            $fila = NULL;
+                    
+            $ind = 0;
+            
+            foreach ($redes as $key => $value) {
+                
+                $id_ini = $value['id'];
+                
+                if($id_ini!=$id_old)
+                {
+                    
+                    if(count($fila)>0)
+                        $todo[]=$fila;
+                    
+                    $fila = array();
+                    $fila['id'] = $id_ini;
+                    $fila['nombres'] = $value['nombre'].' '.$value['apellidos'];
+                     
+                    $fila['telefono'] = (strlen($value['celular'])==0)?$value['telefono']:$value['celular'];
+                    $fila['edad'] = $value['edad'];
+                    
+                    for ($index = 0; $index < $num; $index++) {
+                        $fila[$index]=NULL;
+                    }
+                    $ind = 0;
+                    $fila[$ind] = ($value['estado']==TRUE)?TRUE:FALSE;
+                    
+                    $ind++;
+                }
+                else
+                {
+                    $fila[$ind] = ($value['estado']==TRUE)?TRUE:FALSE;
+                    
+                    $ind++;
+                }
+                $id_old = $id_ini;
+            }
+            if(count($fila)>0)
+                $todo[] = $fila;
             
             $em->clear();
             
@@ -710,6 +758,6 @@ class EnviarServicioController extends Controller
             throw $exc;
         }
 
-       return new JsonResponse($redes);
+       return new JsonResponse($todo);
     }
 }

@@ -41,9 +41,8 @@
 			<div class="box-content box-nomargin" id="tabla_celulas">
 			</div>
 		</div>
-	</div>
     
-    <div class="span9" id="tema_cell" name="tema_cell">
+    <div  id="tema_cell" name="tema_cell">
 		<div class="box">
 			<div class="box-head">
 				<h3>Temas de Células</h3>
@@ -58,13 +57,16 @@
 					<th>Autor</th>
 					<th>Dia</th>
 					<th>Hora</th>
-					<th>Dictado</th>
+                                        <th width="12%">Asignado</th>
+					<th width="12%">Dictado</th>
                                     </tr>
                                 </thead>
                             </table>
 			</div>
 		</div>
 	</div>
+      	</div>
+
         
     <div id="asistencia" name="asistencia" class="span9">
         
@@ -147,8 +149,7 @@
               
                myTr.push(rt.text());
            
-            });
-           
+            });           
             return myTr;
         }
             
@@ -262,9 +263,10 @@
                     { "mDataProp": "autor" },
                     { "mDataProp": "dia" },
                     { "mDataProp": "hora" },
+                    { "mDataProp": "asignado"},
                     { "mDataProp": "dictado"}
                 ],
-		"aaSorting": [ [0,'desc'], [1,'desc'] ],
+		"aaSorting": [ [5,'desc'], [0,'desc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
 		],"sDom": 'T<"clear">lfrtip',
