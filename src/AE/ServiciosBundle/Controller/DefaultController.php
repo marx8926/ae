@@ -33,6 +33,7 @@ class DefaultController extends Controller
         $smt->execute(array(':iddep'=>$id));
  
         $redes = $smt->fetch();
+        $em->clear();
    
        return new JsonResponse($redes);
     }
@@ -49,6 +50,7 @@ class DefaultController extends Controller
         $smt->execute();
  
         $redes = $smt->fetchAll();
+        $em->clear();
    
        return new JsonResponse($redes[0]);
     }
@@ -64,6 +66,7 @@ class DefaultController extends Controller
         $smt->execute(array(':iddep'=>$id));
       
         $redes = $smt->fetch();
+        $em->clear();
    
        return new JsonResponse($redes);
     }
@@ -83,6 +86,7 @@ class DefaultController extends Controller
         $smt->execute(array(':id'=>$id));
  
         $redes = $smt->fetch();
+        $em->clear();
    
        return new JsonResponse($redes); 
     }
@@ -100,6 +104,7 @@ class DefaultController extends Controller
         $smt->execute(array(':id'=>$id,':red'=>$red));
  
         $redes = $smt->fetch();
+        $em->clear();
    
        return new JsonResponse($redes);
        
@@ -116,6 +121,7 @@ class DefaultController extends Controller
         $smt->execute(array(':id'=>$id));
  
         $redes = $smt->fetchAll();
+        $em->clear();
    
        return new JsonResponse($redes);
     }
@@ -128,13 +134,14 @@ class DefaultController extends Controller
        
         $em = $this->getDoctrine()->getEntityManager();
            
-        $con = $this->getDoctrine()->getEntityManager()->getRepository('AEDataBundle:Persona');
+        $con = $em->getRepository('AEDataBundle:Persona');
         
         $personas = $con->findAll();
+        $em->clear();
         
         $resultado = "";
         
-        $con1 = $this->getDoctrine()->getEntityManager()->getRepository('AEDataBundle:Miembro');
+        $con1 = $em->getRepository('AEDataBundle:Miembro');
         
         $per;
         $todo = array();
@@ -157,6 +164,7 @@ class DefaultController extends Controller
         
             
         }
+        $em->clear();
         
         return new JsonResponse ((array('aaData'=>$todo)));
      
@@ -174,13 +182,13 @@ class DefaultController extends Controller
   
         $em = $this->getDoctrine()->getEntityManager();
            
-        $con = $this->getDoctrine()->getEntityManager()->getRepository('AEDataBundle:Persona');
+        $con = $em->getRepository('AEDataBundle:Persona');
         
         $personas = $con->findAll();
-        
+        $em->clear();
         $resultado = "";
         
-        $con1 = $this->getDoctrine()->getEntityManager()->getRepository('AEDataBundle:Miembro');
+        $con1 = $em->getRepository('AEDataBundle:Miembro');
         
         $per;
         $todo = array();
@@ -195,9 +203,8 @@ class DefaultController extends Controller
                             'apellidos'=>$per->getApellidos(),'edad'=>$per->getEdad(),
                             'red'=>'-','fecha'=>$miembro->getFechaObtencion()->format('d-m-Y'));
             
-        
-            
         }
+        $em->clear();
         
         return new JsonResponse ((array('aaData'=>$todo)));
     }
@@ -214,6 +221,7 @@ class DefaultController extends Controller
         $smt->execute(array(':id'=>$id));
  
         $redes = $smt->fetch();
+        $em->clear();
    
        return new JsonResponse($redes);
     }
@@ -228,6 +236,7 @@ class DefaultController extends Controller
         $smt->execute();
  
         $redes = $smt->fetchAll();
+        $em->clear();
    
        return new JsonResponse($redes);
     }
@@ -242,6 +251,7 @@ class DefaultController extends Controller
         $smt->execute(array(':id'=>$id));
  
         $redes = $smt->fetch();
+        $em->clear();
    
        return new JsonResponse($redes);
     }
@@ -257,6 +267,7 @@ class DefaultController extends Controller
         $smt->execute(array(':id'=>$id));
  
         $redes = $smt->fetchAll();
+        $em->clear();
    
        return new JsonResponse($redes); 
     }
@@ -277,7 +288,7 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getEntityManager();
  
-         $this->getDoctrine()->getEntityManager()->beginTransaction();
+         $em->beginTransaction();
             try
             {
                 //lider
@@ -286,6 +297,7 @@ class DefaultController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':id'=>$id));
                 $redes = $smt->fetchAll();
+                $em->clear();
                 
                 if(count($redes)>0)
                 {   
@@ -299,6 +311,7 @@ class DefaultController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':id'=>$id));
                 $redes = $smt->fetchAll();
+                $em->clear();
                 
                 if(count($redes)>0)
                 {   
@@ -311,6 +324,7 @@ class DefaultController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':id'=>$id));
                 $redes = $smt->fetchAll();
+                $em->clear();
                 
                 if(count($redes)>0)
                 {   
@@ -323,6 +337,7 @@ class DefaultController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':id'=>$id));
                 $redes = $smt->fetchAll();
+                $em->clear();
                 
                 if(count($redes)>0)
                 {   
@@ -335,6 +350,7 @@ class DefaultController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':id'=>$id));
                 $redes = $smt->fetchAll();
+                $em->clear();
                 
                 if(count($redes)>0)
                 {   
@@ -347,6 +363,7 @@ class DefaultController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':id'=>$id));
                 $redes = $smt->fetchAll();
+                $em->clear();
                 
                 if(count($redes)>0)
                 {   
@@ -359,20 +376,21 @@ class DefaultController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':id'=>$id));
                 $redes = $smt->fetchAll();
+                $em->clear();
                 
                 if(count($redes)>0)
                 {   
                     $permiso['consolidador']= TRUE;
                 }
                 
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
                 
                
                 
             }catch(Exception $e)
             {
-                     $this->getDoctrine()->getEntityManager()->rollback();
-                     $this->getDoctrine()->getEntityManager()->close();
+                     $em->rollback();
+                     $em->close();
    
                throw $e;
             }
@@ -385,13 +403,16 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
            
-        $con = $this->getDoctrine()->getEntityManager()->getRepository('AEDataBundle:Persona');
+        $con = $em->getRepository('AEDataBundle:Persona');
         
         $personas = $con->findAll();
+        $em->clear();
+        
+        $con->clear();
         
         $resultado = "";
         
-        $con1 = $this->getDoctrine()->getEntityManager()->getRepository('AEDataBundle:Miembro');
+        $con1 = $em->getRepository('AEDataBundle:Miembro');
         
         $per;
         $todo = array();
@@ -429,6 +450,7 @@ class DefaultController extends Controller
         
             }
         }
+        $con1->clear();
         
         return new JsonResponse ((array('aaData'=>$todo)));
     }
@@ -440,6 +462,7 @@ class DefaultController extends Controller
         $con = $this->getDoctrine()->getEntityManager()->getRepository('AEDataBundle:Persona');
         
         $personas = $con->findAll();
+        $con->clear();
         
         $resultado = "";
         
@@ -475,6 +498,8 @@ class DefaultController extends Controller
         
             }
         }
+        
+        $con1->clear();
         
         return new JsonResponse ((array('aaData'=>$todo)));
     }
@@ -519,7 +544,8 @@ class DefaultController extends Controller
             }
         }
         
-     
+        $em->clear();
+        
         return new JsonResponse(array('aaData'=>$todo));        
     }
   
@@ -533,6 +559,8 @@ class DefaultController extends Controller
         $smt->execute();
         
         $todo = $smt->fetchAll();
+        
+        $em->clear();
      
         return new JsonResponse(array('aaData'=>$todo));      
     }
@@ -577,6 +605,7 @@ class DefaultController extends Controller
             }
         }
         
+        $em->clear();
      
         return new JsonResponse(array('aaData'=>$todo));   
     }
@@ -591,6 +620,8 @@ class DefaultController extends Controller
         $smt->execute();
         
         $todo = $smt->fetchAll();
+        
+        $em->clear();
         
         return new JsonResponse(array('aaData'=>$todo));
         
@@ -607,6 +638,7 @@ class DefaultController extends Controller
         $smt->execute();
         
         $todo = $smt->fetchAll();
+        $em->clear();
         
         return new JsonResponse(array('aaData'=>$todo));
    }
@@ -618,7 +650,7 @@ class DefaultController extends Controller
         
         try
         {
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
 
             $sql = " select  * from lista_lideres_red_sin";
                 
@@ -626,7 +658,8 @@ class DefaultController extends Controller
             $smt->execute();
         
             $todo = $smt->fetchAll();
-            $this->getDoctrine()->getEntityManager()->commit();
+            $em->clear();
+            $em->commit();
         }
         catch (Exception $e)
         {
@@ -654,6 +687,9 @@ class DefaultController extends Controller
             $smt->execute();
         
             $todo = $smt->fetchAll();
+            
+            $em->clear();
+            
             $this->getDoctrine()->getEntityManager()->commit();
         }
         catch (Exception $e)
@@ -679,6 +715,8 @@ class DefaultController extends Controller
         
         $todo = $smt->fetch();
         
+        $em->clear();
+        
         return new JsonResponse($todo); 
    }
 
@@ -696,6 +734,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
         $smt->execute(array(':id'=>$id));
         
         $consolida = $smt->fetch();
+        $em->clear();
              
         return new JsonResponse($consolida); 
        
@@ -712,6 +751,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        $smt->execute(array(':id'=>$id));
        
        $leche = $smt->fetchAll();
+       $em->clear();
        
        $n = count($leche);
        
@@ -764,6 +804,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute();
            $todo = $smt->fetchAll();
+           $em->clear();
            
            $this->getDoctrine()->getEntityManager()->commit();
        }
@@ -792,7 +833,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':id'=>$id));
            $todo = $smt->fetchAll();
-           
+           $em->clear();           
            
            $n = count($todo);
            
@@ -815,19 +856,22 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
    
    public function enviar_datos_tema_celulaAction($id)
    {
-       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       $em = $this->getDoctrine()->getEntityManager();
+
+       $em->beginTransaction();
        
        $todo = array();
        
        try
        {
-           $em = $this->getDoctrine()->getEntityManager();
            $sql = "select *from ver_tema_celula(:id)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':id'=>$id));
            $todo = $smt->fetch();
            
-           $this->getDoctrine()->getEntityManager()->commit();
+           $em->clear();
+           
+           $em->commit();
        }
        catch (Exception $e)
        {
@@ -840,15 +884,18 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
    
    public function enviar_asistencia_celulaAction($id)
    {
-        $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+
+       $em->beginTransaction();
        
        $est = array();
        
        try
        {
-           $em = $this->getDoctrine()->getEntityManager();
            $con = $em->getRepository('AEDataBundle:ClaseCell');
            $rest = $con->findOneBy(array('id'=>$id));
+           $con->clear();
            
            
            $est['id']= $rest->getId();

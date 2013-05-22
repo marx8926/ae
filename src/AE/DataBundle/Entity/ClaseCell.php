@@ -35,6 +35,14 @@ class ClaseCell
      * @ORM\Column(name="fecha_dicto", type="date", nullable=true)
      */
     private $fechaDicto;
+    
+    
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_asignado", type="date", nullable=true)
+     */
+    private $fechaAsignado;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -142,6 +150,29 @@ class ClaseCell
      * @return \DateTime 
      */
     public function getFechaDicto()
+    {
+        return $this->fechaDicto;
+    }
+
+    /**
+     * Set fechaDicto
+     *
+     * @param \DateTime $fechaAsignado
+     * @return ClaseCell
+     */
+    public function setFechaAsignado($fechaAsignado)
+    {
+        $this->fechaDicto = $fechaAsignado;
+    
+        return $this;
+    }
+
+    /**
+     * Get fechaDicto
+     *
+     * @return \DateTime 
+     */
+    public function getFechaAsignado()
     {
         return $this->fechaDicto;
     }

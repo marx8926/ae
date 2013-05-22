@@ -11,7 +11,6 @@ use AE\DataBundle\Entity\Celula;
 use AE\DataBundle\Entity\TemaCelula;
 use AE\DataBundle\Entity\Archivo;
 use AE\DataBundle\Entity\Horario;
-use AE\DataBundle\Entity\ClaseCell;
 
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\TransactionRequiredException;
