@@ -148,6 +148,7 @@ class ClaseController extends Controller
                     {
                         
                         $cell_evang = $smt->fetchAll();
+                        $em->clear();
                         
                         $n = count($cell_evang);
                        
@@ -160,6 +161,7 @@ class ClaseController extends Controller
                           $smt->execute(array(':ofr'=>0,':fd'=>NULL,':ih'=>$horario->getId(), ':cell'=>$cell_evang[$i]['id'],':tce'=>$id));
                           
                          $vat = $smt->fetch();
+                         $em->clear();
                          
                          $sql = "select insert_clase_cell_celulas(:celula,:clase)";
                          $smt = $em->getConnection()->prepare($sql);
@@ -179,6 +181,7 @@ class ClaseController extends Controller
                         $smt1->execute(array(':red'=>$red));
                         
                         $celula = $smt1->fetch();
+                        $em->clear();
                                             
                         $sql = "INSERT INTO clase_cell(ofrenda, fecha_dicto,id_horario,id_celula, id_tema_celula) VALUES (:ofr, :fd, :ih, :cell, :tce) returning id";
                           
@@ -186,11 +189,13 @@ class ClaseController extends Controller
                           
                         $smt->execute(array(':ofr'=>0,':fd'=>NULL,':ih'=>$horario->getId(), ':cell'=>$celula['id'],':tce'=>$id));
                          
-                         $vat = $smt->fetch();
+                        $vat = $smt->fetch();
+                        $em->clear();
+                        
                         $sql = "select insert_clase_cell_celulas(:celula,:clase)";
-                         $smt = $em->getConnection()->prepare($sql);
-                         $smt->execute(array(':celula'=>$celula['id'],':clase'=>$vat['id']));
-
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':celula'=>$celula['id'],':clase'=>$vat['id']));
+                        
                     }
                      
                 }
@@ -205,6 +210,7 @@ class ClaseController extends Controller
                     {
                         
                         $cell_evang = $smt->fetchAll();
+                        $em->clear();
                         
                         $n = count($cell_evang);
                        
@@ -217,6 +223,8 @@ class ClaseController extends Controller
                           $smt->execute(array(':ofr'=>0,':fd'=>NULL,':ih'=>$horario->getId(), ':cell'=>$cell_evang[$i]['id'],':tce'=>$id));
                           
                            $vat = $smt->fetch();
+                          $em->clear();
+                          
                           $sql = "select insert_clase_cell_celulas(:celula,:clase)";
                           $smt = $em->getConnection()->prepare($sql);
                           $smt->execute(array(':celula'=>$cell_evang[$i]['id'],':clase'=>$vat['id']));

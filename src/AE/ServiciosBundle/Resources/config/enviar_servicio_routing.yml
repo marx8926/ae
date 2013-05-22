@@ -80,3 +80,11 @@ servicio_enviar_celula_discipulado:
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getCelulasDiscipulado}
   requirements:
     _method: POST
+    
+servicio_informacion_celula:
+  pattern: /enviar_informacion_celula/{id}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getInfoCelula}
+  
+servicio_asistencia_celula:
+  pattern: /enviar_asistencia_celula/{id}/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getAsistenciaCelula}

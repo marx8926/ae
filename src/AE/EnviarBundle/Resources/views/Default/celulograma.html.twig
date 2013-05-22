@@ -43,6 +43,11 @@
         <script src="{{asset('js/ganar.js')}}"></script>
             
     <script type="text/javascript">
+        
+            var logg = function(data)
+            {
+                console.log(data);
+            }
             $(document).ready(function() {
             	 
                 FechaActualT('fecha1');
@@ -51,9 +56,9 @@
                 //init red
                   initRed('{{path('servicio_red')}}');
                   
-               $("#tipo_celula").change(recargar_celula);
-
-         
+               $("#tipo_celula").change(recargar_celula);               
+               
+               enviar('myForm',logg);         
             });   
             
         function celula_listar()
@@ -88,23 +93,19 @@
                         async: false,
                         }
                         ).done(celula);                  
-            }
-                 
+            }                 
         }
            
         function recargar_celula()
         {
                     var nombre = $("#red_lista option:selected").val();  
-                    
                     if(nombre!=='-1')
-                    {
                        celula_listar();
-                     }
-                     else
-                     {
-                         $('#celula_lista').empty();
-                             
-                     }
+                    else {
+                        $('#celula_lista').empty();                             
+                            $("<option value='-1'>Sin Célula </option>").appendTo('#celula_lista');
+
+                    }
         }	
         
     </script>             
@@ -116,7 +117,7 @@
 
             <div class="form-horizontal">
                 
-                <form method="POST" id="myForm" action="">
+                <form method="POST" id="myForm" name="myForm" action="{{path('enviar_celulograma_up')}}">
             
                 <div class="control-group">
                     <label class="control-label" >Red</label>
@@ -128,7 +129,7 @@
                 </div>
                     
                 <div class="control-group">
-                    <label class="control-label" >Tipo Célulaa</label>
+                    <label class="control-label" >Tipo Célula</label>
                     <div class="controls">
                         <select id="tipo_celula" name="tipo_celula" >
                             <option value="0" >Evangelistica</option>
@@ -153,6 +154,12 @@
                     </div>
                 </div>
                     
+                <div class="control-group">                    
+                    <div class="controls">
+                        <input class="btn btn-primary" type="submit" id="login" name="login" value="Registrar" />
+                    </div>
+                </div>
+                    
                 </form>
                 
                 <div>
@@ -168,7 +175,7 @@
                 
 <table>
 <tr>
-	<td>Datos Personal</td>
+	<td>Datos Personal:</td>
 	<td>Sexo</td>
 	<td>Codigo del Pastor</td>
 	<td>Codigo del Lider</td>

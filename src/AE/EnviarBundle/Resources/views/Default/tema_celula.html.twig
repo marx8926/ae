@@ -47,15 +47,19 @@
                         <div class="control-group">
                             <label class="control-label">Archivo</label>
                             <div class="controls">
-                                <input type="file" name="file0" class="fileup">
+                                <input type="file" name="file0" class="fileup file-uploader">
                                 <input type="hidden" name="filename0" class="name">
                             </div>
                         </div>
                             
                         
-   
+                        <div class="control-group">
+                            <label class="control-label"></label>
+                            <div class="controls">
+                                <input type="button" class="btn btn-primary" value="enviar" id="cargar">
+                            </div>
+                        </div>
                     </fieldset>
-                    <input type="button" value="enviar" id="cargar">
             </form>
                     
 {% endblock %}
@@ -71,9 +75,7 @@
 	<script src="{{asset('js/jquery.color.js')}}"></script>
 	<script src="{{asset('js/jquery.flot.resize.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>            
-    <script src="{{asset('js/jquery-addresspicker/lib/jquery-ui-1.8.7.min.js')}}" > </script>
-    <script src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>     
-    <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+        <script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
         <script src="{{asset('js/FileUp.js')}}"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->

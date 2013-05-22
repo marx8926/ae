@@ -42,6 +42,14 @@ class Horario
      * @ORM\Column(name="hora_fin", type="time", nullable=false)
      */
     private $horaFin;
+    
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
 
 
 
@@ -123,4 +131,28 @@ class Horario
     {
         return $this->horaFin;
     }
+    
+     /**
+     * Set fechaDicto
+     *
+     * @param \DateTime $fecha
+     * @return Horario
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    
+        return $this;
+    }
+
+    /**
+     * Get fechaDicto
+     *
+     * @return \DateTime 
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
 }

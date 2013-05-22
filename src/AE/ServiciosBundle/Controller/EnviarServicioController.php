@@ -657,4 +657,59 @@ class EnviarServicioController extends Controller
 
        return new JsonResponse($redes);
     }
+    
+    public function getInfoCelulaAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->beginTransaction();
+        
+        try {            
+            
+            $sql = 'select * from info_celula(:id) ';
+       
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$id));
+ 
+            $redes = $smt->fetchAll();
+            
+            $em->clear();
+            
+            $em->commit();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+
+       return new JsonResponse($redes);
+        
+    }
+    
+    public function getAsistenciaCelulaAction($id,$inicio, $fin)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->beginTransaction();
+        
+        try {            
+            
+            $sql = 'select * from info_asistencia(:id,:ini,:fin)';
+       
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$id,':ini'=>$inicio,':fin'=>$fin));
+ 
+            $redes = $smt->fetchAll();
+            
+            $em->clear();
+            
+            $em->commit();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+
+       return new JsonResponse($redes);
+    }
 }
