@@ -39,9 +39,10 @@ class AdministrarEventoController extends Controller{
 	}
 	
 	public function RegistrarEventoAction(){
-		$request = $this->get('request');
+            
+            $request = $this->get('request');
 		$form=$request->request->get('formName');
-		
+              		
 		$datos = array();
 		
 		parse_str($form,$datos);
@@ -57,12 +58,13 @@ class AdministrarEventoController extends Controller{
 		$distrito = null;
 		$latitud = null;
 		$longitud = null;
+                $tipo = null;
                 
                 $em = $this->getDoctrine()->getEntityManager();
 
-		
-		if($form!=NULL){
-			
+                
+                if($form!=NULL){
+                    
 			$nombre = $datos["inputNombre"];
 			$descripcion = $datos["inputDescripcion"];
 			
@@ -71,69 +73,95 @@ class AdministrarEventoController extends Controller{
 			$fecha_inicio_m = date("m", strtotime($fecha_inicio));
 			$fecha_inicio_d = date("d", strtotime($fecha_inicio));
 			
-			$fecha_fin = $datos["fecha_inicio"];
+			$fecha_fin = $datos["fecha_fin"];
 			$fecha_fin_Y = date("Y", strtotime($fecha_fin));
 			$fecha_fin_m = date("m", strtotime($fecha_fin));
 			$fecha_fin_d = date("d", strtotime($fecha_fin));
 			
 			$direccion = $datos['inputDireccion'];
-            $referencia = $datos['inputReferencia'];
+                        $referencia = $datos['inputReferencia'];
 			
 			$departamento = $datos['departamento_lista'];
-            $provincia = $datos['provincia_lista'];
-            $distrito = $datos['distrito_lista'];
-            $latitud = $datos['latitud'];
-            $longitud = $datos['longitud'];
-            
-            
-			$prev_div = $em->getRepository('AEDataBundle:Ubigeo');
-			$ubigeo = $prev_div->findOneBy(array('id'=>$distrito));
-                        $em->clear();
-			
-			$date_fecha_inicio = new \DateTime();
-			$date_fecha_inicio->setDate($fecha_inicio_Y, $fecha_inicio_m, $fecha_inicio_d);
-			
-			$date_fecha_fin = new \DateTime();
-			$date_fecha_fin->setDate($fecha_fin_Y, $fecha_fin_m, $fecha_fin_d);
-				
-			$em->beginTransaction();
-			try
-			{                
-				  //ubicacion
-                $Ubicacion = new Ubicacion();
-                $Ubicacion->setDireccion($direccion);
-                $Ubicacion->setReferencia($referencia);
-                $Ubicacion->setLatitud($latitud);
-                $Ubicacion->setLongitud($longitud);
-               	$Ubicacion->setIdUbigeo($ubigeo);
+                        $provincia = $datos['provincia_lista'];
+                        $distrito = $datos['distrito_lista'];
+                        $latitud = $datos['latitud'];
+                        $longitud = $datos['longitud'];
+                        $tipo = $datos['tipo'];
+                        
+                        
+                        
+                        $em->beginTransaction();
+
+                        try {
+                            $prev_div = $em->getRepository('AEDataBundle:Ubigeo');
+                            $ubigeo = $prev_div->findOneBy(array('id'=>$distrito));
+                            //$em->clear();
                             
-                $em->persist($Ubicacion);
-                $em->flush();
-                $em->clear();
+                            //ubicacion
+                             $ubicacion = new Ubicacion();
+                             $ubicacion->setDireccion($direccion);
+                             $ubicacion->setReferencia($referencia);
+                             $ubicacion->setLatitud($latitud);
+                             $ubicacion->setLongitud($longitud);
+                             $ubicacion->setIdUbigeo($ubigeo);
+                            
+                             $em->persist($ubicacion);
+                             $em->flush();
+                             
+                             
+                             //evento 
+                             
+                            /*
+                             $evento = new Evento();
                 
-                $sql = "INSERT INTO evento(nombre, descripcion, \"fechaIni\", \"fechaFin\", id_ubicacion)
-    					VALUES ('".$nombre."', '".$descripcion."','".date("Y-m-d", strtotime($fecha_inicio))."', '".date("Y-m-d", strtotime($fecha_fin))."', ".$Ubicacion->getId().");";
+                            $evento->setNombre($nombre);
+                            $evento->setDescripcion($descripcion);
+                            $evento->setTipo($tipo);
+                            $evento->setIdUbicacion($ubicacion);
                 
-                $smt = $em->getConnection()->prepare($sql);
-                $smt->execute();
+                            $inicio = new \DateTime($fecha_inicio);
+                            $fin = new \DateTime($fecha_fin);
                 
-                        $em->clear();
+                            $evento->setFechaini($inicio);
+                            $evento->setFechafin($fin);
+                            
+                            $em->persist($evento);
+                            $em->flush();
+                            */
+                             
+                            
+                             $inicio = new \DateTime($fecha_inicio);
+                            $fin = new \DateTime($fecha_fin);
+                
+                              $sql = "INSERT INTO evento(
+                                    nombre, descripcion, id_ubicacion, tipo, fecha_ini, fecha_fin)
+                                    VALUES (:nombre,:desc, :ubi, :tipo, :ini,:fin)";
+                            
+                              $smt = $em->getConnection()->prepare($sql);
+                              
+                              $smt->execute(array(':nombre'=>$nombre,':desc'=>$descripcion,
+                                  ':ubi'=>$ubicacion->getId(),':tipo'=>$tipo ,
+                                  ':ini'=>$inicio->format('Y-m-d'), ':fin'=>$fin->format('Y-m-d')));
+                              
+                            // $em->clear();
+                            
+                            $em->commit();
+                        } catch (Exception $exc) {
+                            $em->rollback();
+                            $em->close();
+                            throw $exc;
+                        }
+
+
+
+                        $return = array("responseCode"=>200, "greeting"=>'ok');            
+                }
+                else
+                {
+                        $return = array("responseCode"=>400, "greeting"=>'Bad');
+
+                }
 		
-			}catch(Exception $e)
-			{
-				$em->rollback();
-                                $em->clear();
-				$em->close();
-				$return=array("responseCode"=>400, "greeting"=>"Bad");
-					
-				throw $e;
-			}
-			$em->commit();
-			$return=array("responseCode"=>200, "id"=>$datos );
-		}
-		else{
-			$return = array("responseCode"=>400, "greeting"=>"Bad");
-		}
 			
 		$return=json_encode($return);//jscon encode the array
 		

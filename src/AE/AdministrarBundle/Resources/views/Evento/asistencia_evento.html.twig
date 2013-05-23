@@ -106,6 +106,7 @@
 	<script src="{{asset('js/custom.js')}}"></script>
 	<script src="{{asset('js/functiongen.js')}}"></script>
 	<script src="{{asset('js/datatable_plugins.js')}}"></script>
+        <script src="{{asset('js/tablasfeatures.js')}}"></script>
 	<script src="http://www.google.com/jsapi"></script>
 	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
 	<script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -206,7 +207,7 @@
 		//click handler para eliminar
 		enviar("RegPersonaEventoForm",sayhola);
 		enviar("EliminarPersonaEventoForm",sayhola);
-
+                
 		
 		/* Build the DataTable with third column using our custom sort functions */
 		oTable = $('#TablaMiembros').dataTable({
@@ -220,7 +221,7 @@
                     { "mDataProp": "edad" },
                     { "mDataProp": "telefono" },
                     { "mDataProp": "celular" },
-                    { "mDataProp": "e-mail"},
+                    { "mDataProp": "email"},
                     { "mDataProp":"sexo"}
 		                ],
 			"aaSorting": [ [0,'asc'], [1,'asc'] ],
@@ -241,11 +242,14 @@
 			}
 		});
 
+                var url ='{{path("_tabla_asistencia_evento",{"idEvento":""})}}'+'/{{idEvento}}';
+                
+                console.log(url);
 		TablaPersonal = $('#TablaPersonal').dataTable({
 			"bProcessing": true,
 			"bServerSide": false,
 			"bDestroy": true,
-			"sAjaxSource": '{{path("_tabla_asistencia_evento",{"idEvento":""})}}'+'/{{idEvento}}',
+			"sAjaxSource": url,
 			"aoColumns": [
 		            { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
@@ -274,17 +278,7 @@
 		});	
 	 });
          
-		        /* Get the rows which are currently selected */
-	function fnGetSelected( oTableLocal )
-	{
-		var aReturn = new Array();
-		var aTrs = oTableLocal.fnGetNodes();
-		
-		for ( var i=0 ; i<aTrs.length ; i++ )	            
-			if ( $(aTrs[i]).hasClass('row_selected'))
-				aReturn.push( aTrs[i] );
-		return aReturn;
-	}
+	
 
     </script>
 {%endblock %} 

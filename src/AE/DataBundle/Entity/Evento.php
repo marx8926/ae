@@ -39,27 +39,61 @@ class Evento
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fechaIni", type="date", nullable=true)
+     * @ORM\Column(name="fecha_ini", type="date", nullable=true)
      */
-    private $fechaini;
+    private $fechaIni;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fechaFin", type="date", nullable=true)
+     * @ORM\Column(name="fecha_fin", type="date", nullable=true)
      */
-    private $fechafin;
+    private $fechaFin;
 
     /**
      * @var \Ubicacion
      *
-     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\ManyToOne(targetEntity="Ubicacion",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
      * })
      */
     private $idUbicacion;
+    
+    
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo", type="integer", nullable=true)
+     */
 
+    private $tipo;
+    
+    
+    /**
+     * Get tipo
+     * 
+     * @return integer
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+       
+     /**
+     * Set tipo
+     *
+     * @param integer $tipo
+     * @return Evento
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    
+        return $this;
+    }
 
     /**
      * Get id
@@ -70,6 +104,7 @@ class Evento
     {
         return $this->id;
     }
+ 
 
     /**
      * Set nombre
@@ -118,14 +153,14 @@ class Evento
     }
 
     /**
-     * Set fechaini
+     * Set fecha_ini
      *
-     * @param \DateTime $fechaini
+     * @param \DateTime $fecha_ini
      * @return Evento
      */
-    public function setFechaini($fechaini)
+    public function setfechaIni($fechaIni)
     {
-        $this->fechaini = $fechaini;
+        $this->fechaIni = $fechaIni;
     
         return $this;
     }
@@ -135,9 +170,9 @@ class Evento
      *
      * @return \DateTime 
      */
-    public function getFechaini()
+    public function getfechaIni()
     {
-        return $this->fechaini;
+        return $this->fechaIni;
     }
 
     /**
@@ -146,9 +181,9 @@ class Evento
      * @param \DateTime $fechafin
      * @return Evento
      */
-    public function setFechafin($fechafin)
+    public function setfechaFin($fechaFin)
     {
-        $this->fechafin = $fechafin;
+        $this->fechaFin = $fechaFin;
     
         return $this;
     }
@@ -158,9 +193,9 @@ class Evento
      *
      * @return \DateTime 
      */
-    public function getFechafin()
+    public function getfechaFin()
     {
-        return $this->fechafin;
+        return $this->fechaFin;
     }
     
     /**

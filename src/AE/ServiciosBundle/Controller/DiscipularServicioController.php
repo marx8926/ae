@@ -408,6 +408,7 @@ class DiscipularServicioController extends Controller
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
 		$Cursos = $smt->fetchAll();
+                $em->clear();
 		
 		$result = 	"<table id='tabla_vision' name='tabla_vision' class='table table-striped table-bordered'>
 					<thead>
@@ -434,6 +435,9 @@ class DiscipularServicioController extends Controller
 				$smt = $em->getConnection()->prepare($sql);
 				$smt->execute();
 				$Matriculado = $smt->fetchAll();
+                                
+                                $em->clear();
+                                
 				if(count($Matriculado)>0)
 					$result = $result."<td>X </td>";
 				else

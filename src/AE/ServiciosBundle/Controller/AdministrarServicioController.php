@@ -49,13 +49,13 @@ class AdministrarServicioController extends Controller
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	$sql = "SELECT id, nombre, descripcion, \"fechaIni\", \"fechaFin\"
-  				FROM evento";
+    	$sql = "SELECT * FROM lista_eventos";
     
     	$smt = $em->getConnection()->prepare($sql);
     	$smt->execute();
     
     	$todo = $smt->fetchAll();
+        $em->clear();
     
     	return new JsonResponse(array('aaData'=>$todo));
     }
@@ -67,7 +67,7 @@ class AdministrarServicioController extends Controller
     	
     	$sql = "select 
 persona.id, Concat(persona.nombre,' ',persona.apellidos) as nombre, persona.edad, 
-persona.telefono, persona.celular,persona.email, persona.sexo
+persona.telefono, persona.celular,persona.email, (case when persona.sexo=1 then 'Masculino' else 'Femenino' end) as sexo
 from persona
 where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_persona = persona.id and er.id_evento=".$idEvento.")";
     	
@@ -77,7 +77,7 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
     	$pre_todo = $smt->fetchAll();
         $todo=array();
         
-        foreach($pre_todo as $per)
+        /*foreach($pre_todo as $per)
         {
         	if($per['sexo']==1)
         		$sexo="Masculino";
@@ -88,8 +88,9 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
 						'edad'=>$per['edad'],'telefono'=>$per['telefono'],'celular'=>$per['celular'],
         				'e-mail'=>$per['email'], 'sexo'=>$sexo);        
         	}
-    
-    	return new JsonResponse(array('aaData'=>$todo));
+    */
+        
+    	return new JsonResponse(array('aaData'=>$pre_todo));
     
     }
     
@@ -97,11 +98,8 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
     {
     	$em = $this->getDoctrine()->getEntityManager();
     	
-    	$evento_realizado = $this->getDoctrine()
-    	->getRepository('AEDataBundle:EventoRealizado')
-    	->findBy(
-			    array('idEvento' => $idEvento)
-			);
+    	$evento_realizado = $em->getRepository('AEDataBundle:EventoRealizado')
+    	->findBy(   array('idEvento' => $idEvento));
     	
     	$todo=array();
     	

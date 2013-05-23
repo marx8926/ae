@@ -79,13 +79,15 @@
 						"bDestroy": true,
 						"sAjaxSource": '{{path("_tabla_eventos")}}',
 						"aoColumns": [
-					            { "mDataProp": "id" },
+					              { "mDataProp": "id" },
 			                    { "mDataProp": "nombre" },
 			                    { "mDataProp": "descripcion" },
-			                    { "mDataProp": "fechaFin"},
-			                    { "mDataProp":"fechaIni"}
+                                            { "mDataProp": "case"},
+                                            { "mDataProp":'fecha_ini'},
+			                    { "mDataProp": "fecha_fin"},
+			                    { "mDataProp":"direccion"}
 					                ],
-						"aaSorting": [ [0,'asc'], [1,'asc'] ],
+						"aaSorting": [ [4,'desc'] ],
 						"aoColumnDefs": [
 				        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
 						"sDom": 'T<"clear">lfrtip',
@@ -128,8 +130,10 @@
 						<th>ID</th>
 						<th>Nombre</th>
 						<th>Descripcion</th>
-						<th>Fecha Inicio</th>
-						<th>Fecha Fin</th>
+                                                <th>Tipo</th>
+						<th width="12%">Fecha Inicio</th>
+						<th width="12%">Fecha Fin</th>
+                                                <th>Lugar</th>
 		            </tr>
 				</thead>
 				<tbody id="tablas2" name="tablas2" ></tbody>
