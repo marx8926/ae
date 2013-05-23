@@ -44,6 +44,8 @@
 				     	
 				enviar("AsignarForm",sayhola);
 				enviar("EliminarAsignacionForm",sayhola);
+				enviar("CerrarAsignacionForm",sayhola);
+				enviar("CerrarMatriculaForm",sayhola);
 
 				$("#pdfAsignacion").click(function(event) {
 		            $("#tabla_asignacion th").css("width","auto");
@@ -77,7 +79,9 @@
 								val.push(item.innerHTML); 
 							});
 							$("#eliminar").prop('disabled', false);
-							$("#idAsignacionEliminar").val(val[0]);       
+							$("#idAsignacionEliminar").val(val[0]);
+							$("#idAsignacionCerrar").val(val[0]);  
+							$("#idAsignacionCerrarMatricula").val(val[0]);     
 							}
 						});
 			        oTable = $('#tabla_asignacion').dataTable({
@@ -92,7 +96,9 @@
 			                    { "mDataProp": "curso" },
 			                    { "mDataProp": "dia" },
 			                    { "mDataProp": "hora_inicio"},
-			                    { "mDataProp":"hora_fin"}
+			                    { "mDataProp":"hora_fin"},
+			                    { "mDataProp":"estado_matricula"},
+			                    { "mDataProp":"activo"}
 					                ],
 						"aaSorting": [ [0,'asc'], [1,'asc'] ],
 						"aoColumnDefs": [
@@ -210,6 +216,8 @@
 						<th>Dia</th>
 		                <th>Hora Inicio</th>
 		                <th>Hora Fin</th>
+		                <th>Estado Matricula</th>
+		                <th>Estado</th>
 		            </tr>
 				</thead>
 				<tbody id="tablas2" name="tablas2" ></tbody>
@@ -219,6 +227,18 @@
 		<div class="form-horizontal">
 			<input id="idAsignacionEliminar" type="hidden" name="id">
 			<input type="submit" class="btn-success" id="eliminar" name="enviar" value="Eliminar">
+		</div>
+		</form>
+		<form  method="POST" id="CerrarAsignacionForm" action='{{path('discipular_cerrar_asignacion')}}'>
+		<div class="form-horizontal">
+			<input id="idAsignacionCerrar" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="cerrar" name="enviar" value="CerrarCurso">
+		</div>
+		</form>
+		<form  method="POST" id="CerrarMatriculaForm" action='{{path('discipular_cerrar_matricula')}}'>
+		<div class="form-horizontal">
+			<input id="idAsignacionCerrarMatricula" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="cerrarm" name="enviar" value="CerrarMatricula">
 		</div>
 		</form>
 	</div>

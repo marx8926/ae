@@ -76,6 +76,18 @@ discipular_registrar_asignacion:
     requirements:
           _method: POST
           
+discipular_cerrar_asignacion:
+    pattern:  /cerrar_asignacion
+    defaults: { _controller: AEDiscipularBundle:AsignarCurso:CerrarAsignacion }
+    requirements:
+          _method: POST
+    
+discipular_cerrar_matricula:
+    pattern:  /cerrar_matricula
+    defaults: { _controller: AEDiscipularBundle:AsignarCurso:CerrarMatricula }
+    requirements:
+          _method: POST
+          
 discipular_administrar_local:
     pattern:  /administrar_local
     defaults: { _controller: AEDiscipularBundle:AdministrarLocal:index }
