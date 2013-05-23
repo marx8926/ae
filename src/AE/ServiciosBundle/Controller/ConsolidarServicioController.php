@@ -379,7 +379,7 @@ class ConsolidarServicioController extends Controller
                                             <td>".$val["titulo"]."</td>
                                             <td>".$val['inicio']."</td>";
                                              
-                        //if($val['fin']!=NULL)
+                        if($val['fin']!=NULL)
                         {
                             $d = new \DateTime($val['fin']);
                             $d->format('Y-m-d');
@@ -391,12 +391,14 @@ class ConsolidarServicioController extends Controller
                                                 </td>.
                                            </tr>";
                          }
-                         /*else {
-                                $result = $result."<td> <input type='date'class='input-medium' id='dia".$key."' name='dia".$key."' class='datepicker' > </td>
+                         else {
+                             $d = new \DateTime();
+                             
+                                $result = $result."<td> <input type='date'class='input-medium' id='dia".$key."' name='dia".$key."' class='datepicker' value='".$d->format('Y-m-d')."'> </td>
                                             <td> <input type='time' class='input-small' id='hora".$key."' name='hora".$key."' class='timepicker' value='00:00:00' > </td>
                                             <td><input type='checkbox' id='check".$key."' name='check".$key."' ></td>.
                                            </tr>";
-                         }*/
+                         }
                                                
 		}
                 

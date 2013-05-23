@@ -6,8 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
@@ -37,7 +35,7 @@ class SeguirController extends Controller
         }
         catch (Exception $e)
         {
-            
+            throw $e;
         }
          return $this->render('AEConsolidarBundle:Default:seguir.html.twig',array('id'=>$id,'nombre'=>$td['nombre'],
              'apellidos'=>$td['apellidos'],'inicio'=>$td['inicio'],'fin'=>$td['fin'],'consolidador'=>$td['consolidador'],
@@ -122,7 +120,9 @@ class SeguirController extends Controller
                 $smt1 = $em->getConnection()->prepare($sql);
                 $smt1->execute(array(':id'=>$consol));
             }
-             
+
+            $return=array("responseCode"=>200, "greeting"=>'ok');
+
             $em->commit();
             $em->clear();
             }catch(Exception $e)
@@ -142,7 +142,6 @@ class SeguirController extends Controller
         
 
             
-            $return=array("responseCode"=>200, "greeting"=>'ok');
         }
         else  $return=array("responseCode"=>400, "greeting"=>$name);
             
