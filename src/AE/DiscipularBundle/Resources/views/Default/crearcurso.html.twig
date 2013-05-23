@@ -28,13 +28,36 @@
 			<script src="{{asset('js/custom.js')}}"></script>
 			<script src="{{asset('js/functiongen.js')}}"></script>
  			<script src="{{asset('js/FileUp2.js')}}"></script>
+ 			<script src="{{asset('js/datatable_plugins.js')}}"></script>
             
     <script type="text/javascript">
+
+	    var trselected; 
+		var oTable = null;
+		var values = [];
+		
             $(document).ready(function() {
             	ajaxResposeData("select_curso","{{ path('_lista_cursos',{'tipo':'multiple'}) }}");
             	$('#number').on("change",cambioNumber);            	
             	FileUp = new FileUp(EnviarForm);
+            	
+            	enviar("ActivarCursoForm",reloadTable);
+            	enviar("DesactivarCursoForm",reloadTable);
 
+            	$("#pdfAsignacion").click(function(event) {
+		            $("#tabla_asignacion th").css("width","auto");
+		        	$("#content").val($("#tabla_asignacion").html());
+		        	$("#title").val($("h3").html());
+		            $("#AsignacionExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+			 		$("#AsignacionExportForm").submit();
+		        });
+
+		        $("#excelPAsignacion").click(function(event) {
+		        	$("#content").val("<table>" + $("#tabla_asignacion").html() + "</table>");
+					$("#AsignacionExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+					$("#AsignacionExportForm").submit();
+				        });
+            	
             	$("#CrearCursoForm").submit(function(event){
             		event.preventDefault();
             		if(FileUp.getFilesNumber()>0)
@@ -44,7 +67,60 @@
             			EnviarForm();
             		}
             	});
-			});
+
+            	$('#tabla_asignacion tbody').click(function(event){
+					$(oTable.fnSettings().aoData).each(function(){
+						$(this.nTr).removeClass('row_selected');
+			 		});
+			        $(event.target.parentNode).addClass('row_selected');
+			        	trselected = $(event.target.parentNode);
+			            var tds = $(trselected).find('td');
+			  			$.each(tds, function(index, item) {
+			            	values.push(item.innerHTML); 
+			            });
+			  			var anSelected = fnGetSelected(oTable);
+			  			
+						if(anSelected.length !=0){
+							var tds = $(anSelected).find('td');
+							var val = [];
+							$.each(tds, function(index, item) {
+								val.push(item.innerHTML); 
+							});
+							$("#idCursoActivar").val(val[0]);
+							$("#idCursoDesactivar").val(val[0]);      
+							}
+						});
+			        oTable = $('#tabla_asignacion').dataTable({
+						"bProcessing": true,
+						"bServerSide": false,
+						"bDestroy": true,
+						"sAjaxSource": '{{path("_tabla_cursos")}}',
+						"aoColumns": [
+					            { "mDataProp": "id" },
+			                    { "mDataProp": "titulo" },
+			                    { "mDataProp": "descripcion" },
+			                    { "mDataProp": "fecha_creacion" },
+			                    { "mDataProp": "numero_sesiones" },
+			                    { "mDataProp":"activo"}
+					                ],
+						"aaSorting": [ [0,'asc'], [1,'asc'] ],
+						"aoColumnDefs": [
+				        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
+						"sDom": 'T<"clear">lfrtip',
+				        "oTableTools": {
+							"sRowSelect": "single",
+				            "fnRowSelected": function ( node ) {
+				            	var s=$(node).children();
+				                alert("Selected Row : " + s[0]);
+				            }
+						},
+						"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+						"sPaginationType": "bootstrap",
+						"oLanguage": {
+							"sLengthMenu": "_MENU_ registros por página"
+						}
+					});
+            	});
 
             var EnviarForm = function(){
             	$("#CrearCursoForm").unbind();
@@ -55,7 +131,7 @@
             function cambioNumber() {
             	var num = $('#number').val();
             	$("#sesiones").html("");
-            	for(i=0; i<num;i++){
+            	for(var i=0; i<num;i++){
 					var li = document.createElement('li');
 					li.id = "sesion"+i;
                 	
@@ -101,6 +177,10 @@
             		document.getElementById("sesiones").appendChild(li);
             	}
             	FileUp.init();
+        	};
+
+        	var reloadTable = function(data){
+        		oTable.fnReloadAjax();
         	}
     </script>             
 {%endblock%}
@@ -156,4 +236,44 @@
 		<input id="cargar" type="submit" value="Guardar" >
 		</form>	
 	    </div>
+	    <fieldset>
+		<div class="box">
+		<div class="box-head tabs">
+            <h3>Administrar Asignaciones</h3>						
+        </div>
+        <div class="box-content box-nomargin">
+        	<form id='AsignacionExportForm' method='POST'>
+        		<input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+                <input id='pdfAsignacion' type='button' value='PDF' class="btn-success">
+                <input id='excelPAsignacion' type='button' value='Excel' class="btn-success">
+            </form>
+		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="tabla_asignacion" name="tabla_asignacion">
+		    	<thead>
+		            <tr>
+						<th>ID</th>
+						<th>Titulo</th>
+						<th>Descripcion</th>
+						<th>Fecha de Creacion</th>
+						<th>Nro de Sesiones</th>
+		                <th>Estado</th>
+		            </tr>
+				</thead>
+				<tbody id="tablas2" name="tablas2" ></tbody>
+		    </table>
+		</div>
+		<form  method="POST" id="ActivarCursoForm" action='{{path('discipular_activar_curso')}}'>
+		<div class="form-horizontal">
+			<input id="idCursoActivar" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="activar" name="activar" value="Activar">
+		</div>
+		</form>
+		<form  method="POST" id="DesactivarCursoForm" action='{{path('discipular_desactivar_curso')}}'>
+		<div class="form-horizontal">
+			<input id="idCursoDesactivar" type="hidden" name="id">
+			<input type="submit" class="btn-success" id="desactivar" name="desactivar" value="Desactivar">
+		</div>
+		</form>
+	</div>
+	</fieldset>
 {% endblock %}      

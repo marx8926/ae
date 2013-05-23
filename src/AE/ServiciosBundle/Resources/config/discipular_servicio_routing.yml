@@ -1,6 +1,10 @@
 _lista_cursos:
   pattern: /_lista_cursos/{tipo}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCursosOption }
+  
+_tabla_cursos:
+  pattern: /_tabla_cursos
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaCurso }
 
 _option_personal:
   pattern: /_option_personal/{tipo}

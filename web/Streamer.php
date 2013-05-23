@@ -24,7 +24,7 @@ class File_Streamer
         if (!$this->contentLength > 0) {
             throw new Exception('No file uploaded!');
         }
-		$this->fileName = date("Y-m-d-H-i-s-").$this->fileName;
+		$this->fileName = date("Y-m-d")."-".$this->fileName;
         file_put_contents(
             $this->path .$this->fileName,
             file_get_contents("php://input")

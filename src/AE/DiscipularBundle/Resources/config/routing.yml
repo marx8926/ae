@@ -7,6 +7,18 @@ discipular_registrar_curso:
     defaults: { _controller: AEDiscipularBundle:CrearCurso:RegistrarCurso }
     requirements:
           _method: POST
+          
+discipular_desactivar_curso:
+    pattern:  /desactivarcurso
+    defaults: { _controller: AEDiscipularBundle:CrearCurso:DesactivarCurso }
+    requirements:
+          _method: POST
+          
+discipular_activar_curso:
+    pattern:  /activarcurso
+    defaults: { _controller: AEDiscipularBundle:CrearCurso:ActivarCurso }
+    requirements:
+          _method: POST
 
 discipular_administrar_personal:
     pattern:  /administrar_personal

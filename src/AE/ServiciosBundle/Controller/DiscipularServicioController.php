@@ -18,7 +18,7 @@ class DiscipularServicioController extends Controller
 		
 		$em = $this->getDoctrine()->getEntityManager();
 		
-		$sql = "SELECT * FROM curso";
+		$sql = "SELECT id,titulo FROM curso where activo=true";
 		
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -36,32 +36,48 @@ class DiscipularServicioController extends Controller
 	    $result = $result."</select>";
 		return new Response($result);
 	}
-		public function getDocentesOptionAction($tipo){
 	
-			$em = $this->getDoctrine()->getEntityManager();
+	public function getTablaCursoAction()
+	{
+		$em = $this->getDoctrine()->getEntityManager();
 	
-			$sql = "select 
-					miembro.id, persona.nombre, persona.apellidos 
-					from miembro inner join persona on (persona.id = miembro.id) 
-					inner join docente on (miembro.id = docente.id_persona) 
-					where miembro.activo=true and docente.activo=true";
+		$sql = "SELECT * FROM curso";
 	
-			$smt = $em->getConnection()->prepare($sql);
-			$smt->execute();
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
 	
-			$todo = $smt->fetchAll();
+		$todo = $smt->fetchAll();
 	
-			if(strcmp($tipo,"simple")==0)
-				$result = "<select name='profesor'>";
-			else
-				$result = "<select multiple name='porfesores[]' required>";
+		return new JsonResponse(array('aaData'=>$todo));
+	}
 	
-			foreach ($todo as $key => $val){
-				$result = $result."<option value='".$val['id']."'>".$val['nombre']." ".$val['apellidos']."</option>";
-			}
-			$result = $result."</select>";
-			return new Response($result);
+	
+	public function getDocentesOptionAction($tipo){
+
+		$em = $this->getDoctrine()->getEntityManager();
+
+		$sql = "select 
+				miembro.id, persona.nombre, persona.apellidos 
+				from miembro inner join persona on (persona.id = miembro.id) 
+				inner join docente on (miembro.id = docente.id_persona) 
+				where miembro.activo=true and docente.activo=true";
+
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+
+		$todo = $smt->fetchAll();
+
+		if(strcmp($tipo,"simple")==0)
+			$result = "<select name='profesor'>";
+		else
+			$result = "<select multiple name='porfesores[]' required>";
+
+		foreach ($todo as $key => $val){
+			$result = $result."<option value='".$val['id']."'>".$val['nombre']." ".$val['apellidos']."</option>";
 		}
+		$result = $result."</select>";
+		return new Response($result);
+	}
 	
 	public function getTablaMiembrosNoPersonalAction()
 	{
@@ -347,7 +363,7 @@ class DiscipularServicioController extends Controller
 			acc.id_clase_curso,tc.descripcion,cc.fecha_dicto 
 			FROM asistencia_clase_curso as acc
 			inner join clase_curso cc 
-			on (acc.id_clase_curso = id)
+			on (acc.id_clase_curso = cc.id)
 			inner join tema_curso tc
 			on (tc.id = cc.tema)
 			where (cc.id_curso_impartido=".$idasignacion.")
