@@ -2576,6 +2576,17 @@ ul.steps li.active span {
     font-weight: 600;
 }
 
+/*-------------------------------------------------*/
+#alineados{
+	margin-top:0;
+}
+#alineados div{
+	width:auto;
+}
+#alineados form{
+	display: inline;
+}
+
 /*------- CSS Uploader FileUp ----------*/
 
 .loadingIndicator {

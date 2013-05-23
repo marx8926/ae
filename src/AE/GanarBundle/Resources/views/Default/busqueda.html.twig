@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Buscar Nuevos Convertidos - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
@@ -9,6 +11,7 @@
 
 {% block content %} 
 <div class="span9" >
+	<h1>Buscar Nuevos Convertidos</h1>
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Nuevos Convertidos</h3>	
@@ -20,8 +23,8 @@
                 
                     <input id='content' type='hidden' name='content' >
                     <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
             
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead id='lol'>
@@ -43,9 +46,9 @@
             
 	</div>
         <div class="form-horizontal" id="select" name="select">
-        <input type="button" class="btn-success" id="vista" name="vista" value="Ver Datos">
-        <input type="button" class="btn-success" id="eliminar" name="eliminar" value="Eliminar">
-        <input type="button" class="btn-success" id="modificar" name="modificar" value="Modificar">
+        <input type="button" class="btn btn-primary" id="vista" name="vista" value="Ver Datos">
+        <input type="button" class="btn btn-primary" id="eliminar" name="eliminar" value="Eliminar">
+        <input type="button" class="btn btn-primary" id="modificar" name="modificar" value="Modificar">
         <!-- button class="btn-success" id="modificar" name="modificar" value="Modificar">
         	<a id="mas" href="" >Modificar</a>
         </button -->

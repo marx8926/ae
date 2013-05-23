@@ -1,11 +1,12 @@
 {% extends "::base.html.twig" %}
 
-  {% block stylesheets %}
+{% block titulo %}Registrar Usuario - {% endblock %}
+
+{% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
         <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
  {% endblock %}
          
@@ -139,13 +140,10 @@
             
 {% block content %}
     <div class="span9" id="registro_form">
-
-   
+    <h1>Registrar Usuario</h1>
         <form class="form-horizontal" action="{{path('ganar_addpersona')}}" method="POST" id="myForm">
-            
             <fieldset>
                 <legend>Usuario</legend>
-
                 <div class="control-group">
                     <label class="control-label" >Usuario</label>
                     <div class="controls">
@@ -168,14 +166,8 @@
                 </div>
           
             </fieldset>
-              
-                   
             <fieldset>
-                <legend>Datos Personales</legend>
-        
-                
-                <div class="control-group"> </div>
-        
+                <legend>Datos Personales</legend>        
                 <div class="control-group" >
                     <label class="control-label"> Nombres </label>
                     <div class="controls">
@@ -286,18 +278,18 @@
                         </select>
                     </div>        
                 </div>
-        
-
-         <div class="control-group">
-            <label>Ubicación</label>
-                   <div id="map-ll">
-		            	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
+                
+		         <div class="control-group">
+		         	<label class="control-label">Ubicación</label>
+		            <div id="map-ll" style="display: none;">
+				    	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>
 						<label>Latitud:</label> <input id="lat" name="latitud"  value="-8.097944">
-		                <label>Longitud:</label> <input id="lng" name="longitud" value="-79.03704479999999"> <br/>
-		            </div>
-            <div id="map"></div>
-   
-        </div>
+						<label>Longitud:</label> <input id="lng" name="longitud" value="-79.03704479999999">
+					</div>
+				    <div class="controls">
+				    	<div id="map" class="input-xxlarge"></div>
+				    </div>
+		        </div>
         
     </fieldset>
     <fieldset>

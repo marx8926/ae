@@ -10,3 +10,8 @@ $( '#close-modal' ).on( 'click', function( ev ) {
   $( '#modal, #modal-background' ).fadeOut();
   ev.preventDefault();
 } );
+
+$("#finalizar").on('click', function(){
+	$( '#modal, #modal-background' ).fadeOut();
+	$("#RegPersonalForm").reset();
+});

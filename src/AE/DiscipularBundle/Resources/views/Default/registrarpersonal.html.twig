@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
-        
+
+{% block titulo %}Administrar Personal - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -11,6 +13,7 @@
 {% block content %}    
 
 <div class="span9" >
+	<h1>Administrar Personal</h1>
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Registro Personal</h3>						
@@ -20,8 +23,8 @@
         	<form id='ExportForm' method='POST'>
         		<input id='content' type='hidden' name='content' >
                 <input id='title' type='hidden' name='title' >
-                <input id='pdfMiembros' type='button' value='PDF' class="btn-success">
-                <input id='excelMiembros' type='button' value='Excel' class="btn-success">
+                <input id='pdfMiembros' type='button' value='PDF' class="btn btn-info">
+                <input id='excelMiembros' type='button' value='Excel' class="btn btn-info">
             </form>
 		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaMiembros" name="TablaMiembros">
 		        <thead>
@@ -42,12 +45,12 @@
 	<form  method="POST" id="RegPersonalForm" action='{{path('discipular_registrar_personal')}}'>
 		<div class="form-horizontal">
 			<input id="idMiembro" type="hidden" name="id">
-			<input type='button' class="btn-success" disabled="true" id="registro" name="registro" value="Registro">
+			<input type='button' class="btn btn-primary" disabled="true" id="registro" name="registro" value="Registro">
 			<div id="modal" class="styled">
 				<strong>Agregar una Descripción:</strong>
 			  	<textarea id="descripcion" name="descripcion"></textarea>
-				<input type="submit" class="btn-success" id="enviar" name="enviar" value="Finalizar">
-				<a href="#close" id="close-modal">Cerrar</a>
+				<input type="submit" class="btn btn-primary" id="finalizar" name="finalizar" value="Finalizar">
+				<a class="btn" href="#close" id="close-modal">Cerrar</a>
 			</div>
 			<div id="modal-background"></div>
 		</div>
@@ -59,8 +62,8 @@
 
         <div class="box-content box-nomargin">
         	<form id='PersonalExportForm' method='POST'>
-                <input id='pdfPersonal' type='button' value='PDF' class="btn-success">
-                <input id='excelPersonal' type='button' value='Excel' class="btn-success">
+                <input id='pdfPersonal' type='button' value='PDF' class="btn btn-info">
+                <input id='excelPersonal' type='button' value='Excel' class="btn btn-info">
             </form>
 		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaPersonal" name="TablaPersonal">
 		    	<thead>
@@ -78,25 +81,20 @@
 		    </table>
 		</div>
 	</div>
+	<div id="alineados">
 	<form  method="POST" id="DesactivarPersonalForm" action='{{path('discipular_desactivar_personal')}}'>
-		<div class="form-horizontal">
 			<input id="idPersonalDesactivar" type="hidden" name="id">
-			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Desactivar">
-		</div>
+			<input type="submit" class="btn btn-primary" id="desactivar" name="desactivar" value="Desactivar">
 	</form>
 	<form  method="POST" id="ActivarPersonalForm" action='{{path('discipular_activar_personal')}}'>
-		<div class="form-horizontal">
 			<input id="idPersonalActivar" type="hidden" name="id">
-			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Activar">
-		</div>
+			<input type="submit" class="btn btn-primary" id="activar" name="activar" value="Activar">
 	</form>
 	<form  method="POST" id="EliminarPersonalForm" action='{{path('discipular_eliminar_personal')}}'>
-		<div class="form-horizontal">
 			<input id="idPersonalEliminar" type="hidden" name="id">
-			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Eliminar">
-		</div>
+			<input type="submit" class="btn btn-primary" id="eliminar" name="eliminar" value="Eliminar">
 	</form>
-	
+	</div>
 	
 </div>
  

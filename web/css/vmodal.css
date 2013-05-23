@@ -46,19 +46,3 @@
 .dummy-text {
   margin: 50px;
 }
-
-#modal a{
-	margin-top: 1em;
-  display: inline-block;
-  text-decoration: none;
-  color: #000;
-  font-weight: bold;
-  background: #d6d6d6;
-  padding: 5px 10px;
-  margin-bottom: 10px;
-  border-radius: 3px;
-  -ms-box-shadow: 0 3px 3px -3px #000;
-  -moz-box-shadow: 0 3px 3px -3px #000;
-  -webkit-box-shadow: 0 3px 3px -3px #000;
-  box-shadow: 0 3px 3px -3px #000;
-}

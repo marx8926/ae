@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Informe Semanal - {% endblock %}
+
 {% block stylesheets %}
 	<link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -48,16 +50,20 @@
                 FechaActualT('fecha2');
                 
                 $(".rango").change(function(){
+                    var date1 =  $("#fecha1").val().split('/');
+                    var date2 =  $("#fecha2").val().split('/');
+                    fecha1 = date1[2] + '-' + date1[0] + '-' + date1[1];
+                    fecha2 = date2[2] + '-' + date2[0] + '-' + date2[1];
             		 
-                         ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
-            		 ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
-            		 ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
+                         ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+            		 ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+            		 ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
  				});
                                 
                                 
-                ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
-                ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
-                ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+$("#fecha1").val()+"/"+$("#fecha2").val());
+                ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+                ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+                ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
 
                 $("#pdfInforme").click(function(event) {
                     //$("#tabla_informe_ganar th").css("width","16%");
@@ -87,18 +93,15 @@
 {%endblock%}
 
 {% block content %}
-
-<div id="cursos">
-<h3 id="titulo">INFORME DEL AREA DE GANAR <br></>DEL <input type="date" id="fecha1" class="rango"> AL <input type="date" id="fecha2" class="rango"><h3>
-</div>
-<div class="row-fluid">
-	<div class="span12">
+	<div class="span9">
+		<h1 id="titulo">Informe Semanal del Área de Ganar</h1>
+		<p>Del <input type= "text" class="datepick rango" id="fecha1" name="fecha1"/> al <input type= "text" class="datepick rango" id="fecha2" name="fecha2"/><p>
+		<form id='ExportForm' method='POST'>
+        	<input id='content' type='hidden' name='content' >
+            <input id='title' type='hidden' name='title' >
+        	<input id='pdfInforme' type='button' value='PDF' class="btn btn-info">
+        </form>
 		<div class="box">
-			<form id='ExportForm' method='POST'>
-        		<input id='content' type='hidden' name='content' >
-                <input id='title' type='hidden' name='title' >
-                <input id='pdfInforme' type='button' value='PDF' class="btn-success">
-            </form>
 			<div id="informe_tablas">
 				<div class="informe_tabla">
 					<div class="box-head">
@@ -123,7 +126,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 </div>
 
 {% endblock %}

@@ -15,7 +15,7 @@
                         else
                                day = f.getDate().toString();
 				
-			$("#"+div).val(f.getFullYear().toString()+'-'+mes + "-" + day);
-        		$("#"+div).text(f.getFullYear().toString()+'-'+mes + "-" + day);
+			$("#"+div).val(mes+'/'+ day + "/" + f.getFullYear().toString());
+        		$("#"+div).text(mes+'/'+ day + "/" + f.getFullYear().toString());
 
 		}
