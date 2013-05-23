@@ -8,7 +8,6 @@
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
         <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
-
     <style>
     	.encurso{
     		color: #008500;
@@ -41,19 +40,24 @@
 	<script src="{{asset('js/ui.spinner.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>			
 	<script src="{{asset('js/functiongen.js')}}"></script>
-        <script src="{{asset('js/tiempo.js')}}"></script>
+    <script src="{{asset('js/tiempo.js')}}"></script>
             
     <script type="text/javascript">
             $(document).ready(function() {
             	 
                 FechaActualT('fecha1');
                 FechaActualT('fecha2');
+
+                var date1 =  $("#fecha1").val().split('/');
+                var date2 =  $("#fecha2").val().split('/');
+                fecha1 = date1[2] + '-' + date1[1] + '-' + date1[0];
+                fecha2 = date2[2] + '-' + date2[1] + '-' + date2[0];
                 
                 $(".rango").change(function(){
-                    var date1 =  $("#fecha1").val().split('/');
+                	var date1 =  $("#fecha1").val().split('/');
                     var date2 =  $("#fecha2").val().split('/');
-                    fecha1 = date1[2] + '-' + date1[0] + '-' + date1[1];
-                    fecha2 = date2[2] + '-' + date2[0] + '-' + date2[1];
+                    fecha1 = date1[2] + '-' + date1[1] + '-' + date1[0];
+                    fecha2 = date2[2] + '-' + date2[1] + '-' + date2[0];
             		 
                          ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
             		 ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);

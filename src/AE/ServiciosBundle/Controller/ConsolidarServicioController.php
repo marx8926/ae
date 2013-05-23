@@ -150,35 +150,39 @@ class ConsolidarServicioController extends Controller
            
             $result = "<fieldset>  <legend>Limites </legend>
                 <div class='control-group'>
-                   <div class='control-row'>
-                  
-                     <li>
-                         <p class='help-block' >Fecha Inicio</p>
+                    <label class='control-label'>Fecha Inicio:</label>
+            		<div class='controls'>
                          <input type='date' id='begin' name='begin' value='".$d->format('Y-m-d')."'>
                          <input type='hidden' id='numero' name='numero' value='".count($todo)."'>
+                    </div>
                          ";
             
              $d->modify('+'.  count($todo).' weeks');
                          
-            $result = $result."         </li>
-                     <li>
-                         <p class='help-block' >Fecha Fin</p>
-                         <input type='date' id='end' name='end' value='".$d->format('Y-m-d')."'>
-                     </li>
+            $result = $result."         
+            	</div>
+                <div class='control-group'>
+                	<label class='control-label'>Fecha Fin:</label>
+                    <div class='controls'>
+            			<input type='date' id='end' name='end' value='".$d->format('Y-m-d')."'>
+                     </div>
+            	</div>
                    </div>
                 </div>
                 </fieldset>  ";
             
             
             
-            $result=$result.'<table id="tabla_asignacion" name="tabla_asignacion" class="table table-striped table-bordered">
+            $result=$result.'
+            <div class="box-content box-nomargin">
+            	<table id="tabla_asignacion" name="tabla_asignacion" class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>ID</th>
 							<th>Tema</th>
 							<th>Fecha de Inicio</th>
 							<th>Hora de Inicio</th>
-                                                        <th>Fecha de Fin</th>
+                            <th>Fecha de Fin</th>
 							<th>Hora de Fin</th>					        
 					    </tr>
 					</thead>
@@ -206,11 +210,14 @@ class ConsolidarServicioController extends Controller
 
 		}
                 
-                $result = $result."</tbody>  </table> <div class='control-group' id='subir' name='subir'>
+                $result = $result."</tbody>  </table> 
+                		</div>
+                	</div>
+                		<div class='control-group' id='subir' name='subir'>
                   <label></label>
-                  <div class='controls'>
-                      <input type='submit' class='btn-success' id='asignar' name='asignar' value='Asignar'>
-                  </div>
+              <div class='controls'>
+              	<input type='submit' class='btn btn-primary' id='asignar' name='asignar' value='Asignar'>
+              </div>
                   </div> ";
             
             $em->commit();

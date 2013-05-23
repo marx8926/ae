@@ -1,4 +1,6 @@
 {% extends "::base.html.twig" %}
+
+{% block titulo %}Modificar Consolidador - {% endblock %}
         
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -11,6 +13,7 @@
 {%block content %} 
 
 <div class="span9" >
+<h1>Modificar Consolidador</h1>
 <div class="box">
 		<div class="box-head tabs">
             <h3>Modificar Consolidador</h3>						
@@ -21,8 +24,8 @@
                 
                     <input id='content' type='hidden' name='content' >
                     <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
     <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
         <thead>
             <tr>
@@ -47,10 +50,10 @@
         
         <div class="form-horizontal">
         	<form method="POST" name="myForm1" id="myForm1" class="alineados">   
-                <input type="button" id="activar" name="activar" value="Activar" class="btn-success" >
+                <input type="button" id="activar" name="activar" value="Activar" class="btn btn-success" >
             </form>
             <form method="POST" name="myForm" id="myForm" class="alineados">
-                <input type="button" id="desactivar" name="desactivar" value="Desactivar" class="btn-success" >
+                <input type="button" id="desactivar" name="desactivar" value="Desactivar" class="btn btn-danger" >
             </form>
         </div>
         </form>

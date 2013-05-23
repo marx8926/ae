@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Informe Convertidos - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -11,27 +13,20 @@
 
 {% block content %} 
 <div class="span9" >
+	<h1 id="titulo">Informe de Nuevos Convertidos</h1>
+	<p>Del <input type= "text" class="datepick rango" id="inicio" name="inicio" > al <input type= "text" class="datepick rango" id="fin" name="fin"> <input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> </p>
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Nuevos convertidos</h3>							
         </div>
 
         <div class="box-content box-nomargin">
-            
-            <fieldset >
-                <legend></legend>
-                <h3 id="titulo"> DEL <input type="date" id="inicio" name="inicio" > AL
-                    <input type="date" id="fin" name="fin">
-                    
-                    <input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> <h3>
-
-              </fieldset>
         	<form id='form' method='POST'>
                 
                     <input id='content' type='hidden' name='content' >
                     <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
             
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead>
@@ -107,11 +102,16 @@
             
         
             $('#rang').click(function(event){
+            	var date1 =  $("#inicio").val().split('/');
+                var date2 =  $("#fin").val().split('/');
+                inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
+                fin = date2[2] + '-' + date2[1] + '-' + date2[0];
+                
                 event.preventDefault();
                 
                 var url = '{{path('servicio_convertido_red_lugar',{'fecha1':'init','fecha2':'end'}) }}';
-                var ruta = url.replace('init',$('#inicio').val());
-                ruta = ruta.replace('end',$('#fin').val());
+                var ruta = url.replace('init',inicio);
+                ruta = ruta.replace('end',fin);
                 console.log(ruta);
                 
                 cargar_tabla(ruta);
