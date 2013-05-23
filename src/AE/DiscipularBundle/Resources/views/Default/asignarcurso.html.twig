@@ -29,6 +29,7 @@
 	<script src="{{asset('js/custom.js')}}"></script>			
 	<script src="{{asset('js/functiongen.js')}}"></script>
 	<script src="{{asset('js/datatable_plugins.js')}}"></script>
+        <script src="{{asset('js/tiempo.js')}}" ></script>
             
     <script type="text/javascript">
 
@@ -36,6 +37,9 @@
 			var oTable = null;
 			var values = [];
             $(document).ready(function() {
+                
+                
+             FechaActualT('fecha_inicio');
             	reloadData();
 				     	
 				enviar("AsignarForm",sayhola);
@@ -142,7 +146,7 @@
 			<div class="control-group">
 				<label class="control-label">Fecha de Inicio</label>
 				<div class="controls">
-					<input type="date" name="fecha_inicio" required>
+					<input type="date" name="fecha_inicio" id="fecha_inicio" required>
 				</div>
 			</div>
 			<div class="control-group">
@@ -167,13 +171,13 @@
 			<div class="control-group">
 				<label class="control-label">Hora Inicio</label>
 				<div class="controls">
-					<input name="hora_inicio" type="time">
+					<input name="hora_inicio" type="time" value='00:00:00'>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Hora Fin</label>
 				<div class="controls">
-					<input name="hora_fin" type="time">
+					<input name="hora_fin" type="time" value='00:00:00'>
 				</div>
 			</div>
 			<div class="control-group">
