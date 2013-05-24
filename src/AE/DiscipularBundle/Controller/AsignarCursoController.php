@@ -48,10 +48,11 @@ class AsignarCursoController extends Controller{
 			$cursoid = $datos["curso"];
 			$localid = $datos["local"];
 			
-			$fecha_inicio = $datos["fecha_inicio"];
-			$fecha_inicio_Y = date("Y", strtotime($fecha_inicio));
-			$fecha_inicio_m = date("m", strtotime($fecha_inicio));
-			$fecha_inicio_d = date("d", strtotime($fecha_inicio));
+			$fecha_inicio = explode('/', $datos["fecha_inicio"],3);
+			//$fecha_inicio = $datos["fecha_inicio"];
+			$fecha_inicio_Y = date("Y", strtotime($fecha_inicio[2]));
+			$fecha_inicio_m = date("m", strtotime($fecha_inicio[1]));
+			$fecha_inicio_d = date("d", strtotime($fecha_inicio[0]));
 			
 			$hora_inicio = $datos["hora_inicio"];
 			$hora_inicio_H = date("H", strtotime($hora_inicio));

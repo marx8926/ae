@@ -174,6 +174,7 @@ class ConsolidarServicioController extends Controller
             
             
             $result=$result.'
+            <div class="box">
             <div class="box-content box-nomargin">
             	<table id="tabla_asignacion" name="tabla_asignacion" class="table table-striped table-bordered">
 					<thead>

@@ -82,17 +82,17 @@
 		</div>
 	</div>
 	<div id="alineados">
-	<form  method="POST" id="DesactivarPersonalForm" action='{{path('discipular_desactivar_personal')}}'>
-			<input id="idPersonalDesactivar" type="hidden" name="id">
-			<input type="submit" class="btn btn-primary" id="desactivar" name="desactivar" value="Desactivar">
-	</form>
 	<form  method="POST" id="ActivarPersonalForm" action='{{path('discipular_activar_personal')}}'>
 			<input id="idPersonalActivar" type="hidden" name="id">
 			<input type="submit" class="btn btn-primary" id="activar" name="activar" value="Activar">
 	</form>
+	<form  method="POST" id="DesactivarPersonalForm" action='{{path('discipular_desactivar_personal')}}'>
+			<input id="idPersonalDesactivar" type="hidden" name="id">
+			<input type="submit" class="btn btn-primary" id="desactivar" name="desactivar" value="Desactivar">
+	</form>
 	<form  method="POST" id="EliminarPersonalForm" action='{{path('discipular_eliminar_personal')}}'>
 			<input id="idPersonalEliminar" type="hidden" name="id">
-			<input type="submit" class="btn btn-primary" id="eliminar" name="eliminar" value="Eliminar">
+			<input type="submit" class="btn btn-danger" id="eliminar" name="eliminar" value="Eliminar">
 	</form>
 	</div>
 	

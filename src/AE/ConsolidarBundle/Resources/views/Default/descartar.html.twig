@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Descartar Consolidados - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -10,7 +12,7 @@
 
 {% block content %} 
 <div class="span9" >
-   
+	<h1>Descartar Consolidados</h1>
     <div class="box">
         <div class="box-head tabs">
             <h3>Descartar</h3>							
@@ -44,7 +46,7 @@
             	<div class="control-group">
 		            <label class="control-label">ID:</label>
 		            <div class="controls">
-		                <label id="nombre" name="nombre" class="control-label input-xlarge"></label>
+		                <p style="margin-top: 5px;" id="nombre" name="nombre"></p>
 		            </div>
 		       	</div>                
             </fieldset>
@@ -58,7 +60,7 @@
                   </div>
             
             <div class="control-group" >
-                <label class="control-label">Motivo</label>
+                <label class="control-label">Motivo:</label>
                 <div class="controls">
                     <textarea rows="5" id="motivo" name="motivo" class="input-xxlarge" required> </textarea>
                     <p class="help-block">Motivo por el que se descarto</p>

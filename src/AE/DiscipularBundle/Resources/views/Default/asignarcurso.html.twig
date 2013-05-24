@@ -1,9 +1,13 @@
 {% extends "::base.html.twig" %}
+
+{% block titulo %}Asignar Personal - {% endblock %}
+
   {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
  {% endblock %}
          
   {%block javascript %}
@@ -136,6 +140,8 @@
             
             
 {% block content %}
+<div class="span9" id="registro_form">
+    <h1>Asignar Personal</h1>
     <fieldset>
 		<form id="AsignarForm" class="form-horizontal" method="POST" action="{{path('discipular_registrar_asignacion')}}">
 			<legend>Asignar Curso</legend>
@@ -152,7 +158,7 @@
 			<div class="control-group">
 				<label class="control-label">Fecha de Inicio</label>
 				<div class="controls">
-					<input type="date" name="fecha_inicio" id="fecha_inicio" required>
+					<input type= "text" class="datepick" name="fecha_inicio" id="fecha_inicio" required>
 				</div>
 			</div>
 			<div class="control-group">
@@ -188,7 +194,7 @@
 			</div>
 			<div class="control-group">
 				<div class="controls">
-					<input type="submit" value="Enviar">
+					<input class="btn btn-primary" type="submit" value="Enviar">
 				</div>
 			</div>
 			
@@ -203,8 +209,8 @@
         	<form id='AsignacionExportForm' method='POST'>
         		<input id='content' type='hidden' name='content' >
                 <input id='title' type='hidden' name='title' >
-                <input id='pdfAsignacion' type='button' value='PDF' class="btn-success">
-                <input id='excelPAsignacion' type='button' value='Excel' class="btn-success">
+                <input id='pdfAsignacion' type='button' value='PDF' class="btn btn-info">
+                <input id='excelPAsignacion' type='button' value='Excel' class="btn btn-info">
             </form>
 		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="tabla_asignacion" name="tabla_asignacion">
 		    	<thead>
@@ -223,24 +229,21 @@
 				<tbody id="tablas2" name="tablas2" ></tbody>
 		    </table>
 		</div>
-		<form  method="POST" id="EliminarAsignacionForm" action='{{path('discipular_eliminar_asignacion')}}'>
-		<div class="form-horizontal">
-			<input id="idAsignacionEliminar" type="hidden" name="id">
-			<input type="submit" class="btn-success" id="eliminar" name="enviar" value="Eliminar">
-		</div>
-		</form>
+		<div id="alineados"
 		<form  method="POST" id="CerrarAsignacionForm" action='{{path('discipular_cerrar_asignacion')}}'>
-		<div class="form-horizontal">
 			<input id="idAsignacionCerrar" type="hidden" name="id">
-			<input type="submit" class="btn-success" id="cerrar" name="enviar" value="CerrarCurso">
-		</div>
+			<input type="submit" class="btn btn-primary" id="cerrar" name="enviar" value="Cerrar Curso">
 		</form>
 		<form  method="POST" id="CerrarMatriculaForm" action='{{path('discipular_cerrar_matricula')}}'>
-		<div class="form-horizontal">
 			<input id="idAsignacionCerrarMatricula" type="hidden" name="id">
-			<input type="submit" class="btn-success" id="cerrarm" name="enviar" value="CerrarMatricula">
-		</div>
+			<input type="submit" class="btn btn-primary" id="cerrarm" name="enviar" value="Cerrar Matricula">
 		</form>
+		<form  method="POST" id="EliminarAsignacionForm" action='{{path('discipular_eliminar_asignacion')}}'>
+			<input id="idAsignacionEliminar" type="hidden" name="id">
+			<input type="submit" class="btn btn-danger" id="eliminar" name="enviar" value="Eliminar">
+		</form>
+		</div>
 	</div>
 	</fieldset>
+</div>
 {% endblock %}    
