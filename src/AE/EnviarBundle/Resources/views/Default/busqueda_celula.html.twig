@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Lista de Células - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
@@ -9,9 +11,10 @@
 
 {% block content %} 
 <div class="span9" >
+<h1>Lista de Células</h1>
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Lista de Células</h3>							
+            <h3>Células</h3>							
         </div>
 
         <div class="box-content box-nomargin">
@@ -19,8 +22,8 @@
                 
                     <input id='content' type='hidden' name='content' >
                     <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
             
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead id='lol'>
@@ -39,25 +42,25 @@
 					
 	
     			</table>
-                          <p class="help-block">Tipo Lider: 0 Lider de Red, 1 misionero, 2 Pastores Ejecutivos, 3 Lider</p>
-                          <p class="help-block"> Tipo Célula: 0 Evangelistica, 1 Discipulado</p>
+                          <p class="dataTables_info"><strong>Tipo Líder:</strong> 0=Lider de Red, 1=Misionero, 2=Pastores Ejecutivos, 3=Líder</p>
+                          <p class="dataTables_info"><strong>Tipo Célula:</strong> 0=Evangelística, 1=Discipulado</p>
    			</form>
     	</div>
 	</div>
-    <div class="form-inline" id="bloque" name="bloque">
+    <div id="alineados">
         <form method="POST" action="{{path('enviar_modificar_celula')}}" id="modForm" name="modForm"> 
             <input type="hidden" value="" id="idpersona" name="idpersona">
-            <input type="submit" class="btn-success" id="vista" name="vista" value="Modificar">
-        </form>
-
-         <form method="POST" action="{{path('enviar_eliminar_celula')}}" id="deleteForm" name="deleteForm" >   
-            <input type="submit" class="btn-success" id="elimina" name="eliminar" value="Eliminar" >
-            <input type="hidden" value="" id="idcelula" name="idcelula">
+            <input type="submit" class="btn btn-primary" id="vista" name="vista" value="Modificar">
         </form>
             
          <form method="POST" action="{{path('enviar_desactivar_celula')}}" id="desactivarForm" name="desactivarForm"> 
             <input type="hidden" value="" id="idcell" name="idcell">
-            <input type="submit" class="btn-success" id="desactivar" name="desactivar" value="Desactivar">
+            <input type="submit" class="btn btn-primary" id="desactivar" name="desactivar" value="Desactivar">
+        </form>
+
+         <form method="POST" action="{{path('enviar_eliminar_celula')}}" id="deleteForm" name="deleteForm" >   
+            <input type="submit" class="btn btn-danger" id="elimina" name="eliminar" value="Eliminar" >
+            <input type="hidden" value="" id="idcelula" name="idcelula">
         </form>
         
     </div>

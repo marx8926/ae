@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
-        
+
+{% block titulo %}Registrar Célula - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -100,13 +102,15 @@
             </div>
         </div>
         <div class="control-group">
-        	<label>Ubicación</label>
-        	<div id="map-ll">
+        	<label class="control-label">Ubicación</label>
+        	<div id="map-ll" style="display:none;">
             	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
 				<label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
                 <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
             </div>
-         	<div id="map"></div>
+            <div class="controls">
+         		<div id="map" class="input-xxlarge"></div>
+         	</div>
         </div>
         
         <div id="lider_block" name="lider_block" >
@@ -141,7 +145,7 @@
         <div class="control-group">
             <label></label>
                 <div class="controls">
-                    <input class="btn btn-small btn-primary" type="submit" name="login" value="Registrar" />
+                    <input class="btn btn-primary" type="submit" name="login" value="Registrar" />
                 </div>
         </div>
         </fieldset>
