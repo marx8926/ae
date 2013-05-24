@@ -27,17 +27,6 @@
                       <input class="btn-success" type="button" name="load" id="load" value="Cargar"  onclick="cargar();"/>
                     </div>
                   </div>
-              
-                  <div class="control-group">
-                      <label class="control-label"></label>
-                      <div class="controls">
-                        <label class="checkbox">
-                            <input type="checkbox" name="usuario" id="usuario" value="usuario"> Usuario
-                        </label>
-                      </div>
-                   </div>
-              
-              
                   <div class="control-group">
                       <label class="control-label"></label>
                       <div class="controls">
@@ -46,36 +35,7 @@
                         </label>
                       </div>
                    </div>
-              
-                  <div class="control-group">
-                      <label class="control-label"></label>
-                      <div class="controls">
-                        <label class="checkbox">
-                            <input type="checkbox" name="consolidador" id="consolidador" value="consolidador">Consolidador
-                        </label>
-                       </div>
-                  </div>
                   
-              <div class="control-group">
-                       <label class="control-label"></label>
-
-                      <div class="controls">
-                        <label class="checkbox">
-                            <input type="checkbox" name="estudiante" id="estudiante" value="estudiante">Estudiante                          
-                        </label>
-                      </div>
-                  </div>
-              
-              <div class="control-group">
-                      <label class="control-label"></label>
-
-                      <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" name="misionero" id="misionero" value="misionero"> Misionero
-                            </label>
-                      </div>
-                  </div>
-              
                   <div class="control-group">
                       <label class="control-label"></label>
                       <div class="controls">
@@ -84,46 +44,7 @@
                         </label>
                        </div>
                   </div>
-              
-                  <div class="control-group">
-                      <label class="control-label"></label>
-
-                      <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" name="ganar" id="ganar" value="ganar"> Encargado de Ganar
-                            </label>
-                      </div>
-                  </div>
                   
-                  <div class="control-group">
-                      <label class="control-label"></label>
-
-                      <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" name="consolidar" id="consolidar" value="consolidar"> Encargado de Consolidar
-                            </label>
-                      </div>
-                  </div>
-              
-              <div class="control-group">
-                      <label class="control-label"></label>
-
-                      <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" name="discipular" id="discipular" value="discipular"> Encargado de Discipular
-                            </label>
-                      </div>
-                  </div>
-              
-              <div class="control-group">
-                      <label class="control-label"></label>
-
-                      <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" name="enviar" id="enviar" value="enviar"> Encargado de Enviar
-                            </label>
-                      </div>
-                  </div>
                   <div class="control-group">
                     <label class="control-label"></label>
                     <div class="controls">
@@ -132,7 +53,17 @@
                         </label>
                     </div>
                   </div>
-                                                  
+              
+                  <div class="control-group">
+                      <label class="control-label"></label>
+
+                      <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" name="misionero" id="misionero" value="misionero"> Misionero
+                            </label>
+                      </div>
+                  </div>
+                  
                   
                   <div class="control-group">
                   
@@ -145,16 +76,23 @@
                   </div>
                   
                   <div class="control-group">
-                  
-                      <label class="control-label"></label>
+                       <label class="control-label"></label>
+
                       <div class="controls">
                         <label class="checkbox">
-                            <input type="checkbox" name="admin" id="admin" value="admin"> Administrador
+                            <input type="checkbox" name="estudiante" id="estudiante" value="estudiante">Estudiante                          
                         </label>
                       </div>
                   </div>
                   
-                  
+                  <div class="control-group">
+                      <label class="control-label"></label>
+                      <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="consolidador" id="consolidador" value="consolidador">Consolidador
+                        </label>
+                       </div>
+                  </div>
                
               <div class="control-group">
                   <label class="control-label"></label>
@@ -162,34 +100,6 @@
                       <input class="btn btn-small btn-primary" type="submit" name="login" title="Guardar" value="Guardar" />
                   </div>
               </div>
-              
-              
-              <div id="usuariodiv">
-                   <fieldset>
-                <legend>Usuario</legend>
-                <div class="control-group">
-                    <label class="control-label" >Usuario</label>
-                    <div class="controls">
-                        <input type="text" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xlarge" pattern="|^[a-zA-Z0-9]+$|" />
-                    </div>
-                </div>
-               
-                <div class="control-group">     
-                    <label class="control-label" >Contraseña Actual</label>      
-                    <div class="controls">
-                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xlarge">      
-                    </div>
-                </div>
-          
-                 <div class="control-group">     
-                    <label class="control-label" >Nueva contraseña</label>      
-                    <div class="controls">
-                        <input type="password" id="inputPasswordN" name="inputPasswordN" placeholder="Contraseña" class="input-xlarge">
-                    </div>
-                </div>
-          
-            </fieldset>
-              </div>     
           
         </form>
                 
@@ -220,43 +130,31 @@
     
         function permiso(dato)
         {
-             if(dato.consolidador === true)
+             if(dato.consolidador == true)
                 $('#consolidador').attr('checked', true); 
              
-             if(dato.estudiante===true)
+             if(dato.estudiante==true)
                $('#estudiante').attr('checked', true); 
 
-             if(dato.lider===true)
+             if(dato.lider==true)
                 $('#celula').attr('checked', true); 
 
              
-             if(dato.lider_red === true)
+             if(dato.lider_red == true)
                 $('#lider_red').attr('checked', true); 
 
-             if(dato.misionero === true)
+             if(dato.misionero == true)
                 $('#misionero').attr('checked', true); 
 
              
-             if(dato.pastor_asociado===true)
+             if(dato.pastor_asociado==true)
                 $('#pastor_asoc').attr('checked', true); 
 
              
-             if(dato.pastor_ejecutivo===true)
+             if(dato.pastor_ejecutivo==true)
                 $('#pastor_eje').attr('checked', true); 
 
-                                
-               $('#usuariodiv') .css({'display':'block'});
              
-             
-        }
-        
-        //recuperar los datos
-        function user(dato)
-        {
-            if(dato!==false)
-            {
-                $("#inputUsuario").val(dato.nombre);  
-            }
         }
         function cargar()
         {
@@ -266,29 +164,13 @@
                  var rutas = route.replace('nom',id); 
                  
                  if(id.length > 0)   
-                 {
-                     
-                 
-                    $.ajax(
+                 $.ajax(
                         {   url : rutas,
                             dataType:"json",
                             type: "POST",
                             async: false,
                         }
                     ).done(permiso);
-                        
-                  //carga datos de usuario
-                                   
-                    var url = '{{path('servicio_usuario_id',{'id':'cod'}) }}';
-                    var ruta = url.replace('cod',id);
-                    $.ajax(
-                        {   url : ruta,
-                            dataType:"json",
-                            type: "POST",
-                            async: false,
-                        }
-                    ).done(user);
-               }
                     
         }
        
@@ -296,26 +178,18 @@
 	$(document).ready(function() {
             
             
-            
-                     
-           $('#usuariodiv').css({'display':'none'});
 				
-           $("#myForm").submit(function(event){
-
-           event.preventDefault();
+           $("#myForm").submit(function(){
             //get the url for the form
             var url=$("#myForm").attr("action");
-            
-            console.log($('#myForm').serialize());
-           
+
             $.post(url,{
              formName:$("#myForm").serialize(),
                 other:"attributes"
              },function(data){
                     //the response is in the data variable
-                    console.log(data);
 
-               if(data.responseCode===200 ){           
+               if(data.responseCode==200 ){           
                       
                  alert('Registro Completado');
                  var href="{{path('main')}}";
@@ -324,11 +198,11 @@
               //   $(location).attr('href',href); 
           
                }
-               else if(data.responseCode===400){//bad request
+               else if(data.responseCode==400){//bad request
                        alert('Error');
                         }
                     else{
-                        if(data.responseCode===500)
+                        if(data.responseCode==500)
                         {
                             alert('Solo se puede registrar una iglesia');
                         }
@@ -336,7 +210,7 @@
                         //did not return a json_encoded array. We can assume that           
                         //an unexpected PHP error occured
                         else 
-                            if(data.responseCode===600)
+                            if(data.responseCode==600)
                                 alert('Ingrese su ID');
                             else alert("An unexpeded error occured.");
                    }

@@ -64,7 +64,7 @@
                    event.preventDefault();
                    
                    var date1 =  $("#inputFechaConversion").val().split('/');
-                   fecha1 = date1[2] + '-' + date1[0] + '-' + date1[1];
+                   fecha1 = date1[2] + '-' + date1[1] + '-' + date1[0];
                    
                    var url = "{{path('servicio_asistencia_celula',{'id':':cel','inicio':':init'})}}";
                    url = url.replace(':cel',$("#celula_lista option:selected").val());
@@ -214,7 +214,7 @@
                     
                 <div class="control-group">                    
                     <div class="controls">
-                        <input class="btn btn-primary" type="submit" id="login" name="login" value="Registrar" />
+                        <input class="btn btn-primary" type="submit" id="login" name="login" value="Consultar" />
                     </div>
                 </div>
                     

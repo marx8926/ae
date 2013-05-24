@@ -35,12 +35,23 @@ class PermisoController extends Controller
         $datos = array();
 
         parse_str($name,$datos);
-         $cel = NULL;
+         $cel = NULL; //celula
+
+         $user = NULL;
          $lider = NULL;
-         $pastor_aso = NULL;
-         $misionero = NULL;
-         $pastor_eje = NULL;
+
          $consolidador = NULL;
+         $estudiante = NULL;        
+         $misionero = NULL;
+         
+         $e_ganar = NULL;
+         $e_consolidar = NULL;
+         $e_discipular = NULL;
+         $e_enviar = NULL;
+
+         $pastor_aso = NULL;
+         $pastor_eje = NULL;
+         $administrador = NULL;
          $id = NULL;
          $em = $this->getDoctrine()->getEntityManager();         
 
@@ -89,7 +100,7 @@ class PermisoController extends Controller
                 $persona = $prev->findOneBy(array('id'=>$id));
                 $em->clear();
             
-                
+                /*
                 //lider de celula
                 if(strlen($cel)>0)
                 {
@@ -217,6 +228,7 @@ class PermisoController extends Controller
   
                 }
              
+               */
                 $em->commit();
                 $em->clear();
                 

@@ -33,7 +33,7 @@ class Rol implements RoleInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Usuario", mappedBy="idRol")
+     * @ORM\ManyToMany(targetEntity="Usuario", mappedBy="idRol",cascade={"persist", "merge", "remove"})
      */
     protected $idUsuario;
 

@@ -165,3 +165,8 @@ administrar_registrar_persona_evento:
   defaults: {_controller: AEAdministrarBundle:AdministrarEvento:RegistrarPersonaEvento}
   requirements:
     _method: POST
+    
+    
+administrar_roles:
+  pattern: /admin_roles
+  defaults: {_controller: AEAdministrarBundle:Roles:vista}
