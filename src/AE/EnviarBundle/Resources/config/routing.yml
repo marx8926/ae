@@ -111,7 +111,7 @@ enviar_celulograma:
   defaults: {_controller: AEEnviarBundle:Informe:celulograma}
   
 enviar_celulograma_up:
-  pattern: /celulograma_up
+  pattern: /celulograma_up/{red}/{ini}
   defaults: {_controller: AEEnviarBundle:Informe:celulogramaUp}
   requirements:
     _method: POST
