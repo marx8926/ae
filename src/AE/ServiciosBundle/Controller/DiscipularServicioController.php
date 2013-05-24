@@ -261,12 +261,32 @@ class DiscipularServicioController extends Controller
 			return new Response($result);
 	}
 	
-	function getTablaEstudiantePorCursoAction($curso,$dato){
+	function getTablaEstudiantePorAsignacionAction($idAsignacion){
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		$sql = "select
+				matric.id, persona.nombre, persona.apellidos,miembro.id_red as red,miembro.id_celula as celula,
+				estudiante.fecha_inicio as inicio ,estudiante.fecha_fin as fin
+				from miembro
+				inner join persona on (persona.id = miembro.id) 
+				inner join estudiante on (miembro.id = estudiante.id) 
+				inner join matric on (estudiante.id = matric.id_persona_estudiante)
+				where matric.id_curso_impartido =".$idAsignacion;
+		
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+		
+		$todo = $smt->fetchAll();		
+		return new JsonResponse(array('aaData'=>$todo));
+		
+	}
+	
+	function getTablaReporteAsignacionAction($idAsignacion,$tipodato){
 		$em = $this->getDoctrine()->getEntityManager();
 		
 		$sqlnum = "SELECT count(cc.id) as num
 				  FROM clase_curso cc 
-				  where cc.id_curso_impartido =".$curso;
+				  where cc.id_curso_impartido =".$idAsignacion;
 		
 		$smt = $em->getConnection()->prepare($sqlnum);
 		$smt->execute();
@@ -294,7 +314,7 @@ class DiscipularServicioController extends Controller
 				inner join persona on (persona.id = miembro.id) 
 				inner join estudiante on (miembro.id = estudiante.id) 
 				inner join matric on (estudiante.id = matric.id_persona_estudiante)
-				where matric.id_curso_impartido =".$curso;
+				where matric.id_curso_impartido =".$idAsignacion;
 		
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -307,20 +327,20 @@ class DiscipularServicioController extends Controller
 					<td>".$val['id']."</td>
 					<td>".$val['estudiante']."</td>";
 			
-			$sqlAsistencia = "SELECT acc.".$dato."
+			$sqlAsistencia = "SELECT acc.".$tipodato."
 							  FROM clase_curso cc 
 							  inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
-							  where acc.id_persona_estudiante =".$val["id"]." and cc.id_curso_impartido =".$curso;
+							  where acc.id_persona_estudiante =".$val["id"]." and cc.id_curso_impartido =".$idAsignacion;
 			
 			$smt = $em->getConnection()->prepare($sqlAsistencia);
 			$smt->execute();
 			
 			$todoAsistencia = $smt->fetchAll();
 			foreach ($todoAsistencia as $key2 => $valor){
-				if($dato=="nota")
-					$result = $result."<td>".$valor[$dato]."</td>";
+				if($tipodato=="nota")
+					$result = $result."<td>".$valor[$tipodato]."</td>";
 				else
-					if($valor[$dato]==1)
+					if($valor[$tipodato]==1)
 						$result = $result."<td>&#10004</td>";
 					else
 						$result = $result."<td></td>";

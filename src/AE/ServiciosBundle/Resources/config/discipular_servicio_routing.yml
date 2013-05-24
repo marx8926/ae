@@ -38,9 +38,13 @@ _tabla_asignacion_matricula:
   pattern: /_tabla_asignacion_matricula/{curso}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaAsignacionMatricula }
   
-_tabla_estudiantes_curso:
-  pattern: /_tabla_estudiantes_curso/{curso}/{dato}
-  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaEstudiantePorCurso }
+_tabla_reporte_asignacion:
+  pattern: /_tabla_reporte_asignacion/{idAsignacion}/{tipodato}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaReporteAsignacion }
+  
+_tabla_estudiante_asignacion:
+  pattern: /_tabla_estudiante_asignacion/{idAsignacion}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaEstudiantePorAsignacion }
   
 _tabla_estudiantes_activo:
   pattern: /_tabla_estudiantes_activo/{activo}
