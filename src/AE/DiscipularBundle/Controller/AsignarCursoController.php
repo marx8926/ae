@@ -177,4 +177,85 @@ class AsignarCursoController extends Controller{
 		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
 		
 	}
+	
+	public function CerrarAsignacionAction(){
+		$request = $this->get('request');
+		$form=$request->request->get('formName');
+		$datos = array();
+		parse_str($form,$datos);
+		$idAsignacion = null;
+	
+		if($form!=NULL){
+			$em = $this->getDoctrine()->getEntityManager();
+			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			
+	
+			$idAsignacion = $datos["id"];
+			
+			$sqlEstudiantes = "update estudiante set activo = false 
+			where id IN (SELECT e.id FROM estudiante e
+					inner join matric m on (m.id_persona_estudiante = e.id)
+					inner join curso_impartido ci on (ci.id = m.id_curso_impartido)
+					where ci.id =".$idAsignacion.")";
+			
+			$smt = $em->getConnection()->prepare($sqlEstudiantes);
+			$smt->execute();
+
+			$sql = "UPDATE curso_impartido
+					   SET activo=false, estado_matricula=false
+					 WHERE id=".$idAsignacion;
+				
+			$smt = $em->getConnection()->prepare($sql);
+			$smt->execute();
+	
+			 
+			$this->getDoctrine()->getEntityManager()->commit();
+			$return=array("responseCode"=>200, "datos"=>$idAsignacion);
+		}
+		else{
+			$this->getDoctrine()->getEntityManager()->rollback();
+			$this->getDoctrine()->getEntityManager()->close();
+	
+			$return = array("responseCode"=>400, "greeting"=>"Bad");
+		}
+			
+		$return=json_encode($return);//jscon encode the array
+	
+		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
+	
+	}
+	
+	public function CerrarMatriculaAction(){
+		$request = $this->get('request');
+		$form=$request->request->get('formName');
+		$datos = array();
+		parse_str($form,$datos);
+		$idAsignacion = null;
+	
+		if($form!=NULL){
+			$em = $this->getDoctrine()->getEntityManager();
+			$this->getDoctrine()->getEntityManager()->beginTransaction();
+	
+			$idAsignacion = $datos["id"];
+			$sql = "UPDATE curso_impartido SET estado_matricula =false WHERE id=".$idAsignacion;
+				
+			$smt = $em->getConnection()->prepare($sql);
+			$smt->execute();
+	
+			 
+			$this->getDoctrine()->getEntityManager()->commit();
+			$return=array("responseCode"=>200, "datos"=>$idAsignacion);
+		}
+		else{
+			$this->getDoctrine()->getEntityManager()->rollback();
+			$this->getDoctrine()->getEntityManager()->close();
+	
+			$return = array("responseCode"=>400, "greeting"=>"Bad");
+		}
+			
+		$return=json_encode($return);//jscon encode the array
+	
+		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
+	
+	}
 }

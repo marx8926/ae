@@ -658,9 +658,17 @@ class EnviarServicioController extends Controller
        return new JsonResponse($redes);
     }
     
-    public function getInfoCelulaAction($id)
+    public function getInfoCelulaAction($id, $ini)
     {
+        
+        $finD = new \DateTime($ini);
+        $finD->modify('+14 weeks');
+        $fin = $finD->format('Y-m-d');
+        
         $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        
         $em->beginTransaction();
         
         try {            
@@ -670,7 +678,7 @@ class EnviarServicioController extends Controller
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute(array(':id'=>$id));
  
-            $redes = $smt->fetchAll();
+            $todo = $smt->fetch();
             
             $em->clear();
             
@@ -681,13 +689,81 @@ class EnviarServicioController extends Controller
             $em->close();
             throw $exc;
         }
+        
+        $result = "               
+                
+<table>
+<tr>
+	<td>Datos Personal: </td>
+	<td>Sexo: ".((strval($todo['sexo'])=='1')?'F':'M')."</td>
+        <td></td>
+	<td>Codigo Lider : ".$todo['lider_id']."</td>
+	<td>Red : ".$todo['red']. "</td>
+</tr>
+<tr>
+	<td colspan='3'>Nombres: ".$todo['nombre']." ".$todo['apellidos']."</td>
+	<td>Telefono: ".(strlen($todo['lider_cell'])>0?$todo['lider_cell']:$todo['lider_tel'])."</td>
 
-       return new JsonResponse($redes);
+	<td>Edad: ".$todo['edad']."</td>
+</tr>
+<tr>
+	<td>DATOS DE LA CELULA</td>
+	<td colspan='4'></td>
+</tr>
+<tr>
+	<td colspan='3'>Direccion: ".$todo['direccion']."</td>
+	<td>Tel. Anfitrion: ".$todo['ctel']."</td>
+	<td>Familia Anfitriona: ".$todo['familia']."</td>
+</tr>
+<tr>
+	<td>Apertura: ". $todo['fecha_creacion']."</td>
+	<td>Tipo ". ((strval($todo['ctipo'])=='0')?'Evangelistica':'Discipulado')."</td>
+        <td></td>
+        <td>Fecha Inicio: ".$ini." </td>
+        <td>Fecha Final: ".$fin."</td>
+</tr>
+</table>";
+
+       return new Response($result);
         
     }
     
-    public function getAsistenciaCelulaAction($id,$inicio, $fin)
+    public function convertHash($todo)
     {
+        $final = array();
+        foreach ($todo as $key => $value) {
+            $final[$value['idp']] = $value;
+        }
+        return $final;
+    }
+
+    public function searchEvento($todo,  $id)
+    {
+        $salida = array();
+        $salida['E'] = FALSE;
+        $salida['B'] = FALSE;
+        
+        foreach ($todo as $key => $value) {
+            if($value['idp'] !=NULL)
+            {
+               if( $value['tipo']==0)
+               {
+                   $salida['E'] =TRUE;
+               }
+               else $salida['B']=TRUE;
+            }
+        }
+        
+        return $salida;
+    }
+
+    public function getAsistenciaCelulaAction($id,$inicio)
+    {
+        $finD = new \DateTime($inicio);
+        $finD = $finD->modify('+14 weeks');
+        
+        $fin = $finD->format('Y-m-d');        
+        
         $em = $this->getDoctrine()->getEntityManager();
         $em->beginTransaction();
         
@@ -701,11 +777,43 @@ class EnviarServicioController extends Controller
             $smt->execute(array(':id'=>$id,':ini'=>$inicio,':fin'=>$fin));
  
             $redes = $smt->fetchAll();
+                       
                            
+            $em->clear();
+            
+            //lista de cursos
+            
+            $sql0 = 'select * from lista_cursos';
+            $smt0 = $em->getConnection()->prepare($sql0);
+            $smt0->execute();
+            $cursos = $smt0->fetchAll();
+            $em->clear();
+            
+            //encuentro bautismo
+            $sql1 = 'select * from info_enc_bau(:id)';
+            $smt1 = $em->getConnection()->prepare($sql1);
+            $smt1->execute(array(':id'=>$id));
+            $encbau = $smt1->fetchAll();
+                        
+            $em->clear();
+            
+            
+            //leche espiritual
+            
+            $sql2 = 'select * from info_leche_espiritual(:id)';
+            $smt2 = $em->getConnection()->prepare($sql2);
+            $smt2->execute(array(':id'=>$id));
+            $lcesp= $smt2->fetchAll();
+            $lcespF = $this->convertHash($lcesp);
+            
+            $em->clear();
             
             $todo = array();
-                       
-            $id_ini = $redes[0]['id'];
+                      
+            if(count($redes)>0)
+                $id_ini = $redes[0]['id'];
+            else $id_ini = NULL;
+            
             $id_old = NULL;
             
             $fila = NULL;
@@ -735,11 +843,34 @@ class EnviarServicioController extends Controller
                     $ind = 0;
                     $fila[$ind] = ($value['estado']==TRUE)?TRUE:FALSE;
                     
+                            
+                    //leche espiritual
+                    
+                    $fila['L']=NULL;
+                    
+                    if(count($lcespF[$id_ini])>0)
+                    {
+                        $fila['L'] = TRUE;
+                    }
+                            
+                    //eventos
+                    $fila['E']=NULL;
+                    $fila['B']=NULL;
+                    
+                    $eventos = $this->searchEvento($encbau,$id_ini);;
+                    $fila['E'] = $eventos['E'];
+                    $fila['B'] = $eventos['B'];
+                    
+                    
+                    foreach ($cursos as $key => $value) {
+                        $fila[$value['titulo']]=NULL;
+                    }
+                    
                     $ind++;
                 }
                 else
                 {
-                    $fila[$ind] = ($value['estado']==TRUE)?TRUE:FALSE;
+                    $fila[$ind] = ($value['estado']==TRUE)?TRUE:-1;
                     
                     $ind++;
                 }
@@ -757,7 +888,166 @@ class EnviarServicioController extends Controller
             $em->close();
             throw $exc;
         }
+        
+        
+      //convert to html 
+        
+        $result = "";
+        
+        $num_cursos = count($cursos) + 3;
+        
+       
+        
+        $result = $result."
+        <table border='1'>
+	<tr>
+		<th rowspan='2'>Nro</th>
+		<th rowspan='2'>Nombre y Apellidos</th>
+		<th rowspan='2'>Telefono</th>
+		<th rowspan='2'>Edad</th>
+		<th colspan='15'>Asistencia Semanal</th>
+		<th colspan='".strval($num_cursos)."'>Crecimiento Espiritual</th>
+	</tr>
+	<tr>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+                <th>Leche<br>Espiritual</th>
+		<th>Enc</th>
+		<th>Bau<br>tismo</th>";
+        
+        $tempC = "";
+        foreach ($cursos as $key => $value) {
+            $tempC = $tempC."<th>". substr($value['titulo'], 0, 3)."<br>". substr($value['titulo'], 4,-1). "</th>";
+        }
 
-       return new JsonResponse($todo);
+        $result = $result.$tempC."
+		
+	</tr>";
+        
+        if(count($todo)>0)
+        {
+        
+         foreach ($todo as $row) {
+            
+            $element = "<tr>";
+            foreach ($row as $value) {
+                
+                
+                $element = $element."<td>";
+                
+                if($value!=NULL)
+                {
+                    if($value==TRUE && strlen($value)==1)
+                      $element= $element."&#10004;";
+                    else if($value== -1)
+                         $element=$element."x";
+                        else
+                        $element = $element.$value;
+                }
+                
+                $element = $element."</td>";
+
+                
+            }
+            
+            $element = $element."</tr>";
+            
+            $result = $result.$element;
+        }
+        
+        $result = $result."</table>";
+
+    
+       }
+       
+       return new Response($result);
+    }
+    
+    public function getOfrendaCelulaAction($id, $inicio)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $finD = new \DateTime($inicio);
+        $finD->modify('+14 weeks');
+        $fin = $finD->format('Y-m-d');
+        $todo = array();
+        
+        $em->beginTransaction();
+        try {
+            $sql = "select * from info_ofrenda(:id,:ini,:fin)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$id,':ini'=>$inicio,':fin'=>$fin));
+            $todo = $smt->fetchAll();
+            
+            $em->commit();
+        } catch (Exception $exc) {
+            
+            $em->rollback();
+            $em->close();
+            
+            throw $exc;
+        }
+        
+        $num = count($todo);
+        //primer mes
+        
+        $primer = "<table border='1'> <tr> <th> Fecha </th> <th>Ofrenda  </th> </tr>";
+        $temp = "";
+        for ($index = 0; $index < 5; $index++) {
+            if($index<$num )
+            { 
+           
+            $temp = $temp. "<tr> <td>".$todo[$index]['fecha_asignado']."</td><td>";
+            $temp = $temp. $todo[$index]['ofrenda']."</td> </tr>";
+            }
+            else $temp = $temp."<tr><td>  </td><td>  </td></tr>";
+        }
+        
+        $primer = $primer.$temp."</table>";
+        //segundo mes
+        $segundo = "<table border='1'> <tr> <th> Fecha </th> <th>Ofrenda  </th> </tr>";
+        $temp = "";
+        for ($index = 5; $index < 10; $index++) {
+            if($index<$num )
+            {
+            $temp = $temp. "<tr> <td>".$todo[$index]['fecha_asignado']."</td><td>";
+            $temp = $temp. $todo[$index]['ofrenda']."</td> </tr>";
+            }
+            else $temp = $temp."<tr><td>  </td><td>  </td></tr>";
+
+        }
+        $segundo = $segundo.$temp."</table>";
+        
+        //tercer
+        $tercer = "<table border='1'> <tr> <th> Fecha </th> <th>Ofrenda  </th> </tr>";
+        $temp = "";
+        for ($index = 5; $index < 10; $index++) {
+            
+            if($index<$num)
+            {//    break;
+            $temp = $temp. "<tr> <td>".$todo[$index]['fecha_asignado']."</td><td>";
+            $temp = $temp. $todo[$index]['ofrenda']."</td> </tr>";
+            }
+            else $temp = $temp."<tr><td>  </td><td>  </td></tr>";
+
+        }
+        $tercer = $tercer.$temp."</table>";
+        
+        $result = $primer.$segundo.$tercer;
+        
+        return new Response($result);
+        
     }
 }

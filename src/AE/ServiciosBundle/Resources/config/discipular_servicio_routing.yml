@@ -39,7 +39,7 @@ _tabla_asignacion_matricula:
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaAsignacionMatricula }
   
 _tabla_estudiantes_curso:
-  pattern: /_tabla_estudiantes_curso/{curso}
+  pattern: /_tabla_estudiantes_curso/{curso}/{dato}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaEstudiantePorCurso }
   
 _tabla_estudiantes_activo:

@@ -82,9 +82,20 @@ servicio_enviar_celula_discipulado:
     _method: POST
     
 servicio_informacion_celula:
-  pattern: /enviar_informacion_celula/{id}
+  pattern: /enviar_informacion_celula/{id}/{ini}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getInfoCelula}
+  requirements:
+    _method: POST
   
 servicio_asistencia_celula:
-  pattern: /enviar_asistencia_celula/{id}/{inicio}/{fin}
+  pattern: /enviar_asistencia_celula/{id}/{inicio}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getAsistenciaCelula}
+  requirements:
+    _method: POST
+    
+    
+servicio_ofrenda_celula:
+  pattern: /enviar_ofrenda_celula/{id}/{inicio}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getOfrendaCelula}
+  requirements:
+   _method: POST

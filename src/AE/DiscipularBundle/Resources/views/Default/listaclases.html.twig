@@ -48,37 +48,15 @@
 				$("#ExportForm").submit();
 	        });
 
-	    	TablaPersonal = $('#TablaPersonal').dataTable({
-				"bProcessing": true,
-				"bServerSide": false,
-				"bDestroy": true,
-				"sAjaxSource": '{{path("_tabla_estudiantes_curso",{"curso":""})}}'+'/{{idasignacion}}',
-				"aoColumns": [
-			            { "mDataProp": "id" },
-	                    { "mDataProp": "nombre" },
-	                    { "mDataProp": "apellidos" },
-	                    { "mDataProp": "red" },
-	                    { "mDataProp": "celula" },
-	                    { "mDataProp": "inicio"},
-	                    { "mDataProp":"fin"}
-			                ],
-				"aaSorting": [ [0,'asc'], [1,'asc'] ],
-				"aoColumnDefs": [
-		        	{ "sType": 'string-case', "aTargets": [ 2 ] }],
-				"sDom": 'T<"clear">lfrtip',
-		        "oTableTools": {
-					"sRowSelect": "single",
-		            "fnRowSelected": function ( node ) {
-		            	var s=$(node).children();
-		                alert("Selected Row : " + s[0]);
-		            }
-				},
-				"sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
-				"sPaginationType": "bootstrap",
-				"oLanguage": {
-					"sLengthMenu": "_MENU_ registros por página"
-				}
-			});
+	        var url = "{{ path('_tabla_estudiantes_curso',{'curso':'idasignacion','dato':'tipodato'})}}";
+            url1 = url.replace('idasignacion','{{idasignacion}}');
+            url1 = url1.replace('tipodato','nota');
+
+            url2 = url.replace('idasignacion','{{idasignacion}}');
+            url2 = url2.replace('tipodato','asistencia');
+			
+            ajaxResposeData("tabla_reporte_notas",url1);
+            ajaxResposeData("tabla_reporte_asistencia",url2);
 		});
 
 	    function IrAClase(boton){
@@ -110,7 +88,7 @@
 </div>
 <div class="box">
 		<div class="box-head tabs">
-            <h3>Lista de Alumnos</h3>					
+            <h3>Reporte de Notas</h3>					
         </div>
         <div class="box-content box-nomargin">
         	<form id='ExportForm' method='POST'>
@@ -119,20 +97,23 @@
                 <input id='pdfPersonal' type='button' value='PDF' class="btn-success">
                 <input id='excelPersonal' type='button' value='Excel' class="btn-success">
             </form>
-		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaPersonal" name="TablaPersonal">
-		    	<thead>
-		            <tr>
-						<th>ID</th>
-						<th>Nombres</th>
-						<th>Apellidos</th>
-						<th>Red</th>
-						<th>Celula</th>
-		                <th>Inicio</th>
-		                <th>Fin</th>
-		        	</tr>
-				</thead>
-				<tbody id="tablas2" name="tablas2" ></tbody>
-		    </table>
+		    <div id = "tabla_reporte_notas" class="box-content box-nomargin">
+		    </div>
+		</div>
+		</div>
+		<div class="box">
+		<div class="box-head tabs">
+            <h3>Reporte de Asistencia</h3>					
+        </div>
+		<div class="box-content box-nomargin">
+        	<form id='ExportForm' method='POST'>
+        		<input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+                <input id='pdfPersonal' type='button' value='PDF' class="btn-success">
+                <input id='excelPersonal' type='button' value='Excel' class="btn-success">
+            </form>
+		    <div id = "tabla_reporte_asistencia" class="box-content box-nomargin">
+		    </div>
 		</div>
 	</div>
 	</div>

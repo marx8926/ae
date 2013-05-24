@@ -58,7 +58,65 @@
                   
                $("#tipo_celula").change(recargar_celula);               
                
-               enviar('myForm',logg);         
+               
+               
+               $('#myForm').submit(function(event){
+                   event.preventDefault();
+                   
+                   var date1 =  $("#inputFechaConversion").val().split('/');
+                   fecha1 = date1[2] + '-' + date1[0] + '-' + date1[1];
+                   
+                   var url = "{{path('servicio_asistencia_celula',{'id':':cel','inicio':':init'})}}";
+                   url = url.replace(':cel',$("#celula_lista option:selected").val());
+                   url = url.replace(':init',fecha1);
+                   
+                   
+                    var url_i = "{{path('servicio_informacion_celula',{'id':':cel','ini':':init'})}}";
+                   url_i = url_i.replace(':cel',$("#celula_lista option:selected").val());
+                   url_i = url_i.replace(':init',fecha1);
+                   
+                    var url_o = "{{path('servicio_ofrenda_celula',{'id':':cel','inicio':':init'})}}";
+                   url_o = url_o.replace(':cel',$("#celula_lista option:selected").val());
+                   url_o = url_o.replace(':init',fecha1);
+                   
+                   
+                                      
+                   if($("#celula_lista option:selected").val()!=='-1')
+                   {
+                    $.ajax(
+                    {url : url,
+                    type: "POST",
+                    async: false
+                        }
+                    ).done(function(dato){
+                             $('#crecer').html(dato);
+  
+                    }); 
+                    
+                    $.ajax(
+                    {url : url_i,
+                    type: "POST",
+                    async: false
+                        }
+                    ).done(function(dato){
+                             $('#head_crecer').html(dato);
+  
+                    });
+                    
+                     $.ajax(
+                    {url : url_o,
+                    type: "POST",
+                    async: false
+                        }
+                    ).done(function(dato){
+                             $('#ofrenda').html(dato);
+  
+                    });
+                   }
+                    
+            
+               });
+               
             });   
             
         function celula_listar()
@@ -117,7 +175,7 @@
 
             <div class="form-horizontal">
                 
-                <form method="POST" id="myForm" name="myForm" action="{{path('enviar_celulograma_up')}}">
+                <form method="POST" id="myForm" name="myForm" >
             
                 <div class="control-group">
                     <label class="control-label" >Red</label>
@@ -166,274 +224,29 @@
                     
                     <div class="box">
 		<div class="box-head tabs">
-            <h3>Nuevos Convertidos</h3>	
+            <h3>Celulograma</h3>	
                 </div>
        
 
         <div class="box-content box-nomargin">
-                
-                
-<table>
-<tr>
-	<td>Datos Personal:</td>
-	<td>Sexo</td>
-	<td>Codigo del Pastor</td>
-	<td>Codigo del Lider</td>
-	<td>Codigo Loder 144</td>
-	<td>Codigo Lider</td>
-</tr>
-<tr>
-	<td colspan="4">Nobre del lider de celulas</td>
-	<td>Telefono Lider</td>
-	<td>Edad</td>
-</tr>
-<tr>
-	<td>DATOS DE LA CELULA</td>
-	<td>Tipo de Celula</td>
-	<td colspan="4"></td>
-</tr>
-<tr>
-	<td colspan="4">DIreccion</td>
-	<td>Tel. Anfitrion</td>
-	<td>Familia Anfitriona</td>
-</tr>
-<tr>
-	<td>Fecha de Apertura:</td>
-	<td>Dia de la Celula:</td>
-	<td>Hora</td>
-</tr>
-</table>
-
-<table border="1">
-	<tr>
-		<th rowspan="2">Nro</th>
-		<th rowspan="2">Nombre y Apellidos</th>
-		<th rowspan="2">Telefono</th>
-		<th rowspan="2">Edad</th>
-		<th colspan="15">Asistencia Semanal</th>
-		<th colspan="13">Conocimiento Espiritual</th>
-	</tr>
-	<tr>
-		<th>1</th>
-		<th>2</th>
-		<th>3</th>
-		<th>4</th>
-		<th>5</th>
-		<th>1</th>
-		<th>2</th>
-		<th>3</th>
-		<th>4</th>
-		<th>5</th>
-		<th>1</th>
-		<th>2</th>
-		<th>3</th>
-		<th>4</th>
-		<th>5</th>
-
-		<th>Leche<br>Espiritual</th>
-		<th>Enc</th>
-		<th>Bau<br>tismo</th>
-		<th>Pos<br>Enc</th>
-		<th>Conso<br>lidacion</th>
-		<th>Minist<br>1</th>
-		<th>Minist<br>2</th>
-		<th>Lid<br>1</th>
-		<th>Lid<br>2</th>
-		<th>Lid<br>3</th>
-		
-	</tr>
-	<tr>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>		
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		
-	</tr>
-	<tr>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>		
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-	</tr>
-	<tr>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>		
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-	
-	</tr>
-	<tr>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>		
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-	</tr>
-	<tr>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>		
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-	</tr>
-	<tr>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>		
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-		<td>test</td>
-	</tr>
-</table>
-
-                </div>
+ 
+            
+            <div id="head_crecer">
+            
+            
             </div>
+            
+            <div id="crecer">
+
+            </div>
+            
+            <div id="ofrenda">
+            
+            </div>
+            
+        </div>
+        
+        </div>
                  
         </div>
         </div>

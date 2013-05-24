@@ -193,7 +193,7 @@ class DiscipularServicioController extends Controller
 	
 		$sql = "select
 				curso_impartido.id as id, persona.nombre, persona.apellidos, curso.titulo as curso,
-				horario.dia, horario.hora_inicio, horario.hora_fin  
+				horario.dia, horario.hora_inicio, horario.hora_fin, curso_impartido.estado_matricula, curso_impartido.activo
 				from persona
 				inner join curso_impartido on (persona.id = curso_impartido.id_persona_docente) 
 				inner join horario on (curso_impartido.id_horario= horario.id)
@@ -261,23 +261,77 @@ class DiscipularServicioController extends Controller
 			return new Response($result);
 	}
 	
-	function getTablaEstudiantePorCursoAction($curso){
+	function getTablaEstudiantePorCursoAction($curso,$dato){
 		$em = $this->getDoctrine()->getEntityManager();
 		
-		$sql = "select 
-				matric.id, persona.nombre, persona.apellidos,miembro.id_red as red,miembro.id_celula as celula,
-				estudiante.fecha_inicio as inicio ,estudiante.fecha_fin as fin
+		$sqlnum = "SELECT count(cc.id) as num
+				  FROM clase_curso cc 
+				  where cc.id_curso_impartido =".$curso;
+		
+		$smt = $em->getConnection()->prepare($sqlnum);
+		$smt->execute();
+		
+		$num;
+		
+		$todonum = $smt->fetchAll();
+		
+		foreach ($todonum as $key => $val){
+			$num= $val["num"];
+		}
+		
+		$result='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nombre</th>';
+			for($i=0;$i < $num;$i++){
+				$result=$result."<th>".($i+1)."</th>";
+			}
+		$result=$result.'</tr></thead><tbody>';
+		
+		$sql = "select concat(persona.nombre,'', persona.apellidos) as estudiante, persona.id
 				from miembro
 				inner join persona on (persona.id = miembro.id) 
 				inner join estudiante on (miembro.id = estudiante.id) 
 				inner join matric on (estudiante.id = matric.id_persona_estudiante)
 				where matric.id_curso_impartido =".$curso;
+		
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
 		
 		$todo = $smt->fetchAll();
 		
-		return new JsonResponse(array('aaData'=>$todo));
+		foreach ($todo as $key1 => $val){
+			
+			$result = $result."<tr>
+					<td>".$val['id']."</td>
+					<td>".$val['estudiante']."</td>";
+			
+			$sqlAsistencia = "SELECT acc.".$dato."
+							  FROM clase_curso cc 
+							  inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
+							  where acc.id_persona_estudiante =".$val["id"]." and cc.id_curso_impartido =".$curso;
+			
+			$smt = $em->getConnection()->prepare($sqlAsistencia);
+			$smt->execute();
+			
+			$todoAsistencia = $smt->fetchAll();
+			foreach ($todoAsistencia as $key2 => $valor){
+				if($dato=="nota")
+					$result = $result."<td>".$valor[$dato]."</td>";
+				else
+					if($valor[$dato]==1)
+						$result = $result."<td>&#10004</td>";
+					else
+						$result = $result."<td></td>";
+			}
+			
+			$result = $result."</tr>";
+		}
+		
+		
+		$result = $result."</tbody></table>";
+		return new Response($result);
 	}
 	
 	function getTablaEstudianteActivoAction($activo){
