@@ -1,36 +1,43 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Informe de Descartados - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         
         <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">  
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
                  
 {% endblock %}                 
 
 {% block content %} 
 <div class="span9" >
+	<h1>Informe de Descartados</h1>
+	<div class="form-horizontal">
+	<div class="control-group ">
+		<label class="control-label" for="consolidador">Del </label>
+		<div class="controls">
+			<input type= "text" class="datepick rango" id="inicio" name="inicio"> 
+			al 
+			<input type= "text" class="datepick rango" id="fin" name="fin">
+			<input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> 
+		</div>
+	</div>
+	</div>
+	
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Lista Descartados</h3>							
+            <h3>Descartados</h3>							
         </div>
 
         <div class="box-content box-nomargin">
-            
-            <fieldset >
-                <legend></legend>
-                <h3 id="titulo"> DEL <input type="date" id="inicio" name="inicio" class="rango"> AL <input type="date" id="fin" name="fin" class="rango">
-                    <input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> <h3>
-
-              </fieldset>
-        	<form id='form' method='POST'>
-                
-                    <input id='content' type='hidden' name='content' >
-                    <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
-            
+            <form id='form' method='POST'>
+    	<input id='content' type='hidden' name='content' >
+        <input id='title' type='hidden' name='title' >
+        <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+        <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead>
                 		<tr>
@@ -50,13 +57,11 @@
 	
 			</tbody>
                 </table>
-
-                </form>
+			</form>
+               
     	</div>
 	</div>
-        <div class="form-horizontal" id="ocultar" name="ocultar">
-                <button class="btn-success" id="vista" name="vista"> Activar </button>
-        </div>
+	 
         
 </div>    
                  
@@ -104,15 +109,26 @@
              FechaActualT('inicio');
              FechaActualT('fin');
 
+             var date1 =  $("#inicio").val().split('/');
+             var date2 =  $("#fin").val().split('/');
+             inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
+             fin = date2[2] + '-' + date2[1] + '-' + date2[0];
+
             $('#ocultar').css({'display':'none'});
             
         
             $('#rang').click(function(event){
+
+            	var date1 =  $("#inicio").val().split('/');
+                var date2 =  $("#fin").val().split('/');
+                inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
+                fin = date2[2] + '-' + date2[1] + '-' + date2[0];
+                
                 event.preventDefault();
                 
                 var url = '{{path('servicio_reporte_descartados',{'inicio':'init','fin':'end'}) }}';
-                var ruta = url.replace('init',$('#inicio').val());
-                ruta = ruta.replace('end',$('#fin').val());
+                var ruta = url.replace('init',inicio);
+                ruta = ruta.replace('end',fin);
                 
                 cargar_tabla(ruta);
                // console.log(ruta);

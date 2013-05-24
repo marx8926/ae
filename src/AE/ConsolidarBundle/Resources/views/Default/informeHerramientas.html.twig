@@ -1,45 +1,39 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Informe Herramientas - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         
         <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">  
-                 
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
 {% endblock %}                 
 
 {% block content %} 
 <div class="span9" >
+	<h1>Informe Herramientas</h1>
+	<p> Del <input type= "text" class="datepick rango"  id="inicio" name="inicio" class="rango"> al <input type= "text" class="datepick rango"  id="fin" name="fin" class="rango"> <input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> </p>
+
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Informe Herramienta-Consolidados</h3>							
+            <h3>Herramientas - Consolidados</h3>							
         </div>
 
         <div class="box-content box-nomargin">
-            
-            <fieldset >
-                <legend></legend>
-                <h3 id="titulo"> DEL <input type="date" id="inicio" name="inicio" class="rango"> AL <input type="date" id="fin" name="fin" class="rango">
-                    <input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> <h3>
-
-              </fieldset>
         	<form id='form' method='POST'>
-                
-                    <input id='content' type='hidden' name='content' >
-                    <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
-            
+        		<input id='content' type='hidden' name='content' >
+    			<input id='title' type='hidden' name='title' >
+    			<input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+    			<input id='excelbutton' type='button' value='Excel' class="btn btn-info">
                     <div  id="primer" name="primer">
-                        
                     </div>
-
                 </form>
     	</div>
 	</div>
         <div class="form-horizontal" id="ocultar" name="ocultar">
-                <button class="btn-success" id="vista" name="vista"> Activar </button>
+        	<button class="btn-success" id="vista" name="vista"> Activar </button>
         </div>
         
 </div>    
@@ -86,24 +80,33 @@
 	$(document).ready(function() {
 
             FechaActualT('inicio');
-            
             FechaActualT('fin');
+
+            var date1 =  $("#inicio").val().split('/');
+            var date2 =  $("#fin").val().split('/');
+            inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
+            fin = date2[2] + '-' + date2[1] + '-' + date2[0];
             
             $('#ocultar').css({'display':'none'});            
         
             $('#rang').click(function(event){
+            	var date1 =  $("#inicio").val().split('/');
+                var date2 =  $("#fin").val().split('/');
+                inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
+                fin = date2[2] + '-' + date2[1] + '-' + date2[0];
+                
                 event.preventDefault();
                 
                 var url = '{{path('servicio_herramienta_nuevos',{'inicio':'init','fin':'end'}) }}';
-                var ruta = url.replace('init',$('#inicio').val());
-                ruta = ruta.replace('end',$('#fin').val());
+                var ruta = url.replace('init',inicio);
+                ruta = ruta.replace('end',fin);
                               
                 ajaxResposeDataPost("primer",ruta);
                 
             });
             
             $("#pdfbutton").click(function(event) {
-                $("#persona th").css("width","auto");
+                //$("#persona th").css("width","auto");
         	$("#content").val($("#persona").html());
         	$("#title").val($("h3").html());
         	//$("#content").val($("#lol").html() + $("tbody").html());

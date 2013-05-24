@@ -1,4 +1,7 @@
 {% extends "::base.html.twig" %}
+
+{% block titulo %}Administrar Local - {% endblock %}
+
   {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -40,27 +43,38 @@
             
             
 {% block content %}
+<div class="span9" id="registro_form">
+    <h1>Administrar Local</h1>
     <fieldset>
-		<form id="RegLocalForm" method="POST" action="{{path('discipular_registrar_local')}}">
-			<div>
-				<label>Código</label>
-				<input type="text" maxlength="2" minlength="2" name="codigo" required>
+		<form class="form-horizontal" id="RegLocalForm" method="POST" action="{{path('discipular_registrar_local')}}">
+			<legend>Registrar Local</legend>
+			<div class="control-group">
+				<label class="control-label">Código:</label>
+				<div class="controls">
+					<input type="text" maxlength="2" minlength="2" name="codigo" required>
+				</div>
 			</div>
-			<div>
-				<label>Nombre</label>
-				<input type="text" name="nombre" required>
+			<div class="control-group">
+				<label class="control-label">Nombre:</label>
+				<div class="controls">
+					<input type="text" name="nombre" required>
+				</div>
 			</div>
-			<div>
-				<label>Tipo</label>
-				<select name="tipo" required>
-					<option value="0">Aula</option>
-                    <option value="1">Auditorio</option>
-                    <option value="2">Otro</option>
-				</select>
+			<div class="control-group">
+				<label class="control-label">Tipo:</label>
+				<div class="controls">
+					<select name="tipo" required>
+						<option value="0">Aula</option>
+	                    <option value="1">Auditorio</option>
+	                    <option value="2">Otro</option>
+					</select>
+				</div>
 			</div>
-			<div>
-			<input type="submit" value="Registrar">
-			</div>			
+			<div class="control-group">
+				<div class="controls">
+					<input class="btn btn-primary" type="submit" value="Registrar">
+				</div>
+			</div>	
 		</form>
 	</fieldset>
 	
