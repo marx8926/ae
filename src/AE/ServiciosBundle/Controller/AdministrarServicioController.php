@@ -49,10 +49,7 @@ class AdministrarServicioController extends Controller
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	$sql = "SELECT e.id, e.nombre, e.nombre, e.descripcion, e.fecha_ini, e.fecha_fin, ug.distrito as lugar
-				FROM evento e
-				inner join ubicacion u on (u.id = e.id_ubicacion)
-				inner join ubigeo ug on (u.id_ubigeo = ug.id)";
+    	$sql = "SELECT * FROM lista_eventos";
     
     	$smt = $em->getConnection()->prepare($sql);
     	$smt->execute();
