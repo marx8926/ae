@@ -17,9 +17,9 @@ class Encargado
      * @var integer
      *
      * @ORM\Column(name="codigo", type="bigint", nullable=false)
-     * @ORM\Id
+     * @ORM\Codigo
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="persona_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="encargado_codigo_seq", allocationSize=1, initialValue=1)
      */
     protected $codigo;
     

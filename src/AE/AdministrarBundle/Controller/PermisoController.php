@@ -378,7 +378,7 @@ class PermisoController extends Controller
                 $em->clear();
                 
                 $con = $em->getRepository('AEDataBundle:Rol');          
-
+                
                 
                 if(strlen($user)>0)
                 {
@@ -397,15 +397,15 @@ class PermisoController extends Controller
                 else
                 {
                     $l_usuarios = $em->getRepository('AEDataBundle:Usuario');
-                    $usuario    = $l_usuarios->findOneBy(array('id_persona'=>$id));
+                    $usuario    = $l_usuarios->findOneBy(array('idPersona'=>$persona));
                 }
                     
                     //lider de celula
                 
                      $como = $em->getRepository('AEDataBundle:Lider');
                      $result = $como->findOneBy(array('id'=>$persona->getId()));
-                     $em->clear();
- 
+                     //$em->clear();
+                     
                      if($result ==NULL)
                      {
                         if(strlen($cel)>0) //activar lider celula
@@ -443,7 +443,7 @@ class PermisoController extends Controller
                     //lider de red
                     $como = $em->getRepository('AEDataBundle:LiderRed');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
-                    $em->clear();
+                    //$em->clear();
                  
                     if($result ==NULL)
                     {
@@ -480,7 +480,7 @@ class PermisoController extends Controller
                             //consolidador
                 $como = $em->getRepository('AEDataBundle:Consolidador');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
-                $em->clear();
+                //$em->clear();
                 
                 if($result==NULL)
                 {
@@ -516,7 +516,7 @@ class PermisoController extends Controller
                //estudiante
                $como = $em->getRepository('AEDataBundle:Estudiante');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
-                $em->clear();
+                //$em->clear();
                 
                 if($result==NULL)
                 {
@@ -553,7 +553,7 @@ class PermisoController extends Controller
                  //misionero
                  $como = $em->getRepository('AEDataBundle:Misionero');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
-                 $em->clear();
+                 //$em->clear();
                     
                 if($result==NULL)
                 {
@@ -591,7 +591,7 @@ class PermisoController extends Controller
                 
                 
                  //encargado de ganar
-                 $como_enc= $em->getRepository('AEDataBundle:Encargado');
+                // $como_enc= $em->getRepository('AEDataBundle:Encargado');
                  
                  $encargados = array();
                  //0: ganar
@@ -603,9 +603,14 @@ class PermisoController extends Controller
                  $encargados[2]= $e_discipular;
                  $encargados[3]= $e_enviar;
                  
+                 $sql = "select * from encargado where id=:id and tipo=:ti";
+                 
                  foreach ($encargados as $key => $value) {
                      
-                    $result = $como_enc->findBy(array('id'=>$persona->getId(),'tipo'=>$key));
+                    //$result = $como_enc->findBy(array('id'=>$persona,'tipo'=>$key));
+                     $smt = $em->getConnection()->prepare($sql);
+                     $smt->execute(array(':id'=>$id, ':ti'=>$key));
+                     $result = $smt->fetch();
                     
                     if($result==NULL)
                     {
@@ -620,7 +625,7 @@ class PermisoController extends Controller
                             $em->persist($var);
                             $em->flush();
                             
-                            If($key==0)
+                            if($key==0)
                                 $rol = $con->findOneBy(array('nombre'=>'ROLE_GANAR')); 
                             elseif ($key==1) 
                                 $rol = $con->findOneBy(array('nombre'=>'ROLE_CONSOLIDAR')); 
@@ -635,23 +640,30 @@ class PermisoController extends Controller
                     else {
                         if(strlen($value)>0)
                         {
-                            $result->setActivo(TRUE);
+                            $sql1 = "UPDATE encargado SET activo= :act WHERE id= :id and tipo= :tip";
+                            $smt1 = $em->getConnection()->prepare($sql1);
+                            $smt1->execute(array(':id'=>$id,':tip'=>$key,':act'=>TRUE));
+
+                            //$result->setActivo(TRUE);
                         }
                         else
                         {
+                            $sql1 = "UPDATE encargado SET activo= :act WHERE id= :id and tipo= :tip";
+                            $smt1 = $em->getConnection()->prepare($sql1);
+                            $smt1->execute(array(':id'=>$id,':tip'=>$key,':act'=>FALSE));
+
                             //desactivar permiso
-                            $result->setActivo(FALSE);
+                           // $result->setActivo(FALSE);
                         }
                     
-                        $em->persist($result);
-                        $em->flush();    
+                      
                     }
                  }
                  
                  //pastor ejecutivo
                 $como = $em->getRepository('AEDataBundle:PastorEjecutivo');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
-                $em->clear();
+                //$em->clear();
                 
                 if($result==NULL)
                 {
@@ -690,7 +702,7 @@ class PermisoController extends Controller
                 
                  $como = $em->getRepository('AEDataBundle:PastorAsociado');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
-                 $em->clear();
+                 //$em->clear();
                 
                  if($result==NULL)
                  {
@@ -734,7 +746,8 @@ class PermisoController extends Controller
                 }
                $em->persist($usuario);
                $em->flush();
-                
+               
+               $em->clear();
                        
                $em->commit();
                
