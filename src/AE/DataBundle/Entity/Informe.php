@@ -92,7 +92,7 @@ class Informe
      *
      * @ORM\ManyToOne(targetEntity="Encargado")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_encargado", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_encargado", referencedColumnName="code")
      * })
      */
     private $idEncargado;

@@ -12,6 +12,17 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Encargado
 {
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="codigo", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="persona_id_seq", allocationSize=1, initialValue=1)
+     */
+    protected $codigo;
+    
     /**
      * @var \DateTime
      *
@@ -25,6 +36,13 @@ class Encargado
      * @ORM\Column(name="activo", type="boolean", nullable=true)
      */
     private $activo;
+    
+      /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo", type="integer", nullable=true)
+     */
+    private $tipo;
 
     /**
      * @var \DateTime
@@ -53,7 +71,7 @@ class Encargado
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\OneToOne(targetEntity="Persona" ,cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
@@ -68,6 +86,16 @@ class Encargado
         $this->idAreaVision = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
+    
+     /**
+     * Get codigo
+     *
+     * @return integer 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
 
     /**
      * Set fechaObtencion
@@ -113,6 +141,30 @@ class Encargado
     public function getActivo()
     {
         return $this->activo;
+    }
+    
+    
+     /**
+     * Set tipo
+     *
+     * @param integer $tipo
+     * @return Encargado
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return integer
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
     }
 
     /**

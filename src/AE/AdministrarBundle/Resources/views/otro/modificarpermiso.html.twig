@@ -175,19 +175,13 @@
                 </div>
                
                 <div class="control-group">     
-                    <label class="control-label" >Contraseña Actual</label>      
+                    <label class="control-label" >Contraseña</label>      
                     <div class="controls">
-                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xlarge">      
+                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xlarge" value="clm">      
                     </div>
                 </div>
           
-                 <div class="control-group">     
-                    <label class="control-label" >Nueva contraseña</label>      
-                    <div class="controls">
-                        <input type="password" id="inputPasswordN" name="inputPasswordN" placeholder="Contraseña" class="input-xlarge">
-                    </div>
-                </div>
-          
+                
             </fieldset>
               </div>     
           
@@ -245,7 +239,6 @@
                 $('#pastor_eje').attr('checked', true); 
 
                                 
-               $('#usuariodiv') .css({'display':'block'});
              
              
         }
@@ -255,8 +248,10 @@
         {
             if(dato!==false)
             {
-                $("#inputUsuario").val(dato.nombre);  
+                      $('#usuariodiv') .css({'display':'none'});
             }
+            else      $('#usuariodiv') .css({'display':'block'});
+
         }
         function cargar()
         {
@@ -319,7 +314,7 @@
                       
                  alert('Registro Completado');
                  var href="{{path('main')}}";
-                 location.reload();
+                 //location.reload();
                    
               //   $(location).attr('href',href); 
           

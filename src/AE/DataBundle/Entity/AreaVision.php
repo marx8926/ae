@@ -17,8 +17,6 @@ class AreaVision
      *
      * @ORM\Column(name="id", type="string", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="area_vision_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
