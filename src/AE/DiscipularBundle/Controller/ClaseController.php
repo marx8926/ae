@@ -129,7 +129,8 @@ class ClaseController extends Controller {
 			
 			if($form!=NULL){
 				$idclase = $datos['idclase'];
-				$fecha = $datos['fecha'];
+				$fecha_inicio = explode('/', $datos["fecha"],3);
+				$fecha = $fecha_inicio[2]."-".$fecha_inicio[1]."-".$fecha_inicio[0];
 				$date = date("Y-m-d", strtotime($fecha));
 				$em = $this->getDoctrine()->getEntityManager();
 				$this->getDoctrine()->getEntityManager()->beginTransaction();				

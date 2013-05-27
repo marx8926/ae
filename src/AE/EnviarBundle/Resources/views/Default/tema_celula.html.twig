@@ -1,4 +1,6 @@
 {% extends "::base.html.twig" %}
+
+{% block titulo %}Registrar Tema de Célula - {% endblock %}
         
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -10,7 +12,7 @@
 {%block content %}
             <div class="span9" id="registro_form">
                 <form class="form-horizontal" action="{{path('enviar_temacelula_updated')}}"  method="POST" id="myForm" name="myForm">
-                    <legend>Registro de tema Célula</legend>
+                    <legend>Registrar Tema de Célula</legend>
         
                     <fieldset> 
                         <div class="control-group">
@@ -56,7 +58,7 @@
                         <div class="control-group">
                             <label class="control-label"></label>
                             <div class="controls">
-                                <input type="button" class="btn btn-primary" value="enviar" id="cargar">
+                                <input type="button" class="btn btn-primary" value="Enviar" id="cargar">
                             </div>
                         </div>
                     </fieldset>

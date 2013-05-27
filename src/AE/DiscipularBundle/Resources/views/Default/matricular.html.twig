@@ -1,4 +1,6 @@
 {% extends "::base.html.twig" %}
+
+{% block titulo %}Matricular - {% endblock %}
         
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -18,8 +20,8 @@
         	<form id='ExportForm' method='POST'>
         		<input id='content' type='hidden' name='content' >
                 <input id='title' type='hidden' name='title' >
-                <input id='pdfMiembros' type='button' value='PDF' class="btn-success">
-                <input id='excelMiembros' type='button' value='Excel' class="btn-success">
+                <input id='pdfMiembros' type='button' value='PDF' class="btn btn-info">
+                <input id='excelMiembros' type='button' value='Excel' class="btn btn-info">
             </form>
 		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaMiembros" name="TablaMiembros">
 		        <thead>
@@ -41,7 +43,7 @@
 		<div class="form-horizontal">
 			<input id="idAsignacion" type="hidden" name="idasignacion" value="{{idCurso}}">
 			<input id="idMiembro" type="hidden" name="id">
-			<input type='submit' class="btn-success" id="registro" name="registro" value="Registrar">
+			<input type='submit' class="btn btn-primary" id="registro" name="registro" value="Registrar">
 		</div>
 	</form>
 	<div class="box">
@@ -50,8 +52,8 @@
         </div>
         <div class="box-content box-nomargin">
         	<form id='PersonalExportForm' method='POST'>
-                <input id='pdfPersonal' type='button' value='PDF' class="btn-success">
-                <input id='excelPersonal' type='button' value='Excel' class="btn-success">
+                <input id='pdfPersonal' type='button' value='PDF' class="btn btn-info">
+                <input id='excelPersonal' type='button' value='Excel' class="btn btn-info">
             </form>
 		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="TablaPersonal" name="TablaPersonal">
 		    	<thead>
@@ -72,8 +74,8 @@
 	<form  method="POST" id="EliminarPersonalForm" action='{{path('discipular_eliminar_matricula')}}'>
 		<div class="form-horizontal">
 			<input id="idPersonalEliminar" type="hidden" name="id">
-			<input type="submit" class="btn-success" id="enviar" name="enviar" value="Eliminar">
-			<input type="button" value="Atras" onClick="window.open('{{path('discipular_curso')}}','_self');">
+			<input type="submit" class="btn btn-primary" id="enviar" name="enviar" value="Eliminar">
+			<input type="button" class="btn" value="Atrás" onClick="window.open('{{path('discipular_curso')}}','_self');">
 		</div>
 	</form>
 	
