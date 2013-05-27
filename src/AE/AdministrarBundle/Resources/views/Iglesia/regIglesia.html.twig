@@ -1,17 +1,20 @@
 {% extends "::base.html.twig" %}
+
+{% block titulo %}Registrar Iglesia - {% endblock %}
         
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{asset('js/jquery-addresspic.ker/demos/themes/base/jquery.ui.all.css')}}">
-        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/demo.css')}}">
 {% endblock %}
         
 {% block content %}
 <div class="span9" id="registro_form">
+<h1>Registrar Iglesia</h1>
+<br>
     <form class="form-horizontal" action="{{path('administrar_addigle')}}"  method="POST" id="myForm">
-        <legend>Registro de Iglesia</legend>
+        <legend>Datos de Iglesia</legend>
         
         <fieldset> 
             <div class="control-group">
@@ -77,26 +80,21 @@
         </div>
         
          <div class="control-group">
-            
-            <label>Ubicación</label>
-            
-         
-            
-                   <div class='input'>
-                       <div style="display:none;"><label>Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled"/></div>   <br/>
-					<div id="map-ll">
-                       <label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
-                       <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
-    				</div>
-    </div>
-    <div id="map"></div>
-   
-        </div>
+		         	<label class="control-label">Ubicación</label>
+		            <div id="map-ll" style="display: none;">
+				    	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>
+						<label>Latitud:</label> <input id="lat" name="latitud"  value="-8.097944">
+						<label>Longitud:</label> <input id="lng" name="longitud" value="-79.03704479999999">
+					</div>
+				    <div class="controls">
+				    	<div id="map" class="input-xxlarge"></div>
+				    </div>
+		        </div>
             
             <div class="control-group">
                   <label></label>
                   <div class="controls">
-                       <input class="btn btn-small btn-primary" type="submit" name="reg" id="reg" onclic="validatePass(this);"/>
+                       <input class="btn btn-primary" type="submit" name="reg" id="reg" onclic="validatePass(this);"/>
                   </div>
               </div>
         </fieldset>
