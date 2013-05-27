@@ -97,7 +97,8 @@ class DefaultController extends Controller
            
            if(strpos($name,'inputFecha')!=false)
            {
-               $fecha = $datos['inputFecha'];
+           		$fecha_inicio = explode('/', $datos["inputFecha"],3);
+               $fecha = $fecha_inicio[2]."-".$fecha_inicio[1]."-".$fecha_inicio[0];
            }
            
            if(strpos($name, 'inputClases')!=false)
@@ -184,7 +185,7 @@ class DefaultController extends Controller
                 //leche espiritual
                 $como = $em->getRepository('AEDataBundle:LecheEspiritual');
                 $leche = $como->findOneBy(array('id'=>$id));
-                $em->clear();
+                //$em->clear();
            
                 for($i=0;$i<$cont; $i++)
                 {
