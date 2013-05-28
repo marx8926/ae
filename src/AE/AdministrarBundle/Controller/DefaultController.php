@@ -13,6 +13,7 @@ use AE\DataBundle\Entity\Consolidador;
 use AE\DataBundle\Entity\LecheEspiritual;
 use AE\DataBundle\Entity\TemaLeche;
 use AE\DataBundle\Entity\Archivo;
+use AE\DataBundle\Entity\Usuario;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -443,6 +444,78 @@ class DefaultController extends Controller
 
        }
                      
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+   
+    }
+    
+    public function admincrearusuariosAction()
+    {
+        
+         $request = $this->get('request');
+        $code=$request->request->get('formName');
+        $em = $this->getDoctrine()->getEntityManager();    
+        
+        $usuario = NULL; 
+        $pass = NULL;
+        $id = NULL;
+
+         $datos = array();
+
+        parse_str($code,$datos);
+ 
+        if($code!=NULL){               
+            
+
+            $em->beginTransaction();
+            try
+            {
+            $usuario = $datos['inputUsuario'];           
+            $pass = $datos['inputPassword'];
+            $id = $datos['persona_id'];
+            
+            $prev = $em->getRepository('AEDataBundle:Persona');
+            $persona = $prev->findOneBy(array('id'=>$id));
+                
+                
+               //roles
+            $con = $em->getRepository('AEDataBundle:Rol');          
+            $rol = $con->findOneBy(array('nombre'=>'ROLE_USER')); 
+            
+            //usuario                    
+           $user = new Usuario();                 
+                    $user->setNombre($usuario);
+                    $user->setPassword($pass);
+                    $user->setIdPersona($persona);
+                    $user->addIdRol($rol);
+                    
+                    $em->persist($user);
+                    $em->flush();
+               
+                $em->commit();
+              
+                $em->clear();
+                $return=array("responseCode"=>200, "greeting"=>'ok' ); 
+  
+            }catch(Exception $e)
+            {
+                     $em->rollback();
+                     $em->close();
+                     $return=array("responseCode"=>400, "greeting"=>"Bad");
+   
+               throw $e;
+            }
+       }
+       else 
+       {
+          $return = array("responseCode"=>400, "greeting"=>"Bad");
+
+       }
+             
+        
+                        $return=array("responseCode"=>200, "greeting"=>$code ); 
+
         $return=json_encode($return);//jscon encode the array
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       

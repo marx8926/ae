@@ -83,7 +83,6 @@ class RedController extends Controller
                 //ubigeo
                $prev_div = $em->getRepository('AEDataBundle:Ubigeo');
                 $ubigeo = $prev_div->findOneBy(array('id'=>$distrito));
-                $em->clear();
              
                 
                   //ubicacion
@@ -101,12 +100,10 @@ class RedController extends Controller
                 //persona 
                 $personas = $em->getRepository('AEDataBundle:Persona');
                 $persona = $personas->findOneBy(array('id'=>$id_persona));
-                $em->clear();
 
                 //iglesia
                 $iglesias = $em->getRepository('AEDataBundle:Iglesia');
                 $iglesia = $iglesias->findOneBy(array('id'=>$id_iglesia));
-                $em->clear();
 
                 //Red
                 $red = new Red();
@@ -136,7 +133,6 @@ class RedController extends Controller
                         $smt->execute(array(':red'=>$id_persona));
  
                         $redes = $smt->fetchAll();  
-                        $em->clear();
                        
                         if(count($redes)>0)
                         {
@@ -159,7 +155,6 @@ class RedController extends Controller
                         //pastor asociado 
                         $pastor_asoc = $em->getRepository('AEDataBundle:PastorAsociado');
                         $past_asoc   = $pastor_asoc->findOneBy(array('id'=>$persona));
-                        $em->clear();
                         
                         
                         $sql = 'select * from red where red.id_pastor_asociado = :red';
@@ -168,7 +163,6 @@ class RedController extends Controller
                         $smt->execute(array(':red'=>$id_persona));
  
                         $redes = $smt->fetchAll();  
-                        $em->clear();
                         
                         if(count($redes)>0)
                         {
@@ -208,7 +202,9 @@ class RedController extends Controller
         else {
             $return=array("responseCode"=>400, "greeting"=>"Bad");     
         }
-               
+         
+        $em->clear();
+        
         $return=json_encode($return);//jscon encode the array
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       

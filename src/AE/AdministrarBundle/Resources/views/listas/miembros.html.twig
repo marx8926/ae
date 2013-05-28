@@ -48,6 +48,30 @@
     	<button class="btn btn-primary" id="vista" name="vista">Ver Datos</button>
     </div>
         
+    <div  id="usuario_miembro">
+        
+        <form id="myForm" name="myForm" method="POST" class="box" action="{{path('administrar_crear_usuarios')}}" >
+         <div class="control-group">
+                    <label class="control-label" >Usuario</label>
+                    <div class="controls">
+                        <input type="text" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xxlarge" pattern="|^[a-zA-Z0-9]+$|" />
+                    </div>
+                </div>
+        
+                <div class="control-group">     
+                    <label class="control-label" >Contraseña</label>      
+                    <div class="controls">
+                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xxlarge"/>      
+                    </div>
+                </div>
+                <input type="hidden" id="persona_id" name="persona_id" >
+                
+                <input class="btn btn-primary" type="submit" id="save" name="save" value="Registrar" />
+
+       </form>
+    </div>     
+   
+        
  </div>    
 {% endblock %}
       
@@ -206,8 +230,23 @@
          
         var values = [];
         
+        
+         function user(dato)
+        {
+            if(dato!==false)
+            {
+                      $('#usuario_miembro').css({'display':'none'});            
+            }
+            else {     
+                $('#usuario_miembro') .css({'display':'block'});
+            }
+
+        }
+        
 	$(document).ready(function() {
 
+            $('#usuario_miembro').css({'display':'none'});
+            
 		$("#pdfbutton").click(function(event) {
             $("#persona th").css("width","auto");
         	$("#content").val($("#persona").html());
@@ -238,14 +277,59 @@
   
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
-                });               
+                });  
+                
+                
+                $('#persona_id').val(values[0]);
+                
+                //carga datos de usuario
+                                   
+                    var url = '{{path('servicio_usuario_id',{'id':'cod'}) }}';
+                    var ruta = url.replace('cod',values[0]);
+                    $.ajax(
+                        {   url : ruta,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(user);
             });
+            
+            
+             $("#myForm").submit(function(event){                        
+                    event.preventDefault();                             
+                    //get the url for the form
+                    var url=$("#myForm").attr("action");                     
+                    //start send the post request    
+                    $.post(url,{
+                        formName:$("#myForm").serialize(),
+                        other:"attributes"
+                    },function(data){                      
+                    //the response is in the data variable
+                    if(data.responseCode===200 ){          
+                      
+                        alert('Registro Completado');
+                        location.reload();
+                    }
+                    else if(data.responseCode===400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode===500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    return false;});
             
             //click handler para eliminar
             $('#vista').click(function(){
                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
-                if(anSelected.length !=0)
+                if(anSelected.length !==0)
                 {
                     console.log(anSelected);
                     var tds = $(anSelected).find('td');
@@ -258,7 +342,6 @@
             
                     var rutas = route.replace('nom',val[0]);
                     
-                    console.log(rutas);
                     window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
                
                 }

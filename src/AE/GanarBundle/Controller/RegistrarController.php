@@ -246,6 +246,9 @@ class RegistrarController extends Controller
                 $miembro->setFechaObtencion(new \DateTime($fechaConv));
                 $miembro->setAptoConsolidar(FALSE);                
                 
+                $em->persist($miembro);
+                $em->flush();
+                
                 $em->commit();
                 
                 $em->clear();

@@ -420,11 +420,12 @@ class PermisoController extends Controller
                     
                    
                 }
+         
                 
                  $como = $em->getRepository('AEDataBundle:Lider');
-                     $result = $como->findOneBy(array('id'=>$persona->getId()));
+                 $result = $como->findOneBy(array('id'=>$persona->getId()));
                      
-                     $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDER')); 
+                 $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDER')); 
                      
                      if($result ==NULL)
                      {
@@ -468,15 +469,13 @@ class PermisoController extends Controller
                         $em->flush(); 
                     }
 
-              
-                    
-                  
                     
                     //lider de red
                    $como = $em->getRepository('AEDataBundle:LiderRed');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
                     $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDER_RED')); 
 
+                        
                  
                     if($result ==NULL)
                     {
@@ -518,7 +517,8 @@ class PermisoController extends Controller
                         $em->persist($result);
                         $em->flush(); 
                     }
-                
+         
+                    
                             //consolidador
                 $como = $em->getRepository('AEDataBundle:Consolidador');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
@@ -564,6 +564,7 @@ class PermisoController extends Controller
                     $em->flush();
                 }
                
+                 
                //estudiante
                $como = $em->getRepository('AEDataBundle:Estudiante');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
@@ -664,6 +665,7 @@ class PermisoController extends Controller
                 }
                 
                 
+                
                  //misionero
                  $como = $em->getRepository('AEDataBundle:Misionero');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
@@ -713,6 +715,7 @@ class PermisoController extends Controller
                     $em->flush();
                 }
                 
+                
                 //pastor ejecutivo
                 $como = $em->getRepository('AEDataBundle:PastorEjecutivo');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
@@ -759,6 +762,7 @@ class PermisoController extends Controller
                     $em->flush();
                     
                 }
+                
                 
                 //pastor asociado
                 
@@ -916,12 +920,12 @@ class PermisoController extends Controller
                     }
                    
                }
-               
+          
                $em->persist($usuario);
                $em->flush();
                        
                $em->commit();
-               // $em->clear();
+               $em->clear();
 
                
            } catch (Exception $exc) {

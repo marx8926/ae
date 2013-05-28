@@ -126,13 +126,11 @@
                                         </li>
                                     {% endif %}
                                         
-                                    {% if is_granted('ROLE_CONSOLIDAR') %}
 					<li>
 						<a href="{{path('consolidar_asignar_consolidar')}}">
 							Asignar Consolidador
 						</a>
 					</li>
-                                    {% endif %}
                                         
                                     {% if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') %}
                                         <li>
@@ -391,12 +389,15 @@
                                         <li>
                                             <a href="{{path('administrar_lista_redes')}}">Redes</a>
                                         </li>
-					
+                                        
+					{% if is_granted('ROLE_ADMIN') %}
 					<li>
 						<a href="{{path('administrar_mod_permisos')}}">
 							Permisos
 						</a>
 					</li>
+                                        {% endif %}
+                                        
 					<li>
 						<a href="{{path('administrar_lista_lider_red')}}">
 							Líderes de Red

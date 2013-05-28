@@ -170,3 +170,9 @@ administrar_registrar_persona_evento:
 administrar_roles:
   pattern: /admin_roles
   defaults: {_controller: AEAdministrarBundle:Roles:vista}
+  
+administrar_crear_usuarios:
+  pattern: /admincrearusuarios
+  defaults: {_controller: AEAdministrarBundle:Default:admincrearusuarios}
+  requirements:
+    _method: POST
