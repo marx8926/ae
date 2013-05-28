@@ -579,21 +579,21 @@ class EnviarServicioController extends Controller
         try{
         
             //misioneros
-            $sql = "select * from ver_lideres_celulas(:id,:caso)";
+            $sql = "select * from ver_lideres_celulas_final(:id,:caso)";
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute(array(':id'=>$id,':caso'=>0));
             $lider_red = $smt->fetchAll();
             $em->clear();
             
             //pastores ejecutivos
-            $sql = "select * from ver_lideres_celulas(:id,:caso)";
+            $sql = "select * from ver_lideres_celulas_final(:id,:caso)";
             $smt1 = $em->getConnection()->prepare($sql);
             $smt1->execute(array(':id'=>$id,':caso'=>1));
             $misionero = $smt1->fetchAll();
             $em->clear();
             
             //lider de red
-            $sql = "select * from ver_lideres_celulas(:id,:caso)";
+            $sql = "select * from ver_lideres_celulas_final(:id,:caso)";
             $smt2 = $em->getConnection()->prepare($sql);
             $smt2->execute(array(':id'=>$id,':caso'=>2));
             $pastor = $smt2->fetchAll();
@@ -608,7 +608,7 @@ class EnviarServicioController extends Controller
                 $todo[]=$value;
             }
             //lider
-            $sql1 = "select * from ver_lideres_celulas(:id,:caso)";
+            $sql1 = "select * from ver_lideres_celulas_final(:id,:caso)";
             $smt3 = $em->getConnection()->prepare($sql1);
             $smt3->execute(array(':id'=>$id,':caso'=>'3'));
             $lideres = $smt3->fetchAll();

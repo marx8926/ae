@@ -292,59 +292,80 @@
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
+                                        {% if is_granted('ROLE_LIDER_RED')%}
 					<li>
 						<a href="{{path('enviar_celula')}}">
 							Crear Célula
 						</a>
 					</li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_LIDER_RED')%}
 					<li>
 						<a href="{{path('enviar_busqueda_celula')}}">
 							Lista de Células
 						</a>
 					</li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_ENVIAR')%}
                                         <li>
                                             <a href="{{path('enviar_activar_vista')}}">
                                                 Reactivar Células
                                             </a>
                                         </li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_LIDER') %}
                                         <li>
                                                 <a href="{{path('enviar_lista_lideres')}}">
                                                       Lideres
                                                 </a>
                                         </li>
+                                        {% endif %}
+                                        
+                                        {% if is_granted('ROLE_ENVIAR')%}
 					<li>
 						<a href="{{path('enviar_temacelula')}}">
 							Registrar Tema de Célula
 						</a>
 					</li>
+                                        {% endif %}
 					<li>
 						<a href="{{path('enviar_lista_clases')}}">
 							Lista de Tema de Célula
 						</a>
 					</li>
+                                        {% if is_granted('ROLE_ENVIAR') %}
                                         <li>
                                             <a href="{{path('enviar_crear_class_cell')}}">
                                                 Distribuir Clases de Célula
                                                 </a>
                                         </li>
+                                        
+                                        {% endif %}
+                                        {% if is_granted('ROLE_LIDER')%}
 					<li>
 						<a href="{{path('enviar_asistencia')}}">
 							Registro de Asistencia
 						</a>
 					</li>
+                                        {% endif %}
+                                        
+                                        {% if is_granted('ROLE_ENVIAR')%}
 					<li>
 						<a href="{{path('ae_servicios_homepage')}}">
 							Ubica Células
 						</a>
 					</li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_LIDER')%}
 					<li>
 						<a href="{{path('enviar_celulograma')}}">
 							Celulograma
 						</a>
 					</li>
+                                        {% endif %}
 				</ul>
 			</li>
-			
+			{% if is_granted('ROLE_PASTOR_ASOCIADO')%}
 			<li>
 				<a class='light toggle-collapsed'>
 					Administrar
@@ -437,7 +458,9 @@
 					</li>
 				</ul>
 			</li>
-		</ul>
+		
+                        {% endif %}
+                        </ul>
 	</div>
 	<div class="container-fluid">
 		<div class="content">

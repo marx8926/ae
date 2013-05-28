@@ -47,6 +47,8 @@
    			</form>
     	</div>
 	</div>
+
+    {% if is_granted('ROLE_ENVIAR') %}
     <div class="form-inline" id="bloque" name="bloque">
                    
          <form method="POST" action="{{path('enviar_activar_celula')}}" id="activarForm" name="activarForm"> 
@@ -55,6 +57,7 @@
         </form>
         
     </div>
+    {% endif %}
 </div>    
                  
 {% endblock %}

@@ -259,14 +259,14 @@
                         alert('Registro Completado');
                         location.reload();
                     }
-                    else if(data.responseCode==400){//bad request
+                    else if(data.responseCode===400){//bad request
                        // $('#output').html(data.greeting);
                        // $('#output').css("color","red");
                        alert('Error');
                         }
                     else{
                         
-                        if(data.responseCode==500)
+                        if(data.responseCode===500)
                         {
                             alert('Solo se puede registrar una iglesia');
                         }

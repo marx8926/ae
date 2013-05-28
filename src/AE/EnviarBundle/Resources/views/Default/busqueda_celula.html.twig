@@ -47,6 +47,8 @@
    			</form>
     	</div>
 	</div>
+
+    {% if is_granted('ROLE_ENVIAR') %}
     <div id="alineados">
         <form method="POST" action="{{path('enviar_modificar_celula')}}" id="modForm" name="modForm"> 
             <input type="hidden" value="" id="idpersona" name="idpersona">
@@ -64,6 +66,7 @@
         </form>
         
     </div>
+    {% endif %}
 </div>    
                  
 {% endblock %}
