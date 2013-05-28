@@ -230,31 +230,47 @@
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
-					<li>
+					
+                                      {%  if is_granted('ROLE_DISCIPULAR') %}
+                                        <li>
 						<a href="{{path('discipular_administrar_personal')}}">
 							Administrar Personal
 						</a>
 					</li>
+                                        
+                                      {% endif %}
+                                      
+                                      {%  if is_granted('ROLE_DISCIPULAR') %}
 					<li>
 						<a href="{{path('discipular_administrar_estudiante')}}">
 							Administrar Estudiante
 						</a>
 					</li>
+                                        
+                                       
+                                        
 					<li>
 						<a href="{{path('discipular_crearcurso')}}">
 							Registrar Cursos
 						</a>
 					</li>
+                                       
+                                      {% endif %}
+                                        
+                                      {% if is_granted('ROLE_ESTUDIANTE') %}
 					<li>
 						<a href="{{path('discipular_curso')}}">
 							Cursos
 						</a>
 					</li>
+                                      {% endif %}
+                                       {%if is_granted('ROLE_DISCIPULAR')%}
 					<li>
 						<a href="{{path('discipular_administrar_local')}}">
 							Administrar Local
 						</a>
 					</li>
+                                      
 					<li>
 						<a href="{{path('discipular_asignar_curso')}}">
 							Asignar Personal
@@ -267,6 +283,7 @@
                                             </a>
                                         
                                         </li>
+                                        {% endif %}
 				</ul>
 			</li>
 			<li>

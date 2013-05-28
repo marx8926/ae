@@ -37,9 +37,13 @@
             
     <script type="text/javascript">
             $(document).ready(function() {
+                
+                
+            {% if is_granted('ROLE_PROFESOR')%}
             	ajaxResposeData("tabla_asistencia",'{{path('_tabla_clase_asistencia',{'idclase':''})}}/{{idclase}}');
             	enviar("ActualizarClaseForm",sayhola);
             	enviar("EditFechaForm",sayhola);
+                {% endif%}
             });
             
             var sayhola = function(data){
@@ -84,10 +88,17 @@
 				</div>
 			</div>
 			<div class="control-group">
+
 				<label class="control-label"><b>Fecha:</b></label>
 				<div class="controls">
-					<p style="margin-top:5px;" id="fecha_dicto">{{ fechadicto }}</p><input id="registro" type="button" class="btn btn-primary" value="Editar">
+					<p style="margin-top:5px;" id="fecha_dicto">{{ fechadicto }}</p>
+                                        {% if is_granted('ROLE_PROFESOR')%}
+
+                                           <input id="registro" type="button" class="btn btn-primary" value="Editar">
+                                        {% endif %}
 				</div>
+
+                                {% if is_granted('ROLE_PROFESOR')%}
 				<div id="modal" class="styled">
 					<strong>Editar Fecha:</strong>
 					<form id="EditFechaForm" action="{{ path('discipular_actualizar_fecha_clase') }}" methos="POST">
@@ -97,6 +108,7 @@
 						<a class="btn" href="#close" id="close-modal">Cerrar</a>
 					</form>
 				</div>
+                                {% endif %}
 				<div id="modal-background"></div>
 			</div>
 			
@@ -107,7 +119,7 @@
 				</div>
 			</div>
 		</div>
-		
+		{% if is_granted('ROLE_PROFESOR')%}
 		<div class="box">
 			<div class="box-head">
 				<h3>Asistencia</h3>
@@ -116,11 +128,16 @@
 			<div id = "tabla_asistencia" class="box-content box-nomargin">
 			</div>
 			<input type="hidden" name="idclase" value="{{idclase}}">
+                        {% if is_granted('ROLE_PROFESOR')%}
 			<input type="button" class="btn btn-primary" value="Editar" onclick="Editar('modificable')">
-			<input type="submit" class="btn btn-primary" value="Guardar">
+			
+                        <input type="submit" class="btn btn-primary" value="Guardar">
+                        {% endif %}
 			</form>
 		</div>
-		<form method="post" action="{{ path('discipular_lista_clases') }}">
+		{% endif %}
+        
+            <form method="post" action="{{ path('discipular_lista_clases') }}">
 		<input type="hidden" name="datos" value="{{ idasignacion }}"> 
 		<input type="submit" class="btn" value="Atras">
 		</form>

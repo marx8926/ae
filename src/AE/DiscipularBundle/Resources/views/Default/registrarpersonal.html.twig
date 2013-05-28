@@ -81,6 +81,9 @@
 		    </table>
 		</div>
 	</div>
+
+       {%  if is_granted('ROLE_DISCIPULAR') %}
+
 	<div id="alineados">
 	<form  method="POST" id="ActivarPersonalForm" action='{{path('discipular_activar_personal')}}'>
 			<input id="idPersonalActivar" type="hidden" name="id">
@@ -95,7 +98,8 @@
 			<input type="submit" class="btn btn-danger" id="eliminar" name="eliminar" value="Eliminar">
 	</form>
 	</div>
-	
+
+        {% endif %}
 </div>
  
  {% endblock %}

@@ -208,6 +208,9 @@ class DiscipularServicioController extends Controller
 	}
 	
 	public function getTablaAsignacionMatriculaAction($curso){
+            
+                $securityContext = $this->get('security.context');
+
 		
 		$em = $this->getDoctrine()->getEntityManager();
 		
@@ -241,7 +244,13 @@ class DiscipularServicioController extends Controller
 		foreach ($todo as $key => $val){
 			if($val['activo']==1)
 				if($val['estado_matricula']==1)
-					$Estado = '<td><input class"button_matricula" type="button" id="activo" data="'.$val["id"].'" name="activo" value="Matricular" onclick="EnviarMatricular(this)" /></td>';
+                                {
+                                    if($securityContext->isGranted('ROLE_PROFESOR') )
+                                     $Estado = '<td><input class"button_matricula" type="button" id="activo" data="'.$val["id"].'" name="activo" value="Matricular" onclick="EnviarMatricular(this)" /></td>';
+                                    else
+					$Estado = '<td class="encurso">En Curso</td>';
+
+                                }
 				else
 					$Estado = '<td class="encurso">En Curso</td>';
 			else
