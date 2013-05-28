@@ -13,7 +13,7 @@ use \Serializable;
  * @ORM\Table(name="usuario")
  * @ORM\Entity
  */
-class Usuario implements UserInterface//, \Serializable
+class Usuario implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -231,6 +231,19 @@ class Usuario implements UserInterface//, \Serializable
 
     public function getUsername() {
         return $this->getNombre();
+    }
+
+    public function serialize() {
+                return serialize(array($this->id,  $this->password, $this->nombre));
+
+    }
+
+    public function unserialize($serialized) {
+        list(
+$this->id,
+$this->password,
+$this->nombre
+) = unserialize($serialized);
     }
 
    /*

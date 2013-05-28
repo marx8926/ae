@@ -252,6 +252,7 @@ class ConsolidarServicioController extends Controller
            $todo = $smt->fetchAll();
            
            $em->commit();
+           $em->clear();
         }
         catch (Exception $e){
             $em->rollback();
