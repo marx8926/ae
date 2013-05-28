@@ -19,8 +19,7 @@
         </div>
 
         <div class="box-content box-nomargin">
-        	<form id='form' method='POST'>
-                
+        	<form id='ExportForm' method='POST'>                
                     <input id='content' type='hidden' name='content' >
                     <input id='title' type='hidden' name='title' >
                     <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
@@ -29,10 +28,10 @@
         <thead>
             <tr>
                 <th>ID</th>
-		<th>Nombres</th>
-		<th>Apellidos</th>
-		<th>Edad</th>
-		<th>Red</th>
+				<th>Nombres</th>
+				<th>Apellidos</th>
+				<th>Edad</th>
+				<th>Red</th>
                 <th>Célula</th>
                 <th>Conversión</th>
                 <th>Activo</th>
@@ -62,16 +61,12 @@
         </div>
 
         <div class="box-content box-nomargin">
-        	<form id='form1' method='POST'>
-                
-                    <input id='content1' type='hidden' name='content1' >
-                    <input id='title1' type='hidden' name='title1' >
-                    <input id='pdfbutton1' type='button' value='PDF' class="btn btn-info">
-                    <input id='excelbutton1' type='button' value='Excel' class="btn btn-info">
+        	<form>
+                    <input id='pdfalmas' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelalmas' type='button' value='Excel' class="btn btn-info">
     <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="almas" name="almas">
         <thead>
             <tr>
-             
                  <th>Id</th>
                  <th>Nombres</th>
                  <th>Apellidos</th>
@@ -151,30 +146,28 @@
             $("#persona th").css("width","auto");
         	$("#content").val($("#persona").html());
         	$("#title").val($("h3").html());
-        	//$("#content").val($("#lol").html() + $("tbody").html());
-            $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
-	 		$("#form").submit();
+            $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#ExportForm").submit();
         });
 
         $("#excelbutton").click(function(event) {
         	$("#content").val("<table>" + $("#persona").html() + "</table>");
-	$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
-	$("#form").submit();
+			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+			$("#ExportForm").submit();
         });
         
-            	$("#pdfbutton1").click(function(event) {
-            $("#almas th").css("width","auto");
-        	$("#content").val($("#almas").html());
-        	$("#title1").val($("h3").html());
-        	//$("#content").val($("#lol").html() + $("tbody").html());
-            $("#form1").attr("action", "{{asset('extensiones/exportpdf.php')}}");
-	 		$("#form1").submit();
+		$("#pdfalmas").click(function(event) {
+			$("#almas th").css("width","auto");
+			$("#content").val($("#almas").html());
+			$("#title").val($("h3").html());
+			$("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#ExportForm").submit();
         });
 
-        $("#excelbutton1").click(function(event) {
-        	$("#content1").val("<table>" + $("#almas").html() + "</table>");
-	$("#form1").attr("action", "{{asset('extensiones/exportexcel.php')}}");
-	$("#form1").submit();
+        $("#excelalmas").click(function(event) {
+        	$("#content").val("<table>" + $("#almas").html() + "</table>");
+			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+			$("#ExportForm").submit();
         });
 
             $('#persona tbody').click(function(event){
@@ -218,7 +211,7 @@
                     console.log(rutas);
                     window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
                
-                }
+                };
                
             });
             
@@ -242,7 +235,7 @@
                     
                    var route = '{{path('servicio_reporte_almas_por_consolidador',{'id': 'nom'})}}';
             
-                   $('#headline').text("Lista de consolidados por "+val[4]+' '+val[1]+' '+val[2])
+                   $('#headline').text("Lista de consolidados por "+val[4]+' '+val[1]+' '+val[2]);
                    var rutas = route.replace('nom',val[0]);
                     
                    almasTablas(rutas);
@@ -256,7 +249,7 @@
             	"bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_consolidadores')}}',
+                "sAjaxSource": "{{path('servicio_consolidadores')}}",
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
