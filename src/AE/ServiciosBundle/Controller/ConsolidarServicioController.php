@@ -811,11 +811,10 @@ class ConsolidarServicioController extends Controller
 
        try
        {
-           $sql = "select * from get_reporte_descartados(:inicio,:fin)";
+           $sql = "select * from get_reporte_descartados2(:inicio,:fin)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':inicio'=>$inicio,':fin'=>$fin));          
            $todo = $smt->fetchAll(); 
-           $em->clear();
            $em->commit();
            $em->clear();
        }
