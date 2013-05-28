@@ -25,16 +25,16 @@ class ClaseCurso
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_dicto", type="date", nullable=false)
+     * @ORM\Column(name="fecha_dicto", type="date", nullable=true)
      */
     private $fechaDicto;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\ManyToMany(targetEntity="Estudiante", mappedBy="idClaseCurso")
+     * @ORM\Column(name="tema", type="integer", nullable=true)
      */
-    private $idPersonaEstudiante;
+    private $tema;
 
     /**
      * @var \CursoImpartido
@@ -46,12 +46,5 @@ class ClaseCurso
      */
     private $idCursoImpartido;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idPersonaEstudiante = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
 }

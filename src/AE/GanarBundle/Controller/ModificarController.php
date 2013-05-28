@@ -141,7 +141,9 @@ class ModificarController extends Controller
             $edad = $redes['edad'];
             $telefono = $redes['telefono'];
             $celular = $redes['celular'];
+            
             $fecha_nacimiento = $redes['fecha_nacimiento'];
+                     
             $email = $redes['email'];
             $website = $redes['website'];
             $sexo = $redes['sexo'];
@@ -173,7 +175,11 @@ class ModificarController extends Controller
             $convertido = $smt->fetch();
             $red = $convertido['id_red'];
             $celula = $convertido['id_celula'];
+            
+            
             $conversion = $convertido['fecha_conversion'];
+              
+                       
             $peticion = $convertido['peticion'];
             $lugar = $convertido['id_lugar'];
             
@@ -229,6 +235,8 @@ class ModificarController extends Controller
 
         $datos = array();
 
+        $em = $this->getDoctrine()->getEntityManager();         
+
         parse_str($name,$datos);
                   
         if($name!=NULL){
@@ -241,7 +249,12 @@ class ModificarController extends Controller
             $apellido = $datos['inputApellidos'];
             $civil = $datos['select_Civil'];
             $sexo = $datos['select_Sexo'];
-            $naci = $datos['inputFechaNacimiento'];
+            
+            
+            $naci_b = $datos['inputFechaNacimiento'];              
+            $naci_a = explode('/', $naci_b, 3);            
+            $naci = $naci_a[2].'-'.$naci_a[1].'-'.$naci_a[0];          
+            
             $edad = $datos['inputEdad'];
             $tel = $datos['inputTelefono'];
             $cel = $datos['inputCelular'];
@@ -254,20 +267,21 @@ class ModificarController extends Controller
             $lng = $datos['longitud'];
             $red = $datos['red_lista'];
             $cell = $datos['celula_lista'];
-            $fech_con = $datos['inputFechaConversion'];
+            $fech_con_b = $datos['inputFechaConversion'];
+                          
+            $fecha_con_a = explode('/', $fech_con_b, 3);
+            
+            $fech_con = $fecha_con_a[2].'-'.$fecha_con_a[1].'-'.$fecha_con_a[0];
+          
+            
             $lugar = $datos['lugar'];
             $face = $datos['inputFacebook'];
             $twitt = $datos['inputTwitter'];
             $web = $datos['inputWebpage'];
             $desc = $datos['inputDescripcion'];
-            
-
-            $em = $this->getDoctrine()->getEntityManager();         
 
             try {
-                
-            
-
+         
             $this->getDoctrine()->getEntityManager()->beginTransaction();
             
             //actualizar persona
@@ -334,9 +348,10 @@ class ModificarController extends Controller
                         $cell = NULL;
                 //nuevo convertido
                 
-                $sql = "UPDATE nuevo_convertido SET id_celula =:cel, id_red=:red,  id_lugar=:lug, peticion=:pet WHERE id=:code";
+                $sql = "UPDATE nuevo_convertido SET id_celula =:cel, id_red=:red, fecha_conversion=:conv, id_lugar=:lug, peticion=:pet WHERE id=:code";
                 $smt_con = $em->getConnection()->prepare($sql);
-                if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':lug'=>$lugar,':code'=>$id, ':pet'=>$desc)))
+                if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':lug'=>$lugar,':code'=>$id,
+                    ':conv'=>$fech_con , ':pet'=>$desc)))
                 {
                         
                 }
@@ -361,9 +376,9 @@ class ModificarController extends Controller
                 
                 //miembro
                 //añadido para miembro
-                $sql = "UPDATE miembro SET id_celula =:cel, id_red=:red WHERE id=:code";
+                $sql = "UPDATE miembro SET id_celula =:cel, id_red=:red, fecha_obtencion =:conv WHERE id=:code";
                 $smt_con = $em->getConnection()->prepare($sql);
-                if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':code'=>$id)))
+                if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':code'=>$id, ':conv'=>$fech_con)))
                 {
                         
                 }
@@ -415,11 +430,12 @@ class ModificarController extends Controller
                 
             }
             
-            $this->getDoctrine()->getEntityManager()->commit();
-
+            $em->commit();
+            $em->clear();
+            
             $return=array("responseCode"=>200,  "greeting"=>'OK');
             } catch (Exception $exc) {
-                $this->getDoctrine()->getEntityManager()->rollback();
+                $em->rollback();
                  $return=array("responseCode"=>400, "greeting"=>"Bad"); 
                  throw $exc;
             }
@@ -428,13 +444,13 @@ class ModificarController extends Controller
         $return=array("responseCode"=>400, "greeting"=>"Bad");     
 
         $return=json_encode($return);//jscon encode the array
+        
+        $em->clear();
      
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
        
     }
-
-
-        
+ 
     public function eliminarmiembroAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();

@@ -43,5 +43,19 @@ class TemaCelula
      */
     private $descripcion;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="string", length=20, nullable=true)
+     */
+    private $tipo;
+
 
 }

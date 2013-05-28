@@ -6,11 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\TransactionRequiredException;
 use AE\DataBundle\Entity\Ubigeo;
-use AE\DataBundle\Entity\Red;
+use AE\DataBundle\Entity\Rol;
 use AE\DataBundle\Entity\Consolidador;
 use AE\DataBundle\Entity\LecheEspiritual;
 use AE\DataBundle\Entity\Usuario;
 use AE\DataBundle\Entity\Encargado;
+use AE\DataBundle\Entity\Lider;
+use AE\DataBundle\Entity\Estudiante;
+use AE\DataBundle\Entity\Docente;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -119,15 +122,13 @@ class PermisoController extends Controller
                 //persona
                 $prev = $em->getRepository('AEDataBundle:Persona');
                 $persona = $prev->findOneBy(array('id'=>$id));
-                $em->clear();
             
-                /*
+                
                 //lider de celula
                 if(strlen($cel)>0)
                 {
                     $como = $em->getRepository('AEDataBundle:Lider');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
-                    $em->clear();
                 
                     if($result ==NULL)
                     {
@@ -142,13 +143,13 @@ class PermisoController extends Controller
                 
                 }
                 
+                /*
                 //lider de red
                 if(strlen($lider)>0)
                 {
                  
                     $como = $em->getRepository('AEDataBundle:LiderRed');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
-                    $em->clear();
                 
                     if($result==NULL)
                     {
@@ -280,6 +281,18 @@ class PermisoController extends Controller
         return $this->render('AEAdministrarBundle:otro:modificarpermiso.html.twig');
     }
 
+    private function en_arreglo_rol($arreglo , $rol)
+    {
+        $result=FALSE;
+        foreach ($arreglo as $value) {
+            if($value->getId() == $rol->getId())
+            {
+                $result = TRUE;
+            }
+        }
+        
+        return $result;
+    }
 
     public function modpermisoupdateAction()
     {
@@ -296,7 +309,8 @@ class PermisoController extends Controller
          $user = NULL;
          $lider = NULL;
          $consolidador = NULL;
-         $estudiante = NULL;        
+         $estudiante = NULL;   
+         $docente = NULL;
          $misionero = NULL;         
          $e_ganar = NULL;
          $e_consolidar = NULL;
@@ -368,14 +382,19 @@ class PermisoController extends Controller
            if(strpos($name, 'admin')!==false)
                    $administrador = $datos['admin'];
         
+           if(strpos($name,'docente')!==false)
+                   $docente = $datos['docente'];
+           
+           
            $em->beginTransaction();
            
            try {
                
-               //persona
+               
+                 
+          
                 $prev = $em->getRepository('AEDataBundle:Persona');
                 $persona = $prev->findOneBy(array('id'=>$id));
-                $em->clear();
                 
                 $con = $em->getRepository('AEDataBundle:Rol');          
                 
@@ -385,7 +404,6 @@ class PermisoController extends Controller
                     
                      //roles
                     $rol = $con->findOneBy(array('nombre'=>'ROLE_USER')); 
-                    $em->clear();
                     
                     $usuario  = new Usuario();
                     $usuario->setIdPersona($persona);
@@ -398,13 +416,15 @@ class PermisoController extends Controller
                 {
                     $l_usuarios = $em->getRepository('AEDataBundle:Usuario');
                     $usuario    = $l_usuarios->findOneBy(array('idPersona'=>$persona));
-                }
                     
-                    //lider de celula
+                    
+                   
+                }
                 
-                     $como = $em->getRepository('AEDataBundle:Lider');
+                 $como = $em->getRepository('AEDataBundle:Lider');
                      $result = $como->findOneBy(array('id'=>$persona->getId()));
-                     //$em->clear();
+                     
+                     $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDER')); 
                      
                      if($result ==NULL)
                      {
@@ -416,9 +436,7 @@ class PermisoController extends Controller
                         $var->setActivo(TRUE);
                         
                         $em->persist($var);
-                        $em->flush();
-                        
-                        $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDER')); 
+                        $em->flush();                        
 
                         $usuario->addIdRol($rol);
                         
@@ -429,21 +447,36 @@ class PermisoController extends Controller
                         if((strlen($cel)>0)) //activar permiso
                         {
                             //activar permiso
-                             $result->setActivo(TRUE);
+                             $result->setActivo(TRUE); 
+                             
+                             $lista = $usuario->getIdRol();
+                             
+                            if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                             {
+                                 $usuario->addIdRol($rol);
+                             }
                         }
                         else
                         {
                             //desactivar permiso
-                             $result->setActivo(FALSE);
+                             $result->setActivo(FALSE);                             
+                             $sql = "select eliminar_rol_user(:rol,:id)";
+                             $smt = $em->getConnection()->prepare($sql);
+                             $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
                         }
                         $em->persist($result);
                         $em->flush(); 
                     }
 
+              
+                    
+                  
+                    
                     //lider de red
-                    $como = $em->getRepository('AEDataBundle:LiderRed');
+                   $como = $em->getRepository('AEDataBundle:LiderRed');
                     $result = $como->findOneBy(array('id'=>$persona->getId()));
-                    //$em->clear();
+                    $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDER_RED')); 
+
                  
                     if($result ==NULL)
                     {
@@ -456,7 +489,6 @@ class PermisoController extends Controller
                         
                         $em->persist($var);
                         $em->flush();
-                        $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDER_RED')); 
 
                         $usuario->addIdRol($rol);
                         }
@@ -467,11 +499,21 @@ class PermisoController extends Controller
                         {
                              //activar permiso
                             $result->setActivo(TRUE);
+                             $lista = $usuario->getIdRol();
+                  
+                             if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                             {
+                                 $usuario->addIdRol($rol);
+                             }
+
                         }
                         else
                         {
                             //desactivar permiso
                             $result->setActivo(FALSE);
+                            $sql = "select eliminar_rol_user(:rol,:id)";
+                            $smt = $em->getConnection()->prepare($sql);
+                            $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
                         }
                         $em->persist($result);
                         $em->flush(); 
@@ -481,6 +523,8 @@ class PermisoController extends Controller
                 $como = $em->getRepository('AEDataBundle:Consolidador');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
                 //$em->clear();
+
+                $rol = $con->findOneBy(array('nombre'=>'ROLE_CONSOLIDADOR')); 
                 
                 if($result==NULL)
                 {
@@ -493,8 +537,6 @@ class PermisoController extends Controller
                         
                         $em->persist($var);
                         $em->flush();
-                        
-                        $rol = $con->findOneBy(array('nombre'=>'ROLE_CONSOLIDADOR')); 
 
                         $usuario->addIdRol($rol);
                     }
@@ -504,10 +546,19 @@ class PermisoController extends Controller
                     if(strlen($consolidador)>0)
                     {
                         $result->setActivo(TRUE);
+                        $lista = $usuario->getIdRol();
+                  
+                        if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                        {
+                            $usuario->addIdRol($rol);
+                        }
                     }
                     else
                     {
                         $result->setActivo(FALSE);
+                        $sql = "select eliminar_rol_user(:rol,:id)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
                     }
                     $em->persist($result);
                     $em->flush();
@@ -518,20 +569,22 @@ class PermisoController extends Controller
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
                 //$em->clear();
                 
+               $rol = $con->findOneBy(array('nombre'=>'ROLE_ESTUDIANTE')); 
+
+                
                 if($result==NULL)
                 {
                     
                     if(strlen($estudiante)>0)
                     {
-                         $var = new \AE\DataBundle\Entity\Estudiante();
-                        $var->setIdPersona($persona);
+                        $var = new Estudiante();
+                        $var->setId($persona);
                         $var->setFechaInicio(new \DateTime());
+                        
                         $var->setActivo(TRUE);
                         
                         $em->persist($var);
                         $em->flush();
-                        
-                        $rol = $con->findOneBy(array('nombre'=>'ROLE_ESTUDIANTE')); 
 
                         $usuario->addIdRol($rol);
                     }
@@ -541,20 +594,82 @@ class PermisoController extends Controller
                     if(strlen($estudiante)>0)
                     {
                         $result->setActivo(TRUE);
+                        $lista = $usuario->getIdRol();
+                  
+                        if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                        {
+                            $usuario->addIdRol($rol);
+                        }
                     }
                     else
                     {
                         $result->setActivo(FALSE);
+                        $sql = "select eliminar_rol_user(:rol,:id)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
                     }
                     $em->persist($result);
                     $em->flush();
                 }
                 
+                
+                //docente
+                   //estudiante
+               $como = $em->getRepository('AEDataBundle:Docente');
+                $result = $como->findOneBy(array('idPersona'=>$persona));
+                //$em->clear();
+                
+               $rol = $con->findOneBy(array('nombre'=>'ROLE_PROFESOR')); 
+
+                
+                if($result==NULL)
+                {
+                    
+                    if(strlen($docente)>0)
+                    {
+                        $var = new Docente();
+                        
+                        $var->setIdPersona($persona);
+                        $var->setFechaInicio(new \DateTime());
+                        
+                        $var->setActivo(TRUE);
+                        $var->setDescripcion(" ");
+                        $em->persist($var);
+                        $em->flush();
+
+                        $usuario->addIdRol($rol);
+                    }
+                }
+                else
+                {
+                    if(strlen($estudiante)>0)
+                    {
+                        $result->setActivo(TRUE);
+                        $lista = $usuario->getIdRol();
+                  
+                        if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                        {
+                            $usuario->addIdRol($rol);
+                        }
+                    }
+                    else
+                    {
+                        $result->setActivo(FALSE);
+                        $sql = "select eliminar_rol_user(:rol,:id)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
+                    }
+                    $em->persist($result);
+                    $em->flush();
+                }
+                
+                
                  //misionero
                  $como = $em->getRepository('AEDataBundle:Misionero');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
                  //$em->clear();
-                    
+                 $rol = $con->findOneBy(array('nombre'=>'ROLE_MISIONERO')); 
+ 
                 if($result==NULL)
                 {
 
@@ -566,9 +681,7 @@ class PermisoController extends Controller
                         $var->setActivo(TRUE);
   
                         $em->persist($var);
-                        $em->flush();
-                        
-                        $rol = $con->findOneBy(array('nombre'=>'ROLE_MISIONERO')); 
+                        $em->flush();                        
 
                         $usuario->addIdRol($rol);
                     }
@@ -578,93 +691,35 @@ class PermisoController extends Controller
                     if(strlen($misionero)>0)
                     {
                         $result->setActivo(TRUE);
+                        
+                        $lista = $usuario->getIdRol();
+                  
+                        if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                        {
+                            $usuario->addIdRol($rol);
+                        }
                     }
                     else
                     {
                         //desactivar permiso
                          $result->setActivo(FALSE);
+                         
+                        $sql = "select eliminar_rol_user(:rol,:id)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
                     }
                     
                     $em->persist($result);
                     $em->flush();
                 }
                 
-                
-                 //encargado de ganar
-                // $como_enc= $em->getRepository('AEDataBundle:Encargado');
-                 
-                 $encargados = array();
-                 //0: ganar
-                 //1: consolidar
-                 //2: discipular
-                 //3: enviar
-                 $encargados[0] = $e_ganar;
-                 $encargados[1]= $e_consolidar;
-                 $encargados[2]= $e_discipular;
-                 $encargados[3]= $e_enviar;
-                 
-                 $sql = "select * from encargado where id=:id and tipo=:ti";
-                 
-                 foreach ($encargados as $key => $value) {
-                     
-                    //$result = $como_enc->findBy(array('id'=>$persona,'tipo'=>$key));
-                     $smt = $em->getConnection()->prepare($sql);
-                     $smt->execute(array(':id'=>$id, ':ti'=>$key));
-                     $result = $smt->fetch();
-                    
-                    if($result==NULL)
-                    {
-                         if(strlen($value)>0)
-                        {
-                            $var = new Encargado();
-                            $var->setId($persona);
-                            $var->setActivo(TRUE);
-                            $var->setFechaObtencion(new \DateTime());
-                            $var->setTipo($key);
-                        
-                            $em->persist($var);
-                            $em->flush();
-                            
-                            if($key==0)
-                                $rol = $con->findOneBy(array('nombre'=>'ROLE_GANAR')); 
-                            elseif ($key==1) 
-                                $rol = $con->findOneBy(array('nombre'=>'ROLE_CONSOLIDAR')); 
-                            elseif ($key==2) 
-                                $rol = $con->findOneBy(array('nombre'=>'ROLE_DISCIPULAR')); 
-                            else $rol = $con->findOneBy (array('nombre'=>'ROLE_ENVIAR'));
-                             
-
-                            $usuario->addIdRol($rol);
-                        }
-                    }
-                    else {
-                        if(strlen($value)>0)
-                        {
-                            $sql1 = "UPDATE encargado SET activo= :act WHERE id= :id and tipo= :tip";
-                            $smt1 = $em->getConnection()->prepare($sql1);
-                            $smt1->execute(array(':id'=>$id,':tip'=>$key,':act'=>TRUE));
-
-                            //$result->setActivo(TRUE);
-                        }
-                        else
-                        {
-                            $sql1 = "UPDATE encargado SET activo= :act WHERE id= :id and tipo= :tip";
-                            $smt1 = $em->getConnection()->prepare($sql1);
-                            $smt1->execute(array(':id'=>$id,':tip'=>$key,':act'=>FALSE));
-
-                            //desactivar permiso
-                           // $result->setActivo(FALSE);
-                        }
-                    
-                      
-                    }
-                 }
-                 
-                 //pastor ejecutivo
+                //pastor ejecutivo
                 $como = $em->getRepository('AEDataBundle:PastorEjecutivo');
                 $result = $como->findOneBy(array('id'=>$persona->getId()));
                 //$em->clear();
-                
+
+                $rol = $con->findOneBy(array('nombre'=>'ROLE_PASTOR_EJECUTIVO')); 
+
                 if($result==NULL)
                 {
     
@@ -677,8 +732,6 @@ class PermisoController extends Controller
 
                         $em->persist($var);
                         $em->flush();
-                        
-                         $rol = $con->findOneBy(array('nombre'=>'ROLE_PASTOR_EJECUTIVO')); 
 
                         $usuario->addIdRol($rol);
                     }
@@ -688,10 +741,19 @@ class PermisoController extends Controller
                     if(strlen($pastor_eje)>0)
                     {
                         $result->setActivo(TRUE);
+                         $lista = $usuario->getIdRol();
+                  
+                        if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                        {
+                            $usuario->addIdRol($rol);
+                        }
                     }
                     else
                     {
                         $result->setActivo(FALSE);
+                        $sql = "select eliminar_rol_user(:rol,:id)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
                     }
                     $em->persist($result);
                     $em->flush();
@@ -703,6 +765,9 @@ class PermisoController extends Controller
                  $como = $em->getRepository('AEDataBundle:PastorAsociado');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
                  //$em->clear();
+                 
+                 $rol = $con->findOneBy(array('nombre'=>'ROLE_PASTOR_ASOCIADO')); 
+
                 
                  if($result==NULL)
                  {
@@ -716,7 +781,6 @@ class PermisoController extends Controller
                         $em->persist($var);
                         $em->flush();
                         
-                        $rol = $con->findOneBy(array('nombre'=>'ROLE_PASTOR_ASOCIADO')); 
 
                         $usuario->addIdRol($rol);
                     }
@@ -727,40 +791,149 @@ class PermisoController extends Controller
                     if((strlen($pastor_aso)>0)) //activar permiso
                      {
                          //activar permiso
-                         $result->setActivo(TRUE);
+                        $result->setActivo(TRUE);
+                        $lista = $usuario->getIdRol();
+                  
+                        if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                        {
+                            $usuario->addIdRol($rol);
+                        }
                      }
                      else
                      {
                         //desactivar permiso
                          $result->setActivo(FALSE);
+                         
+                        $sql = "select eliminar_rol_user(:rol,:id)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
                      }
                      $em->persist($result);
                      $em->flush(); 
                 }
                 
+               $rol = $con->findOneBy(array('nombre'=>'ROLE_ADMIN')); 
+               
+                $lista = $usuario->getIdRol();
+
+
                 if(strlen($administrador)>0)
                 {
-                     $rol = $con->findOneBy(array('nombre'=>'ROLE_ADMIN')); 
 
-                     $usuario->addIdRol($rol);
+                  
+                     if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                     {
+                        $usuario->addIdRol($rol);
+                     }
                 }
+                else
+                {
+                     if($this->en_arreglo_rol($lista, $rol)==TRUE)
+                     {
+                        $sql = "select eliminar_rol_user(:rol,:id)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id)); 
+                     }                     
+                }
+                
+                //encargados
+                
+                
+                  $encargados = array();
+                 //0: ganar
+                 //1: consolidar
+                 //2: discipular
+                 //3: enviar
+                 $encargados[0] = $e_ganar;
+                 $encargados[1]= $e_consolidar;
+                 $encargados[2]= $e_discipular;
+                 $encargados[3]= $e_enviar;
+                 
+                 $sql = "select * from encargado where id=:id and tipo=:ti";
+        
+               foreach ($encargados as $key => $value) {
+                   
+                   
+                    $smt = $em->getConnection()->prepare($sql);
+                     $smt->execute(array(':id'=>$id, ':ti'=>$key));
+                     $result = $smt->fetch();
+                     
+                     
+                    if($key==0)
+                        $rol = $con->findOneBy(array('nombre'=>'ROLE_GANAR')); 
+                    elseif ($key==1) 
+                        $rol = $con->findOneBy(array('nombre'=>'ROLE_CONSOLIDAR')); 
+                    elseif ($key==2) 
+                        $rol = $con->findOneBy(array('nombre'=>'ROLE_DISCIPULAR')); 
+                    elseif($key==3) $rol = $con->findOneBy (array('nombre'=>'ROLE_ENVIAR'));
+                    
+                    
+                     if($result==NULL)
+                    {
+                         if(strlen($value)>0)
+                        {
+                            $var = new Encargado();
+                            $var->setId($persona);
+                            $var->setActivo(TRUE);
+                            $var->setFechaObtencion(new \DateTime());
+                            $var->setTipo($key);
+                        
+                            $em->persist($var);
+                            $em->flush();
+                           
+                            $usuario->addIdRol($rol);
+                        }
+                       
+
+                    }
+                    else
+                    {
+                        if(strlen($value)>0)
+                        {
+                           
+                            $sql1 = "select activar_encargado(:id,:tip)";
+                            $smt1 = $em->getConnection()->prepare($sql1);
+                            $smt1->execute(array(':id'=>$id,':tip'=>  strval($key)));
+                            
+                              $lista = $usuario->getIdRol();
+                  
+                            if($this->en_arreglo_rol($lista, $rol)==FALSE)
+                            {
+                                $usuario->addIdRol($rol);
+                            }
+                        }
+                        else
+                        {
+                            $sql1 = "select desactivar_encargado(:id,:tip)";
+                            $smt1 = $em->getConnection()->prepare($sql1);
+                            $smt1->execute(array(':id'=>$id,':tip'=>  strval($key)));
+                            //$name= $value;
+
+                            $sql2 = "select eliminar_rol_user(:rol,:id)";
+                            $smt2 = $em->getConnection()->prepare($sql2);
+                            $smt2->execute(array(':rol'=>$rol->getId(),':id'=>$id)); 
+                        }
+                    }
+                   
+               }
+               
                $em->persist($usuario);
                $em->flush();
-               
-               $em->clear();
                        
                $em->commit();
+               // $em->clear();
+
                
            } catch (Exception $exc) {
                
                $em->rollback();
-               $em->clear();
+               //$em->clear();
                $em->close();
                throw $exc;
            }
 
 
-           $return=array("responseCode"=>200,  "greeting"=>$name);
+           $return=array("responseCode"=>200,  "greeting"=>$usuario->getId());
         }
         else   
             $return=array("responseCode"=>400,  "greeting"=>'bad');

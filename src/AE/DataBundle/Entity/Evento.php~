@@ -37,18 +37,35 @@ class Evento
     private $descripcion;
 
     /**
-     * @var \DateTime
+     * @var integer
      *
-     * @ORM\Column(name="fechaIni", type="date", nullable=true)
+     * @ORM\Column(name="tipo", type="smallint", nullable=true)
      */
-    private $fechaini;
+    private $tipo;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fechaFin", type="date", nullable=true)
+     * @ORM\Column(name="fecha_ini", type="date", nullable=true)
      */
-    private $fechafin;
+    private $fechaIni;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="date", nullable=true)
+     */
+    private $fechaFin;
+
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
 
 
 }

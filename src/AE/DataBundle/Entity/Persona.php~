@@ -93,16 +93,6 @@ class Persona
     private $sexo;
 
     /**
-     * @var \Ubicacion
-     *
-     * @ORM\ManyToOne(targetEntity="Ubicacion")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
-     * })
-     */
-    private $idUbicacion;
-
-    /**
      * @var \Iglesia
      *
      * @ORM\ManyToOne(targetEntity="Iglesia")
@@ -111,6 +101,16 @@ class Persona
      * })
      */
     private $idIglesia;
+
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
 
 
 }

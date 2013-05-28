@@ -5,14 +5,18 @@
       <generator strategy="SEQUENCE"/>
     </id>
     <field name="fechaCreacion" type="date" column="fecha_creacion" nullable="false"/>
-    <many-to-one field="idHorario" target-entity="Horario">
-      <join-columns>
-        <join-column name="id_horario" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
+    <field name="activo" type="boolean" column="activo" nullable="false"/>
+    <field name="estadoMatricula" type="boolean" column="estado_matricula" nullable="false"/>
+    <field name="fechaInicio" type="date" column="fecha_inicio" nullable="false"/>
+    <field name="fechaFin" type="date" column="fecha_fin" nullable="true"/>
     <many-to-one field="idLocal" target-entity="Local">
       <join-columns>
         <join-column name="id_local" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idHorario" target-entity="Horario">
+      <join-columns>
+        <join-column name="id_horario" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
     <many-to-one field="idPersonaDocente" target-entity="Docente">

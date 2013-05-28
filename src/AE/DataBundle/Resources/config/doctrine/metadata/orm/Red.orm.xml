@@ -7,6 +7,11 @@
     <field name="tipo" type="smallint" column="tipo" nullable="false"/>
     <field name="inicio" type="date" column="inicio" nullable="true"/>
     <field name="activo" type="boolean" column="activo" nullable="true"/>
+    <many-to-one field="idUbicacion" target-entity="Ubicacion">
+      <join-columns>
+        <join-column name="id_ubicacion" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
     <many-to-one field="idPastorAsociado" target-entity="PastorAsociado">
       <join-columns>
         <join-column name="id_pastor_asociado" referenced-column-name="id"/>
@@ -20,11 +25,6 @@
     <many-to-one field="idIglesia" target-entity="Iglesia">
       <join-columns>
         <join-column name="id_iglesia" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
-    <many-to-one field="idUbicacion" target-entity="Ubicacion">
-      <join-columns>
-        <join-column name="id_ubicacion" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

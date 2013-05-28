@@ -41,6 +41,16 @@ class Miembro
     private $idClaseCell;
 
     /**
+     * @var \Celula
+     *
+     * @ORM\ManyToOne(targetEntity="Celula")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
+     * })
+     */
+    private $idCelula;
+
+    /**
      * @var \Persona
      *
      * @ORM\Id
@@ -51,16 +61,6 @@ class Miembro
      * })
      */
     private $id;
-
-    /**
-     * @var \Celula
-     *
-     * @ORM\ManyToOne(targetEntity="Celula")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
-     * })
-     */
-    private $idCelula;
 
     /**
      * @var \Red

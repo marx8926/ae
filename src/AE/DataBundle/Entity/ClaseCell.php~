@@ -25,16 +25,23 @@ class ClaseCell
     /**
      * @var float
      *
-     * @ORM\Column(name="ofrenda", type="float", nullable=false)
+     * @ORM\Column(name="ofrenda", type="float", nullable=true)
      */
     private $ofrenda;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_dicto", type="date", nullable=false)
+     * @ORM\Column(name="fecha_dicto", type="date", nullable=true)
      */
     private $fechaDicto;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_asignado", type="date", nullable=true)
+     */
+    private $fechaAsignado;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -52,16 +59,6 @@ class ClaseCell
     private $idMiembro;
 
     /**
-     * @var \Horario
-     *
-     * @ORM\ManyToOne(targetEntity="Horario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_horario", referencedColumnName="id")
-     * })
-     */
-    private $idHorario;
-
-    /**
      * @var \Celula
      *
      * @ORM\ManyToOne(targetEntity="Celula")
@@ -70,6 +67,16 @@ class ClaseCell
      * })
      */
     private $idCelula;
+
+    /**
+     * @var \Horario
+     *
+     * @ORM\ManyToOne(targetEntity="Horario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_horario", referencedColumnName="id")
+     * })
+     */
+    private $idHorario;
 
     /**
      * @var \TemaCelula

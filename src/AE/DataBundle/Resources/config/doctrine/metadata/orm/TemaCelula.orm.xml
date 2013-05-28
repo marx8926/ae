@@ -7,5 +7,7 @@
     <field name="titutlo" type="string" column="titutlo" length="100" nullable="false"/>
     <field name="autor" type="string" column="autor" length="70" nullable="false"/>
     <field name="descripcion" type="text" column="descripcion" nullable="false"/>
+    <field name="fecha" type="date" column="fecha" nullable="true"/>
+    <field name="tipo" type="string" column="tipo" length="20" nullable="true"/>
   </entity>
 </doctrine-mapping>

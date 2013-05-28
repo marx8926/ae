@@ -4,21 +4,22 @@
     <id name="id" type="bigint" column="id">
       <generator strategy="SEQUENCE"/>
     </id>
-    <field name="ofrenda" type="float" column="ofrenda" nullable="false"/>
-    <field name="fechaDicto" type="date" column="fecha_dicto" nullable="false"/>
+    <field name="ofrenda" type="float" column="ofrenda" nullable="true"/>
+    <field name="fechaDicto" type="date" column="fecha_dicto" nullable="true"/>
+    <field name="fechaAsignado" type="date" column="fecha_asignado" nullable="true"/>
     <many-to-one field="idTemaCelula" target-entity="TemaCelula">
       <join-columns>
         <join-column name="id_tema_celula" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
-    <many-to-one field="idCelula" target-entity="Celula">
-      <join-columns>
-        <join-column name="id_celula" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
     <many-to-one field="idHorario" target-entity="Horario">
       <join-columns>
         <join-column name="id_horario" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idCelula" target-entity="Celula">
+      <join-columns>
+        <join-column name="id_celula" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
     <many-to-many field="idMiembro" target-entity="Miembro" inversed-by="idClaseCell">

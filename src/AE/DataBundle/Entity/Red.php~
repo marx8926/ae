@@ -15,7 +15,7 @@ class Red
     /**
      * @var string
      *
-     * @ORM\Column(name="id", type="string", nullable=false)
+     * @ORM\Column(name="id", type="string", length=10, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="red_id_seq", allocationSize=1, initialValue=1)
@@ -42,16 +42,6 @@ class Red
      * @ORM\Column(name="activo", type="boolean", nullable=true)
      */
     private $activo;
-
-    /**
-     * @var \Ubicacion
-     *
-     * @ORM\ManyToOne(targetEntity="Ubicacion")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
-     * })
-     */
-    private $idUbicacion;
 
     /**
      * @var \Iglesia
@@ -82,6 +72,16 @@ class Red
      * })
      */
     private $idPastorAsociado;
+
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
 
 
 }

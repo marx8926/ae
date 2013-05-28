@@ -30,6 +30,34 @@ class CursoImpartido
     private $fechaCreacion;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=false)
+     */
+    private $activo;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado_matricula", type="boolean", nullable=false)
+     */
+    private $estadoMatricula;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_inicio", type="date", nullable=false)
+     */
+    private $fechaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="date", nullable=true)
+     */
+    private $fechaFin;
+
+    /**
      * @var \Curso
      *
      * @ORM\ManyToOne(targetEntity="Curso")
@@ -50,16 +78,6 @@ class CursoImpartido
     private $idPersonaDocente;
 
     /**
-     * @var \Local
-     *
-     * @ORM\ManyToOne(targetEntity="Local")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id")
-     * })
-     */
-    private $idLocal;
-
-    /**
      * @var \Horario
      *
      * @ORM\ManyToOne(targetEntity="Horario")
@@ -68,6 +86,16 @@ class CursoImpartido
      * })
      */
     private $idHorario;
+
+    /**
+     * @var \Local
+     *
+     * @ORM\ManyToOne(targetEntity="Local")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id")
+     * })
+     */
+    private $idLocal;
 
 
 }

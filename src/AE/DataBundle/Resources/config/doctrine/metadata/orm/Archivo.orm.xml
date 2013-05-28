@@ -5,16 +5,11 @@
       <generator strategy="SEQUENCE"/>
     </id>
     <field name="direccion" type="text" column="direccion" nullable="false"/>
-    <field name="peso" type="bigint" column="peso" nullable="false"/>
-    <field name="tipo" type="string" column="tipo" length="25" nullable="false"/>
-    <field name="extension" type="string" column="extension" length="10" nullable="false"/>
+    <field name="peso" type="bigint" column="peso" nullable="true"/>
+    <field name="tipo" type="string" column="tipo" length="25" nullable="true"/>
+    <field name="extension" type="string" column="extension" length="10" nullable="true"/>
     <field name="nombre" type="text" column="nombre" nullable="true"/>
     <field name="fecha" type="date" column="fecha" nullable="true"/>
-    <many-to-one field="idLecheEspiritual" target-entity="LecheEspiritual">
-      <join-columns>
-        <join-column name="id_leche_espiritual" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
     <many-to-one field="idTemaCurso" target-entity="TemaCurso">
       <join-columns>
         <join-column name="id_tema_curso" referenced-column-name="id"/>
@@ -23,6 +18,11 @@
     <many-to-one field="idTemaCelula" target-entity="TemaCelula">
       <join-columns>
         <join-column name="id_tema_celula" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idLecheEspiritual" target-entity="LecheEspiritual">
+      <join-columns>
+        <join-column name="id_leche_espiritual" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

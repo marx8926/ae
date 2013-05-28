@@ -9,5 +9,15 @@
         <join-column name="id" referenced-column-name="id"/>
       </join-columns>
     </one-to-one>
+    <many-to-many field="idCriterioEvaluacion" target-entity="CriterioEvaluacion" inversed-by="idPersonaEstudiante">
+      <join-table name="evaluacion">
+        <join-columns>
+          <join-column name="id_persona_estudiante" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="id_criterio_evaluacion" referenced-column-name="id"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
   </entity>
 </doctrine-mapping>

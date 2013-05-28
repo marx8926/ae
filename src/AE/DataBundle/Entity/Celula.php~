@@ -58,24 +58,24 @@ class Celula
     private $activo;
 
     /**
-     * @var \Ubicacion
+     * @var \Lider
      *
-     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\ManyToOne(targetEntity="Lider")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_lider", referencedColumnName="id")
      * })
      */
-    private $idUbicacion;
+    private $idLider;
 
     /**
-     * @var \Red
+     * @var \LiderRed
      *
-     * @ORM\ManyToOne(targetEntity="Red")
+     * @ORM\ManyToOne(targetEntity="LiderRed")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_lider_red", referencedColumnName="id")
      * })
      */
-    private $idRed;
+    private $idLiderRed;
 
     /**
      * @var \Misionero
@@ -98,14 +98,24 @@ class Celula
     private $idPastorEjecutivo;
 
     /**
-     * @var \LiderRed
+     * @var \Red
      *
-     * @ORM\ManyToOne(targetEntity="LiderRed")
+     * @ORM\ManyToOne(targetEntity="Red")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_lider_red", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
      * })
      */
-    private $idLiderRed;
+    private $idRed;
+
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
 
 
 }

@@ -13,6 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
 class Encargado
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="codigo", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="encargado_codigo_seq", allocationSize=1, initialValue=1)
+     */
+    private $codigo;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_obtencion", type="date", nullable=false)
@@ -34,38 +44,21 @@ class Encargado
     private $fechaFin;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\ManyToMany(targetEntity="AreaVision", inversedBy="idEncargado")
-     * @ORM\JoinTable(name="many_encargado_has_many_area_vision",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="id_encargado", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="id_area_vision", referencedColumnName="id")
-     *   }
-     * )
+     * @ORM\Column(name="tipo", type="integer", nullable=true)
      */
-    private $idAreaVision;
+    private $tipo;
 
     /**
      * @var \Persona
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\ManyToOne(targetEntity="Persona")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
      */
     private $id;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idAreaVision = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
 }

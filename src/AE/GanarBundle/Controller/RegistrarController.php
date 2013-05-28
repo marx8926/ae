@@ -28,8 +28,7 @@ class RegistrarController extends Controller
         $datos = array();
 
         parse_str($name,$datos);
-        
-        
+ 
             $usuario = NULL;        
             $email = NULL;
             $pass = NULL;
@@ -70,7 +69,12 @@ class RegistrarController extends Controller
             $civil = $datos['select_Civil'];
             $sexo = $datos['select_Sexo'];
             
-            $fech = $datos['inputFechaNacimiento'];
+            $fech_b = $datos['inputFechaNacimiento'];
+            
+            $fech_a =explode('/', $fech_b,3);
+            $fech = $fech_a[2].'-'.$fech_a[1].'-'.$fech_a[0];
+            
+            
             $edad = $datos['inputEdad'];
             
             $telefono = $datos['inputTelefono'];
@@ -89,7 +93,11 @@ class RegistrarController extends Controller
             if(strcmp($red, '-1')!=0)
              $celula = $datos['celula_lista'];
             
-            $fechaConv = $datos['inputFechaConversion'];
+            $fechaConv_b = $datos['inputFechaConversion'];
+            
+            $fechaConv_a = explode('/', $fechaConv_b, 3);
+            
+            $fechaConv = $fechaConv_a[2].'-'.$fechaConv_a[1].'-'.$fechaConv_a[0];            
             
             $lugar = $datos['lugar'];
             
@@ -99,20 +107,22 @@ class RegistrarController extends Controller
             
             $peticion = $datos['inputDescripcion'];
             
+                
             $em = $this->getDoctrine()->getEntityManager();         
             
          
               $return=array("responseCode"=>200,  "greeting"=>'OK');
+             
               
+            
            
             $em->beginTransaction();
             try
-            {
-                
+            {                
                 //ubigeo
                 $prev_div = $em->getRepository('AEDataBundle:Ubigeo');
                 $ubigeo = $prev_div->findOneBy(array('id'=>$distrito));
-
+                
                   //ubicacion
                 $ubicacion = new Ubicacion();
                 $ubicacion->setDireccion($direccion);
@@ -123,59 +133,51 @@ class RegistrarController extends Controller
                             
                 $em->persist($ubicacion);
                 $em->flush();
-                $em->clear();
                   
-                //persona
-                $persona = new Persona();
-               
-                $persona->setNombre($nombres);
-                $persona->setApellidos($apellidos);
-                $persona->setEstadoCivil($civil);
-                
-                if(strlen($email)>0)
-                {    $persona->setEmail($email);
-                
-                /*
-                    $request = $this->getRequest();
-                    $message = \Swift_Message::newInstance()
-                            ->setSubject('Gracias por registrarse')
-                                ->setFrom('cmclmtrujillo@gmail.com')
-                            ->setTo($email)
-                            ->setBody($this->renderView('AEloginBundle:Default:holamundo.txt.twig',
-                                    array('nombres' => $nombres,
-                'apellidos'=>$apellidos,
-                'subject'=>'Registro en AC')));
-                $this->get('mailer')->send($message);
-                 * *
-                 */
+                //persona           
 
-                //$this->get('session')->setFlash('notice', 'Tu contacto fue enviado exitosamente. Dios te bendiga!');
-  
-                }
-                
+                $persona = new Persona();
+                $persona->setApellidos($apellidos);
+                $persona->setNombre($nombres);
                 $persona->setCelular($celular);
                 $persona->setTelefono($telefono);
+                $persona->setEstadoCivil($civil);
                 $persona->setEdad($edad);
-               
                 $persona->setFechaNacimiento(new \DateTime($fech));
+                $persona->setSexo($sexo);
                 $persona->setIdUbicacion($ubicacion);
                 
                 if(strlen($webpage)>0)
                     $persona->setWebsite($webpage);
                 
-                $persona->setSexo($sexo);
+                if(strlen($email)>0)
+                {    $persona->setEmail($email);
                 
+                
+                 
+                //    $request = $this->getRequest();
+               //    $message = \Swift_Message::newInstance()
+                 //           ->setSubject('Gracias por registrarse')
+                   //             ->setFrom('cmclmtrujillo@gmail.com')
+                     //       ->setTo($email)
+                       //     ->setBody($this->renderView('AEloginBundle:Default:holamundo.txt.twig',
+                       //             array('nombres' => $nombres,
+                //'apellidos'=>$apellidos,
+                //'subject'=>'Registro en AC')));
+                //$this->get('mailer')->send($message);
+
+                //$this->get('session')->setFlash('notice', 'Tu contacto fue enviado exitosamente. Dios te bendiga!');
+  
+                }
                 $em->persist($persona);
                 $em->flush();
-                $em->clear();
-
+                
                  if(strlen($usuario)>0)
                  {    
                        //roles
                     $con = $em->getRepository('AEDataBundle:Rol');          
                     $rol = $con->findOneBy(array('nombre'=>'ROLE_USER')); 
                     //usuario
-                    $em->clear();
                     
                     $user = new Usuario();                 
                     $user->setNombre($usuario);
@@ -185,7 +187,6 @@ class RegistrarController extends Controller
                     
                     $em->persist($user);
                     $em->flush();
-                    $em->clear();
                  }               
                  
                 
@@ -198,12 +199,10 @@ class RegistrarController extends Controller
                     $red_social->setEnlace($facebook);
                     $em->persist($red_social);
                     $em->flush();
-                    $em->clear();
                 }      
                 //lugar                  
                 $con1 = $em->getRepository('AEDataBundle:Lugar');          
                 $lug= $con1->findOneBy(array('id'=>$lugar));
-                $em->clear();
                 
                 
                 //nuevo convertido
@@ -214,14 +213,12 @@ class RegistrarController extends Controller
                     //red
                     $con2 = $em->getRepository('AEDataBundle:Red');
                     $redU = $con2->findOneBy(array('id'=>$red));
-                    $em->clear();
                 
                     //celula
                     if(strcmp($celula, '-1')!=0)
                     {
                         $con3 = $em->getRepository('AEDataBundle:Celula');
                         $cell = $con3->findOneBy(array('id'=>$celula));
-                        $em->clear();
                 
                         $nuev_con->setIdCelula($cell);
                     }
@@ -235,11 +232,8 @@ class RegistrarController extends Controller
                 $nuev_con->setFechaConversion(new \DateTime($fechaConv)); 
                 $em->persist($nuev_con);
                 $em->flush();
-                $em->clear();
                 
-                //miembro
-                
-                $miembro = new Miembro();
+                 $miembro = new Miembro();
                 $miembro->setId($persona);
                 
                 if(strcmp($red, '-1')!=0)
@@ -250,15 +244,11 @@ class RegistrarController extends Controller
                 }
                 $miembro->setActivo(TRUE);
                 $miembro->setFechaObtencion(new \DateTime($fechaConv));
-                $miembro->setAptoConsolidar(FALSE);
-                
-                $em->persist($miembro);
-                $em->flush();
-                $em->clear();
-                
+                $miembro->setAptoConsolidar(FALSE);                
                 
                 $em->commit();
                 
+                $em->clear();
 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');
  

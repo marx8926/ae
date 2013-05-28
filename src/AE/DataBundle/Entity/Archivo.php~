@@ -32,21 +32,21 @@ class Archivo
     /**
      * @var integer
      *
-     * @ORM\Column(name="peso", type="bigint", nullable=false)
+     * @ORM\Column(name="peso", type="bigint", nullable=true)
      */
     private $peso;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tipo", type="string", length=25, nullable=false)
+     * @ORM\Column(name="tipo", type="string", length=25, nullable=true)
      */
     private $tipo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="extension", type="string", length=10, nullable=false)
+     * @ORM\Column(name="extension", type="string", length=10, nullable=true)
      */
     private $extension;
 
@@ -63,6 +63,16 @@ class Archivo
      * @ORM\Column(name="fecha", type="date", nullable=true)
      */
     private $fecha;
+
+    /**
+     * @var \LecheEspiritual
+     *
+     * @ORM\ManyToOne(targetEntity="LecheEspiritual")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_leche_espiritual", referencedColumnName="id")
+     * })
+     */
+    private $idLecheEspiritual;
 
     /**
      * @var \TemaCelula
@@ -83,16 +93,6 @@ class Archivo
      * })
      */
     private $idTemaCurso;
-
-    /**
-     * @var \LecheEspiritual
-     *
-     * @ORM\ManyToOne(targetEntity="LecheEspiritual")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_leche_espiritual", referencedColumnName="id")
-     * })
-     */
-    private $idLecheEspiritual;
 
 
 }

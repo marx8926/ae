@@ -13,14 +13,21 @@ use Doctrine\ORM\Mapping as ORM;
 class Local
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id", type="string", nullable=false)
+     * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="local_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", nullable=false)
+     */
+    private $codigo;
 
     /**
      * @var string

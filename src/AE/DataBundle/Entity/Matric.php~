@@ -37,16 +37,6 @@ class Matric
     private $activo;
 
     /**
-     * @var \Estudiante
-     *
-     * @ORM\ManyToOne(targetEntity="Estudiante")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
-     * })
-     */
-    private $idPersonaEstudiante;
-
-    /**
      * @var \CursoImpartido
      *
      * @ORM\ManyToOne(targetEntity="CursoImpartido")
@@ -55,6 +45,16 @@ class Matric
      * })
      */
     private $idCursoImpartido;
+
+    /**
+     * @var \Estudiante
+     *
+     * @ORM\ManyToOne(targetEntity="Estudiante")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
+     * })
+     */
+    private $idPersonaEstudiante;
 
 
 }

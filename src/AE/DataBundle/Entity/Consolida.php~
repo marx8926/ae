@@ -67,6 +67,13 @@ class Consolida
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\ManyToMany(targetEntity="Herramienta", mappedBy="idConsolida")
+     */
+    private $idHerramienta;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\ManyToMany(targetEntity="TemaLeche", inversedBy="idConsolida")
      * @ORM\JoinTable(name="many_consolidacion_has_many_tema_leche",
      *   joinColumns={
@@ -80,21 +87,14 @@ class Consolida
     private $idTemaLeche;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Consolidador
      *
-     * @ORM\ManyToMany(targetEntity="Herramienta", mappedBy="idConsolida")
-     */
-    private $idHerramienta;
-
-    /**
-     * @var \NuevoConvertido
-     *
-     * @ORM\ManyToOne(targetEntity="NuevoConvertido")
+     * @ORM\ManyToOne(targetEntity="Consolidador")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_nuevo_convertido", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_consolidador", referencedColumnName="id")
      * })
      */
-    private $idNuevoConvertido;
+    private $idConsolidador;
 
     /**
      * @var \Miembro
@@ -107,22 +107,22 @@ class Consolida
     private $idMiembro;
 
     /**
-     * @var \Consolidador
+     * @var \NuevoConvertido
      *
-     * @ORM\ManyToOne(targetEntity="Consolidador")
+     * @ORM\ManyToOne(targetEntity="NuevoConvertido")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_consolidador", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_nuevo_convertido", referencedColumnName="id")
      * })
      */
-    private $idConsolidador;
+    private $idNuevoConvertido;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->idTemaLeche = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idHerramienta = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idTemaLeche = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
 }

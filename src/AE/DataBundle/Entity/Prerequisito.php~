@@ -23,6 +23,13 @@ class Prerequisito
     private $idCurso;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_curso2", type="bigint", nullable=false)
+     */
+    private $idCurso2;
+
+    /**
      * @var \Curso
      *
      * @ORM\ManyToOne(targetEntity="Curso")

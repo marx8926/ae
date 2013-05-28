@@ -37,19 +37,11 @@ class AreaVision
     private $idIglesia;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Encargado", mappedBy="idAreaVision")
-     */
-    private $idEncargado;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->idIglesia = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idEncargado = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
 }

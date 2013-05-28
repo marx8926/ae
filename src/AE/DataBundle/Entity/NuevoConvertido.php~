@@ -34,6 +34,26 @@ class NuevoConvertido
     private $consolidado;
 
     /**
+     * @var \Celula
+     *
+     * @ORM\ManyToOne(targetEntity="Celula")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
+     * })
+     */
+    private $idCelula;
+
+    /**
+     * @var \Lugar
+     *
+     * @ORM\ManyToOne(targetEntity="Lugar")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_lugar", referencedColumnName="id")
+     * })
+     */
+    private $idLugar;
+
+    /**
      * @var \Persona
      *
      * @ORM\Id
@@ -46,16 +66,6 @@ class NuevoConvertido
     private $id;
 
     /**
-     * @var \Celula
-     *
-     * @ORM\ManyToOne(targetEntity="Celula")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
-     * })
-     */
-    private $idCelula;
-
-    /**
      * @var \Red
      *
      * @ORM\ManyToOne(targetEntity="Red")
@@ -64,16 +74,6 @@ class NuevoConvertido
      * })
      */
     private $idRed;
-
-    /**
-     * @var \Lugar
-     *
-     * @ORM\ManyToOne(targetEntity="Lugar")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_lugar", referencedColumnName="id")
-     * })
-     */
-    private $idLugar;
 
 
 }

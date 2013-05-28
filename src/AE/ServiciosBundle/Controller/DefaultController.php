@@ -278,21 +278,33 @@ class DefaultController extends Controller
         
         $permiso = array();
         
-        $permiso['lider'] = FALSE;
-        $permiso['lider_red'] = FALSE;
-        $permiso['pastor_asociado'] = FALSE;
-        $permiso['misionero'] = FALSE;
-        $permiso['pastor_ejecutivo'] = FALSE;
-        $permiso['estudiante'] = FALSE;
-        $permiso['consolidador'] = FALSE;
 
         $em = $this->getDoctrine()->getEntityManager();
  
          $em->beginTransaction();
             try
             {
+                $sql = "select * from rol";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute();
+                $roles = $smt->fetchAll();
+                
+                foreach ($roles as $key => $value) {
+                    $permiso[$value['nombre']] = FALSE;
+                }
+                
+                $sql = "select * from get_persona_rol(:idx)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':idx'=>$id));
+                
+                $roles = $smt->fetchAll();
+                
+                foreach ($roles as $key => $value) {
+                    $permiso[$value['nombre']] = TRUE;
+                }
+                
                 //lider
-                $sql = "select * from lider where lider.id = :id and activo=true";
+                /*$sql = "select * from lider where lider.id = :id and activo=true";
                 
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':id'=>$id));
@@ -382,8 +394,9 @@ class DefaultController extends Controller
                 {   
                     $permiso['consolidador']= TRUE;
                 }
-                
+                */
                 $em->commit();
+                $em->clear();
                 
                
                 

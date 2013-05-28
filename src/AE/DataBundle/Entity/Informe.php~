@@ -58,6 +58,16 @@ class Informe
     private $fecha;
 
     /**
+     * @var \Lider
+     *
+     * @ORM\ManyToOne(targetEntity="Lider")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_lider", referencedColumnName="id")
+     * })
+     */
+    private $idLider;
+
+    /**
      * @var \LiderRed
      *
      * @ORM\ManyToOne(targetEntity="LiderRed")
@@ -66,16 +76,6 @@ class Informe
      * })
      */
     private $idLiderRed;
-
-    /**
-     * @var \PastorAsociado
-     *
-     * @ORM\ManyToOne(targetEntity="PastorAsociado")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_pastor_asociado", referencedColumnName="id")
-     * })
-     */
-    private $idPastorAsociado;
 
     /**
      * @var \Misionero
@@ -88,24 +88,14 @@ class Informe
     private $idMisionero;
 
     /**
-     * @var \Encargado
+     * @var \PastorAsociado
      *
-     * @ORM\ManyToOne(targetEntity="Encargado")
+     * @ORM\ManyToOne(targetEntity="PastorAsociado")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_encargado", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_pastor_asociado", referencedColumnName="id")
      * })
      */
-    private $idEncargado;
-
-    /**
-     * @var \Lider
-     *
-     * @ORM\ManyToOne(targetEntity="Lider")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_lider", referencedColumnName="id")
-     * })
-     */
-    private $idLider;
+    private $idPastorAsociado;
 
     /**
      * @var \PastorEjecutivo
@@ -116,6 +106,16 @@ class Informe
      * })
      */
     private $idPastorEjecutivo;
+
+    /**
+     * @var \Encargado
+     *
+     * @ORM\ManyToOne(targetEntity="Encargado")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_encargado", referencedColumnName="codigo")
+     * })
+     */
+    private $idEncargado;
 
 
 }

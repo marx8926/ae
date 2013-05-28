@@ -12,17 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Encargado
 {
-    
-     /**
+    /**
      * @var integer
      *
      * @ORM\Column(name="codigo", type="bigint", nullable=false)
-     * @ORM\Codigo
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="encargado_codigo_seq", allocationSize=1, initialValue=1)
      */
-    protected $codigo;
-    
+    private $codigo;
+
     /**
      * @var \DateTime
      *
@@ -36,13 +35,6 @@ class Encargado
      * @ORM\Column(name="activo", type="boolean", nullable=true)
      */
     private $activo;
-    
-      /**
-     * @var integer
-     *
-     * @ORM\Column(name="tipo", type="integer", nullable=true)
-     */
-    private $tipo;
 
     /**
      * @var \DateTime
@@ -52,42 +44,25 @@ class Encargado
     private $fechaFin;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\ManyToMany(targetEntity="AreaVision", inversedBy="idEncargado")
-     * @ORM\JoinTable(name="many_encargado_has_many_area_vision",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="id_encargado", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="id_area_vision", referencedColumnName="id")
-     *   }
-     * )
+     * @ORM\Column(name="tipo", type="integer", nullable=true)
      */
-    private $idAreaVision;
+    private $tipo;
 
     /**
      * @var \Persona
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona" ,cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="Persona")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
      */
     private $id;
 
+
+
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idAreaVision = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    
-     /**
      * Get codigo
      *
      * @return integer 
@@ -142,30 +117,6 @@ class Encargado
     {
         return $this->activo;
     }
-    
-    
-     /**
-     * Set tipo
-     *
-     * @param integer $tipo
-     * @return Encargado
-     */
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-    
-        return $this;
-    }
-
-    /**
-     * Get tipo
-     *
-     * @return integer
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
 
     /**
      * Set fechaFin
@@ -191,36 +142,26 @@ class Encargado
     }
 
     /**
-     * Add idAreaVision
+     * Set tipo
      *
-     * @param \AE\DataBundle\Entity\AreaVision $idAreaVision
+     * @param integer $tipo
      * @return Encargado
      */
-    public function addIdAreaVision(\AE\DataBundle\Entity\AreaVision $idAreaVision)
+    public function setTipo($tipo)
     {
-        $this->idAreaVision[] = $idAreaVision;
+        $this->tipo = $tipo;
     
         return $this;
     }
 
     /**
-     * Remove idAreaVision
+     * Get tipo
      *
-     * @param \AE\DataBundle\Entity\AreaVision $idAreaVision
+     * @return integer 
      */
-    public function removeIdAreaVision(\AE\DataBundle\Entity\AreaVision $idAreaVision)
+    public function getTipo()
     {
-        $this->idAreaVision->removeElement($idAreaVision);
-    }
-
-    /**
-     * Get idAreaVision
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdAreaVision()
-    {
-        return $this->idAreaVision;
+        return $this->tipo;
     }
 
     /**
@@ -229,7 +170,7 @@ class Encargado
      * @param \AE\DataBundle\Entity\Persona $id
      * @return Encargado
      */
-    public function setId(\AE\DataBundle\Entity\Persona $id)
+    public function setId(\AE\DataBundle\Entity\Persona $id = null)
     {
         $this->id = $id;
     

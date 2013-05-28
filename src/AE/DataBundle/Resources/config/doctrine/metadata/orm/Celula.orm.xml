@@ -9,9 +9,14 @@
     <field name="familia" type="string" column="familia" length="100" nullable="false"/>
     <field name="telefono" type="string" column="telefono" length="20" nullable="true"/>
     <field name="activo" type="boolean" column="activo" nullable="true"/>
-    <many-to-one field="idLiderRed" target-entity="LiderRed">
+    <many-to-one field="idRed" target-entity="Red">
       <join-columns>
-        <join-column name="id_lider_red" referenced-column-name="id"/>
+        <join-column name="id_red" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idUbicacion" target-entity="Ubicacion">
+      <join-columns>
+        <join-column name="id_ubicacion" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
     <many-to-one field="idPastorEjecutivo" target-entity="PastorEjecutivo">
@@ -24,14 +29,14 @@
         <join-column name="id_misionero" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
-    <many-to-one field="idRed" target-entity="Red">
+    <many-to-one field="idLiderRed" target-entity="LiderRed">
       <join-columns>
-        <join-column name="id_red" referenced-column-name="id"/>
+        <join-column name="id_lider_red" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
-    <many-to-one field="idUbicacion" target-entity="Ubicacion">
+    <many-to-one field="idLider" target-entity="Lider">
       <join-columns>
-        <join-column name="id_ubicacion" referenced-column-name="id"/>
+        <join-column name="id_lider" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

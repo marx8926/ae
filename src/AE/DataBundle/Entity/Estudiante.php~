@@ -49,21 +49,6 @@ class Estudiante
     private $idCriterioEvaluacion;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="ClaseCurso", inversedBy="idPersonaEstudiante")
-     * @ORM\JoinTable(name="asistencia_clase_curso",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="id_persona_estudiante", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="id_clase_curso", referencedColumnName="id")
-     *   }
-     * )
-     */
-    private $idClaseCurso;
-
-    /**
      * @var \Persona
      *
      * @ORM\Id
@@ -81,7 +66,6 @@ class Estudiante
     public function __construct()
     {
         $this->idCriterioEvaluacion = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idClaseCurso = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
 }

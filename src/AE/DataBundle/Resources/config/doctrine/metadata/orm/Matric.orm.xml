@@ -6,14 +6,14 @@
     </id>
     <field name="fecha" type="date" column="fecha" nullable="true"/>
     <field name="activo" type="boolean" column="activo" nullable="true"/>
-    <many-to-one field="idCursoImpartido" target-entity="CursoImpartido">
-      <join-columns>
-        <join-column name="id_curso_impartido" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
     <many-to-one field="idPersonaEstudiante" target-entity="Estudiante">
       <join-columns>
         <join-column name="id_persona_estudiante" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idCursoImpartido" target-entity="CursoImpartido">
+      <join-columns>
+        <join-column name="id_curso_impartido" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

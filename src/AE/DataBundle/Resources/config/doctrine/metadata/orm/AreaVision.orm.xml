@@ -5,7 +5,6 @@
       <generator strategy="SEQUENCE"/>
     </id>
     <field name="nombre" type="string" column="nombre" length="20" nullable="false"/>
-    <many-to-many field="idEncargado" target-entity="Encargado" mapped-by="idAreaVision"/>
     <many-to-many field="idIglesia" target-entity="Iglesia" mapped-by="idAreaVision"/>
   </entity>
 </doctrine-mapping>
