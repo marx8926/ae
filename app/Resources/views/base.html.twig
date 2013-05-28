@@ -104,7 +104,9 @@
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
-					<li>
+					
+                                     {% if is_granted('ROLE_CONSOLIDAR') %}
+                                        <li>
 						<a href="{{path('consolidar_registro')}}">
 							Registrar Consolidador
 						</a>
@@ -114,6 +116,9 @@
                                                 Activar/Desactivar Consolidador
                                             </a>
                                         </li>
+                                    {% endif %}
+   
+                                        
                                         <li>
                                             <a href="{{path('consolidar_busqueda')}}">
                                                 Búsqueda de Consolidadores
