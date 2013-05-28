@@ -155,8 +155,7 @@ class IglesiaController extends Controller
             //$em->flush();
             $iglesias = $em->getRepository('AEDataBundle:Iglesia');
             $iglesia = $iglesias->findOneBy(array('id'=>$id));
-            $em->clear();
-            
+           
             $em->beginTransaction();
             try
             {
@@ -177,7 +176,7 @@ class IglesiaController extends Controller
                 $em->commit();
                 $em->clear();
                 
-                $return=array("responseCode"=>200,  "greeting"=>'OK');
+                $return=array("responseCode"=>200,  "greeting"=>$datos);
                 
             }catch(Exception $e)
             {
