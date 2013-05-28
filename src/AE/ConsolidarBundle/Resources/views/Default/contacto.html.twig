@@ -188,12 +188,13 @@
                     //the response is in the data variable
                         console.log(data);
                         
-                    if(data.responseCode==200 ){           
+                    if(data.responseCode===200 ){           
                       
                         alert('Registro Completado');
+                        location.reload();
                        
                     }
-                    else if(data.responseCode==400){//bad request
+                    else if(data.responseCode===400){//bad request
                        alert('Error bad request');
                         }
                     else{                        

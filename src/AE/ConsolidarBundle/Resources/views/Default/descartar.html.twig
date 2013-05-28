@@ -24,14 +24,14 @@
         <thead>
             <tr>                             
                 <th>ID</th>
-                <th>Inicio Leche</th>
-                <th>Convertido</th>
+                <th width='13%'>Inicio Leche</th>
+                <th width='12%'>Convertido</th>
                 <th>Red</th>
-                <th>Célula</th>
-                <th>Codigo</th>
+                <th width="8%">Célula</th>
+                <th width="8%">Codigo</th>
                 <th>Nombres</th>
 		<th>Apellidos</th>
-                <th>Edad</th>
+                <th width="6%">Edad</th>
                 <th>Telefono</th>
             </tr>
 	</thead>
@@ -128,8 +128,7 @@
                     $(this.nTr).removeClass('row_selected');
                 });
                 
-                $(event.target.parentNode).addClass('row_selected');
-                
+                $(event.target.parentNode).addClass('row_selected');                
                 
                 trselected = $(event.target.parentNode);
                 
@@ -143,17 +142,15 @@
                  $('#nomb').val(values[0]);
                  $('#pers').val(values[5]);
                  
-                $('#ocultar').css({'display':'block'});
-                
+                $('#ocultar').css({'display':'block'});               
             	
-
             });
             
             //click handler para eliminar
             $('#myForm').submit(function(){
                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
-                if(anSelected.length !=0)
+                if(anSelected.length !==0)
                 {
                     var tds = $(anSelected).find('td');
                     var val = [];
@@ -164,8 +161,7 @@
                       
                     var id = $('#nomb').val();
                  
-                    var url=$("#myForm").attr("action");
-                    
+                    var url=$("#myForm").attr("action");                    
                      
                     //start send the post request
                     $.post(url,{
@@ -173,17 +169,19 @@
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-                    if(data.responseCode==200 ){           
+                    if(data.responseCode===200 ){           
                       
                        alert('Registro Completado');
                        var anSelected = fnGetSelected( oTable );
                        oTable.fnDeleteRow( anSelected[0] );
+                       
+                       $('#motivo').empty();
                     }
-                    else if(data.responseCode==400){//bad request
+                    else if(data.responseCode===400){//bad request
                        alert('Error bad request');
                         }
                     else{                        
-                        if(data.responseCode==500)
+                        if(data.responseCode===500)
                         {
                             alert('Error bad request');
                         }

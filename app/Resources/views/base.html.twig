@@ -118,56 +118,78 @@
                                         </li>
                                     {% endif %}
    
-                                        
+                                    {% if is_granted('ROLE_CONSOLIDADOR') or is_granted('ROLE_LIDER_RED') %}   
                                         <li>
                                             <a href="{{path('consolidar_busqueda')}}">
                                                 Búsqueda de Consolidadores
                                             </a>
                                         </li>
+                                    {% endif %}
+                                        
+                                    {% if is_granted('ROLE_CONSOLIDAR') %}
 					<li>
 						<a href="{{path('consolidar_asignar_consolidar')}}">
 							Asignar Consolidador
 						</a>
 					</li>
-                                    
+                                    {% endif %}
+                                        
+                                    {% if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') %}
                                         <li>
                                             <a href="{{path('consolidar_lista_consolidados')}}">
                                                 Lista de Consolidados
                                             </a>
                                         </li>
+                                    {% endif %}
+                                        
+                                    {% if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') or is_granted('ROLE_CONSOLIDADOR')%}
                                         <li>
                                             <a href="{{path('consolidar_lista_seguir')}}">
                                                 Actualización de Seguimiento
                                             </a>
                                         </li>
-                                 
+                                    {% endif %}
+                                        
+                                    {% if is_granted('ROLE_CONSOLIDAR') or  is_granted('ROLE_LIDER_RED') %}    
 					<li>
 						<a href="{{path('consolidar_lista_consolidador')}}">
 							Seguimiento de Consolidador
 						</a>
 					</li>
-                                        
+                                    {% endif %}    
+                                     
+                                    {% if is_granted('ROLE_CONSOLIDAR')%}
 					<li>
 						<a href="{{path('consolidar_descartar')}}">
 							Descartar
 						</a>
 					</li>
+                                     {% endif %}   
+                                     
+                                    {% if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') %}    
 					<li>
                                             <a href="{{path('consolidar_lista_descartar')}}">
                                                 Lista de descartados
                                             </a>
 					</li>
+                                    {% endif %}
+                                        
+                                    {% if is_granted('ROLE_CONSOLIDAR')%}
                                         <li>
                                             <a href="{{path('consolidar_cambiar_consolidador')}}">
                                                 Cambiar consolidador
                                             </a>
                                         </li>
+                                     {% endif %}
+                                     {%if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') %}
                                         <li>
                                             <a href="{{path('consolidar_contacto')}}">
                                              Herramientas de Consolidación
                                             </a>
                                         </li>
+                                     {% endif %}
                                         
+                                     {% if is_granted('ROLE_CONSOLIDAR')%}
                                         <li>
                                             <a href="#" class='light toggle-collapsed'>
 							Informes
@@ -199,7 +221,7 @@
                                             
                                        
                                         </li>
-                                                                                
+                                     {% endif %}                                           
 				</ul>
 			</li>
 			<li>

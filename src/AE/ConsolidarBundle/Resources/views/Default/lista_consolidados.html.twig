@@ -153,7 +153,7 @@
                     { "mDataProp": "nomq" },
                     { "mDataProp": "apq"}
                 ],
-		"aaSorting": [ [0,'asc'], [1,'asc'] ],
+		"aaSorting": [ [3,'asc'], [6,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
 		],"sDom": 'T<"clear">lfrtip',
@@ -178,7 +178,7 @@
             $('#vista').click(function(){
                  var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
-                if(anSelected.length !=0)
+                if(anSelected.length !==0)
                 {
                     var tds = $(anSelected).find('td');
                     var val = [];

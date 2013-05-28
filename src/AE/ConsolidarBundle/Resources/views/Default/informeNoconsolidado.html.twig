@@ -15,7 +15,7 @@
 {% block content %} 
 <div class="span9" >
 	<h1>Informe de No Consolidados</h1>
-	<p> Del <input type= "text" class="datepick rango" id="inicio" name="inicio" > al <input type= "text" class="datepick rango" id="fin" name="fin" > <input type="button" id="rang" name="rang" value="Actualizar" class=" btn-block btn-success"> </p>
+	<p> Del <input type= "text" class="datepick rango" id="inicio" name="inicio" > al <input type= "text" class="datepick rango" id="fin" name="fin" >  </p>
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Lista de No Consolidados</h3>							
@@ -106,14 +106,14 @@
             $('#ocultar').css({'display':'none'});
             
         
-            $('#rang').click(function(event){
+            $('.rango').change(function(){
 
             	var date1 =  $("#inicio").val().split('/');
                 var date2 =  $("#fin").val().split('/');
                 inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
                 fin = date2[2] + '-' + date2[1] + '-' + date2[0];
                 
-                event.preventDefault();
+                //event.preventDefault();
                 
                 var url = '{{path('servicio_no_consolidados',{'inicio':'init','fin':'end'}) }}';
                 var ruta = url.replace('init',inicio);

@@ -33,6 +33,7 @@ class ConsolidarServicioController extends Controller
             $todo = $smt->fetchAll();
             
             $em->commit();
+            $em->clear();
             
         }
         catch(Exception $e)
@@ -61,8 +62,8 @@ class ConsolidarServicioController extends Controller
            $smt->execute();
         
            $todo = $smt->fetchAll();
-           
-          
+           $em->commit();
+           $em->clear();          
         }
         catch(Exception $e)
         {
@@ -281,9 +282,9 @@ class ConsolidarServicioController extends Controller
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute();
            $todo = $smt->fetchAll();
-           $em->clear();
            
            $em->commit();
+           $em->clear();
        }
        catch (Exception $e)
        {
@@ -311,6 +312,7 @@ class ConsolidarServicioController extends Controller
            $todo = $smt->fetchAll();
            
            $em->commit();
+           $em->clear();
        }
        catch (Exception $e)
        {
@@ -524,6 +526,7 @@ class ConsolidarServicioController extends Controller
            }
            
            $em->commit();
+           $em->clear();
        }
        catch(Exception $e)
        {
@@ -550,8 +553,8 @@ class ConsolidarServicioController extends Controller
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':inicio'=>$inicio,':fin'=>$fin));          
            $todo = $smt->fetchAll(); 
-           $em->clear();
            $em->commit();
+           $em->clear();
        }
        catch(Exception $e)
        {
@@ -636,8 +639,6 @@ class ConsolidarServicioController extends Controller
            $numero = 0;
            foreach ($todo as $key => $value) {               
                 
-               
-               
                $newe = $value['idx'];
                if($newe == $old && $cont!=0)
                {
@@ -662,6 +663,12 @@ class ConsolidarServicioController extends Controller
                   $numero = $numero+1;
                }
                $old = $newe;
+           }
+           
+           //limpiar los que aún no han sido seleccionados
+           
+           foreach ($tools as $key => $value) {
+               $body = str_replace($value['nombre'],'F', $body); //titulo
            }
            
            $result = $result.$body."</tbody> </table>";
@@ -810,6 +817,7 @@ class ConsolidarServicioController extends Controller
            $todo = $smt->fetchAll(); 
            $em->clear();
            $em->commit();
+           $em->clear();
        }
        catch(Exception $e)
        {

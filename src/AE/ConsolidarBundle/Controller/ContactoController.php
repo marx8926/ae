@@ -38,7 +38,11 @@ class ContactoController extends Controller
                  
             $consolida = $datos['consolida'];
             $tool = $datos['tools'];
-            $dia = $datos['dia'];
+            $dia_b = $datos['dia'];
+            
+            $dia_a =explode('/', $dia_b,3);
+            $dia = $dia_a[2].'-'.$dia_a[1].'-'.$dia_a[0];
+            
             $hora = $datos['hora'];
             
 

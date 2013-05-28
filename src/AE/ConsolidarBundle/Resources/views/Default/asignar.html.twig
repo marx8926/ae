@@ -256,16 +256,16 @@
                         console.log(data);
 
                     //the response is in the data variable
-                    if(data.responseCode==200 ){           
+                    if(data.responseCode===200 ){           
                       
                         alert('Registro Completado');
                         location.reload();
                     }
-                    else if(data.responseCode==400){//bad request
+                    else if(data.responseCode===400){//bad request
                        alert('Error bad request');
                         }
                     else{                        
-                        if(data.responseCode==500)
+                        if(data.responseCode===500)
                         {
                             alert('Error bad request');
                         }
