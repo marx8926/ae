@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Asistencia y Notas - {% endblock %}
+
 {% block stylesheets %}
 	<link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
     <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -84,8 +86,6 @@
 <div class="span9" >
 <div id="cursos">
 </div>
-<div class="row-fluid">
-	<div class="span12">
 		<form id="IrAClaseForm" action="{{path('discipular_clase')}}" method="post">
 		<input id="idclase" type="hidden" name="idclase">
 		</form>
@@ -97,9 +97,8 @@
 			<div id = "tabla_clases" class="box-content box-nomargin">
 			</div>
 		</div>
-		<input type="button" value="Atras" onClick="window.open('{{path('discipular_curso')}}','_self');">
-	</div>
-</div>
+		<input type="button" class="btn" value="Atras" onClick="window.open('{{path('discipular_curso')}}','_self');">
+
 <div class="box">
 		<div class="box-head tabs">
             <h3>Reporte de Notas</h3>					
@@ -108,8 +107,8 @@
         	<form id='ExportForm' method='POST'>
         		<input id='content' type='hidden' name='content' >
                 <input id='title' type='hidden' name='title' >
-                <input id='pdfNotas' type='button' value='PDF' class="btn-success">
-                <input id='excelNotas' type='button' value='Excel' class="btn-success">
+                <input id='pdfNotas' type='button' value='PDF' class="btn btn-info">
+                <input id='excelNotas' type='button' value='Excel' class="btn btn-info">
             </form>
 		    <div id = "tabla_reporte_notas" class="box-content box-nomargin">
 		    </div>
@@ -121,8 +120,8 @@
         </div>
 		<div class="box-content box-nomargin">
         	<form method='POST'>
-                <input id='pdfAsistencia' type='button' value='PDF' class="btn-success">
-                <input id='excelAsistencia' type='button' value='Excel' class="btn-success">
+                <input id='pdfAsistencia' type='button' value='PDF' class="btn btn-info">
+                <input id='excelAsistencia' type='button' value='Excel' class="btn btn-info">
             </form>
 		    <div id = "tabla_reporte_asistencia" class="box-content box-nomargin">
 		    </div>

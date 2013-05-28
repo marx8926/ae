@@ -55,7 +55,7 @@
               <div class="control-group">
                   <label class="control-label"></label>
                   <div class="controls">
-                      <input class="btn btn-small btn-primary" type="submit" name="login" value="Crear Leche" />
+                      <input class="btn btn-primary" type="submit" name="login" value="Crear Leche" />
                   </div>
               </div>
                   
@@ -72,27 +72,31 @@
             </form>
     
     
-    <div id="wrap" name="wrap" >
-
-            <h1>Escoja multiples archivos o arrestraelos hacia la zona de abajo</h1>
+    <div id="wrap" name="wrap" class="form-horizontal">
+		<legend>Subir Archivos</legend>
 
             <form id="uploadfile" action="" method="post" enctype="multipart/form-data" >
-                <input type="file" id="fileField" name="fileField" multiple />
+            	<div class="control-group">
+            		<label class="control-label">Escoja múltiples archivos</label>
+                	<div class="controls">
+                		<input type="file" id="fileField" name="fileField" multiple />
+                	</div>
+                </div>
             </form>
 
-            <div id="fileDrop">
+            <div id="fileDrop" style="display:none;">
                 <p>Arrastre los archivos aquí</p>
             </div>
 
             <div id="files">
-                <h2>Lista de archivos</h2>
-                <a id="reset" href="#" title="Remover todos los archivos de la lista">Borre la lista</a>
+                <legend>Lista de archivos</legend>
+                <a id="reset" href="#" title="Remover todos los archivos de la lista" class="btn btn-danger">Borrar todos los archivos</a>
                 <ul id="fileList"></ul>
-                <a id="upload" href="#" title="Cargar todos los archivos en lista">Cargar archivos</a>
+                <a id="upload" href="#" title="Cargar todos los archivos en lista" class="btn btn-primary">Subir los archivos</a>
                
             </div>
             
-            <label id="lechesp" name="lechesp" ></label>
+            <label id="lechesp" name="lechesp" style="display:none;"></label>
         </div>
               
         
@@ -222,20 +226,20 @@
                         else
                         {
                             $('#temas').empty();
+                            $("<legend>Temas</legend>").appendTo('#temas');
                             for(var i=0;i<real;i++)
                             {
                                 
-                              $("<div class='control-group'>"+               
-                                    "<label>Tema"+i+"</label>"+
+                              $("<div class='form-horizontal'><div class='control-group'>"+               
+                                    "<label class='control-label'>Tema "+(i+1)+"</label>"+
                                     "<div class='controls'>"+
-                                "<input type= 'text' class='input-xxlarge' id='tema"+i+"' name='tema"+i+"'/> </div></div>"
+                                "<input type= 'text' class='input-xxlarge' id='tema"+i+"' name='tema"+i+"'/> </div></div></div>"
                                 ).appendTo('#temas');
                             }
                             
-                            $("<div class='control-group'>"+
-                                    " <label>Subir temas</label>"+
+                            $("<div class='form-horizontal'><div class='control-group'>"+
                                     "<div class='controls'>"+
-                                    "<input class='btn btn-small btn-primary' type='submit' name='tema' id='tema' value='Subir tema' /> </div></div>").appendTo('#temas');
+                                    "<input class='btn btn-primary' type='submit' name='tema' id='tema' value='Subir tema' /> </div></div></div>").appendTo('#temas');
        
                         }
 

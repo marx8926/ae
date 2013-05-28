@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Registro de Asistencia - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -9,69 +11,59 @@
                  
 {% endblock %}                 
 
-{% block content %} 
-<div class="row-fluid" >
-    
-        <div class="form-horizontal">
-            
-            <div class="control-group">
-                    <label class="control-label" >Red</label>
-                    <div class="controls">
-                    <select id="redes_lista" name="redes_lista"></select>
-                    </div>
+{% block content %}
+<div class="span9">
+	<h1>Registro de Asistencia</h1>
+	<br />
+    	<div class="form-horizontal">
+        	<div class="control-group">
+            	<label class="control-label" >Red</label>
+                <div class="controls">
+                	<select id="redes_lista" name="redes_lista"></select>
+                </div>
             </div>
-            
             <div class="control-group">
-                    <label class="control-label" >Tipo</label>
-                    <div class="controls">
-                    <select id="tipo_list" name="tipo_list">
-                        <option value="0">Evangelistica</option>
+            	<label class="control-label" >Tipo</label>
+                <div class="controls">
+                	<select id="tipo_list" name="tipo_list">
+                    	<option value="0">Evangelistica</option>
                         <option value="1">Discipulado</option>
                     </select>
-                    </div>
+               	</div>
             </div>
-            
         </div>	
-           
-        <div class="span9">
-		<div class="box">
+        <div class="box">
 			<div class="box-head">
 				<h3>Células</h3>
 			</div>
 			<div class="box-content box-nomargin" id="tabla_celulas">
 			</div>
 		</div>
-    
-    <div  id="tema_cell" name="tema_cell">
-		<div class="box">
-			<div class="box-head">
-				<h3>Temas de Células</h3>
-			</div>
-			<div class="box-content box-nomargin" id="tabla_temas">
-                            <table cellpadding='0' cellspacing='0' border='0' class='display table table-striped dataTable table-bordered'
-                                   id="tema" name="tema" >
-                                <thead>
-                                    <tr>
-					<th>Id</th>
-					<th>Titulo</th>
-					<th>Autor</th>
-					<th>Dia</th>
-					<th>Hora</th>
-                                        <th width="12%">Asignado</th>
-					<th width="12%">Dictado</th>
-                                    </tr>
-                                </thead>
-                            </table>
+    	<div  id="tema_cell" name="tema_cell">
+			<div class="box">
+				<div class="box-head">
+					<h3>Temas de Células</h3>
+				</div>
+				<div class="box-content box-nomargin" id="tabla_temas">
+                	<table cellpadding='0' cellspacing='0' border='0' class='display table table-striped dataTable table-bordered' id="tema" name="tema" >
+                    	<thead>
+                        	<tr>
+                        		<th>Id</th>
+								<th>Titulo</th>
+								<th>Autor</th>
+								<th>Dia</th>
+								<th>Hora</th>
+                                <th width="12%">Asignado</th>
+								<th width="12%">Dictado</th>
+                            </tr>
+                       	</thead>
+                    </table>
+				</div>
 			</div>
 		</div>
-	</div>
-      	</div>
-
-        
-    <div id="asistencia" name="asistencia" class="span9">
-        
-        <form method="POST" action="{{path('enviar_asistencia_celula')}}" >
-            <input type="hidden" id="celulaid" name="celulaid" value="">
+	<div id="asistencia" name="asistencia">
+    	<form class="form-horizontal" method="POST" action="{{path('enviar_asistencia_celula')}}" >
+        	<input type="hidden" id="celulaid" name="celulaid" value="">
             <input type="hidden" id="red_id" name="red_id" value="">
             <input type="hidden" id="tip_cell" name="tip_cell" value="">
             <input type="hidden" id="titulocell" name="titulocell" value="">
@@ -79,13 +71,11 @@
             <input type="hidden" id="horario_cell" name="horario_cell" value="">
             <input type="hidden"  id="dictado_cell" name="dictado_cell" value="">
             <input type="hidden" id="asiste" name="asiste" value="">
-            <input type="submit" id="asistir" name="asistir" value="Asistir" class="btn-success">
+            <input type="submit" id="asistir" name="asistir" value="Asistir" class="btn btn-primary">
         </form>
     </div>
-	</div>
+</div>
        
-        
-</div>    
                  
 {% endblock %}
       

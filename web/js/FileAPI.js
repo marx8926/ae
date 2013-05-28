@@ -105,7 +105,7 @@ function FileAPI (t, d, f) {
                 thumb.addEventListener("mouseover", showImagePreview, false);
                 thumb.addEventListener("mouseout", removePreview, false);
                 li.appendChild(thumb);
-            var h3 = document.createElement("h3");
+            var h3 = document.createElement("h4");
             var h3Text = document.createTextNode(file.name);
             h3.appendChild(h3Text);
             li.appendChild(h3);

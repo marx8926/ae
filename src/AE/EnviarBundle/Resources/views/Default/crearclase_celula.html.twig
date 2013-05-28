@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Distribuir Clases de Célula - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -11,6 +13,7 @@
 
 {% block content %} 
 <div class="span9" >
+	<h1>Distribuir Clases de Célula</h1>
 	<div class="box">
 		<div class="box-head tabs">
             <h3> Creación Célula</h3>							
@@ -21,14 +24,14 @@
                 
                     <input id='content' type='hidden' name='content' >
                     <input id='title' type='hidden' name='title'>
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
             
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead>
                 		<tr>
                                     <th width="5%">ID</th>
-                                    <th>Titulo</th>
+                                    <th>Título</th>
                                     <th width="10%">Fecha</th>
                                     <th width="25%">Autor</th>
                                     <th width="10%">Tipo</th>
@@ -44,18 +47,18 @@
     	</div>
             
                 <form id="clase_celulaForm" name="clase_celulaForm" class="form-horizontal" action="{{path('enviar_crear_class_cell_update')}}" method="POST">    
-                        <fieldset> 
+                 <fieldset> 
                   <legend>Distribuir</legend>
                   <div class="control-group">
-                    <label class="control-label">Dia</label>
+                    <label class="control-label">Día</label>
                     <div class="controls">
                         <select id="dia" name="dia">
                             <option value="Lunes">Lunes</option>
                             <option value="Martes">Martes</option>
-                            <option value="Miercoles">Miercoles</option>
+                            <option value="Miercoles">Miércoles</option>
                             <option value="Jueves">Jueves</option>
                             <option value="Viernes">Viernes</option>
-                            <option value="Sabado">Sabado</option>
+                            <option value="Sabado">Sábado</option>
                             <option value="Domingo">Domingo</option>
                         </select>
                        
@@ -135,10 +138,11 @@
                         </div>
                     </div>
             </fieldset>
-  
-             <div class="form-horizontal">
-                     <input type="submit" class="btn btn-small btn-primary" id="vista" name="vista" value="Asignar">
-                </div> 
+            	<div class="control-group">
+            		<div class="controls">
+            			<input type="submit" class="btn btn-primary" id="vista" name="vista" value="Asignar">
+            		</div>
+            	</div>
                 </form>
               </div> 
             

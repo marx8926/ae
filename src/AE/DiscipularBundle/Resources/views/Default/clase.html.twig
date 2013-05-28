@@ -1,10 +1,14 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Clase - {% endblock %}
+
 {% block stylesheets %}
 	<link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
     <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
     <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/vmodal.css')}}">  
 {% endblock %}
 
 {%block javascript %}
@@ -29,6 +33,7 @@
 	<script src="{{asset('js/ui.spinner.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>			
 	<script src="{{asset('js/functiongen.js')}}"></script>
+	<script src="{{asset('js/modal.js')}}"></script>
             
     <script type="text/javascript">
             $(document).ready(function() {
@@ -56,47 +61,49 @@
 {%endblock%}
 
 {% block content %}
-
-<div id="cursos">
-</div>
-<div class="row-fluid">
-	<div class="span12">
-		<div class="centro form-horizontal">
+	<div class="span9">
+	<h1>Clase</h1>
+	<br>
+		<div class="form-horizontal">
 			<div class="control-group">
 				<label class="control-label"><b>Curso:</b></label>
 				<div class="controls">
-					<label class="control-label">{{ curso }}</label>
+					<p style="margin-top:5px;">{{ curso }}</p>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label"><b>Docente:</b></label>
 				<div class="controls">
-					<label class="control-label">{{ docente }}</label>
+					<p style="margin-top:5px;">{{ docente }}</p>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label"><b>Tema:</b></label>
 				<div class="controls">
-					<label class="control-label">{{ tema }}</label>
+					<p style="margin-top:5px;">{{ tema }}</p>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label"><b>Fecha:</b></label>
 				<div class="controls">
-					<label id="fecha_dicto" class="control-label">{{ fechadicto }}</label>
+					<p style="margin-top:5px;" id="fecha_dicto">{{ fechadicto }}</p><input id="registro" type="button" class="btn btn-primary" value="Editar">
 				</div>
-				<input type="button" value="Editar" onclick="$('#fechainput').focus()">
-				<form id="EditFechaForm" action="{{ path('discipular_actualizar_fecha_clase') }}" methos="POST">
-				<input type="date" id="fechainput" name="fecha" onchange="EditarFecha('fecha_dicto','fechainput')">
-				<input type="hidden" name="idclase" value="{{idclase}}">
-				<input type="submit" value="Guardar">
-				</form>
+				<div id="modal" class="styled">
+					<strong>Editar Fecha:</strong>
+					<form id="EditFechaForm" action="{{ path('discipular_actualizar_fecha_clase') }}" methos="POST">
+						<input type="text" class="datepick" id="fechainput" name="fecha" onchange="EditarFecha('fecha_dicto','fechainput')">
+						<input type="hidden" name="idclase" value="{{idclase}}">
+						<input type="submit" class="btn btn-primary" id="finalizar" name="finalizar" value="Guardar">
+						<a class="btn" href="#close" id="close-modal">Cerrar</a>
+					</form>
+				</div>
+				<div id="modal-background"></div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label"><b>Archivo:</b></label>
 				<div class="controls">
-					<label class="control-label"><a href="/ae/web/{{ urlfile }}" target="_blank">{{ namefile }}</a></label>
+					<p style="margin-top:5px;"><a href="/ae/web/{{ urlfile }}" target="_blank">{{ namefile }}</a></p>
 				</div>
 			</div>
 		</div>
@@ -109,15 +116,14 @@
 			<div id = "tabla_asistencia" class="box-content box-nomargin">
 			</div>
 			<input type="hidden" name="idclase" value="{{idclase}}">
-			<input type="button" value="Editar" onclick="Editar('modificable')">
-			<input type="submit" value="Guardar">
+			<input type="button" class="btn btn-primary" value="Editar" onclick="Editar('modificable')">
+			<input type="submit" class="btn btn-primary" value="Guardar">
 			</form>
 		</div>
 		<form method="post" action="{{ path('discipular_lista_clases') }}">
 		<input type="hidden" name="datos" value="{{ idasignacion }}"> 
-		<input type="submit" value="Atras">
+		<input type="submit" class="btn" value="Atras">
 		</form>
 	</div>
-</div>
 
 {% endblock %}
