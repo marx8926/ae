@@ -30,7 +30,7 @@
               
                   <div class="control-group">
                       <label class="control-label"></label>
-                      <div class="controls">
+                      <div class="controls" id="divusuario">
                         <label class="checkbox">
                             <input type="checkbox" name="usuario" id="usuario" value="usuario"> Usuario
                         </label>
@@ -62,6 +62,16 @@
                       <div class="controls">
                         <label class="checkbox">
                             <input type="checkbox" name="estudiante" id="estudiante" value="estudiante">Estudiante                          
+                        </label>
+                      </div>
+                  </div>
+              
+               <div class="control-group">
+                       <label class="control-label"></label>
+
+                      <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="docente" id="docente" value="docente">Docente                          
                         </label>
                       </div>
                   </div>
@@ -214,33 +224,54 @@
     
         function permiso(dato)
         {
-             if(dato.consolidador === true)
-                $('#consolidador').attr('checked', true); 
-             
-             if(dato.estudiante===true)
-               $('#estudiante').attr('checked', true); 
-
-             if(dato.lider===true)
+            
+            
+            console.log(dato);
+            
+           // if(dato.ROLE_USER === true)
+             //   $('#usuario').attr('checked',true);
+            
+            if(dato.ROLE_LIDER === true)
                 $('#celula').attr('checked', true); 
 
-             
-             if(dato.lider_red === true)
+            if(dato.ROLE_LIDER_RED === true)
                 $('#lider_red').attr('checked', true); 
 
-             if(dato.misionero === true)
+            if(dato.ROLE_MISIONERO === true)
                 $('#misionero').attr('checked', true); 
 
-             
-             if(dato.pastor_asociado===true)
-                $('#pastor_asoc').attr('checked', true); 
-
-             
-             if(dato.pastor_ejecutivo===true)
+            if(dato.ROLE_PASTOR_EJECUTIVO === true)
                 $('#pastor_eje').attr('checked', true); 
 
-                                
-             
-             
+                
+            if(dato.ROLE_PASTOR_ASOCIADO === true)
+                $('#pastor_asoc').attr('checked', true); 
+
+                
+            if(dato.ROLE_GANAR === true)
+                $('#ganar').attr('checked', true); 
+            
+            if(dato.ROLE_CONSOLIDAR === true)
+                $('#consolidar').attr('checked', true); 
+                
+            if(dato.ROLE_DISCIPULAR === true)
+                $('#discipular').attr('checked', true); 
+                
+            if(dato.ROLE_ESTUDIANTE === true)
+               $('#estudiante').attr('checked', true); 
+           
+            //if(dato.ROLE_PROFESOR === TRUE)
+                
+            
+            if(dato.ROLE_ENVIAR === true)
+                $('#enviar').attr('checked', true); 
+
+                
+            if(dato.ROLE_CONSOLIDADOR=== true)                
+                $('#consolidador').attr('checked', true); 
+
+           if(dato.ROLE_ADMIN=== true)                
+                $('#admin').attr('checked', true); 
         }
         
         //recuperar los datos
@@ -248,9 +279,13 @@
         {
             if(dato!==false)
             {
-                      $('#usuariodiv') .css({'display':'none'});
+                      $('#usuariodiv') .css({'display':'none'});                      
+                      $('#divusuario').css({'display':'none'});            
             }
-            else      $('#usuariodiv') .css({'display':'block'});
+            else {     
+                $('#usuariodiv') .css({'display':'block'});
+                $('#divusuario').css({'display':'none'});
+            }
 
         }
         function cargar()
@@ -291,7 +326,8 @@
 	$(document).ready(function() {
             
             
-            
+           $('#divusuario').css({'display':'none'});
+
                      
            $('#usuariodiv').css({'display':'none'});
 				

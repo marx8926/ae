@@ -44,19 +44,17 @@
                   var x =$("login");
                     x.click();
     
-                    $("#myForm").submit(function(){
-                             
+                    $("#myForm").submit(function(event){                        
+                    event.preventDefault();                             
                     //get the url for the form
-                    var url=$("#myForm").attr("action");
-                     
-                    //start send the post request
-                    
+                    var url=$("#myForm").attr("action");                     
+                    //start send the post request       
                     $.post(url,{
                         formName:$("#myForm").serialize(),
                         other:"attributes"
-                    },function(data){
+                    },function(data){                      
                     //the response is in the data variable
-                    if(data.responseCode==200 ){           
+                    if(data.responseCode===200 ){          
                       
                         alert('Registro Completado');
                         //var href="{{path('main')}}";

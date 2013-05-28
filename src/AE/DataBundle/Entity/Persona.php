@@ -20,97 +20,97 @@ class Persona
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="persona_id_seq", allocationSize=1, initialValue=1)
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
      */
-    protected $nombre;
+    private $nombre;
 
     /**
      * @var string
      *
      * @ORM\Column(name="apellidos", type="string", length=100, nullable=false)
      */
-    protected $apellidos;
+    private $apellidos;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="estado_civil", type="smallint", nullable=false)
      */
-    protected $estadoCivil;
+    private $estadoCivil;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="edad", type="smallint", nullable=false)
      */
-    protected $edad;
+    private $edad;
 
     /**
      * @var string
      *
      * @ORM\Column(name="telefono", type="string", length=20, nullable=true)
      */
-    protected $telefono;
+    private $telefono;
 
     /**
      * @var string
      *
      * @ORM\Column(name="celular", type="string", length=20, nullable=true)
      */
-    protected $celular;
+    private $celular;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_nacimiento", type="date", nullable=false)
      */
-    protected $fechaNacimiento;
+    private $fechaNacimiento;
 
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=100, nullable=true)
      */
-    protected $email;
+    private $email;
 
     /**
      * @var string
      *
      * @ORM\Column(name="website", type="string", length=100, nullable=true)
      */
-    protected $website;
+    private $website;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="sexo", type="smallint", nullable=false)
      */
-    protected $sexo;
-
-    /**
-     * @var \Ubicacion
-     *
-     * @ORM\ManyToOne(targetEntity="Ubicacion")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
-     * })
-     */
-    protected $idUbicacion;
+    private $sexo;
 
     /**
      * @var \Iglesia
      *
-     * @ORM\ManyToOne(targetEntity="Iglesia")
+     * @ORM\ManyToOne(targetEntity="Iglesia",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_iglesia", referencedColumnName="id")
      * })
      */
-    protected $idIglesia;
+    private $idIglesia;
+
+    /**
+     * @var \Ubicacion
+     *
+     * @ORM\ManyToOne(targetEntity="Ubicacion",cascade={"persist", "merge", "remove"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ubicacion", referencedColumnName="id")
+     * })
+     */
+    private $idUbicacion;
 
 
 
@@ -355,29 +355,6 @@ class Persona
     }
 
     /**
-     * Set idUbicacion
-     *
-     * @param \AE\DataBundle\Entity\Ubicacion $idUbicacion
-     * @return Persona
-     */
-    public function setIdUbicacion(\AE\DataBundle\Entity\Ubicacion $idUbicacion = null)
-    {
-        $this->idUbicacion = $idUbicacion;
-    
-        return $this;
-    }
-
-    /**
-     * Get idUbicacion
-     *
-     * @return \AE\DataBundle\Entity\Ubicacion 
-     */
-    public function getIdUbicacion()
-    {
-        return $this->idUbicacion;
-    }
-
-    /**
      * Set idIglesia
      *
      * @param \AE\DataBundle\Entity\Iglesia $idIglesia
@@ -398,5 +375,28 @@ class Persona
     public function getIdIglesia()
     {
         return $this->idIglesia;
+    }
+
+    /**
+     * Set idUbicacion
+     *
+     * @param \AE\DataBundle\Entity\Ubicacion $idUbicacion
+     * @return Persona
+     */
+    public function setIdUbicacion(\AE\DataBundle\Entity\Ubicacion $idUbicacion = null)
+    {
+        $this->idUbicacion = $idUbicacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get idUbicacion
+     *
+     * @return \AE\DataBundle\Entity\Ubicacion 
+     */
+    public function getIdUbicacion()
+    {
+        return $this->idUbicacion;
     }
 }
