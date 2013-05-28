@@ -1,4 +1,7 @@
 {% extends "::base.html.twig" %}
+
+{% block titulo %}Asistencia Eventos - {% endblock %}
+
   {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -111,7 +114,8 @@
             
             
 {% block content %}
-    
+<div class="span9">
+	<h1>Asistencia Eventos</h1>
 	<fieldset>
 		<div class="box">
 		<div class="box-head tabs">
@@ -121,8 +125,8 @@
         	<form id='AsignacionExportForm' method='POST'>
         		<input id='content' type='hidden' name='content' >
                 <input id='title' type='hidden' name='title' >
-                <input id='pdfAsignacion' type='button' value='PDF' class="btn-success">
-                <input id='excelPAsignacion' type='button' value='Excel' class="btn-success">
+                <input id='pdfAsignacion' type='button' value='PDF' class="btn btn-info">
+                <input id='excelPAsignacion' type='button' value='Excel' class="btn btn-info">
             </form>
 		    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="tabla_asignacion" name="tabla_asignacion">
 		    	<thead>
@@ -142,9 +146,10 @@
 		<form  method="POST" id="VerEventoForm" action='{{path('administrar_asistencia_evento')}}'>
 		<div class="form-horizontal">
 			<input id="idEvento" type="hidden" name="id">
-			<input type="submit" class="btn-success" id="registrar" name="enviar" value="Registrar Personas">
+			<input type="submit" class="btn btn-primary" id="registrar" name="enviar" value="Registrar Personas">
 		</div>
 		</form>
 	</div>
 	</fieldset>
+</div>
 {% endblock %}  

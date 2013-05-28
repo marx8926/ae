@@ -68,15 +68,11 @@ class AdministrarEventoController extends Controller{
 			$nombre = $datos["inputNombre"];
 			$descripcion = $datos["inputDescripcion"];
 			
-			$fecha_inicio = $datos["fecha_inicio"];
-			$fecha_inicio_Y = date("Y", strtotime($fecha_inicio));
-			$fecha_inicio_m = date("m", strtotime($fecha_inicio));
-			$fecha_inicio_d = date("d", strtotime($fecha_inicio));
+			$fecha_i = explode('/', $datos["fecha_inicio"],3);
+			$fecha_inicio = $fecha_i[2]."-".$fecha_i[1]."-".$fecha_i[0]; 
 			
-			$fecha_fin = $datos["fecha_fin"];
-			$fecha_fin_Y = date("Y", strtotime($fecha_fin));
-			$fecha_fin_m = date("m", strtotime($fecha_fin));
-			$fecha_fin_d = date("d", strtotime($fecha_fin));
+			$fecha_f = explode('/', $datos["fecha_fin"],3);
+			$fecha_fin = $fecha_f[2]."-".$fecha_f[1]."-".$fecha_f[0];
 			
 			$direccion = $datos['inputDireccion'];
                         $referencia = $datos['inputReferencia'];
@@ -154,7 +150,7 @@ class AdministrarEventoController extends Controller{
 
 
 
-                        $return = array("responseCode"=>200, "greeting"=>'ok');            
+                        $return = array("responseCode"=>200, "greeting"=>$datos);            
                 }
                 else
                 {

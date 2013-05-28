@@ -66,13 +66,13 @@ function FileAPI (t, d, f) {
             var item = fileQueue.pop();
             var p = document.createElement("p");
             p.className = "loader";
-            var pText = document.createTextNode("Uploading...");
+            var pText = document.createTextNode("Subiendo...");
             p.appendChild(pText);
             item.li.appendChild(p);   
             if (item.file.size < 1048576) {
                 uploadFile(item.file, item.li);
             } else {
-                p.textContent = "File to large";
+                p.textContent = "Archivo muy grande";
                 p.style["color"] = "red";
             }
         }
@@ -230,39 +230,39 @@ function ExtArchivo(file) {
     ext = nom.substr(nom.indexOf('.'),nom.length).toLowerCase();
 
     if (file.type.search(/video\/.*/) != -1){
-                    url= "https://localhost/ae/web/extensiones/video.png";
+                    url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/video.png";
     } else{
-        url= "https://localhost/ae/web/extensiones/default.png";
+        url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/default.png";
     }
     if (file.type.search(/audio\/.*/) != -1){
-            url= "https://localhost/ae/web/extensiones/audio.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/audio.png";
     }
     if ("image/jpeg".indexOf(file.type) > -1) {
-            url="https://localhost/ae/web/extensiones/image-png.png";
+            url="https://dl.dropboxusercontent.com/u/67744385/img-ae/image-jpeg.png";
     }
     if ("image/png".indexOf(file.type)>-1) {
-            url= "https://localhost/ae/web/extensiones/image-jpeg.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/image-png.png";
     }
     if ("image/gif".indexOf(file.type)>-1) {
-            url= "https://localhost/ae/web/extensiones/image-gif.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/image-gif.png";
     }
     if ("application/pdf".indexOf(file.type)>-1) {
-            url= "https://localhost/ae/web/extensiones/application-pdf.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/application-pdf.png";
     }
     if(ext.indexOf(".rar")>-1){
-            url= "https://localhost/ae/web/extensiones/application-rar.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/application-rar.png";
     }
     if(ext.indexOf(".zip")>-1){
-            url= "https://localhost/ae/web/extensiones/application-zip.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/application-zip.png";
     }
     if(ext.indexOf(".doc")>-1||ext.indexOf(".docx")>-1||ext.indexOf(".docm")>-1||ext.indexOf(".dotx")>-1||ext.indexOf(".dotm")>-1){
-            url= "https://localhost/ae/web/extensiones/application-word.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/application-word.png";
     }
     if(ext.indexOf(".xlsx")>-1||ext.indexOf(".xlsm")>-1||ext.indexOf(".xltx")>-1||ext.indexOf(".xltm")>-1||ext.indexOf(".xlsb")>-1||ext.indexOf(".xlam")>-1){
-            url= "https://localhost/ae/web/extensiones/application-excel.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/application-excel.png";
     }
     if(ext.indexOf(".ppt")>-1||ext.indexOf(".pptx")>-1||ext.indexOf(".pptm")>-1||ext.indexOf(".potx")>-1||ext.indexOf(".potm")>-1||ext.indexOf(".ppam")>-1||ext.indexOf(".ppsx")>-1||ext.indexOf(".ppsm")>-1||ext.indexOf(".sldx")>-1){
-            url= "https://localhost/ae/web/extensiones/application-ppt.png";
+            url= "https://dl.dropboxusercontent.com/u/67744385/img-ae/application-ppt.png";
     }
     return url;
 }
