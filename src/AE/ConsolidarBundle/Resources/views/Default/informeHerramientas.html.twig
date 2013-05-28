@@ -14,22 +14,31 @@
 {% block content %} 
 <div class="span9" >
 	<h1>Informe Herramientas</h1>
-	<p> Del <input type= "text" class="datepick rango"  id="inicio" name="inicio" class="rango"> al <input type= "text" class="datepick rango"  id="fin" name="fin" >  </p>
-
-	<div class="box">
+	<br>
+	<div class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label">Del</label>
+			<div class="controls">
+				<input type= "text" class="datepick rango"  id="inicio" name="inicio" class="rango"> al <input type= "text" class="datepick rango"  id="fin" name="fin" >
+			</div>
+		</div>
+	</div>
+	<form id='form' method='POST' style="margin-bottom:0;">
+        		<input id='content' type='hidden' name='content' >
+    			<input id='title' type='hidden' name='title' >
+    			<input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+    			<input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+    </form>
+	<div class="box" style="margin-top:0;">
 		<div class="box-head tabs">
             <h3>Herramientas - Consolidados</h3>							
         </div>
 
         <div class="box-content box-nomargin">
-        	<form id='form' method='POST'>
-        		<input id='content' type='hidden' name='content' >
-    			<input id='title' type='hidden' name='title' >
-    			<input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
-    			<input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+        	
                     <div  id="primer" name="primer">
                     </div>
-                </form>
+                
     	</div>
 	</div>
         <div class="form-horizontal" id="ocultar" name="ocultar">

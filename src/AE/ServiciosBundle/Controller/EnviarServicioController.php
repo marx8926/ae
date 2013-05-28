@@ -691,38 +691,37 @@ class EnviarServicioController extends Controller
         }
         
         $result = "               
-                
-<table>
-<tr>
-	<td>Datos Personal: </td>
-	<td>Sexo: ".((strval($todo['sexo'])=='1')?'F':'M')."</td>
-        <td></td>
-	<td>Codigo Lider : ".$todo['lider_id']."</td>
-	<td>Red : ".$todo['red']. "</td>
-</tr>
-<tr>
-	<td colspan='3'>Nombres: ".$todo['nombre']." ".$todo['apellidos']."</td>
-	<td>Telefono: ".(strlen($todo['lider_cell'])>0?$todo['lider_cell']:$todo['lider_tel'])."</td>
-
-	<td>Edad: ".$todo['edad']."</td>
-</tr>
-<tr>
-	<td>DATOS DE LA CELULA</td>
-	<td colspan='4'></td>
-</tr>
-<tr>
-	<td colspan='3'>Direccion: ".$todo['direccion']."</td>
-	<td>Tel. Anfitrion: ".$todo['ctel']."</td>
-	<td>Familia Anfitriona: ".$todo['familia']."</td>
-</tr>
-<tr>
-	<td>Apertura: ". $todo['fecha_creacion']."</td>
-	<td>Tipo ". ((strval($todo['ctipo'])=='0')?'Evangelistica':'Discipulado')."</td>
-        <td></td>
-        <td>Fecha Inicio: ".$ini." </td>
-        <td>Fecha Final: ".$fin."</td>
-</tr>
-</table>";
+      <div class='box-head tabs'>
+            <h3>Datos de Líder de Célula</h3>	
+      </div>
+      <table class='table table-striped table-bordered'>
+      	<tr>
+        		<td>Nombres: ".$todo['nombre']." ".$todo['apellidos']."</td>
+        		<td>Código Líder : ".$todo['lider_id']."</td>
+        		<td>Red : ".$todo['red']. "</td>
+        </tr>
+        <tr>
+        		<td>Sexo: ".((strval($todo['sexo'])=='1')?'F':'M')."</td>
+        		<td>Edad: ".$todo['edad']."</td>
+        		<td>Teléfono: ".(strlen($todo['lider_cell'])>0?$todo['lider_cell']:$todo['lider_tel'])."</td>
+        </tr>
+       </table>
+       <div class='box-head tabs'>
+            <h3>Datos de Célula</h3>	
+      </div>
+      <table class='table table-striped table-bordered'>
+        <tr>
+        		<td colspan='2'>Dirección: ".$todo['direccion']."</td>
+        		<td>Tel. Anfitrión: ".$todo['ctel']."</td>
+        		<td>Familia Anfitriona: ".$todo['familia']."</td>
+        </tr>
+        <tr>
+        		<td>Apertura: ". $todo['fecha_creacion']."</td>
+        		<td>Tipo: ". ((strval($todo['ctipo'])=='0')?'Evangelistica':'Discipulado')."</td>
+        		<td>Fecha Inicio: ".$ini." </td>
+        		<td>Fecha Final: ".$fin."</td>
+        </tr>
+	</table>";
 
        return new Response($result);
         
@@ -898,12 +897,14 @@ class EnviarServicioController extends Controller
         
        
         
-        $result = $result."
-        <table border='1'>
+        $result = $result."<div class='box-head tabs'>
+            <h3>Asistencia</h3>	
+                </div>
+        <table class='table table-striped table-bordered'>
 	<tr>
-		<th rowspan='2'>Nro</th>
+		<th rowspan='2'>Nro.</th>
 		<th rowspan='2'>Nombre y Apellidos</th>
-		<th rowspan='2'>Telefono</th>
+		<th rowspan='2'>Teléfono</th>
 		<th rowspan='2'>Edad</th>
 		<th colspan='15'>Asistencia Semanal</th>
 		<th colspan='".strval($num_cursos)."'>Crecimiento Espiritual</th>
@@ -924,9 +925,9 @@ class EnviarServicioController extends Controller
 		<th>3</th>
 		<th>4</th>
 		<th>5</th>
-                <th>Leche<br>Espiritual</th>
-		<th>Enc</th>
-		<th>Bau<br>tismo</th>";
+        <th>Leche Espiritual</th>
+		<th>Enc.</th>
+		<th>Bautismo</th>";
         
         $tempC = "";
         foreach ($cursos as $key => $value) {
@@ -1003,7 +1004,10 @@ class EnviarServicioController extends Controller
         $num = count($todo);
         //primer mes
         
-        $primer = "<table border='1'> <tr> <th> Fecha </th> <th>Ofrenda  </th> </tr>";
+        $primer = "<div class='box-head tabs'>
+            <h3>Ofrendas</h3>	
+                </div>
+        <table class='table table-striped table-bordered'> <tr> <th width=50%> Fecha </th> <th width=50%>Ofrenda  </th> </tr>";
         $temp = "";
         for ($index = 0; $index < 5; $index++) {
             if($index<$num )
@@ -1017,7 +1021,11 @@ class EnviarServicioController extends Controller
         
         $primer = $primer.$temp."</table>";
         //segundo mes
-        $segundo = "<table border='1'> <tr> <th> Fecha </th> <th>Ofrenda  </th> </tr>";
+        $segundo = "<table class='table table-striped table-bordered'> 
+        		<tr> 
+        			<th width=50%> Fecha </th> 
+        			<th width=50%>Ofrenda  </th> 
+        		</tr>";
         $temp = "";
         for ($index = 5; $index < 10; $index++) {
             if($index<$num )
@@ -1031,7 +1039,11 @@ class EnviarServicioController extends Controller
         $segundo = $segundo.$temp."</table>";
         
         //tercer
-        $tercer = "<table border='1'> <tr> <th> Fecha </th> <th>Ofrenda  </th> </tr>";
+        $tercer = "<table class='table table-striped table-bordered'> 
+        		<tr> 
+        			<th width=50%> Fecha </th> 
+        			<th width=50%>Ofrenda  </th> 
+        		</tr>";
         $temp = "";
         for ($index = 5; $index < 10; $index++) {
             

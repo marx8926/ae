@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
 
+{% block titulo %}Toma de Asistencia - {% endblock %}
+
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -11,21 +13,16 @@
 
 {% block content %} 
 <div class="span9" >
-
-	<div class="box">
-		<div class="box-head tabs">
-            <h3>Asistencia de Célula</h3>							
-        </div>
-
-        <div class="box-content box-nomargin">
-            <form id='form' name='form' method='POST' class="form-horizontal" >
+	<h1>Toma de Asistencia</h1>
+	
+	<form id='form' name='form' method='POST' class="form-horizontal" >
                 
                 <fieldset>
-                    
+                    <legend>Datos de Célula</legend>
                  <div class="control-group">
                      <label class="control-label">ID Clase Célula</label>
                      <div class="controls">
-                         <label class="control-label">{{id}}</label>
+                         <p style="margin-top:5px;">{{id}}</p>
                          <input type="hidden" value="{{id}}" id="claseid" name="claseid">
                      </div>
                  </div>
@@ -33,64 +30,64 @@
                 <div class="control-group">
                         <label class="control-label" >Célula</label>
                         <div class="controls">
-                            <label id="celula" class="control-label" >{{celula}}</label>
+                            <p style="margin-top:5px;" id="celula">{{celula}}</p>
                         </div>
                 </div>
                  
                 <div class="control-group">
                     <label class="control-label" >Tema Célula</label>
                     <div class="controls">
-                        <label id="tema_celula" class="control-label">{{titulo}}</label>
+                        <p style="margin-top:5px;" id="tema_celula">{{titulo}}</p>
                     </div>
                 </div>
                     
                  <div class="control-group">
                     <label class="control-label" >Tipo de Célula</label>
                     <div class="controls">
-                        <label id="tipo_celula" class="control-label">{{tipo}}</label>
+                        <p style="margin-top:5px;" id="tipo_celula">{{tipo}}</p>
                     </div>
                 </div>
                  
                 <div class="control-group">
                     <label class="control-label" >Horario</label>
                     <div class="controls">
-                        <label id="horario" class="control-label" >{{dia}}</label>
+                        <p style="margin-top:5px;" id="horario" >{{dia}}</p>
                     </div>
                 </div>
                  
                 <div class="control-group">
                     <label class="control-label" >Ofrenda</label>
                     <div class="controls">
-                        <input class="input-xlarge" id="ofrenda" name="ofrenda" value="{{ofrenda}}">
+                        <input type="text" class="input-xlarge" id="ofrenda" name="ofrenda" value="{{ofrenda}}">
                     </div>
                 </div>
           
                 </fieldset>
+	 <input id='content' type='hidden' name='content' >
+     <input id='title' type='hidden' name='title' >
+     <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+     <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+     <input id='numfilas' type="hidden" name="numfilas" value="0">
+     
+	<div class="box" style="margin-top:0;">
+
+        <div class="box-content box-nomargin">
             
-                <div class="span9">
-		<div class="box">
+            
 			<div class="box-head">
-				<h3>Células</h3>
+				<h3>Asistencia</h3>
 			</div>
-                        <input id='content' type='hidden' name='content' >
-                        <input id='title' type='hidden' name='title' >
-                        <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                        <input id='excelbutton' type='button' value='Excel' class="btn-success">
-                        <input id='numfilas' type="hidden" name="numfilas" value="0">
+                       
 			<div class="box-content box-nomargin" id="tabla_asistencia">
 			</div>
-		</div>
-                </div>
-                
-                
-                <div class="form-horizontal">
-                    <input class="btn-success" id="guardar" name="guardar" type="button" value="Guardar cambios">
+               
+    	</div>
+	</div>
+        <div class="form-horizontal">
+                    <input class="btn btn-primary" id="guardar" name="guardar" type="button" value="Guardar cambios">
                 </div>
 
                 </form>
-    	</div>
-	</div>
-       
         
 </div>    
                  

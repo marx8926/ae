@@ -15,7 +15,15 @@
 {% block content %} 
 <div class="span9" >
 	<h1>Informe de No Consolidados</h1>
-	<p> Del <input type= "text" class="datepick rango" id="inicio" name="inicio" > al <input type= "text" class="datepick rango" id="fin" name="fin" >  </p>
+	<br>
+	<div class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label">Del</label>
+			<div class="controls">
+				<input type= "text" class="datepick rango" id="inicio" name="inicio" > al <input type= "text" class="datepick rango" id="fin" name="fin" >
+			</div>
+		</div>
+	</div>
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Lista de No Consolidados</h3>							
@@ -26,8 +34,8 @@
                 
                     <input id='content' type='hidden' name='content' >
                     <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn-success">
-                    <input id='excelbutton' type='button' value='Excel' class="btn-success">
+                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
             
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead>
