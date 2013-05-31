@@ -32,6 +32,14 @@ class NuevoConvertido
      * @ORM\Column(name="consolidado", type="boolean", nullable=true)
      */
     private $consolidado;
+    
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ganador", type="bigint", nullable=true)
+     */
+    private $ganador;
 
     /**
      * @var \Persona
@@ -236,5 +244,28 @@ class NuevoConvertido
     public function getIdLugar()
     {
         return $this->idLugar;
+    }
+    
+     /**
+     * Set ganador
+     *
+     * @param integer $ganador
+     * @return NuevoConvertido
+     */
+    public function setGanador($ganador)
+    {
+        $this->ganador = $ganador;
+    
+        return $this;
+    }
+
+    /**
+     * Get peticion
+     *
+     * @return integer 
+     */
+    public function getGanador()
+    {
+        return $this->peticion;
     }
 }

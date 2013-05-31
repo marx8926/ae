@@ -45,6 +45,19 @@ class Lider
      */
     private $id;
 
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo", type="integer", nullable=true)
+     */
+    private $tipo;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="padre", type="bigint", nullable=true)
+     */
+    private $padre;
 
 
     /**
@@ -137,5 +150,52 @@ class Lider
     public function getId()
     {
         return $this->id;
+    }
+    
+    
+     /**
+     * Get tipo
+     *
+     * @return tipo 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param integer $tipo
+     * @return Lider
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    
+        return $this;
+    }
+    
+     /**
+     * Get padre
+     *
+     * @return integer
+     */
+    public function getPadre()
+    {
+        return $this->padre;
+    }
+
+    /**
+     * Set padre
+     *
+     * @param integer $padre
+     * @return Lider
+     */
+    public function setPadre($padre)
+    {
+        $this->padre = $padre;
+    
+        return $this;
     }
 }

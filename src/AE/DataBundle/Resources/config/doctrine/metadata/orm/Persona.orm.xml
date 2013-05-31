@@ -14,6 +14,9 @@
     <field name="email" type="string" column="email" length="100" nullable="true"/>
     <field name="website" type="string" column="website" length="100" nullable="true"/>
     <field name="sexo" type="smallint" column="sexo" nullable="false"/>
+    <field name="dni" type="string" column="dni" length="10" nullable="true"/>
+    <field name="ocupacion" type="string" column="ocupacion" length="150" nullable="true"/>
+    
     <many-to-one field="idUbicacion" target-entity="Ubicacion">
       <join-columns>
         <join-column name="id_ubicacion" referenced-column-name="id"/>

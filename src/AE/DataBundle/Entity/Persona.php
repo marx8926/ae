@@ -28,7 +28,7 @@ class Persona
      * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
      */
     private $nombre;
-
+    
     /**
      * @var string
      *
@@ -113,6 +113,19 @@ class Persona
     private $idUbicacion;
 
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="dni", type="string", length=10, nullable=true)
+     */
+    private $dni;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="ocupacion", type="string", length=150, nullable=true)
+     */
+    private $ocupacion;
 
     /**
      * Get id
@@ -398,5 +411,51 @@ class Persona
     public function getIdUbicacion()
     {
         return $this->idUbicacion;
+    }
+    
+     /**
+     * Set ocupacion
+     *
+     * @param string $ocupacion
+     * @return Persona
+     */
+    public function setOcupacion($ocupacion)
+    {
+        $this->ocupacion = $ocupacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get ocupacion
+     *
+     * @return string 
+     */
+    public function getOcupacion()
+    {
+        return $this->ocupacion;
+    }
+    
+      /**
+     * Set dni
+     *
+     * @param string $dni
+     * @return Persona
+     */
+    public function setDni($dni)
+    {
+        $this->dni = $dni;
+    
+        return $this;
+    }
+
+    /**
+     * Get dni
+     *
+     * @return string 
+     */
+    public function getDni()
+    {
+        return $this->dni;
     }
 }
