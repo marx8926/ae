@@ -55,6 +55,8 @@ class RegistrarController extends Controller
             $twitter = NULL;
             $webpage = NULL;            
             $peticion = NULL;
+            $dni = NULL;
+            $ocupacion = NULL;
 
         if($name!=NULL){
 
@@ -107,6 +109,10 @@ class RegistrarController extends Controller
             
             $peticion = $datos['inputDescripcion'];
             
+            
+            $dni = $datos['inputDni'];
+            $ocupacion = $datos['inputOcupacion'];
+            
                 
             $em = $this->getDoctrine()->getEntityManager();         
             
@@ -146,6 +152,8 @@ class RegistrarController extends Controller
                 $persona->setFechaNacimiento(new \DateTime($fech));
                 $persona->setSexo($sexo);
                 $persona->setIdUbicacion($ubicacion);
+                $persona->setDni($dni);
+                $persona->setOcupacion($ocupacion);
                 
                 if(strlen($webpage)>0)
                     $persona->setWebsite($webpage);
