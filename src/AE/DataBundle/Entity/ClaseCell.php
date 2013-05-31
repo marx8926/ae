@@ -43,6 +43,14 @@ class ClaseCell
      * @ORM\Column(name="fecha_asignado", type="date", nullable=true)
      */
     private $fechaAsignado;
+    
+     /**
+     * @var float
+     *
+     * @ORM\Column(name="ofrenda", type="float", nullable=true)
+     */
+    private $ofrenda;
+
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -277,5 +285,28 @@ class ClaseCell
     public function getIdTemaCelula()
     {
         return $this->idTemaCelula;
+    }
+    
+       /**
+     * Set ofrenda
+     *
+     * @param float $ofrenda
+     * @return ClaseCell
+     */
+    public function setOfrenda($ofrenda)
+    {
+        $this->ofrenda = $ofrenda;
+    
+        return $this;
+    }
+
+    /**
+     * Get ofrenda
+     *
+     * @return float 
+     */
+    public function getOfrenda()
+    {
+        return $this->ofrenda;
     }
 }

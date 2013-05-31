@@ -90,6 +90,8 @@ class ModificarController extends Controller
     {
         
         $nombre = NULL;
+        $dni = NULL;
+        $ocupacion = NULL;
         $apellidos = NULL;
         $estado_civil = NULL;
         $edad = NULL;
@@ -121,6 +123,8 @@ class ModificarController extends Controller
         $ubigeo = array();
         $redes = array();
         $convertido = array();
+        $dia = NULL;
+        $hora = NULL;
         
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -141,6 +145,8 @@ class ModificarController extends Controller
             $edad = $redes['edad'];
             $telefono = $redes['telefono'];
             $celular = $redes['celular'];
+            $dni = $redes['dni'];
+            $ocupacion = $redes['ocupacion'];
             
             $fecha_nacimiento = $redes['fecha_nacimiento'];
                      
@@ -174,14 +180,14 @@ class ModificarController extends Controller
  
             $convertido = $smt->fetch();
             $red = $convertido['id_red'];
-            $celula = $convertido['id_celula'];
+            $celula = $convertido['id_celula'];            
             
-            
-            $conversion = $convertido['fecha_conversion'];
-              
+            $conversion = $convertido['fecha_conversion'];              
                        
             $peticion = $convertido['peticion'];
             $lugar = $convertido['id_lugar'];
+            $hora = $convertido['hora'];
+            $dia = $convertido['dia'];
             
             //lider de red
             
@@ -220,7 +226,8 @@ class ModificarController extends Controller
             'direccion'=>$direccion,'referencia'=>$referencia,'latitud'=>$latitud,'longitud'=>$longitud,'id_ubigeo'=>$id_ubigeo,
             'departamento'=>$departamento,'provincia'=>$provincia,'distrito'=>$distrito,
             'red'=>$red,'celula'=>$celula,'lider'=>$lider_ap.' '.$lider_nom,'cons'=>$cons_ap.' '.$cons_nom,
-            'conversion'=>$conv->format('d/m/Y'),'peticion'=>$peticion,'lugar'=>$lugar));
+            'conversion'=>$conv->format('d/m/Y'),'peticion'=>$peticion,'lugar'=>$lugar,'dni'=>$dni,
+            'ocupacion'=>$ocupacion,'dia'=>$dia,'hora'=>$hora));
        //return $this->render('AEGanarBundle:Default:modificar.html.twig',array('id'=>$id));
     }
     
@@ -260,6 +267,12 @@ class ModificarController extends Controller
             $cel = $datos['inputCelular'];
             $dir = $datos['inputDireccion'];
             $ref = $datos['inputReferencia'];
+            $dni = $datos['inputDni'];
+            $ocupacion = $datos['inputOcupacion'];
+            
+            $dia = $datos['dia_lista'];
+            $hora = $datos['inputHora'];
+            
             $dep = $datos['departamento_lista'];
             $prov = $datos['provincia_lista'];
             $dist = $datos['distrito_lista'];
@@ -280,16 +293,18 @@ class ModificarController extends Controller
             $web = $datos['inputWebpage'];
             $desc = $datos['inputDescripcion'];
 
+            $em->beginTransaction();
             try {
-         
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
-            
+                     
             //actualizar persona
                 
-            $sql = "UPDATE persona SET  nombre = :nombre ,  apellidos = :apellido, estado_civil = :civil, edad = :edad, telefono = :tel, celular = :cel, fecha_nacimiento = :nac , email = :email, website = :website, sexo = :sexo WHERE id = :codigo";
+            $sql = "UPDATE persona SET  nombre = :nombre ,  apellidos = :apellido, estado_civil = :civil, edad = :edad, telefono = :tel, celular = :cel, fecha_nacimiento = :nac , email = :email, website = :website, sexo = :sexo, ".
+                    "ocupacion=:ocu, dni=:iden WHERE id = :codigo";
              
             $smt = $em->getConnection()->prepare($sql);
-            if($smt->execute(array(':nombre'=>$nombre, ':apellido'=>$apellido,':codigo'=>$id,':civil'=>$civil, ':edad'=>$edad,':tel'=>$tel, ':cel'=>$cel, ':nac'=>$naci, ':email'=>$email, ':website'=>$web, ':sexo'=>$sexo)))
+            if($smt->execute(array(':nombre'=>$nombre, ':apellido'=>$apellido,':codigo'=>$id,':civil'=>$civil,
+                ':edad'=>$edad,':tel'=>$tel, ':cel'=>$cel, ':nac'=>$naci, ':email'=>$email, ':website'=>$web,
+                ':sexo'=>$sexo, ':ocu'=>$ocupacion, ':iden'=>$dni)))
             {
                 
                 //actualizar ubicacion
@@ -322,7 +337,7 @@ class ModificarController extends Controller
                         $nuser->setPassword($pass);
                     
                        //roles
-                        $con = $this->getDoctrine()->getManager()->getRepository('AEDataBundle:Rol');          
+                        $con = $em->getRepository('AEDataBundle:Rol');          
                         $rol = $con->findOneBy(array('nombre'=>'ROLE_USER')); 
                     
                         $nuser->addIdRol($rol);
@@ -348,10 +363,11 @@ class ModificarController extends Controller
                         $cell = NULL;
                 //nuevo convertido
                 
-                $sql = "UPDATE nuevo_convertido SET id_celula =:cel, id_red=:red, fecha_conversion=:conv, id_lugar=:lug, peticion=:pet WHERE id=:code";
+                $sql = "UPDATE nuevo_convertido SET id_celula =:cel, id_red=:red, fecha_conversion=:conv, ".
+                        "id_lugar=:lug, peticion=:pet , dia=:day, hora=:hour WHERE id=:code";
                 $smt_con = $em->getConnection()->prepare($sql);
                 if(!$smt_con->execute(array(':cel'=>$cell,':red'=>$red,':lug'=>$lugar,':code'=>$id,
-                    ':conv'=>$fech_con , ':pet'=>$desc)))
+                    ':conv'=>$fech_con , ':pet'=>$desc, ':day'=>$dia, ':hour'=>$hora)))
                 {
                         
                 }

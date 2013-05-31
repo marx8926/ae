@@ -90,6 +90,21 @@
                     </div>
                 </div>
         
+                 <div class="control-group">
+                    <label class="control-label" >DNI</label>
+                    <div class="controls">
+                        <input type="text" class="input-large" placeholder="DNI" id="inputDni" name="inputDni" pattern="[0-9]{8}" value="{{dni}}" required />
+                        <p class="help-block">8 digitos</p>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" >Ocupación</label>
+                    <div class="controls">
+                        <input type="text" class="input-large" placeholder="Ocupación" id="inputOcupacion" name="inputOcupacion" value="{{ocupacion}}" required />
+                    </div>
+                </div>
+                
                 <div class="control-group">
                     <label class="control-label" >Fecha nacimiento</label>
                     <div class="controls">
@@ -170,8 +185,8 @@
             <label>Ubicación</label>
             	<div id="map-ll">
 		        	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
-					<label>Latitud:</label> <input id="lat" name="latitud" value="{{latitud}}">
-		            <label>Longitud:</label> <input id="lng" name="longitud" value="{{longitud}}"> <br/>
+					<label style="display:none;">Latitud:</label> <input type ="hidden" id="lat" name="latitud" value="{{latitud}}">
+		            <label  style="display:none;">Longitud:</label> <input id="lng" type="hidden" name="longitud" value="{{longitud}}"> <br/>
 		        </div>
             <div id="map"></div>
          </div>
@@ -201,6 +216,28 @@
             <div class="controls">
                 <input type= "text" class="datepick" id="inputFechaConversion" name="inputFechaConversion" value="{{conversion}}"/>
                 <p class="help-block">Día/Mes/Año</p>  
+            </div>
+        </div>
+        
+         <div class="control-group">
+            <label class="control-label">Dia de Visitas</label>
+            <div class="controls">
+                <select id="dia_lista" name="dia_lista" >
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miercoles</option>
+                    <option value="Jueves">Jueves </option>
+                    <option value="Viernes">Viernes </option>
+                    <option value="Sabado">Sabado</option>
+                    <option value="Domingo">Domingo</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="control-group" >
+            <label class="control-label">Hora de Visitas</label>
+            <div class="controls">
+                <input type="time" id="inputHora" name="inputHora" value="{{hora}}" required >                       
             </div>
         </div>
         <div class="control-group">
@@ -297,7 +334,7 @@
                       //recuperar los datos
                         var codigo = {{id}};
                 
-
+                        $("#dia_lista").val('{{dia}}');
                           
                       initRed('{{path('servicio_red')}}');
 
@@ -391,7 +428,7 @@
             //recuperar los datos
              function user(dato)
              {
-                  if(dato!=false)
+                  if(dato!==false)
                   {
                       $("#inputUsuario").val(dato.nombre);  
                   }
