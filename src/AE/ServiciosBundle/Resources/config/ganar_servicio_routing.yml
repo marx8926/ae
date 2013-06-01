@@ -2,7 +2,13 @@ servicio_red:
   pattern: /serviciored
   defaults: {_controller: AEServiciosBundle:GanarServicio:red}
   requirements:
-    _method: POST  
+    _method: POST 
+    
+servicio_red_sin:
+  pattern: /servicioredsin
+  defaults: {_controller: AEServiciosBundle:GanarServicio:redsin}
+  requirements:
+    _method: POST
     
 servicio_region:
   pattern: /servicioregion

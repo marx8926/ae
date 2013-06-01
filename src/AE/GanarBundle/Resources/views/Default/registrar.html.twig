@@ -33,15 +33,23 @@
             <script type="text/javascript">
              $(document).ready(function(){
                   //init red
-                  {% if is_granted('ROLE_USER')==false %}
-                    initRed('{{path('servicio_red')}}');
                   
+                  var rede = '{{red}}';
+                  
+                  {% if is_granted('ROLE_GANAR') %}
+                    initRed('{{path('servicio_red_sin')}}');
+                                     
                   {% else %}
+                      
+                      
+                      if(rede.length ===0)
                       $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
+                      else $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+
                       $("<option value='-1'>Sin  Celula </option>").appendTo('#celula_lista');
 
                   {% endif%}
-
+                      
                   //lista de departamentos
                   initDepartamentos('{{path('servicio_region')}}');
  
@@ -62,7 +70,6 @@
                         other:"attributes"
                     },function(data){                      
                     //the response is in the data variable
-                    console.log(data);
                     if(data.responseCode===200 ){          
                       
                         alert('Registro Completado');

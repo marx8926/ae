@@ -45,7 +45,7 @@ function redes(dato)
                 
     for(var i=0;i<dato.length;i++)
     {
-        $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#red_lista');
+        $('<option value='+dato[i].id+'>'+dato[i].id+'</option>').appendTo('#red_lista');
     }    
           
                 recargar_celula();

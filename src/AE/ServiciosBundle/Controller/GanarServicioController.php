@@ -31,8 +31,37 @@ class GanarServicioController extends Controller
             $smt->execute();
  
             $redes = $smt->fetchAll();
-            $em->clear();
             $em->commit();
+            $em->clear();
+
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+
+       return new JsonResponse($redes);
+    }
+    
+    
+     public function redsinAction()
+    {
+        $redes = array();
+        $em = $this->getDoctrine()->getEntityManager();
+
+        
+        try {
+            $em->beginTransaction();
+            $sql = 'select * from red where activo=true order by id';
+
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+ 
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+
             
         } catch (Exception $exc) {
             $em->rollback();
@@ -492,8 +521,8 @@ class GanarServicioController extends Controller
             $smt->execute(array(':ini'=>$fecha1,':fin'=>$fecha2));
  
             $redes = $smt->fetchAll();
-            $em->clear();
             $em->commit();
+            $em->clear();
         }
         catch(Exception $e)
         {

@@ -19,6 +19,9 @@
         <form class="form-horizontal"  method="POST" action="{{path('ganar_modificar_actualizar')}}" id="myForm">
             
             <fieldset>
+                
+             {% if (is_granted('ROLE_ADMIN')) %}
+
                 <legend>Usuario</legend>
 
                 <div class="control-group">
@@ -48,7 +51,37 @@
                         <input type="password" id="inputPasswordN" name="inputPasswordN" placeholder="Contraseña" class="input-xxlarge">
                     </div>
                 </div>
+                
+             {% else %}
 
+                            <div class="control-group">
+                    <label class="control-label" >   </label>
+                    <div class="controls">
+                        <input type="hidden" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xxlarge" patter="[a-zA-Z0-9]+" />
+                    </div>
+                </div>
+        
+                <div class="control-group">     
+                    <label class="control-label" >Email</label>      
+                    <div class="controls">
+                        <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xxlarge" pattern="|^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+$|" title="mail@ejemplo.com" value="{{email}}"/>      
+                    </div>      
+                </div>
+       
+                <div class="control-group">     
+                    <label class="control-label" ></label>      
+                    <div class="controls">
+                        <input type="hidden" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xxlarge">      
+                    </div>
+                </div>
+          
+                 <div class="control-group">     
+                    <label class="control-label" >Nueva contraseña</label>      
+                    <div class="controls">
+                        <input type="hidden" id="inputPasswordN" name="inputPasswordN" placeholder="Contraseña" class="input-xxlarge">
+                    </div>
+                </div>
+             {% endif %}
             </fieldset>
                  
             <fieldset>

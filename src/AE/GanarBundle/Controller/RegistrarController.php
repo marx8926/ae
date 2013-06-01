@@ -17,7 +17,25 @@ class RegistrarController extends Controller
         
     public function personaAction()
     {
-        return $this->render('AEGanarBundle:Default:registrar.html.twig');
+        
+        $securityContext = $this->get('security.context');
+        
+        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+        $red = NULL;
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        if($ganador != NULL)
+        {
+            $sql = "select * from get_red_persona(:id)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$ganador->getId()));
+            $req = $smt->fetch();
+            
+            $red = $req['red'];
+        }
+
+
+        return $this->render('AEGanarBundle:Default:registrar.html.twig', array('red'=>$red));
     }
     public function addpersonaAction()
     {
@@ -62,6 +80,7 @@ class RegistrarController extends Controller
             $ocupacion = NULL;
             $dia = NULL;
             $hora = NULL;
+            $ganador = NULL;
 
         if($name!=NULL){
 
@@ -247,7 +266,12 @@ class RegistrarController extends Controller
                 if($securityContext->isGranted('ROLE_PROFESOR') || $securityContext->isGranted('ROLE_LIDER') ||
                         $securityContext->isGranted('ROLE_CONSOLIDADOR'))
                 {
-                    
+                    $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+                            
+                    if( $ganador !=NULL)
+                    {
+                        $nuev_con->setGanador($ganador->getId());
+                    }
                 }
                 
                 $em->persist($nuev_con);
@@ -273,7 +297,7 @@ class RegistrarController extends Controller
                 
                 $em->clear();
 
-                $return=array("responseCode"=>200,  "greeting"=>$securityContext->getToken()->getUser());
+                $return=array("responseCode"=>200,  "greeting"=>'ok');
  
             }catch(Exception $e)
             {
