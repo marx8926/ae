@@ -26,9 +26,9 @@ class DiscipularServicioController extends Controller
 		$todo = $smt->fetchAll();
 		
 		if(strcmp($tipo,"simple")==0)
-			$result = "<select name='curso' required >";
+			$result = "<select id='curso_select' name='curso' required >";
 		else
-			$result = "<select multiple name='prerequisitos[]'>";
+			$result = "<select id='curso_select' multiple name='prerequisitos[]'>";
 	
 	    foreach ($todo as $key => $val){
 	        $result = $result."<option value='".$val['id']."'>".$val['titulo']."</option>";
@@ -68,7 +68,7 @@ class DiscipularServicioController extends Controller
 		$todo = $smt->fetchAll();
 
 		if(strcmp($tipo,"simple")==0)
-			$result = "<select name='profesor'>";
+			$result = "<select  name='profesor'>";
 		else
 			$result = "<select multiple name='porfesores[]' required>";
 
@@ -339,7 +339,8 @@ class DiscipularServicioController extends Controller
 			$sqlAsistencia = "SELECT acc.".$tipodato."
 							  FROM clase_curso cc 
 							  inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
-							  where acc.id_persona_estudiante =".$val["id"]." and cc.id_curso_impartido =".$idAsignacion;
+							  inner join tema_curso tc on (cc.tema = tc.id)
+							  where acc.id_persona_estudiante =".$val["id"]." and cc.id_curso_impartido =".$idAsignacion." order by tc.id";
 			
 			$smt = $em->getConnection()->prepare($sqlAsistencia);
 			$smt->execute();
@@ -359,6 +360,101 @@ class DiscipularServicioController extends Controller
 		}
 		
 		
+		$result = $result."</tbody></table>";
+		return new Response($result);
+	}
+	
+	function getTablaReporteAsistenciaRedesAction($idCurso,$idRed,$dia){
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$sqlnum = 	"select count (id) as num
+					from tema_curso
+					where tema_curso.id_curso = ".$idCurso;
+	
+		$smt = $em->getConnection()->prepare($sqlnum);
+		$smt->execute();
+	
+		$num;
+	
+		$todonum = $smt->fetchAll();
+	
+		foreach ($todonum as $key => $val){
+			$num= $val["num"];
+		}
+	
+		$result='<table id="tabla_asistencia_redes" name="tabla_asignacion_estado" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Nro</th>
+							<th>Profesor</th>
+							<th>Alumno</th>
+							<th>Celular<br>Alumno</th>
+							<th>Lider</th>
+							<th></th>';
+		for($i=0;$i < $num;$i++){
+			$result=$result."<th>".($i+1)."</th>";
+		}
+		$result=$result.'</tr></thead><tbody>';
+	
+		$sql = "select concat(pd.nombre,' ',pd.apellidos) as docente,
+				pe.id as id_estudiante,concat(pe.nombre,' ',pe.apellidos) as estudiante,
+				pe.celular, concat(plc.nombre,' ',plc.apellidos) as lider, ci.id as curso_impartido
+				from estudiante e
+				inner join persona pe on(pe.id=e.id)
+				inner join miembro mbr on(mbr.id=e.id)
+				inner join celula c on (mbr.id_celula = c.id)
+				inner join persona plc on(plc.id = c.id_lider)
+				inner join matric m on (m.id_persona_estudiante = e.id)
+				inner join curso_impartido ci on(ci.id = m.id_curso_impartido)
+				inner join horario h on(h.id = ci.id_horario)
+				inner join docente d on (d.id_persona=ci.id_persona_docente)
+				inner join persona pd on(pd.id = d.id_persona)
+				where c.id_red = '".$idRed."' and h.dia='".$dia."' and ci.id_curso = ".$idCurso;
+	
+		$smt = $em->getConnection()->prepare($sql);
+		$smt->execute();
+	
+		$todo = $smt->fetchAll();
+	
+		foreach ($todo as $key1 => $val){
+	
+			$result = $result."<tr>
+					<td rowspan='2'>".($key1+1)."</td>
+					<td rowspan='2'>".$val['docente']."</td>
+					<td rowspan='2'>".$val['estudiante']."</td>
+					<td rowspan='2'>".$val['celular']."</td>
+					<td rowspan='2'>".$val['lider']."</td>";
+	
+			$sqlAsistencia = "SELECT acc.asistencia,to_char (cc.fecha_dicto, 'dd/mm') as fecha_dicto
+							FROM clase_curso cc
+							inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
+							inner join tema_curso tc on (cc.tema = tc.id)
+							where acc.id_persona_estudiante =".$val["id_estudiante"]."
+							and cc.id_curso_impartido =".$val['curso_impartido']." order by tc.id";
+	
+			$smt = $em->getConnection()->prepare($sqlAsistencia);
+			$smt->execute();
+				
+			$todoAsistencia = $smt->fetchAll();
+				
+			$celdas_asistencia = "<tr><td>Asist</td>";
+			$celdas_fechas ="<td>Fecha</td>";
+			foreach ($todoAsistencia as $key2 => $valor){
+	
+				if($valor["asistencia"]==1)
+					$celdas_asistencia = $celdas_asistencia."<td>&#10004</td>";
+				else
+					$celdas_asistencia = $celdas_asistencia."<td>X</td>";
+				$celdas_fechas =$celdas_fechas."<td>".$valor["fecha_dicto"]."</td>";
+	
+			}
+			$celdas_fechas = $celdas_fechas."</tr>";
+			$celdas_asistencia = $celdas_asistencia."</tr>";
+			$result = $result.$celdas_fechas;
+			$result = $result.$celdas_asistencia;
+		}
+	
+	
 		$result = $result."</tbody></table>";
 		return new Response($result);
 	}
