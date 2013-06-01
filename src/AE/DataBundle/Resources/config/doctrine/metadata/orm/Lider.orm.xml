@@ -4,6 +4,8 @@
     <field name="fechaObtencion" type="date" column="fecha_obtencion" nullable="false"/>
     <field name="activo" type="boolean" column="activo" nullable="true"/>
     <field name="fechaFin" type="date" column="fecha_fin" nullable="true"/>
+    <field name="tipo" type="integer" column="tipo" nullable="true"/>
+    <field name="padre" type="integer" column="padre" nullable="true"/>
     <one-to-one field="id" target-entity="Persona">
       <join-columns>
         <join-column name="id" referenced-column-name="id"/>

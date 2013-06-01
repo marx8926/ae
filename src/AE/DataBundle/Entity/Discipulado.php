@@ -5,7 +5,7 @@ namespace AE\DataBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Miembro
+ * Discipulado
  *
  * @ORM\Table(name="discipulado")
  * @ORM\Entity
@@ -34,58 +34,38 @@ class Discipulado
     private $activo;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var integer
      *
-     * @ORM\ManyToMany(targetEntity="ClaseCell", mappedBy="idMiembro")
+     * @ORM\Column(name="id_celula", type="bigint", nullable=true)
      */
-    private $idClaseCell;
+    private $idCelula;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_red", type="string", length=10, nullable=true)
+     */
+    private $idRed;
 
     /**
      * @var \Persona
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona",cascade={"persist", "merge", "remove"})
+     * @ORM\OneToOne(targetEntity="Persona")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
      */
     private $id;
 
-    /**
-     * @var \Celula
-     *
-     * @ORM\ManyToOne(targetEntity="Celula",cascade={"persist", "merge", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
-     * })
-     */
-    private $idCelula;
 
-    /**
-     * @var \Red
-     *
-     * @ORM\ManyToOne(targetEntity="Red",cascade={"persist", "merge", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
-     * })
-     */
-    private $idRed;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idClaseCell = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
 
     /**
      * Set aptoConsolidar
      *
      * @param boolean $aptoConsolidar
-     * @return Miembro
+     * @return Discipulado
      */
     public function setAptoConsolidar($aptoConsolidar)
     {
@@ -108,7 +88,7 @@ class Discipulado
      * Set fechaObtencion
      *
      * @param \DateTime $fechaObtencion
-     * @return Miembro
+     * @return Discipulado
      */
     public function setFechaObtencion($fechaObtencion)
     {
@@ -131,7 +111,7 @@ class Discipulado
      * Set activo
      *
      * @param boolean $activo
-     * @return Miembro
+     * @return Discipulado
      */
     public function setActivo($activo)
     {
@@ -151,43 +131,56 @@ class Discipulado
     }
 
     /**
-     * Add idClaseCell
+     * Set idCelula
      *
-     * @param \AE\DataBundle\Entity\ClaseCell $idClaseCell
-     * @return Miembro
+     * @param integer $idCelula
+     * @return Discipulado
      */
-    public function addIdClaseCell(\AE\DataBundle\Entity\ClaseCell $idClaseCell)
+    public function setIdCelula($idCelula)
     {
-        $this->idClaseCell[] = $idClaseCell;
+        $this->idCelula = $idCelula;
     
         return $this;
     }
 
     /**
-     * Remove idClaseCell
+     * Get idCelula
      *
-     * @param \AE\DataBundle\Entity\ClaseCell $idClaseCell
+     * @return integer 
      */
-    public function removeIdClaseCell(\AE\DataBundle\Entity\ClaseCell $idClaseCell)
+    public function getIdCelula()
     {
-        $this->idClaseCell->removeElement($idClaseCell);
+        return $this->idCelula;
     }
 
     /**
-     * Get idClaseCell
+     * Set idRed
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @param string $idRed
+     * @return Discipulado
      */
-    public function getIdClaseCell()
+    public function setIdRed($idRed)
     {
-        return $this->idClaseCell;
+        $this->idRed = $idRed;
+    
+        return $this;
+    }
+
+    /**
+     * Get idRed
+     *
+     * @return string 
+     */
+    public function getIdRed()
+    {
+        return $this->idRed;
     }
 
     /**
      * Set id
      *
      * @param \AE\DataBundle\Entity\Persona $id
-     * @return Miembro
+     * @return Discipulado
      */
     public function setId(\AE\DataBundle\Entity\Persona $id)
     {
@@ -204,51 +197,5 @@ class Discipulado
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set idCelula
-     *
-     * @param \AE\DataBundle\Entity\Celula $idCelula
-     * @return Miembro
-     */
-    public function setIdCelula(\AE\DataBundle\Entity\Celula $idCelula = null)
-    {
-        $this->idCelula = $idCelula;
-    
-        return $this;
-    }
-
-    /**
-     * Get idCelula
-     *
-     * @return \AE\DataBundle\Entity\Celula 
-     */
-    public function getIdCelula()
-    {
-        return $this->idCelula;
-    }
-
-    /**
-     * Set idRed
-     *
-     * @param \AE\DataBundle\Entity\Red $idRed
-     * @return Miembro
-     */
-    public function setIdRed(\AE\DataBundle\Entity\Red $idRed = null)
-    {
-        $this->idRed = $idRed;
-    
-        return $this;
-    }
-
-    /**
-     * Get idRed
-     *
-     * @return \AE\DataBundle\Entity\Red 
-     */
-    public function getIdRed()
-    {
-        return $this->idRed;
     }
 }

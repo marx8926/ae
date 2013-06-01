@@ -55,7 +55,8 @@
                     event.preventDefault();                             
                     //get the url for the form
                     var url=$("#myForm").attr("action");                     
-                    //start send the post request       
+                    //start send the post request 
+                    console.log($("#myForm").serialize());
                     $.post(url,{
                         formName:$("#myForm").serialize(),
                         other:"attributes"
@@ -240,6 +241,21 @@
                         </select>
                     </div>
                 </div>
+                
+                <div class="control-group">
+                    <label class="control-label" >DNI</label>
+                    <div class="controls">
+                        <input type="text" class="input-large" placeholder="DNI" id="inputDni" name="inputDni" pattern="[0-9]{8}" required />
+                        <p class="help-block">8 digitos</p>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" >Ocupación</label>
+                    <div class="controls">
+                        <input type="text" class="input-large" placeholder="Ocupación" id="inputOcupacion" name="inputOcupacion" required />
+                    </div>
+                </div>
         
                 <div class="control-group">
                     <label class="control-label" >Fecha nacimiento</label>
@@ -351,12 +367,36 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Fecha</label>
+            <label class="control-label">Conversión</label>
             <div class="controls">
                 <input type= "text" class="datepick" id="inputFechaConversion" name="inputFechaConversion" required/>
                 <p class="help-block">Día/Mes/Año</p>  
             </div>
         </div>
+        
+        <div class="control-group">
+            <label class="control-label">Dia de Visitas</label>
+            <div class="controls">
+                <select id="dia_lista" name="dia_lista" >
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miercoles</option>
+                    <option value="Jueves">Jueves </option>
+                    <option value="Viernes">Viernes </option>
+                    <option value="Sabado">Sabado</option>
+                    <option value="Domingo">Domingo</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="control-group" >
+            <label class="control-label">Hora de Visitas</label>
+            <div class="controls">
+                <input type="time" id="inputHora" name="inputHora" value="00:00:00" required >                       
+            </div>
+        </div>
+        
+        
         <div class="control-group">
             <label class="control-label">Lugar</label>
             <div class="controls">

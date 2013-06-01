@@ -55,6 +55,10 @@ class RegistrarController extends Controller
             $twitter = NULL;
             $webpage = NULL;            
             $peticion = NULL;
+            $dni = NULL;
+            $ocupacion = NULL;
+            $dia = NULL;
+            $hora = NULL;
 
         if($name!=NULL){
 
@@ -105,17 +109,18 @@ class RegistrarController extends Controller
             $twitter = $datos['inputTwitter'];
             $webpage = $datos['inputWebpage'];
             
-            $peticion = $datos['inputDescripcion'];
+            $peticion = $datos['inputDescripcion'];            
             
+            $dni = $datos['inputDni'];
+            $ocupacion = $datos['inputOcupacion'];
+            
+            $dia = $datos['dia_lista'];
+            $hora = $datos['inputHora'];            
                 
-            $em = $this->getDoctrine()->getEntityManager();         
-            
-         
+            $em = $this->getDoctrine()->getEntityManager();       
+
               $return=array("responseCode"=>200,  "greeting"=>'OK');
-             
-              
-            
-           
+          
             $em->beginTransaction();
             try
             {                
@@ -146,6 +151,8 @@ class RegistrarController extends Controller
                 $persona->setFechaNacimiento(new \DateTime($fech));
                 $persona->setSexo($sexo);
                 $persona->setIdUbicacion($ubicacion);
+                $persona->setDni($dni);
+                $persona->setOcupacion($ocupacion);
                 
                 if(strlen($webpage)>0)
                     $persona->setWebsite($webpage);
@@ -230,6 +237,8 @@ class RegistrarController extends Controller
                 $nuev_con->setPeticion($peticion);
                 $nuev_con->setConsolidado(FALSE);
                 $nuev_con->setFechaConversion(new \DateTime($fechaConv)); 
+                $nuev_con->setDia($dia);
+                $nuev_con->setHora(new \DateTime($hora));
                 $em->persist($nuev_con);
                 $em->flush();
                 

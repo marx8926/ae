@@ -34,36 +34,35 @@ class NuevoConvertido
     private $consolidado;
 
     /**
-     * @var \Persona
+     * @var integer
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Persona",cascade={"persist", "merge", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="ganador", type="bigint", nullable=true)
      */
-    private $id;
+    private $ganador;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dia", type="string", length=10, nullable=true)
+     */
+    private $dia;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="hora", type="time", nullable=true)
+     */
+    private $hora;
 
     /**
      * @var \Celula
      *
-     * @ORM\ManyToOne(targetEntity="Celula",cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="Celula")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_celula", referencedColumnName="id")
      * })
      */
     private $idCelula;
-
-    /**
-     * @var \Red
-     *
-     * @ORM\ManyToOne(targetEntity="Red")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
-     * })
-     */
-    private $idRed;
 
     /**
      * @var \Lugar
@@ -74,6 +73,28 @@ class NuevoConvertido
      * })
      */
     private $idLugar;
+
+    /**
+     * @var \Persona
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Persona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * })
+     */
+    private $id;
+
+    /**
+     * @var \Red
+     *
+     * @ORM\ManyToOne(targetEntity="Red")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
+     * })
+     */
+    private $idRed;
 
 
 
@@ -147,26 +168,72 @@ class NuevoConvertido
     }
 
     /**
-     * Set id
+     * Set ganador
      *
-     * @param \AE\DataBundle\Entity\Persona $id
+     * @param integer $ganador
      * @return NuevoConvertido
      */
-    public function setId(\AE\DataBundle\Entity\Persona $id)
+    public function setGanador($ganador)
     {
-        $this->id = $id;
+        $this->ganador = $ganador;
     
         return $this;
     }
 
     /**
-     * Get id
+     * Get ganador
      *
-     * @return \AE\DataBundle\Entity\Persona 
+     * @return integer 
      */
-    public function getId()
+    public function getGanador()
     {
-        return $this->id;
+        return $this->ganador;
+    }
+
+    /**
+     * Set dia
+     *
+     * @param string $dia
+     * @return NuevoConvertido
+     */
+    public function setDia($dia)
+    {
+        $this->dia = $dia;
+    
+        return $this;
+    }
+
+    /**
+     * Get dia
+     *
+     * @return string 
+     */
+    public function getDia()
+    {
+        return $this->dia;
+    }
+
+    /**
+     * Set hora
+     *
+     * @param \DateTime $hora
+     * @return NuevoConvertido
+     */
+    public function setHora($hora)
+    {
+        $this->hora = $hora;
+    
+        return $this;
+    }
+
+    /**
+     * Get hora
+     *
+     * @return \DateTime 
+     */
+    public function getHora()
+    {
+        return $this->hora;
     }
 
     /**
@@ -193,29 +260,6 @@ class NuevoConvertido
     }
 
     /**
-     * Set idRed
-     *
-     * @param \AE\DataBundle\Entity\Red $idRed
-     * @return NuevoConvertido
-     */
-    public function setIdRed(\AE\DataBundle\Entity\Red $idRed = null)
-    {
-        $this->idRed = $idRed;
-    
-        return $this;
-    }
-
-    /**
-     * Get idRed
-     *
-     * @return \AE\DataBundle\Entity\Red 
-     */
-    public function getIdRed()
-    {
-        return $this->idRed;
-    }
-
-    /**
      * Set idLugar
      *
      * @param \AE\DataBundle\Entity\Lugar $idLugar
@@ -236,5 +280,51 @@ class NuevoConvertido
     public function getIdLugar()
     {
         return $this->idLugar;
+    }
+
+    /**
+     * Set id
+     *
+     * @param \AE\DataBundle\Entity\Persona $id
+     * @return NuevoConvertido
+     */
+    public function setId(\AE\DataBundle\Entity\Persona $id)
+    {
+        $this->id = $id;
+    
+        return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return \AE\DataBundle\Entity\Persona 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set idRed
+     *
+     * @param \AE\DataBundle\Entity\Red $idRed
+     * @return NuevoConvertido
+     */
+    public function setIdRed(\AE\DataBundle\Entity\Red $idRed = null)
+    {
+        $this->idRed = $idRed;
+    
+        return $this;
+    }
+
+    /**
+     * Get idRed
+     *
+     * @return \AE\DataBundle\Entity\Red 
+     */
+    public function getIdRed()
+    {
+        return $this->idRed;
     }
 }

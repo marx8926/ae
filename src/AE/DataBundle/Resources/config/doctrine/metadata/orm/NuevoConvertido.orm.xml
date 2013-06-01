@@ -4,6 +4,7 @@
     <field name="fechaConversion" type="date" column="fecha_conversion" nullable="false"/>
     <field name="peticion" type="text" column="peticion" nullable="false"/>
     <field name="consolidado" type="boolean" column="consolidado" nullable="true"/>
+    <field name="ganador" type="integer" column="ganador" nullable="true"/>
     <one-to-one field="id" target-entity="Persona">
       <join-columns>
         <join-column name="id" referenced-column-name="id"/>
