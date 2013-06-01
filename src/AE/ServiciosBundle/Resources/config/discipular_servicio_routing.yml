@@ -43,7 +43,7 @@ _tabla_reporte_asignacion:
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaReporteAsignacion }
   
 _tabla_reporte_asistencia_redes:
-  pattern: /_tabla_reporte_asistencia_redes/{idCurso}/{idRed}
+  pattern: /_tabla_reporte_asistencia_redes/{idCurso}/{idRed}/{dia}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaReporteAsistenciaRedes }
   
 _tabla_estudiante_asignacion:

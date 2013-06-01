@@ -364,7 +364,7 @@ class DiscipularServicioController extends Controller
 		return new Response($result);
 	}
 	
-	function getTablaReporteAsistenciaRedesAction($idCurso,$idRed){
+	function getTablaReporteAsistenciaRedesAction($idCurso,$idRed,$dia){
 		$em = $this->getDoctrine()->getEntityManager();
 	
 		$sqlnum = 	"select count (id) as num
@@ -382,7 +382,7 @@ class DiscipularServicioController extends Controller
 			$num= $val["num"];
 		}
 	
-		$result='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
+		$result='<table id="tabla_asistencia_redes" name="tabla_asignacion_estado" class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>Nro</th>
@@ -406,9 +406,10 @@ class DiscipularServicioController extends Controller
 				inner join persona plc on(plc.id = c.id_lider)
 				inner join matric m on (m.id_persona_estudiante = e.id)
 				inner join curso_impartido ci on(ci.id = m.id_curso_impartido)
+				inner join horario h on(h.id = ci.id_horario)
 				inner join docente d on (d.id_persona=ci.id_persona_docente)
 				inner join persona pd on(pd.id = d.id_persona)
-				where c.id_red = '".$idRed."' and ci.id_curso = ".$idCurso;
+				where c.id_red = '".$idRed."' and h.dia='".$dia."' and ci.id_curso = ".$idCurso;
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();

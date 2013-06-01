@@ -47,34 +47,39 @@
             	
             	var red = $("#redes_select_option").val();
             	var curso = $("#curso_select").val();
-            	url = "{{ path('_tabla_reporte_asistencia_redes',{'idCurso':'idcurso','idRed':'idred'})}}";
+            	var dia = $('#dia_clase').val();
+            	url = "{{ path('_tabla_reporte_asistencia_redes',{'idCurso':'idcurso','idRed':'idred','dia':'dia'})}}";
             	url = url.replace('idcurso',curso);
             	url = url.replace('idred',red);
-            	console.log($("#curso_select").val());    
+            	url = url.replace('dia',dia);
             	$("select").change(function(){
-                    	red = $("#redes_select_option").val();
-                    	curso = $("#curso_select").val();
-                    	url = "{{ path('_tabla_reporte_asistencia_redes',{'idCurso':'idcurso','idRed':'idred'})}}";
+                    	red = $('#redes_select_option').val();
+                    	curso = $('#curso_select').val();
+                    	dia = $('#dia_clase').val();
+                    	url = url.replace('dia',dia);
+                    	url = "{{ path('_tabla_reporte_asistencia_redes',{'idCurso':'idcurso','idRed':'idred','dia':'dia'})}}";
                     	url = url.replace('idcurso',curso);
-                    	url = url.replace('idred',red);                    	
+                    	url = url.replace('idred',red);
+                    	url = url.replace('dia',dia);          	
                 		ajaxResposeData("informevision",url);
-                		$("#red").text(red);        				
+                		$("#red").text(red+" - "+dia);        				
                 	});
             	ajaxResposeData("informevision",url);
-                $("#red").text($("#redes_select_option").val());
+                $("#red").text(red+" - "+dia);
                 
                 $("#pdfInforme").click(function(event) {
-                	$("#content").val($("#tabla_vision").html());
+                	$("#content").val($("#tabla_asistencia_redes").html());
                 	$("#title").val($("#titulo").html());
                     $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
         	 		$("#ExportForm").submit();
                 });
 
                 $("#excelInforme").click(function(event) {
-                	$("#content").val("<table>" + $("#tabla_vision").html() + "</table>");
+                	$("#content").val("<table>" + $("#tabla_asistencia_redes").html() + "</table>");
         			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
         			$("#ExportForm").submit();
         		        });
+		        
             });
             
             var sayhola = function(data){
@@ -117,6 +122,15 @@
             </div>
            
     </div>
+    <div class="control-group">
+				<label class="control-label">Día</label>
+				<div class="controls">
+					<select name="dia" id="dia_clase">
+	                    <option value="jueves" selected>Jueves</option>
+	                    <option value="domingo">Domingo</option>
+					</select>
+				</div>
+			</div>
 </div>
 <form id='ExportForm' method='POST' style="margin-bottom:0;">
     <input id='content' type='hidden' name='content' >
