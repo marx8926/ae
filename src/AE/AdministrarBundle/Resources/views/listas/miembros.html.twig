@@ -46,6 +46,8 @@
 	</div>
     <div class="form-horizontal">
     	<button class="btn btn-primary" id="vista" name="vista">Ver Datos</button>
+        <input type="button" class="btn btn-primary" id="modificar" name="modificar" value="Modificar">
+        <input type="button" class="btn btn-primary" id="crearuser" name="crearuser" value="Crear Usuario">
     </div>
         
     <div  id="usuario_miembro">
@@ -233,6 +235,9 @@
         
          function user(dato)
         {
+            
+            console.log(dato);
+        
             if(dato!==false)
             {
                       $('#usuario_miembro').css({'display':'none'});            
@@ -283,7 +288,7 @@
                 $('#persona_id').val(values[0]);
                 
                 //carga datos de usuario
-                                   
+                 /*                  
                     var url = '{{path('servicio_usuario_id',{'id':'cod'}) }}';
                     var ruta = url.replace('cod',values[0]);
                     $.ajax(
@@ -293,6 +298,7 @@
                             async: false,
                         }
                     ).done(user);
+                */
             });
             
             
@@ -324,6 +330,27 @@
                     }
                     );
                     return false;});
+                    
+             $('#modificar').click(function(){       
+                var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !=0)
+                {
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                    val.push(item.innerHTML);   
+                      }); 
+                    var route = '{{path('ganar_modificar',{'id': 'nom'})}}';
+                    var rutas = route.replace('nom',val[0]);                    
+                    //$('#mas').attr("href",rutas);                    
+                    $(this).target = "_blank";
+                    //window.open($(this).prop('href'));
+                    window.open(rutas);
+                    return false;                                   
+                }                 
+           });
+            
             
             //click handler para eliminar
             $('#vista').click(function(){
@@ -347,8 +374,36 @@
                 }
             });
             
-            //click handler para vista
-            
+            //click handler para crear usuario
+            $('#crearuser').click(function(){
+                console.log('crearusear');
+                
+                 var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !==0)
+                {
+                    console.log(anSelected);
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                    val.push(item.innerHTML); 
+  
+                      }); 
+                    $('#persona_id').val(val[0]);
+                
+                //carga datos de usuario
+                                   
+                    var url = '{{path('servicio_usuario_id',{'id':'cod'}) }}';
+                    var ruta = url.replace('cod',val[0]);
+                    $.ajax(
+                        {   url : ruta,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(user);                
+                 }
+            });
    
             /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {

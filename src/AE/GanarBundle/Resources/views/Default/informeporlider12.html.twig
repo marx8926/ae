@@ -10,7 +10,8 @@
 {% endblock %}                 
 
 {% block content %} 
-<div class="span9" >
+        <div class="row-fluid">
+<div class="span12" >
 	<h1>Buscar Nuevos Convertidos</h1>
 	<div class="box">
 		<div class="box-head tabs">
@@ -59,7 +60,7 @@
         
     </div>
 </div>    
-                 
+       </div>          
 {% endblock %}
       
  {%block javascript %}
@@ -199,7 +200,9 @@
             
            });
            
-           $('#modificar').click(function(){       
+           $('#modificar').click(function(){
+           
+       
                 var anSelected = fnGetSelected(oTable);
                 //oTable.fnDeleteRow(anSelected[0]);
                 if(anSelected.length !=0)
@@ -207,16 +210,22 @@
                     var tds = $(anSelected).find('td');
                     var val = [];
                     $.each(tds, function(index, item) {
-                    val.push(item.innerHTML);   
+                    val.push(item.innerHTML); 
+  
                       }); 
                     var route = '{{path('ganar_modificar',{'id': 'nom'})}}';
-                    var rutas = route.replace('nom',val[0]);                    
-                    //$('#mas').attr("href",rutas);                    
+
+                    var rutas = route.replace('nom',val[0]);
+                    
+                    //$('#mas').attr("href",rutas);
+                    
                     $(this).target = "_blank";
                     //window.open($(this).prop('href'));
                     window.open(rutas);
-                    return false;                                   
-                }                 
+                    return false;
+                                   
+                }
+                 
            });
             
             //click handler para vista

@@ -20,4 +20,8 @@ class InformeController extends Controller
             return $this->render('AEGanarBundle:Default:informeconvertidos.html.twig');
         }
 
+        public function InformeLider12Action()
+        {
+            return $this->render('AEGanarBundle:Default:informeporlider12.html.twig');
+        }
 }

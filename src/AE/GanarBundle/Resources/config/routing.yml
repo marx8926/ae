@@ -68,3 +68,7 @@ ganar_test:
 ganar_informe_convertidos:
   pattern: /informe_convertidos
   defaults: {_controller: AEGanarBundle:Informe:InformeConvertidos}
+  
+ganar_informe_por_lider:
+  pattern: /informe_por_lider
+  defaults: {_controller: AEGanarBundle:Informe:InformeLider12}
