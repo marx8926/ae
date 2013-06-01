@@ -24,6 +24,9 @@ class RegistrarController extends Controller
         
         $request = $this->get('request');
         $name=$request->request->get('formName');
+        
+        $securityContext = $this->get('security.context');
+
 
         $datos = array();
 
@@ -239,6 +242,14 @@ class RegistrarController extends Controller
                 $nuev_con->setFechaConversion(new \DateTime($fechaConv)); 
                 $nuev_con->setDia($dia);
                 $nuev_con->setHora(new \DateTime($hora));
+                
+
+                if($securityContext->isGranted('ROLE_PROFESOR') || $securityContext->isGranted('ROLE_LIDER') ||
+                        $securityContext->isGranted('ROLE_CONSOLIDADOR'))
+                {
+                    
+                }
+                
                 $em->persist($nuev_con);
                 $em->flush();
                 
@@ -262,7 +273,7 @@ class RegistrarController extends Controller
                 
                 $em->clear();
 
-                $return=array("responseCode"=>200,  "greeting"=>'OK');
+                $return=array("responseCode"=>200,  "greeting"=>$securityContext->getToken()->getUser());
  
             }catch(Exception $e)
             {

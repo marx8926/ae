@@ -23,13 +23,6 @@ class ClaseCell
     private $id;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="ofrenda", type="float", nullable=true)
-     */
-    private $ofrenda;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_dicto", type="date", nullable=true)
@@ -287,26 +280,4 @@ class ClaseCell
         return $this->idTemaCelula;
     }
     
-       /**
-     * Set ofrenda
-     *
-     * @param float $ofrenda
-     * @return ClaseCell
-     */
-    public function setOfrenda($ofrenda)
-    {
-        $this->ofrenda = $ofrenda;
-    
-        return $this;
-    }
-
-    /**
-     * Get ofrenda
-     *
-     * @return float 
-     */
-    public function getOfrenda()
-    {
-        return $this->ofrenda;
-    }
 }
