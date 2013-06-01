@@ -18,5 +18,9 @@ class InformeController extends Controller
 	function InformeVisionAction(){
 		return $this->render('AEDiscipularBundle:Default:informevision.html.twig');
 	}
+	
+	function InformeCursoRedesAction(){
+		return $this->render('AEDiscipularBundle:Default:informecursored.html.twig');
+	}
 
 }

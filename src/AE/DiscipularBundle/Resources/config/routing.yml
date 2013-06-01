@@ -167,3 +167,7 @@ discipular_actualizar_fecha_clase:
 discipular_informe_vision:
     pattern: /informe_vision
     defaults: { _controller: AEDiscipularBundle:Informe:InformeVision }
+    
+discipular_informe_asistenciaredes:
+    pattern: /informe_asistenciaredes
+    defaults: { _controller: AEDiscipularBundle:Informe:InformeCursoRedes}
