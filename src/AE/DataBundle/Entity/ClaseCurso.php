@@ -29,6 +29,14 @@ class ClaseCurso
      */
     private $tema;
     
+     /**
+     * @var float
+     *
+     * @ORM\Column(name="ofrenda", type="float", nullable=true)
+     */
+    private $ofrenda;
+
+    
     
     /**
      * @var \DateTime
@@ -79,6 +87,29 @@ class ClaseCurso
     public function getTema()
     {
         return $this->tema;
+    }
+    
+     /**
+     * Set ofrenda
+     *
+     * @param float $ofrenda
+     * @return ClaseCurso
+     */
+    public function setOfrenda($ofrenda)
+    {
+        $this->ofrenda = $ofrenda;
+    
+        return $this;
+    }
+
+    /**
+     * Get ofrenda
+     *
+     * @return float 
+     */
+    public function getOfrenda()
+    {
+        return $this->ofrenda;
     }
 
     /**
