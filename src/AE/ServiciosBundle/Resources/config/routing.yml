@@ -82,6 +82,10 @@ servicio_liderred:
   pattern: /servicioliderred
   defaults: {_controller: AEServiciosBundle:Default:lider_red}
   
+servicio_lider_sin:
+  pattern: /servicioldersin/{red}
+  defaults: {_controller: AEServiciosBundle:Default:lider_sin}
+  
 servicio_misionero:
   pattern: /serviciomisionero
   defaults: {_controller: AEServiciosBundle:Default:misioneros}

@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block titulo %}Buscar Nuevos Convertidos - {% endblock %}
+{% block titulo %} Informe Ganar 12 {% endblock %}
 
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
@@ -13,6 +13,27 @@
         <div class="row-fluid">
 <div class="span12" >
 	<h1>Buscar Nuevos Convertidos</h1>
+        
+        
+        <div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" >
+                   
+                </select>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" >12</label>
+            <div class="controls">
+                <select id="doce_lista" name="doce_lista" >
+                   
+                </select>
+            </div>
+        </div>
+        
+        
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Nuevos Convertidos</h3>	

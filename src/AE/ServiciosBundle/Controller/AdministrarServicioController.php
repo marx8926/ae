@@ -153,5 +153,63 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        return new JsonResponse(array("aaData"=>$est));
    }
 
+   public function administrar_doce_redAction($red)
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       try
+       {
+           $sql = "select * from info_doce_red(:red)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red));
+           
+           $est = $smt->fetchAll();
+                      
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse($est);
+   }
+   
+   public function administrar_ciento_redAction($red, $lider)
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       try
+       {
+           $sql = "select * from info_ciento_red(:red,:padre)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red,':padre'=>$lider));
+           
+           $est = $smt->fetchAll();
+                      
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse($est);
+   }
+    
    
 }

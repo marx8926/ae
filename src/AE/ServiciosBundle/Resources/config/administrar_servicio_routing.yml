@@ -13,3 +13,15 @@ _tabla_asistencia_evento:
 servicio_administrar_lista_redes_ubicacion:
   pattern: /lista_redes_ubicacion
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:lista_redes_ubicacion}
+  
+servicio_administrar_doce_red:
+  pattern: /administrar_doce_red/{red}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:administrar_doce_red}
+  requirements:
+    _method: POST
+    
+servicio_administrar_ciento_red:
+  pattern: /administrar_ciento_red/{red}/{lider}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:administrar_ciento_red}
+  requirements:
+   _method: POST

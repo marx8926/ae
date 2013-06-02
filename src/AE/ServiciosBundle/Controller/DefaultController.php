@@ -137,7 +137,7 @@ class DefaultController extends Controller
         $con = $em->getRepository('AEDataBundle:Persona');
         
         $personas = $con->findAll();
-        $em->clear();
+        //$em->clear();
         
         $resultado = "";
         
@@ -185,7 +185,7 @@ class DefaultController extends Controller
         $con = $em->getRepository('AEDataBundle:Persona');
         
         $personas = $con->findAll();
-        $em->clear();
+        //$em->clear();
         $resultado = "";
         
         $con1 = $em->getRepository('AEDataBundle:Miembro');
@@ -475,7 +475,6 @@ class DefaultController extends Controller
         $con = $this->getDoctrine()->getEntityManager()->getRepository('AEDataBundle:Persona');
         
         $personas = $con->findAll();
-        $con->clear();
         
         $resultado = "";
         
@@ -671,8 +670,8 @@ class DefaultController extends Controller
             $smt->execute();
         
             $todo = $smt->fetchAll();
-            $em->clear();
             $em->commit();
+            $em->clear();
         }
         catch (Exception $e)
         {
@@ -701,9 +700,11 @@ class DefaultController extends Controller
         
             $todo = $smt->fetchAll();
             
-            $em->clear();
             
-            $this->getDoctrine()->getEntityManager()->commit();
+            $em->commit();
+            
+            $em->clear();
+
         }
         catch (Exception $e)
         {
@@ -800,6 +801,8 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        $smt->execute(array(':id'=>$id));
        
        $todo = $smt->fetch();
+
+       $em->clear();
        
        return new JsonResponse($todo);
    }
@@ -833,15 +836,16 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
  
    public function enviar_lista_celulaAction($id)
    {
-         $this->getDoctrine()->getEntityManager()->beginTransaction();
        
        $todo = array();
        
        $retorno = "";
+       $em = $this->getDoctrine()->getEntityManager();
+
+       $em->beginTransaction();
        
        try
        {
-           $em = $this->getDoctrine()->getEntityManager();
            $sql = "select *from asistencia_celula(:id)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':id'=>$id));
@@ -856,7 +860,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
                $retorno = $retorno.$temp;
            }
   
-           $this->getDoctrine()->getEntityManager()->commit();
+           $em->commit();
        }
        catch (Exception $e)
        {
@@ -881,10 +885,9 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':id'=>$id));
            $todo = $smt->fetch();
-           
-           $em->clear();
-           
            $em->commit();
+           $em->clear();
+
        }
        catch (Exception $e)
        {
@@ -908,7 +911,6 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        {
            $con = $em->getRepository('AEDataBundle:ClaseCell');
            $rest = $con->findOneBy(array('id'=>$id));
-           $con->clear();
            
            
            $est['id']= $rest->getId();
@@ -919,15 +921,43 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
            else
             $est['fecha'] ='';
            
-           $this->getDoctrine()->getEntityManager()->commit();
+           $em->commit();
+           $em->clear();
        }
        catch (Exception $e)
        {
-           $this->getDoctrine()->getEntityManager()->rollback();
-           $this->getDoctrine()->getEntityManager()->close();
+           $em->rollback();
+           $em->close();
        }
        
        return new JsonResponse($est);
    }
 
+   public function lider_sinAction($red)
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+
+       $em->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $sql = "select * from get_lideres_por_tipo(:red,:tip)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red,':tip'=> 0));
+           
+           $todo = $smt->fetchAll();
+           $em->commit();
+           $em->clear();
        }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+}

@@ -136,7 +136,7 @@ class PermisoController extends Controller
                         $var->setId($persona);
                         $var->setFechaObtencion(new \DateTime());
                         $var->setActivo(TRUE);
-                        
+                        $var->setTipo(0);
                         $em->persist($var);
                         $em->flush();
                     }
@@ -435,6 +435,7 @@ class PermisoController extends Controller
                         $var->setId($persona);
                         $var->setFechaObtencion(new \DateTime());
                         $var->setActivo(TRUE);
+                        $var->setTipo(0);
                         
                         $em->persist($var);
                         $em->flush();                        

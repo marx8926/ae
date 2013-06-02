@@ -176,3 +176,27 @@ administrar_crear_usuarios:
   defaults: {_controller: AEAdministrarBundle:Default:admincrearusuarios}
   requirements:
     _method: POST
+    
+administrar_lider12:
+  pattern: /admin_lider12
+  defaults: {_controller: AEAdministrarBundle:Lider:adminlider12}
+  
+administrar_lider12_up:
+  pattern: /admin_lider12up
+  defaults: {_controller: AEAdministrarBundle:Lider:adminlider12up}
+  requirements: 
+    _method: POST
+   
+administrar_lider144:
+  pattern: /admin_lider144
+  defaults: {_controller: AEAdministrarBundle:Lider:adminlider144}
+  
+administrar_lider144up:
+  pattern: /admin_lider144up
+  defaults: {_controller: AEAdministrarBundle:Lider:adminlider144up}
+  requirements:
+    _method: POST
+    
+administrar_lider1728:
+  pattern: /admin_lider1728
+  defaults: {_controller: AEAdministrarBundle:Lider:adminlider1728}
