@@ -303,10 +303,7 @@ class DiscipularServicioController extends Controller
 		$num;
 		
 		$todonum = $smt->fetchAll();
-		
-		foreach ($todonum as $key => $val){
-			$num= $val["num"];
-		}
+		$num = $todonum[0]['num'];
 		
 		$result='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
 					<thead>
@@ -398,12 +395,11 @@ class DiscipularServicioController extends Controller
 	
 		$sql = "select concat(pd.nombre,' ',pd.apellidos) as docente,
 				pe.id as id_estudiante,concat(pe.nombre,' ',pe.apellidos) as estudiante,
-				pe.celular, concat(plc.nombre,' ',plc.apellidos) as lider, ci.id as curso_impartido
+				pe.celular,c.id as celula, ci.id as curso_impartido
 				from estudiante e
 				inner join persona pe on(pe.id=e.id)
 				inner join miembro mbr on(mbr.id=e.id)
 				inner join celula c on (mbr.id_celula = c.id)
-				inner join persona plc on(plc.id = c.id_lider)
 				inner join matric m on (m.id_persona_estudiante = e.id)
 				inner join curso_impartido ci on(ci.id = m.id_curso_impartido)
 				inner join horario h on(h.id = ci.id_horario)
@@ -422,8 +418,14 @@ class DiscipularServicioController extends Controller
 					<td rowspan='2'>".($key1+1)."</td>
 					<td rowspan='2'>".$val['docente']."</td>
 					<td rowspan='2'>".$val['estudiante']."</td>
-					<td rowspan='2'>".$val['celular']."</td>
-					<td rowspan='2'>".$val['lider']."</td>";
+					<td rowspan='2'>".$val['celular']."</td>";
+					
+			$sqllider = "SELECT concat (nombre,' ',apellidos) as lider from info_celula(:idcelula)";
+			$smt = $em->getConnection()->prepare($sqllider);
+            $smt->execute(array(':idcelula'=>$val['celula']));
+            $liderarray = $smt->fetchAll();
+            $lider=$liderarray[0]['lider'];
+            $result = $result."<td rowspan='2'>".$lider."</td>";
 	
 			$sqlAsistencia = "SELECT acc.asistencia,to_char (cc.fecha_dicto, 'dd/mm') as fecha_dicto
 							FROM clase_curso cc
@@ -599,7 +601,7 @@ class DiscipularServicioController extends Controller
 		$smt->execute();		
 		$Estudiantes = $smt->fetchAll();
 		
-		$sql = "SELECT id, titulo FROM curso order by 1";
+		$sql = "SELECT id, titulo FROM curso where activo=true order by 1";
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
 		$Cursos = $smt->fetchAll();
@@ -646,5 +648,123 @@ class DiscipularServicioController extends Controller
 		
 		$result = $result."</tbody></body>";
 		return new Response($result);
-	}	
+	}
+	
+	function getTablaInformeDiscipularAction($idcelula=null){
+		
+		$em = $this->getDoctrine()->getEntityManager();
+		//Procedimiento almacenado clm_sel_clasesyasistenciacurso_by_idcursoimpartido
+		$sqlcurso = "select id,titulo from curso order by 1";
+	
+		$smt = $em->getConnection()->prepare($sqlcurso);
+		$smt->execute();
+		$cursos = $smt->fetchAll();
+	
+		$result = 	"<table id='tabla_vision' name='tabla_vision' class='table table-striped table-bordered'>
+					<thead>
+					<tr>
+					<th rowspan='2'>NOMBRE Y APELLIDO</th>";
+		$tdclases = "<tr>";
+		
+		foreach ($cursos as $key => $valcurso){
+			
+			
+			$sqltemas = "SELECT count(id) as num
+  						FROM tema_curso where id_curso=".$valcurso["id"];
+			$smt= $em->getConnection()->prepare($sqltemas);
+			$smt->execute();
+			$temas = $smt->fetchAll();
+			
+			$num = $temas[0]['num'];
+			$result = $result."
+						<th colspan='".$num."'>".$valcurso["titulo"]."</th>";
+			for($i=0;$i<$num;$i++){
+				$tdclases = $tdclases."<td>".($i+1)."</td>";
+			}			
+		}
+		
+		$result=$result."</tr>".$tdclases."</tr></thead><tbody>";
+		
+		$sqlestudiantes = "select concat(nombre,' ',apellidos) as estudiante, e.id
+						from celula c
+						inner join miembro me on (me.id_celula = c.id)
+						inner join persona pe on (pe.id = me.id)
+						inner join estudiante e on (e.id = pe.id)
+						where c.id =".$idcelula;
+		
+		$smt = $em->getConnection()->prepare($sqlestudiantes);
+		$smt->execute();
+		$Estudiantes = $smt->fetchAll();
+		
+		$flag = true;
+		foreach ($Estudiantes as $key2 => $valestudiante){
+			$result = $result."<tr><td>".$valestudiante["estudiante"]."</td>";
+			$flag = false;
+			foreach ($cursos as $key3 => $valcurso){
+				$sqlasistencia = "SELECT acc.asistencia
+						FROM clase_curso cc 
+						inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
+						inner join tema_curso tc on (cc.tema = tc.id)
+						inner join curso_impartido ci on(cc.id_curso_impartido= ci.id)
+						where acc.id_persona_estudiante =".$valestudiante["id"]." and ci.id_curso=".$valcurso['id'];
+				$smt = $em->getConnection()->prepare($sqlasistencia);
+				$smt->execute();
+				$asistencia = $smt->fetchAll();
+	
+				$em->clear();
+	
+			foreach ($asistencia as $key2 => $valasistencia){
+	
+				if($valasistencia["asistencia"]==1)
+					$result = $result."<td>&#10004</td>";
+				else
+					$result = $result."<td>X</td>";
+	
+			}
+			}
+			$result = $result."</tr>";
+		}
+	
+		if($flag)
+			$result = $result."<tr><td colspan='6'>Datos No Disponibles</td></tr>";
+	
+		$result = $result."</tbody></body>";
+		return new Response($result);
+	}
+	
+	public function getCelulaSelectAction($idred){
+		
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        $em->beginTransaction();
+        
+        try{
+        
+            //misioneros
+            $sql = "select cid, concat(nombre,' ',apellidos) as lider from info_celula_red(:idred)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':idred'=>$idred));
+            $celulas = $smt->fetchAll();
+            $em->clear();
+            
+            $result="<select id='celula'>";
+            
+            foreach($celulas as $key => $varcel) {
+               	$result = $result."<option id='lider_select_option' value='".$varcel['cid']."'>".$varcel['lider']."</option>";
+            }
+           
+            $result=$result."</select>";
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new Response($result);
+    }
 }

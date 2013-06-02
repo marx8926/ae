@@ -43,13 +43,29 @@
     <script type="text/javascript">
             $(document).ready(function() {
             	ajaxResposeDataPost("div_redes_option","{{ path('_enviar_lista_red')}}");
+            	var red = $("#redes_select_option").val();
+            	url = "{{path('_option_celula_red',{'idred':'idred'})}}";
+            	url = url.replace('idred',red);
+            	ajaxResposeDataPost("div_lider_option",url);
 
-            	$("#redes_select_option").change(function(){
-            		ajaxResposeData("informevision","{{ path('_tabla_vision',{'idred':''})}}/"+$("#redes_select_option").val());
-            		console.log("{{ path('_tabla_vision',{'idred':''})}}/"+$("#redes_select_option").val());
-            		$("#red").text($("#redes_select_option").val());
+            	$("select").change(function(){
+            		var red = $("#redes_select_option").val();
+                	url = "{{path('_option_celula_red',{'idred':'idred'})}}";
+                	url = url.replace('idred',red);
+                	ajaxResposeDataPost("div_lider_option",url);
+
+                	var celula = $("#lider_select_option").val();
+                	if(typeof(celula)=== 'undefined')
+                    	celula=null;
+                	url = "{{path('_tabla_informe_discipular',{'idcelula':'idcelula'})}}";
+                	url = url.replace('idcelula',celula);
+                		ajaxResposeDataPost("informevision",url);
  				});
-                ajaxResposeData("informevision","{{ path('_tabla_vision',{'idred':''})}}/"+$("#redes_select_option").val());
+ 				
+            	var celula = $("#lider_select_option").val();
+            	url = "{{path('_tabla_informe_discipular',{'idcelula':'idcelula'})}}";
+            	url = url.replace('idcelula',celula);
+            	ajaxResposeDataPost("informevision",url);
                 $("#red").text($("#redes_select_option").val());
                 
                 $("#pdfInforme").click(function(event) {
@@ -93,6 +109,13 @@
     	<label class="control-label" >Escoge una Red:</label>
         	<div class="controls">
             	<div id="div_redes_option">
+				</div>
+            </div>
+    </div>
+    <div class="control-group">
+    	<label class="control-label" >Escoge un Lider:</label>
+        	<div class="controls">
+            	<div id="div_lider_option">
 				</div>
             </div>
     </div>

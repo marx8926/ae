@@ -65,3 +65,11 @@ _tabla_asignacion_clases:
 _tabla_vision:
   pattern: /_tabla_vision/{idred}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaVision }
+  
+_tabla_informe_discipular:
+  pattern: /_tabla_informe_discipular/{idcelula}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaInformeDiscipular }
+  
+_option_celula_red:
+  pattern: /_option_celula_red/{idred}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCelulaSelect }
