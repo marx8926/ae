@@ -293,31 +293,36 @@ class DiscipularServicioController extends Controller
 	function getTablaReporteAsignacionAction($idAsignacion,$tipodato){
 		$em = $this->getDoctrine()->getEntityManager();
 		
-		$sqlnum = "SELECT count(cc.id) as num
-				  FROM clase_curso cc 
-				  where cc.id_curso_impartido =".$idAsignacion;
+		$sqlnum = "SELECT cc.ofrenda
+					FROM clase_curso cc
+					inner join tema_curso tc on (cc.tema = tc.id)
+					where cc.id_curso_impartido =".$idAsignacion."
+					order by tc.id";
 		
 		$smt = $em->getConnection()->prepare($sqlnum);
 		$smt->execute();
 		
 		$num;
 		
-		$todonum = $smt->fetchAll();
-		$num = $todonum[0]['num'];
+		$todoofrenda= $smt->fetchAll();
 		
 		$result='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Nombre</th>';
-			for($i=0;$i < $num;$i++){
-				$result=$result."<th>".($i+1)."</th>";
+							<th>Nombre</th>
+							<th>Red</th>';
+		$Ofrenda="<tr><td>Ofrendas</td><td><td/>";
+			foreach ($todoofrenda as $key => $valofrenda){
+				$result=$result."<th>".($key+1)."</th>";
+				$Ofrenda = $Ofrenda."<td>".$valofrenda['ofrenda']."</td>";
 			}
-		$result=$result.'</tr></thead><tbody>';
+		$result=$result."</tr></thead><tbody>";
 		
-		$sql = "select concat(persona.nombre,'', persona.apellidos) as estudiante, persona.id
+		$sql = "select concat(persona.nombre,'', persona.apellidos) as estudiante, persona.id, miembro.id_red
 				from miembro
-				inner join persona on (persona.id = miembro.id) 
+				inner join persona on (persona.id = miembro.id)
+				inner join miembro m on (m.id = persona.id)
 				inner join estudiante on (miembro.id = estudiante.id) 
 				inner join matric on (estudiante.id = matric.id_persona_estudiante)
 				where matric.id_curso_impartido =".$idAsignacion;
@@ -331,7 +336,8 @@ class DiscipularServicioController extends Controller
 			
 			$result = $result."<tr>
 					<td>".$val['id']."</td>
-					<td>".$val['estudiante']."</td>";
+					<td>".$val['estudiante']."</td>
+					<td>".$val['id_red']."</td>";
 			
 			$sqlAsistencia = "SELECT acc.".$tipodato."
 							  FROM clase_curso cc 
@@ -355,7 +361,7 @@ class DiscipularServicioController extends Controller
 			
 			$result = $result."</tr>";
 		}
-		
+		$result=$result.$Ofrenda;
 		
 		$result = $result."</tbody></table>";
 		return new Response($result);
