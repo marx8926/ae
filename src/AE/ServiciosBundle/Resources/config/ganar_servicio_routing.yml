@@ -42,6 +42,10 @@ servicio_nuevo_convertido_all:
   pattern: /lista_convertidos
   defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos}
   
+servicio_nuevo_convertido_all_ganador:
+  pattern: /lista_convertidos_ganador
+  defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos_ganador}
+  
 servicio_persona_id:
   pattern: /persona/{id}
   defaults: {_controller: AEServiciosBundle:GanarServicio:persona}
@@ -79,3 +83,10 @@ servicio_tabla_lugar_ganados:
 servicio_convertido_red_lugar:
   pattern: /servicio_convertido_red_lugar/{fecha1}/{fecha2}
   defaults: {_controller: AEServiciosBundle:GanarServicio:convertido_Red_Lugar}
+  
+  
+servicio_red_tipo:
+  pattern: /servicio_red_tipo/{red}/{tipo}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:lideres_red_tipo}
+  requirements:
+    _method: POST

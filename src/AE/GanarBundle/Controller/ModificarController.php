@@ -496,5 +496,95 @@ class ModificarController extends Controller
       
     }
     
+    public function modificarganadorAction()
+    {
+               $securityContext = $this->get('security.context');
+        
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+            
+                if(count($req)>0)
+                $red = $req['red'];
+            }      
+        
+        return $this->render('AEGanarBundle:Default:ganador.html.twig', array('red'=>$red));
+
+    }
+    
+    public function modificarganadorupAction()
+    {
+        $request = $this->get('request');
+        $name=$request->request->get('formName');
+      
+        $datos = array();
+
+        parse_str($name,$datos);
+        
+       /* 
+        $return = array("responseCode"=>200, "greeting"=>$datos);
+
+       
+                     
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+    */
+        $red = NULL;
+        $tipo = NULL;
+        $lider = NULL;
+        $id = NULL;
+       
+       $em = $this->getDoctrine()->getEntityManager();   
+       $red = $datos['red_lista'];
+       $lider = $datos['lideres_lista'];
+
+       if($name!=NULL && strval($red)!='-1' && strval($lider)!='-1'){
+                
+           
+
+            $em->beginTransaction();
+            try
+            {
+                $tipo = $datos['tipo_lista'];
+                $id = $datos['nuevo'];
+                
+                $sql = "select update_ganador_persona(:red, :padre,:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':red'=>$red,':padre'=>$lider,':id'=>$id));
+                
+                $em->commit();
+                $em->clear();
+                $return=array("responseCode"=>200, "greeting"=>'ok' ); 
+  
+            }catch(Exception $e)
+            {
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
+                     $return=array("responseCode"=>400, "greeting"=>"Bad");
+   
+               throw $e;
+            }
+       }
+       else 
+       {
+          $return = array("responseCode"=>400, "greeting"=>"Bad");
+
+       }
+                     
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+    
+        
+    }
 
 }

@@ -183,4 +183,56 @@ class LiderController extends Controller
         return $this->render('AEAdministrarBundle:Lider:milred.html.twig',array('red'=>$red));
     }
     
+      
+    public function adminlider1728upAction()
+    {
+       $request = $this->get('request');
+       $name=$request->request->get('formName');
+      
+       $datos = array();
+
+       parse_str($name,$datos);
+       
+       $em = $this->getDoctrine()->getEntityManager();         
+
+       if($name!=NULL){
+   
+            $em->beginTransaction();
+            try
+            {
+                $id = $datos['personaid'];
+                $padre = $datos['padre'];
+                $abuelo = $datos['abuelo'];
+                
+                $sql = "UPDATE lider SET  tipo=144, padre=:pad WHERE id=:idx";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':idx'=>$id,':pad'=>$padre));
+                
+                $em->commit();
+                $em->clear();
+                $return=array("responseCode"=>200, "greeting"=>'ok' ); 
+  
+            }catch(Exception $e)
+            {
+                     $em->rollback();
+                     $em->clear();
+                     $em->close();
+                     $return=array("responseCode"=>400, "greeting"=>"Bad");
+   
+               throw $e;
+            }
+       }
+       else 
+       {
+          $return = array("responseCode"=>400, "greeting"=>"Bad");
+
+       }
+                     
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+    
+    }
+
+
 }

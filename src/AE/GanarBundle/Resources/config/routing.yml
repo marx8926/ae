@@ -69,6 +69,10 @@ ganar_informe_convertidos:
   pattern: /informe_convertidos
   defaults: {_controller: AEGanarBundle:Informe:InformeConvertidos}
   
+ganar_informe_por_lider:
+  pattern: /informe_por_lider
+  defaults: {_controller: AEGanarBundle:Informe:InformeLider}
+  
 ganar_informe_por_lider12:
   pattern: /informe_por_lider12
   defaults: {_controller: AEGanarBundle:Informe:InformeLider12}
@@ -76,3 +80,17 @@ ganar_informe_por_lider12:
 ganar_informe_por_lider144:
   pattern: /informe_por_lider144
   defaults: {_controller: AEGanarBundle:Informe:InformeLider144}
+  
+ganar_informe_por_lider_1728:
+  pattern: /informe_por_lider1728
+  defaults: {_controller: AEGanarBundle:Informe:InformeLider1728}
+  
+ganar_modificar_ganador:
+  pattern: /modificar_ganador
+  defaults: {_controller: AEGanarBundle:Modificar:modificarganador}
+  
+ganar_modificar_ganador_up:
+  pattern: /modificar_ganador_up
+  defaults: {_controller: AEGanarBundle:Modificar:modificarganadorup}
+  requirements:
+    _method: POST

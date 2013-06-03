@@ -230,8 +230,32 @@ class GanarServicioController extends Controller
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute();
             $redes = $smt->fetchAll();
-            $em->clear();
             $em->commit();
+            $em->clear();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+        
+        return new JsonResponse(array('aaData'=>$redes));
+    }
+    
+     public function listaconvertidos_ganadorAction()
+    {
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $redes = array();
+        try {
+            $em->beginTransaction();
+            
+            $sql = "select *from nuevos_convertidos_ganador";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
             
         } catch (Exception $exc) {
             $em->rollback();
@@ -531,6 +555,40 @@ class GanarServicioController extends Controller
             throw $e;
         }
        return new JsonResponse(array('aaData'=>$redes));
+    }
+    
+    public function lideres_red_tipoAction($red, $tipo)
+    {
+            $sql = "select * from get_lider_tipo(:tipo, :red)";
+
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+        
+        $result = "<option value='-1'>Sin Lider</option>";
+       
+        try{
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':tipo'=>$tipo,':red'=>$red));
+ 
+            $redes = $smt->fetchAll();
+            
+            foreach ($redes as $value) {
+                $result = $result."<option value='".$value['id']."' data-padre='".$value['padre']."' >".
+                        $value['nombres']." </option>";
+            }
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new Response("<select>".$result."</select>");
     }
 }
 

@@ -200,3 +200,9 @@ administrar_lider144up:
 administrar_lider1728:
   pattern: /admin_lider1728
   defaults: {_controller: AEAdministrarBundle:Lider:adminlider1728}
+  
+administrar_lider1728up:
+  pattern: /admin_lider1728up
+  defaults: {_controller: AEAdministrarBundle:Lider:adminlider1728up}
+  requirements:
+    _method: POST

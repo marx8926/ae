@@ -117,4 +117,6 @@ class DefaultController extends Controller
     {
         return $this->render('AEGanarBundle:Default:test.html.twig');
     }
+    
+
 }

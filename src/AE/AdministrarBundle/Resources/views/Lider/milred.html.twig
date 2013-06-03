@@ -80,7 +80,7 @@
     </form>
     	</div>
                 
-       <form id="myForm" name="myForm" method="POST" action="{{path('administrar_lider144up')}}" >
+       <form id="myForm" name="myForm" method="POST" action="{{path('administrar_lider1728up')}}" >
                 <input id="abuelo" name="abuelo" type="hidden" value="">
                 <input id="padre" name="padre" type="hidden" value="">
                 <input id="personaid" name="personaid" type="hidden" value="" >
@@ -201,6 +201,16 @@
                         ).done(doces); 
 
                     cambiar_doce();
+                    
+                   var name = $("#red_lista option:selected").val();  
+            
+                var route = '{{path('servicio_lider_sin',{'red': 'name'})}}';
+            
+                var rutas = route.replace('name',name);
+               
+                console.log(rutas);
+                
+                get_tabla(rutas);
 
                }
             }
@@ -224,18 +234,22 @@
                var net = $("#red_lista option:selected").val();
                var nombre = $("#doce_lista option:selected").val();  
                
-               var route = '{{path('servicio_administrar_ciento_red',{'red': 'name','lider':':led'})}}';
+               if(nombre.length >0)
+               {
                
-               route = route.replace('name',net);
-               route = route.replace(':led',nombre);
+                    var route = '{{path('servicio_administrar_ciento_red',{'red': 'name','lider':':led'})}}';
+               
+                    route = route.replace('name',net);
+                    route = route.replace(':led',nombre);
 
-                $.ajax(
+                    $.ajax(
                         {url : route,
                          dataType:"json",
                         type: "POST",
                         async: false,
                         }
                         ).done(miles); 
+               }
             }
             function miles(data)
             {
@@ -256,15 +270,10 @@
                  var nombre = $('#ciento_lista option:selected').val();
                  
                  $('#padre').val(nombre);
+                 $('#abuelo').val($('#doce_lista option:selected').val());
                  $('#redid').val($("#red_lista option:selected").val());
             
-               var name = $("#red_lista option:selected").val();  
-            
-               var route = '{{path('servicio_lider_sin',{'red': 'name'})}}';
-            
-               var rutas = route.replace('name',name);
-               
-               get_tabla(rutas);
+              
             }
             
             function get_tabla(url)
