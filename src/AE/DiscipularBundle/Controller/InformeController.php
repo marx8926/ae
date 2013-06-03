@@ -22,5 +22,9 @@ class InformeController extends Controller
 	function InformeCursoRedesAction(){
 		return $this->render('AEDiscipularBundle:Default:informecursored.html.twig');
 	}
+	
+	function InformeSemanalIndeliAction(){
+		return $this->render('AEDiscipularBundle:Default:informesemanalindeli.html.twig');
+	}
 
 }

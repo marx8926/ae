@@ -43,6 +43,7 @@
             	ajaxResposeData("tabla_asistencia",'{{path('_tabla_clase_asistencia',{'idclase':''})}}/{{idclase}}');
             	enviar("ActualizarClaseForm",sayhola);
             	enviar("EditFechaForm",sayhola);
+            	enviar("EditOfrendaForm",sayhola);
                 {% endif%}
             });
             
@@ -54,7 +55,7 @@
     		function Editar(classname){
         		$("."+classname).attr("disabled",false);
     		}
-    		function EditarFecha(idnamelabel,idnameinput){
+    		function EditarDato(idnamelabel,idnameinput){
 				$("#"+idnamelabel).text($("#"+idnameinput).val());
             }
 
@@ -102,9 +103,34 @@
 				<div id="modal" class="styled">
 					<strong>Editar Fecha:</strong>
 					<form id="EditFechaForm" action="{{ path('discipular_actualizar_fecha_clase') }}" methos="POST">
-						<input type="text" class="datepick" id="fechainput" name="fecha" onchange="EditarFecha('fecha_dicto','fechainput')">
+						<input type="text" class="datepick" id="fechainput" name="fecha" onchange="EditarDato('fecha_dicto','fechainput')">
 						<input type="hidden" name="idclase" value="{{idclase}}">
 						<input type="submit" class="btn btn-primary" id="finalizar" name="finalizar" value="Guardar">
+						<a class="btn" href="#close" id="close-modal">Cerrar</a>
+					</form>
+				</div>
+                                {% endif %}
+				<div id="modal-background"></div>
+			</div>
+			
+			<div class="control-group">
+
+				<label class="control-label"><b>Ofrenda:</b></label>
+				<div class="controls">
+					<p style="margin-top:5px;" id="ofrenda">{{ ofrenda }}</p>
+                                        {% if is_granted('ROLE_PROFESOR')%}
+
+                                           <input id="registro_ofrenda" type="button" class="btn btn-primary" value="Editar">
+                                        {% endif %}
+				</div>
+
+                                {% if is_granted('ROLE_PROFESOR')%}
+				<div >
+					<strong>Ofrenda Fecha:</strong>
+					<form id="EditOfrendaForm" action="{{ path('discipular_actualizar_ofrenda_clase') }}" methos="POST">
+						<input type="text" id="ofrendainput" name="ofrenda" onchange="EditarDato('ofrenda','ofrendainput')">
+						<input type="hidden" name="idclase" value="{{idclase}}">
+						<input type="submit" class="btn btn-primary" id="finalizar_ofrenda" name="finalizar" value="Guardar">
 						<a class="btn" href="#close" id="close-modal">Cerrar</a>
 					</form>
 				</div>

@@ -164,10 +164,20 @@ discipular_actualizar_fecha_clase:
     requirements:
           _method: POST
           
+discipular_actualizar_ofrenda_clase:
+    pattern:  /actualizar_ofrenda_clase
+    defaults: { _controller: AEDiscipularBundle:Clase:ActualizarOfrendaClase }
+    requirements:
+          _method: POST
+          
 discipular_informe_vision:
     pattern: /informe_vision
     defaults: { _controller: AEDiscipularBundle:Informe:InformeVision }
     
 discipular_informe_asistenciaredes:
     pattern: /informe_asistenciaredes
-    defaults: { _controller: AEDiscipularBundle:Informe:InformeCursoRedes}
+    defaults: { _controller: AEDiscipularBundle:Informe:InformeCursoRedes }
+    
+discipular_informe_semanal_indeli:
+    pattern: /informe_semanal_indeli
+    defaults: { _controller: AEDiscipularBundle:Informe:InformeSemanalIndeli }

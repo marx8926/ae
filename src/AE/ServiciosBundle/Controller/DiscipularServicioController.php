@@ -767,4 +767,70 @@ class DiscipularServicioController extends Controller
         
         return new Response($result);
     }
+    
+    function getTablaReporteSemanalIndeliAction($desde,$hasta,$tipo){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	//Procedimiento almacenado clm_sel_clasesyasistenciacurso_by_idcursoimpartido
+    	$sqltabla = "SELECT c.titulo, concat(pd.nombre,' ',pd.apellidos) as docente,
+					l.nombe, to_char( h.hora_inicio,'HH24:MI') as hora_inicio,  to_char( h.hora_fin,'HH24:MI')as hora_fin, cc.ofrenda, tc.descripcion,
+					count (m.id) as matriculados, 
+					SUM(CASE WHEN acc.asistencia=true then 1
+					ELSE 0
+					END) as cantidad
+					FROM curso c
+					inner join curso_impartido ci on (ci.id_curso = c.id)
+					inner join persona pd on (pd.id = ci.id_persona_docente)
+					inner join horario h on(h.id = ci.id_horario)
+					inner join local l on (l.id = ci.id_local)
+					inner join clase_curso cc on (cc.id_curso_impartido = ci.id)
+					inner join tema_curso tc on (cc.tema = tc.id)
+					inner join matric m on (m.id_curso_impartido = ci.id)
+					inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
+					";
+    	
+    	$condicion = "";
+    	if($tipo == "desentralizado")
+    		$condicion = "where h.dia != 'Jueves' and h.dia!='Domingo' and cc.fecha_dicto BETWEEN '".$desde."' and '".$hasta."'";
+    	else
+    		$condicion = "where h.dia = '".$tipo."' and cc.fecha_dicto BETWEEN '".$desde."' and '".$hasta."'";
+    	
+    	$sqltabla = $sqltabla.$condicion."group by c.titulo, pd.nombre, pd.apellidos, l.nombe, h.hora_inicio, h.hora_fin, cc.ofrenda, tc.descripcion";
+    	
+    	$smt = $em->getConnection()->prepare($sqltabla);
+    	$smt->execute();
+    	$tabla = $smt->fetchAll();
+    	
+    	$result = "
+    			<table id='tabla_vision' name='tabla_vision' class='table table-striped table-bordered'>
+				<thead>
+				<tr>
+    			<th>Nro</th>
+    			<th>Curso</th>
+    			<th>Profesor</th>
+    			<th>Lugar</th>
+    			<th>Hora</th>
+    			<th>Tema</th>
+    			<th>Nro<br>Alum</th>
+    			<th>Asis</th>
+    			<th>Ofrn</th>
+    			</thead>
+				<tbody>";
+    	
+    	foreach ($tabla as $key => $val){
+    		$result = $result."
+						<tr>
+						<td>".($key+1)."</td>
+						<td>".$val['titulo']."</td>
+						<td>".$val['docente']."</td>
+						<td>".$val['nombe']."</td>
+						<td>".$val['hora_inicio']."<br>".$val['hora_fin']."</td>
+						<td>".$val['descripcion']."</td>
+						<td>".$val['matriculados']."</td>
+						<td>".$val['cantidad']."</td>
+						<td>".$val['ofrenda']."</td>
+						</tr>";
+    		}
+    		$result = $result."</tbody></table>";
+    		return new Response($result);
+    }
 }

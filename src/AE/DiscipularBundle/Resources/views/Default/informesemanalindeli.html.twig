@@ -1,0 +1,158 @@
+{% extends "::base.html.twig" %}
+
+{% block titulo %}Asignar Personal - {% endblock %}
+
+  {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+ {% endblock %}
+         
+  {%block javascript %}
+  	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>			
+	<script src="{{asset('js/functiongen.js')}}"></script>
+	<script src="{{asset('js/datatable_plugins.js')}}"></script>
+        <script src="{{asset('js/tiempo.js')}}" ></script>
+            
+    <script type="text/javascript">
+            $(document).ready(function() {
+               
+				$("#fecha").change(function(){
+					var base = new Date(2012,11,31);
+					var fechaarray =  $("#fecha").val().split('/');
+					fechaselect= new Date(fechaarray[2],fechaarray[1]-1,fechaarray[0]);
+					var i=0;
+					while(base<fechaselect){
+						desde = dateToYMD(new Date(2012,11,31+7*i));
+						i++;
+						base = new Date(2012,11,31+7*i);
+						hasta = dateToYMD(base);
+					}
+					
+					url1 = "{{ path('_tabla_reporte_semanal_indeli',{'desde':'desde','hasta':'hasta','tipo':'Jueves'})}}";
+					url2 = "{{ path('_tabla_reporte_semanal_indeli',{'desde':'desde','hasta':'hasta','tipo':'Domingo'})}}";
+					url3 = "{{ path('_tabla_reporte_semanal_indeli',{'desde':'desde','hasta':'hasta','tipo':'desentralizado'})}}";
+
+					url1 = url1.replace('desde',desde);
+	            	url1 = url1.replace('hasta',hasta);
+
+	            	url2 = url2.replace('desde',desde);
+	            	url2 = url2.replace('hasta',hasta);
+
+	            	url3 = url3.replace('desde',desde);
+	            	url3 = url3.replace('hasta',hasta);
+
+	            	ajaxResposeData("reporte_semanal_indeli_jueves",url1);
+	            	ajaxResposeData("reporte_semanal_indeli_domingo",url2);
+	            	ajaxResposeData("reporte_semanal_indeli_desentralisado",url3);
+					
+					console.log(desde+" - "+hasta);
+					});
+                
+                
+                $("#pdfInforme").click(function(event) {
+                	$("#content").val($("#tabla_asistencia_redes").html());
+                	$("#title").val($("#titulo").html());
+                    $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+        	 		$("#ExportForm").submit();
+                });
+
+                $("#excelInforme").click(function(event) {
+                	$("#content").val("<table>" + $("#tabla_asistencia_redes").html() + "</table>");
+        			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+        			$("#ExportForm").submit();
+        		        });
+		        
+            });
+
+            function dateToYMD(date)
+            {
+                var d = date.getDate();
+                var m = date.getMonth()+1;
+                var y = date.getFullYear();
+                return '' + y +'-'+ (m<=9?'0'+m:m) +'-'+ (d<=9?'0'+d:d);
+            }
+            
+            var sayhola = function(data){
+        		console.log(data);
+        		location.reload();
+        		};
+    		function EnviarMatricular(boton){
+        		$("#idCurso").val($(boton).attr("data"));
+        		$("#IrAForm").attr("action","{{ path('discipular_matricular')}}");
+        		$("#IrAForm").submit();
+        	}
+        	function IrAAsignacion(boton){
+        		$("#idCurso").val($(boton).attr("data"));
+        		$("#IrAForm").attr("action","{{ path('discipular_lista_clases')}}");
+        		$("#IrAForm").submit();
+            }
+        	
+    </script>             
+{%endblock%}
+
+{% block content %}
+	<div class="span9">
+<h1>Informe Visión</h1>
+<br>
+<div class="form-horizontal">
+
+           <div class="control-group">
+				<label class="control-label">Seleccione la semana</label>
+				<div class="controls">
+					<input type= "text" class="datepick" name="fecha" id="fecha" required>
+				</div>
+			</div>
+</div>
+<form id='ExportForm' method='POST' style="margin-bottom:0;">
+    <input id='content' type='hidden' name='content' >
+    <input id='title' type='hidden' name='title' >
+    <input id='pdfInforme' type='button' value='PDF' class="btn btn-info">
+	<input id='excelInforme' type='button' value='Excel' class="btn btn-info">
+</form>
+		<div class="box" style="margin-top:0;">
+			<div class="box-head">
+				<h3>Indeli Jueves</h3>
+			</div>
+			<div class="box-content box-nomargin" id="reporte_semanal_indeli_jueves">
+			</div>
+		</div>
+		
+		<div class="box" style="margin-top:0;">
+			<div class="box-head">
+				<h3>Indeli Domingo</h3>
+			</div>
+			<div class="box-content box-nomargin" id="reporte_semanal_indeli_domingo">
+			</div>
+		</div>
+		<div class="box" style="margin-top:0;">
+			<div class="box-head">
+				<h3>Indeli Desentralisado</h3>
+			</div>
+			<div class="box-content box-nomargin" id="reporte_semanal_indeli_desentralisado">
+			</div>
+		</div>
+</div>
+
+{% endblock %}
