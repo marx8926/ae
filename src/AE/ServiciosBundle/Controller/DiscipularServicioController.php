@@ -410,8 +410,12 @@ class DiscipularServicioController extends Controller
 				inner join curso_impartido ci on(ci.id = m.id_curso_impartido)
 				inner join horario h on(h.id = ci.id_horario)
 				inner join docente d on (d.id_persona=ci.id_persona_docente)
-				inner join persona pd on(pd.id = d.id_persona)
-				where c.id_red = '".$idRed."' and h.dia='".$dia."' and ci.id_curso = ".$idCurso;
+				inner join persona pd on(pd.id = d.id_persona)";
+				
+		if($dia=="desentralizado")
+			$sql=$sql."where c.id_red = '".$idRed."' and h.dia!='Jueves' and h.dia!='Domingo' and ci.id_curso = ".$idCurso;
+		else
+			$sql=$sql."where c.id_red = '".$idRed."' and h.dia='".$dia."' and ci.id_curso = ".$idCurso;
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
