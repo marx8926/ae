@@ -179,11 +179,34 @@
              <script type="text/javascript">
                 
     
-                $(document).ready(function(){
+                function pastores(data)    
+                {
+                
+                $('#pastor').empty();
+
+                $("<option value='-1'>Sin pastor</option>").appendTo('#pastor');
+                
+                console.log(data);
+          
+                for(var i=0;i<data.length;i++)
+                    {
+                      $('<option value='+data[i].id+'>'+data[i].nombres+'</option>').appendTo('#pastor');
+
+                    }
+                }
+    
+       $(document).ready(function(){
            
               
-               ajaxListPost('{{path('servicio_lista_pastores_ejecutivos')}}','pastor',null);
-                
+            $.ajax(
+            {
+            url: '{{path('servicio_lista_pastores_ejecutivos')}}',
+            async: false,
+            dataType:"json",
+            type: "POST",
+            }).done(pastores); 
+    
+    
                 $.getJSON('{{path('servicio_iglesia')}}',iglesias);
                 
                    //lista de departamentos

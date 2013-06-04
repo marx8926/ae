@@ -699,6 +699,143 @@ class GanarServicioController extends Controller
         }
        return new JsonResponse(array('aaData'=>$redes)); 
     }
+    
+    
+    public function invierte_resultados($in)
+    {
+        $out = array();
+        
+        foreach ($in as $key => $value) {
+            
+            $out[$value['red']]= $value;
+        }
+        
+        return $out;
+    }
+    
+    public function union_resultados_ganar($red, $lideres, $ganados, $descartados, $lugar)
+    {
+        $out = array();
+       
+        
+        $n = count($red);
+        $m = count($lugar);
+        
+        if($m <$n)
+        {
+            for ($index = $m; $index < $n; $index++) {
+                $t = array();
+                $t['lugar']=NULL;
+                $t['ganados']=NULL;
+                
+                $lugar[] = $t;
+            }
+            
+        }
+        
+        $cont = 0;
+        foreach ($red as $key => $value) {
+           
+            $temp = array();
+            
+            $temp['red'] = $value['red'];
+            $temp['nombres']=$value['nombres'];
+            
+            $temp['lideres']=$lideres[$value['red']]['lideres'];
+            $temp['meta'] = $temp['lideres']*7;
+            
+            $temp['ganados']=$ganados[$value['red']]['ganados'];
+            $temp['descartados']= $descartados[$value['red']]['descartados'];
+            
+            $temp['lugar']=$lugar[$cont]['lugar'];
+            $temp['lg']= $lugar[$cont]['ganados'];
+            
+            $out[] = $temp;
+            $cont++;
+        }
+        
+       
+        if($m > $n)
+        {
+            for ($i = $n; $i < $m; $i++) {
+                $temp = array();
+            
+            $temp['red'] = NULL;
+            $temp['nombres']= NULL;
+            
+            $temp['lideres']=NULL;
+            $temp['meta'] = NULL;
+            
+            $temp['ganados']= NULL;
+            $temp['descartados']= NULL;
+            
+            $temp['lugar']=$lugar[$i]['lugar'];
+            $temp['lg']= $lugar[$i]['ganados'];
+            
+            $out[] = $temp;
+            }
+        }
+        return $out;
+    }
+    public function informe_semanal_dataAction($pastor, $inicio, $fin)
+    {
+     
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+        
+        $em->beginTransaction();
+       
+        try{
+            
+               
+            $sql1="select * from get_encargados_red_xpastor(:pastor)";
+            $smt1 = $em->getConnection()->prepare($sql1);
+            $smt1->execute(array(':pastor'=>$pastor));
+            $red_encargado_b = $smt1->fetchAll();
+            $red_encargado = $this->invierte_resultados($red_encargado_b);
+        
+            $sql2="select * from get_lideres_red_xpastor(:pastor)";
+            $smt2 = $em->getConnection()->prepare($sql2);
+            $smt2->execute(array(':pastor'=>$pastor));
+            $lideres_red_b = $smt2->fetchAll();
+            $lideres_red = $this->invierte_resultados($lideres_red_b);
+
+            $sql3="select * from get_ganados_red_xpastor(:pastor,:inicio,:fin)";
+            $smt3 = $em->getConnection()->prepare($sql3);
+            $smt3->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+            $ganados_red_b = $smt3->fetchAll();
+            
+            $ganados_red = $this->invierte_resultados($ganados_red_b);
+        
+            $sql4="select * from get_descartados_red_xpastor(:pastor,:inicio,:fin)";
+            $smt4 = $em->getConnection()->prepare($sql4);
+            $smt4->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+            $descartados_red_b = $smt4->fetchAll();
+            
+            $descartados_red = $this->invierte_resultados($descartados_red_b);
+            
+            $sql5 = " select * from get_ganados_xlugar(:inicio,:fin)";
+            $smt5 = $em->getConnection()->prepare($sql5);
+            $smt5->execute(array(':inicio'=>$inicio,':fin'=>$fin));
+            $lugar_red = $smt5->fetchAll();
+           
+           
+            $todo = $this->union_resultados_ganar($red_encargado, $lideres_red, $ganados_red, $descartados_red,
+                    $lugar_red);
+
+            
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$todo)); 
+    }
 
  }
 
