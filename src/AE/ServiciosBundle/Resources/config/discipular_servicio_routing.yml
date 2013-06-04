@@ -73,3 +73,7 @@ _tabla_informe_discipular:
 _option_celula_red:
   pattern: /_option_celula_red/{idred}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getCelulaSelect }
+  
+_tabla_reporte_semanal_indeli:
+  pattern: /_tabla_reporte_semanal_indeli/{desde}/{hasta}/{tipo}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaReporteSemanalIndeli }

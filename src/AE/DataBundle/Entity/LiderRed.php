@@ -45,8 +45,6 @@ class LiderRed
      */
     private $id;
 
-
-
     /**
      * Set fechaObtencion
      *

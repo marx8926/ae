@@ -23,13 +23,25 @@ servicio_red_id:
   pattern: /servicioredid/{id}
   defaults: {_controller: AEServiciosBundle:Default:redid}
   
+servicio_red_encargado:
+  pattern: /servicioreencargado/{id}
+  defaults: {_controller: AEServiciosBundle:Default:encargadoid}
+  requirements:
+    _method: POST
   
+
+servicio_red_encargado_doce:
+  pattern: /servicioreencargado_doce/{red}/{id}
+  defaults: {_controller: AEServiciosBundle:Default:encargadoid_doce}
+  requirements:
+    _method: POST
+    
+    
 servicio_celula_id:
   pattern: /serviciocelulaid/{red}/{id}
   defaults: {_controller: AEServiciosBundle:Default:celulaid}
   
  
-
   
 servicio_persona_lista:
   pattern: /listapersona
@@ -179,3 +191,9 @@ servicio_enviar_asistencia_celula:
  defaults: {_controller: AEServiciosBundle:Default:enviar_asistencia_celula}
  requirements:
    _method: POST
+   
+servicio_persona_id:
+  pattern: /personaid/{id}
+  defaults: {_controller: AEServiciosBundle:Default:personaid}
+  requirements:
+    _method: POST

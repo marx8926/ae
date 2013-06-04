@@ -79,7 +79,7 @@ class InformeController extends Controller
                 $red = $req['red'];
             }
             
-            return $this->render('AEGanarBundle:Default:informeporlider144.html.twig');
+            return $this->render('AEGanarBundle:Default:informeporlider144.html.twig', array('red'=>$red));
         }
         
         public function InformeLider1728Action()
@@ -101,5 +101,11 @@ class InformeController extends Controller
                 $red = $req['red'];
             }
             return $this->render('AEGanarBundle:Default:informeporlider12.html.twig', array('red'=>$red));
+        }
+        
+        public function InformeSemanalGanarAction()
+        {
+                        return $this->render('AEGanarBundle:Default:informesemanalganar.html.twig');
+
         }
 }

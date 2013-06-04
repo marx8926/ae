@@ -125,6 +125,16 @@
                     </div>
                 </div>
                
+            <fieldset>
+                <legend>Asociado al Pastor Ejecutivo </legend>
+            <div class="control-group">
+                <label class="control-label">Pastor Ejecutivo</label>
+                    <div class="controls">
+                         <select id="pastor" name="pastor" required>
+                         </select>
+                    </div>
+                </div>    
+            </fieldset>
                 
             </fieldset>
                 <div class="control-group">
@@ -148,6 +158,7 @@
             <script type="text/javascript" src="{{asset('js/jquery-addresspicker/src/jquery.ui.addresspicker.js')}}"> </script>
             <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
             <script type="text/javascript" src="{{asset('js/ganar.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/functiongen.js')}}"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
    
       
@@ -254,15 +265,47 @@
                             {
                                 $('#tip_red').val(1);
                             }
+                            
+                            if(data.pastor!=null)
+                            {  
+                                console.log($('#pastor option:selected').val());
+                                    $('#pastor option:selected').val(data.pastor);
+                                console.log($('#pastor option:selected').val());
+
+                            
+                        }
                             recarga_id();
                             
                             ubi_mod(data.id_ubicacion);
                     });
                 }
     
+            function pastores(data)    
+            {
                 
+                $('#pastor').empty();
+
+                $("<option value='-1'>Sin pastor</option>").appendTo('#pastor');
+                
+                console.log(data);
+          
+                for(var i=0;i<data.length;i++)
+                    {
+                      $('<option value='+data[i].id+'>'+data[i].nombres+'</option>').appendTo('#pastor');
+
+                    }
+            }
     
                 $(document).ready(function(){
+                                   
+                 $.ajax(
+            {
+            url: '{{path('servicio_lista_pastores_ejecutivos')}}',
+            async: false,
+            dataType:"json",
+            type: "POST",
+            }).done(pastores);
+
        
                 $.getJSON('{{path('servicio_iglesia')}}',iglesias);
 
@@ -283,6 +326,8 @@
                  $("#tip_red").change(recarga_id);
                  
     
+                 init();
+
                  var x =$("login");
                     x.click();
            
@@ -304,8 +349,9 @@
                        // $('#output').html(data.greeting);
                         //$('#output').css("color","red");
                         alert('Registro Completado');
-                        location.reload();
-                      
+                        
+                        var url = '{{path('administrar_lista_redes')}}';
+                        $(location).attr('href',url);                       
                     }
                     else if(data.responseCode==400){//bad request
                        // $('#output').html(data.greeting);
@@ -336,7 +382,6 @@
                     //we dont what the browser to submit the form
                     return false;});
 
-                     init();
                 
                 });
                 

@@ -960,4 +960,89 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        return new JsonResponse(array('aaData'=>$todo));
    }
    
+   public function encargadoidAction($id)
+   {
+       
+          $em = $this->getDoctrine()->getEntityManager();
+
+       $em->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $sql = "select * from get_red_encargado(:id)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':id'=>$id));
+           
+           $todo = $smt->fetchAll();
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse($todo);
+   }
+   
+   
+   
+   public function encargadoid_doceAction($red, $id)
+   {
+       
+       $em = $this->getDoctrine()->getEntityManager();
+
+       $em->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $sql = "select * from get_red_encargado_doce(:red,:id)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red, ':id'=>$id));
+           
+           $todo = $smt->fetchAll();
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse($todo);
+   }
+   
+   public function personaidAction($id)
+   {
+          $em = $this->getDoctrine()->getEntityManager();
+
+       $em->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+           $sql = "select * from persona where id=:idx";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array( ':idx'=>$id));
+           
+           $todo = $smt->fetchAll();
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse($todo);
+   }
+   
 }

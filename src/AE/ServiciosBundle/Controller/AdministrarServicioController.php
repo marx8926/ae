@@ -211,5 +211,39 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        return new JsonResponse($est);
    }
     
+   public function pastores_ejecutivosAction()
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       
+       $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       $result = "<option value='-1'>Sin pastor </option>";
+       
+       try
+       {
+           $sql = "select * from pastores_ejecutivos";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           
+           $est = $smt->fetchAll();
+          /* 
+           foreach ($est as $key => $value) {
+               $result = $result."<option value='".$value['id']."' >".$value['nombres']."</option>";
+           }
+            */          
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse($est);
+   }
    
 }

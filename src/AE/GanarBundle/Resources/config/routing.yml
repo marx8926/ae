@@ -94,3 +94,7 @@ ganar_modificar_ganador_up:
   defaults: {_controller: AEGanarBundle:Modificar:modificarganadorup}
   requirements:
     _method: POST
+    
+ganar_informe_semanal_ganar:
+  pattern: /informe_semanal_ganar
+  defaults: {_controller: AEGanarBundle:Informe:InformeSemanalGanar}

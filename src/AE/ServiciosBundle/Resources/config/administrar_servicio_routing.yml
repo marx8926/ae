@@ -25,3 +25,10 @@ servicio_administrar_ciento_red:
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:administrar_ciento_red}
   requirements:
    _method: POST
+   
+   
+servicio_lista_pastores_ejecutivos:
+  pattern: /lista_pastores_ejecutivos
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:pastores_ejecutivos}
+  requirements:
+    _method: POST

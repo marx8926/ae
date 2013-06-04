@@ -84,6 +84,16 @@ class Red
     protected $activo;
     
     /**
+     * @var \PastorEjecutivo
+     *
+     * @ORM\ManyToOne(targetEntity="PastorEjecutivo"),cascade={"persist", "merge", "remove"}
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pastor", referencedColumnName="id")
+     * })
+     */
+    private $pastor;
+    
+    /**
      * Get inicio
      * @return boolean
      */
@@ -259,5 +269,28 @@ class Red
     public function getIdPastorAsociado()
     {
         return $this->idPastorAsociado;
+    }
+    
+    /**
+     * Set pastor
+     *
+     * @param \AE\DataBundle\Entity\PastorEjecutivo $pastor
+     * @return Red
+     */
+    public function setPastor(\AE\DataBundle\Entity\PastorEjecutivo $pastor = null)
+    {
+        $this->pastor = $pastor;
+    
+        return $this;
+    }
+
+    /**
+     * Get pastor
+     *
+     * @return \AE\DataBundle\Entity\PastorEjecutivo 
+     */
+    public function getPastor()
+    {
+        return $this->pastor;
     }
 }

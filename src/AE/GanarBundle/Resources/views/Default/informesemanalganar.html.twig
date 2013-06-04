@@ -1,0 +1,143 @@
+{% extends "::base.html.twig" %}
+
+{% block titulo %}Informe Semanal - {% endblock %}
+
+{% block stylesheets %}
+	<link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+    <style>
+    	.encurso{
+    		color: #008500;
+    	}
+    	.cerrado{
+    		color: #fb000d;
+    	}
+	</style>
+{% endblock %}
+
+{%block javascript %}
+  	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>			
+	<script src="{{asset('js/functiongen.js')}}"></script>
+    <script src="{{asset('js/tiempo.js')}}"></script>
+            
+    <script type="text/javascript">
+            $(document).ready(function() {
+            	 
+                FechaActualT('fecha1');
+                FechaActualT('fecha2');
+
+                var date1 =  $("#fecha1").val().split('/');
+                var date2 =  $("#fecha2").val().split('/');
+                fecha1 = date1[2] + '-' + date1[1] + '-' + date1[0];
+                fecha2 = date2[2] + '-' + date2[1] + '-' + date2[0];
+                
+                $(".rango").change(function(){
+                	var date1 =  $("#fecha1").val().split('/');
+                    var date2 =  $("#fecha2").val().split('/');
+                    fecha1 = date1[2] + '-' + date1[1] + '-' + date1[0];
+                    fecha2 = date2[2] + '-' + date2[1] + '-' + date2[0];
+            		 
+                         ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+            		 ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+            		 ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+ 				});
+                                
+                                
+                ajaxResposeData("tabla_lugar","{{ path('servicio_tabla_lugar_ganados',{'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+                ajaxResposeData("tabla_semanal_mujeres","{{ path('servicio_tabla_semanal',{'tipo':0,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+                ajaxResposeData("tabla_semanal_varones","{{ path('servicio_tabla_semanal',{'tipo':1,'nombre':'Tabla1','fecha1':'','fecha2':''})}}"+fecha1+"/"+fecha2);
+
+                $("#pdfInforme").click(function(event) {
+                    //$("#tabla_informe_ganar th").css("width","16%");
+                	$("#content").val($("#informe_tablas").html());
+                	$("#title").val($("#titulo").html());
+                    $("#ExportForm").attr("action", "{{asset('extensiones/exportpdfdiv.php')}}");
+        	 		$("#ExportForm").submit();
+                });
+            });
+            
+            var sayhola = function(data){
+        		console.log(data);
+        		location.reload();
+        		}
+    		function EnviarMatricular(boton){
+        		$("#idCurso").val($(boton).attr("data"));
+        		$("#IrAForm").attr("action","{{ path('discipular_matricular')}}");
+        		$("#IrAForm").submit();
+        	}
+        	function IrAAsignacion(boton){
+        		$("#idCurso").val($(boton).attr("data"));
+        		$("#IrAForm").attr("action","{{ path('discipular_lista_clases')}}");
+        		$("#IrAForm").submit();
+            }
+        	
+    </script>             
+{%endblock%}
+
+{% block content %}
+	<div class="span9">
+		<h1 id="titulo">Informe Semanal del Área de Ganar</h1>
+		<br>
+		<div class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label">Del</label>
+				<div class="controls">
+					<input type= "text" class="datepick rango" id="fecha1" name="fecha1"/> al <input type= "text" class="datepick rango" id="fecha2" name="fecha2"/>
+				</div>
+			</div>
+		</div>
+		<form style="margin-bottom:0;" id='ExportForm' method='POST'>
+        	<input id='content' type='hidden' name='content' >
+            <input id='title' type='hidden' name='title' >
+        	<input id='pdfInforme' type='button' value='PDF' class="btn btn-info">
+        </form>
+		<div class="box" style="margin-top:0;">
+			<div id="informe_tablas">
+				<div class="informe_tabla">
+					<div class="box-head">
+						<h3>LUGAR DE ALMAS GANADAS</h3>
+					</div>
+					<div class="box-content box-nomargin"  id="tabla_lugar">
+					</div>
+				</div>
+				<div class="informe_tabla">
+					<div class="box-head">
+					<h3>DOCE DEL PASTOR</h3>
+					</div>
+					<div class="box-content box-nomargin" id="tabla_semanal_mujeres">
+					</div>
+				</div>
+				<div class="informe_tabla">
+					<div class="box-head">
+					<h3>DOCE DE LA PASTORA</h3>
+					</div>
+					<div class="box-content box-nomargin" id="tabla_semanal_varones">
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+
+{% endblock %}

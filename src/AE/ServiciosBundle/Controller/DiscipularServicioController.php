@@ -293,31 +293,36 @@ class DiscipularServicioController extends Controller
 	function getTablaReporteAsignacionAction($idAsignacion,$tipodato){
 		$em = $this->getDoctrine()->getEntityManager();
 		
-		$sqlnum = "SELECT count(cc.id) as num
-				  FROM clase_curso cc 
-				  where cc.id_curso_impartido =".$idAsignacion;
+		$sqlnum = "SELECT cc.ofrenda
+					FROM clase_curso cc
+					inner join tema_curso tc on (cc.tema = tc.id)
+					where cc.id_curso_impartido =".$idAsignacion."
+					order by tc.id";
 		
 		$smt = $em->getConnection()->prepare($sqlnum);
 		$smt->execute();
 		
 		$num;
 		
-		$todonum = $smt->fetchAll();
-		$num = $todonum[0]['num'];
+		$todoofrenda= $smt->fetchAll();
 		
 		$result='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Nombre</th>';
-			for($i=0;$i < $num;$i++){
-				$result=$result."<th>".($i+1)."</th>";
+							<th>Nombre</th>
+							<th>Red</th>';
+		$Ofrenda="<tr><td>Ofrendas</td><td><td/>";
+			foreach ($todoofrenda as $key => $valofrenda){
+				$result=$result."<th>".($key+1)."</th>";
+				$Ofrenda = $Ofrenda."<td>".$valofrenda['ofrenda']."</td>";
 			}
-		$result=$result.'</tr></thead><tbody>';
+		$result=$result."</tr></thead><tbody>";
 		
-		$sql = "select concat(persona.nombre,'', persona.apellidos) as estudiante, persona.id
+		$sql = "select concat(persona.nombre,'', persona.apellidos) as estudiante, persona.id, miembro.id_red
 				from miembro
-				inner join persona on (persona.id = miembro.id) 
+				inner join persona on (persona.id = miembro.id)
+				inner join miembro m on (m.id = persona.id)
 				inner join estudiante on (miembro.id = estudiante.id) 
 				inner join matric on (estudiante.id = matric.id_persona_estudiante)
 				where matric.id_curso_impartido =".$idAsignacion;
@@ -331,7 +336,8 @@ class DiscipularServicioController extends Controller
 			
 			$result = $result."<tr>
 					<td>".$val['id']."</td>
-					<td>".$val['estudiante']."</td>";
+					<td>".$val['estudiante']."</td>
+					<td>".$val['id_red']."</td>";
 			
 			$sqlAsistencia = "SELECT acc.".$tipodato."
 							  FROM clase_curso cc 
@@ -355,7 +361,7 @@ class DiscipularServicioController extends Controller
 			
 			$result = $result."</tr>";
 		}
-		
+		$result=$result.$Ofrenda;
 		
 		$result = $result."</tbody></table>";
 		return new Response($result);
@@ -404,8 +410,12 @@ class DiscipularServicioController extends Controller
 				inner join curso_impartido ci on(ci.id = m.id_curso_impartido)
 				inner join horario h on(h.id = ci.id_horario)
 				inner join docente d on (d.id_persona=ci.id_persona_docente)
-				inner join persona pd on(pd.id = d.id_persona)
-				where c.id_red = '".$idRed."' and h.dia='".$dia."' and ci.id_curso = ".$idCurso;
+				inner join persona pd on(pd.id = d.id_persona)";
+				
+		if($dia=="desentralizado")
+			$sql=$sql."where c.id_red = '".$idRed."' and h.dia!='Jueves' and h.dia!='Domingo' and ci.id_curso = ".$idCurso;
+		else
+			$sql=$sql."where c.id_red = '".$idRed."' and h.dia='".$dia."' and ci.id_curso = ".$idCurso;
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -766,5 +776,71 @@ class DiscipularServicioController extends Controller
         }
         
         return new Response($result);
+    }
+    
+    function getTablaReporteSemanalIndeliAction($desde,$hasta,$tipo){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	//Procedimiento almacenado clm_sel_clasesyasistenciacurso_by_idcursoimpartido
+    	$sqltabla = "SELECT c.titulo, concat(pd.nombre,' ',pd.apellidos) as docente,
+					l.nombe, to_char( h.hora_inicio,'HH24:MI') as hora_inicio,  to_char( h.hora_fin,'HH24:MI')as hora_fin, cc.ofrenda, tc.descripcion,
+					count (m.id) as matriculados, 
+					SUM(CASE WHEN acc.asistencia=true then 1
+					ELSE 0
+					END) as cantidad
+					FROM curso c
+					inner join curso_impartido ci on (ci.id_curso = c.id)
+					inner join persona pd on (pd.id = ci.id_persona_docente)
+					inner join horario h on(h.id = ci.id_horario)
+					inner join local l on (l.id = ci.id_local)
+					inner join clase_curso cc on (cc.id_curso_impartido = ci.id)
+					inner join tema_curso tc on (cc.tema = tc.id)
+					inner join matric m on (m.id_curso_impartido = ci.id)
+					inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
+					";
+    	
+    	$condicion = "";
+    	if($tipo == "desentralizado")
+    		$condicion = "where h.dia != 'Jueves' and h.dia!='Domingo' and cc.fecha_dicto BETWEEN '".$desde."' and '".$hasta."'";
+    	else
+    		$condicion = "where h.dia = '".$tipo."' and cc.fecha_dicto BETWEEN '".$desde."' and '".$hasta."'";
+    	
+    	$sqltabla = $sqltabla.$condicion."group by c.titulo, pd.nombre, pd.apellidos, l.nombe, h.hora_inicio, h.hora_fin, cc.ofrenda, tc.descripcion";
+    	
+    	$smt = $em->getConnection()->prepare($sqltabla);
+    	$smt->execute();
+    	$tabla = $smt->fetchAll();
+    	
+    	$result = "
+    			<table id='tabla_vision' name='tabla_vision' class='table table-striped table-bordered'>
+				<thead>
+				<tr>
+    			<th>Nro</th>
+    			<th>Curso</th>
+    			<th>Profesor</th>
+    			<th>Lugar</th>
+    			<th>Hora</th>
+    			<th>Tema</th>
+    			<th>Nro<br>Alum</th>
+    			<th>Asis</th>
+    			<th>Ofrn</th>
+    			</thead>
+				<tbody>";
+    	
+    	foreach ($tabla as $key => $val){
+    		$result = $result."
+						<tr>
+						<td>".($key+1)."</td>
+						<td>".$val['titulo']."</td>
+						<td>".$val['docente']."</td>
+						<td>".$val['nombe']."</td>
+						<td>".$val['hora_inicio']."<br>".$val['hora_fin']."</td>
+						<td>".$val['descripcion']."</td>
+						<td>".$val['matriculados']."</td>
+						<td>".$val['cantidad']."</td>
+						<td>".$val['ofrenda']."</td>
+						</tr>";
+    		}
+    		$result = $result."</tbody></table>";
+    		return new Response($result);
     }
 }

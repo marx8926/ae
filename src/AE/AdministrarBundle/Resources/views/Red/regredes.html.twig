@@ -111,7 +111,6 @@
                     <div class="controls">
                          <select id="tip_red" name="tip_red" required>
                                 <option value="0">Lider de red</option>
-                                <option value="1">Pastor asociado</option>
                             </select>
                     </div>
                 </div>
@@ -141,6 +140,17 @@
                 -->
                 
             </fieldset>
+               
+            <fieldset>
+                <legend>Asociado al Pastor Ejecutivo </legend>
+            <div class="control-group">
+                <label class="control-label">Pastor Ejecutivo</label>
+                    <div class="controls">
+                         <select id="pastor" name="pastor" required>
+                         </select>
+                    </div>
+                </div>    
+            </fieldset>
                 <div class="control-group">
                     <label></label>
                     <div class="controls">
@@ -163,6 +173,7 @@
             <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
             <script type="text/javascript" src="{{asset('js/ganar.js')}}"></script>
             <script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
+            <script type="text/javascript" src="{{asset('js/functiongen.js')}}"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
             
              <script type="text/javascript">
@@ -171,6 +182,7 @@
                 $(document).ready(function(){
            
               
+               ajaxListPost('{{path('servicio_lista_pastores_ejecutivos')}}','pastor',null);
                 
                 $.getJSON('{{path('servicio_iglesia')}}',iglesias);
                 

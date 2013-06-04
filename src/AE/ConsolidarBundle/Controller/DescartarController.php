@@ -71,6 +71,8 @@ class DescartarController extends Controller
             }
             
             $em->commit();
+            $em->clear();
+            
         }catch(Exception $e)
         {
              $em->rollback();

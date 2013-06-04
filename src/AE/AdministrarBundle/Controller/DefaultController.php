@@ -307,13 +307,23 @@ class DefaultController extends Controller
             $longitud = $datos['longitud'];
             $tip_red = $datos['tip_red'];
             $ids = $datos['ids'];
+            $pastor = $datos['pastor'];
             
             $em->beginTransaction();
             
             //añadir las excepciones en los prepare
             
             try{
-                        
+                  
+                //cambiar pastor ejecutivo a cargo
+                
+                if(intval($pastor)!=-1)
+                {
+                    $sql = "UPDATE red SET  pastor=:pas WHERE id=:idx";
+                    $smt = $em->getConnection()->prepare($sql);
+                    $smt->execute(array(':pas'=>$pastor ,':idx'=>$code));
+                }
+                
                 //cambio en tabla red
                 if(intval($tip_red)==0)
                 {

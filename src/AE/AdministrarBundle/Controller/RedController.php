@@ -50,6 +50,7 @@ class RedController extends Controller
             $longitud = $datos['longitud'];
             $tip_red = $datos['tip_red'];
             $id_persona = $datos['ids'];
+            $pastor = $datos['pastor'];
 
             $em = $this->getDoctrine()->getEntityManager();         
             
@@ -65,7 +66,6 @@ class RedController extends Controller
  
                 $redes = $smt->fetchAll(); 
                 
-                $em->clear();
                 if(count($redes)>0)
                 {
                      $em->rollback();
@@ -100,6 +100,8 @@ class RedController extends Controller
                 //persona 
                 $personas = $em->getRepository('AEDataBundle:Persona');
                 $persona = $personas->findOneBy(array('id'=>$id_persona));
+                
+                $pastor_eje = $personas->findOneBy(array('id'=>$pastor));
 
                 //iglesia
                 $iglesias = $em->getRepository('AEDataBundle:Iglesia');
@@ -113,6 +115,15 @@ class RedController extends Controller
                 $red->setId($nombre);
                 $red->setActivo(TRUE);
                 $red->setInicio(new \DateTime());
+                
+                if($pastor_eje!= NULL)
+                {
+                    $pastor_em = $em->getRepository('AEDataBundle:PastorEjecutivo');
+                    $pastor_final = $pastor_em->findOneBy(array('id'=>$pastor_eje));
+                   
+                    $red->setPastor ($pastor_final);
+                   
+                }
 
                 //añadir al lider
                 if($id_persona!=-1)
@@ -125,7 +136,6 @@ class RedController extends Controller
                         //$lider = $query->getResult();
                         $lider_red = $em->getRepository('AEDataBundle:LiderRed');
                         $lider = $lider_red->findOneBy(array('id'=>$persona));
-                        $em->clear();
                                          
                         $sql = 'select * from red where red.id_lider_red = :red';
             

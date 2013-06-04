@@ -590,5 +590,115 @@ class GanarServicioController extends Controller
         }
        return new Response("<select>".$result."</select>");
     }
-}
+    
+    public function nuevos_red_liderAction($red, $inicio)
+    {
+        $sql = "select * from  get_ganador_lider_red(:red,:ini)";
+
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+       
+        try{
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':ini'=>$inicio));
+ 
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$redes));
+    }
+    
+    public function nuevos_red_lider_doceAction($red, $inicio, $doce)
+    {
+               $sql = "select * from  get_ganador_lider_red_doce(:red,:ini,:doce)";
+
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+       
+        try{
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':ini'=>$inicio,':doce'=>$doce));
+ 
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$redes)); 
+    }
+
+    
+     public function nuevos_red_lider_cientoAction($red, $inicio, $doce, $padre)
+    {
+        $sql = "select * from  get_ganador_lider_red_ciento(:red,:ini,:padre,:doce)";
+
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+       
+        try{
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':ini'=>$inicio,':padre'=>$padre, ':doce'=>$doce));
+ 
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$redes)); 
+    }
+
+     public function nuevos_red_lider_milAction($red, $inicio, $doce, $ciento, $padre)
+    {
+        $sql = "select * from  get_ganador_lider_red_mil(:red,:ini,:padre,:doce,:ciento)";
+
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+       
+        try{
+            $em->beginTransaction();
+            
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':ini'=>$inicio,':padre'=>$padre, ':doce'=>$doce,':ciento'=>$ciento));
+ 
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$redes)); 
+    }
+
+ }
 

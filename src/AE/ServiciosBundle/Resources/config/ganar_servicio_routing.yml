@@ -90,3 +90,19 @@ servicio_red_tipo:
   defaults: {_controller: AEServiciosBundle:GanarServicio:lideres_red_tipo}
   requirements:
     _method: POST
+   
+servicio_nuevos_por_red:
+  pattern: /servicio_nuevos_red/{red}/{inicio}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider}
+  
+servicio_nuevos_por_red_doce:
+  pattern: /servicio_nuevos_red_doce/{red}/{inicio}/{doce}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider_doce}
+  
+servicio_nuevos_por_red_ciento:
+  pattern: /servicio_nuevos_red_ciento/{red}/{inicio}/{doce}/{padre}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider_ciento}
+  
+servicio_nuevos_por_red_mil:
+  pattern: /servicio_nuevos_red_mil/{red}/{inicio}/{doce}/{ciento}/{padre}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider_mil}

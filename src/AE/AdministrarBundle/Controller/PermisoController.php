@@ -396,6 +396,21 @@ class PermisoController extends Controller
                 $prev = $em->getRepository('AEDataBundle:Persona');
                 $persona = $prev->findOneBy(array('id'=>$id));
                 
+                
+                if($persona==NULL)
+                {
+                    $em->rollback();
+                    $em->close();
+                     $return=array("responseCode"=>400,  "greeting"=>'bad');
+
+               
+                     $return=json_encode($return);//jscon encode the array
+        
+                     return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+    
+                     
+                }
+                
                 $con = $em->getRepository('AEDataBundle:Rol');          
                 
                 

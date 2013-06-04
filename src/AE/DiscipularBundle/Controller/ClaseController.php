@@ -37,6 +37,11 @@ class ClaseController extends Controller {
 		if( $Clase->getFechaDicto()!=null)
 			$Fecha = $Clase->getFechaDicto()->format("Y-m-d");
 		
+		$Ofrenda = "0";
+		if( $Clase->getOfrenda()!=null)
+			$Ofrenda = $Clase->getOfrenda();
+		
+		
 		return $this->render('AEDiscipularBundle:Default:clase.html.twig',array(
 				'idclase' => $idclase ,
 				'fechadicto' => $Fecha,
@@ -45,7 +50,8 @@ class ClaseController extends Controller {
 				'curso' => $Curso->getTitulo(),
 				'idasignacion'=>$Asignacion->getId(),
 				'urlfile'=> $Archivo->getDireccion(),
-				'namefile'=>$Archivo->getNombre()
+				'namefile'=>$Archivo->getNombre(),
+				'ofrenda'=>$Ofrenda
 		));
 	}
 	
@@ -160,4 +166,46 @@ class ClaseController extends Controller {
 		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
 	}
 
+	
+	public function ActualizarOfrendaClaseAction(){
+			
+		$request = $this->get('request');
+		$form=$request->request->get('formName');
+	
+		$datos = array();
+	
+		parse_str($form,$datos);
+		$ofrenda=null;
+		$idclase = null;
+			
+		if($form!=NULL){
+			$idclase = $datos['idclase'];
+			$ofrenda = $datos['ofrenda'];
+			$em = $this->getDoctrine()->getEntityManager();
+			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			try
+			{
+				$sql = "UPDATE clase_curso SET ofrenda=".$ofrenda." WHERE id=".$idclase;
+				$smt = $em->getConnection()->prepare($sql);
+				$smt->execute();
+			}catch(Exception $e)
+			{
+				$this->getDoctrine()->getEntityManager()->rollback();
+				$this->getDoctrine()->getEntityManager()->close();
+				$return=array("responseCode"=>400, "greeting"=>"Bad");
+	
+				throw $e;
+			}
+			$this->getDoctrine()->getEntityManager()->commit();
+			$return=array("responseCode"=>200, "id"=>$datos );
+		}
+	
+		else{
+			$return = array("responseCode"=>400, "greeting"=>"Bad");
+		}
+			
+		$return=json_encode($return);//jscon encode the array
+	
+		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
+	}
 }
