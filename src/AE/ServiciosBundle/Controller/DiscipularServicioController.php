@@ -783,7 +783,8 @@ class DiscipularServicioController extends Controller
     	//Procedimiento almacenado clm_sel_clasesyasistenciacurso_by_idcursoimpartido
     	$sqltabla = "SELECT c.titulo, concat(pd.nombre,' ',pd.apellidos) as docente,
 					l.nombe, to_char( h.hora_inicio,'HH24:MI') as hora_inicio,  to_char( h.hora_fin,'HH24:MI')as hora_fin, cc.ofrenda, tc.descripcion,
-					count (m.id) as matriculados, 
+					(select count (matric.id) from matric
+					where matric.id_curso_impartido = ci.id ) as matriculados, 
 					SUM(CASE WHEN acc.asistencia=true then 1
 					ELSE 0
 					END) as cantidad
@@ -794,7 +795,6 @@ class DiscipularServicioController extends Controller
 					inner join local l on (l.id = ci.id_local)
 					inner join clase_curso cc on (cc.id_curso_impartido = ci.id)
 					inner join tema_curso tc on (cc.tema = tc.id)
-					inner join matric m on (m.id_curso_impartido = ci.id)
 					inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
 					";
     	
@@ -804,7 +804,7 @@ class DiscipularServicioController extends Controller
     	else
     		$condicion = "where h.dia = '".$tipo."' and cc.fecha_dicto BETWEEN '".$desde."' and '".$hasta."'";
     	
-    	$sqltabla = $sqltabla.$condicion."group by c.titulo, pd.nombre, pd.apellidos, l.nombe, h.hora_inicio, h.hora_fin, cc.ofrenda, tc.descripcion";
+    	$sqltabla = $sqltabla.$condicion."group by c.titulo, pd.nombre, pd.apellidos, l.nombe, h.hora_inicio, h.hora_fin, cc.ofrenda, tc.descripcion, ci.id";
     	
     	$smt = $em->getConnection()->prepare($sqltabla);
     	$smt->execute();
@@ -842,5 +842,9 @@ class DiscipularServicioController extends Controller
     		}
     		$result = $result."</tbody></table>";
     		return new Response($result);
+    }
+    
+    function gerTablaResumenReporteSemanalIndeli($desde,$hasta){
+    	
     }
 }
