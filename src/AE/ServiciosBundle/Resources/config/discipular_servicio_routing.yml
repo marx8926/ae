@@ -77,3 +77,7 @@ _option_celula_red:
 _tabla_reporte_semanal_indeli:
   pattern: /_tabla_reporte_semanal_indeli/{desde}/{hasta}/{tipo}
   defaults: {_controller: AEServiciosBundle:DiscipularServicio:getTablaReporteSemanalIndeli }
+  
+_tabla_resumen_reporte_semanal_indeli:
+  pattern: /_tabla_resumen_reporte_semanal_indeli/{desde}/{hasta}
+  defaults: {_controller: AEServiciosBundle:DiscipularServicio:gerTablaResumenReporteSemanalIndeli }

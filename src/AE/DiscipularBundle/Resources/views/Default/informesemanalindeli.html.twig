@@ -53,7 +53,8 @@
 					url1 = "{{ path('_tabla_reporte_semanal_indeli',{'desde':'desde','hasta':'hasta','tipo':'Jueves'})}}";
 					url2 = "{{ path('_tabla_reporte_semanal_indeli',{'desde':'desde','hasta':'hasta','tipo':'Domingo'})}}";
 					url3 = "{{ path('_tabla_reporte_semanal_indeli',{'desde':'desde','hasta':'hasta','tipo':'desentralizado'})}}";
-
+					urlresumen = "{{ path('_tabla_resumen_reporte_semanal_indeli',{'desde':'desde','hasta':'hasta'})}}";
+					
 					url1 = url1.replace('desde',desde);
 	            	url1 = url1.replace('hasta',hasta);
 
@@ -63,23 +64,27 @@
 	            	url3 = url3.replace('desde',desde);
 	            	url3 = url3.replace('hasta',hasta);
 
+	            	urlresumen = urlresumen.replace('desde',desde);
+	            	urlresumen = urlresumen.replace('hasta',hasta);
+
 	            	ajaxResposeData("reporte_semanal_indeli_jueves",url1);
 	            	ajaxResposeData("reporte_semanal_indeli_domingo",url2);
 	            	ajaxResposeData("reporte_semanal_indeli_desentralisado",url3);
+	            	ajaxResposeData("resumen_reporte_semanal_indeli",urlresumen);
 					
 					console.log(desde+" - "+hasta);
 					});
                 
                 
                 $("#pdfInforme").click(function(event) {
-                	$("#content").val($("#tabla_asistencia_redes").html());
+                	$("#content").val($("#reporte_semanal").html());
                 	$("#title").val($("#titulo").html());
-                    $("#ExportForm").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+                    $("#ExportForm").attr("action", "{{asset('extensiones/exportpdfdiv.php')}}");
         	 		$("#ExportForm").submit();
                 });
 
                 $("#excelInforme").click(function(event) {
-                	$("#content").val("<table>" + $("#tabla_asistencia_redes").html() + "</table>");
+                	$("#content").val($("#reporte_semanal").html());
         			$("#ExportForm").attr("action", "{{asset('extensiones/exportexcel.php')}}");
         			$("#ExportForm").submit();
         		        });
@@ -116,6 +121,7 @@
     <input id='pdfInforme' type='button' value='PDF' class="btn btn-info">
 	<input id='excelInforme' type='button' value='Excel' class="btn btn-info">
 </form>
+<div id='reporte_semanal'>
 		<div class="box" style="margin-top:0;">
 			<div class="box-head">
 				<h3>Indeli Jueves</h3>
@@ -137,6 +143,15 @@
 			</div>
 			<div class="box-content box-nomargin" id="reporte_semanal_indeli_desentralisado">
 			</div>
+		</div>
+		
+		<div class="box" style="margin-top:0;">
+			<div class="box-head">
+				<h3>Resumen</h3>
+			</div>
+			<div class="box-content box-nomargin" id="resumen_reporte_semanal_indeli">
+			</div>
+		</div>
 		</div>
 </div>
 

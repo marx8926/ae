@@ -716,7 +716,7 @@ class DiscipularServicioController extends Controller
 						inner join asistencia_clase_curso acc on (acc.id_clase_curso = cc.id)
 						inner join tema_curso tc on (cc.tema = tc.id)
 						inner join curso_impartido ci on(cc.id_curso_impartido= ci.id)
-						where acc.id_persona_estudiante =".$valestudiante["id"]." and ci.id_curso=".$valcurso['id'];
+						where acc.id_persona_estudiante =".$valestudiante["id"]." and ci.id_curso=".$valcurso['id']." order by cc.id";
 				$smt = $em->getConnection()->prepare($sqlasistencia);
 				$smt->execute();
 				$asistencia = $smt->fetchAll();
@@ -726,9 +726,9 @@ class DiscipularServicioController extends Controller
 			foreach ($asistencia as $key2 => $valasistencia){
 	
 				if($valasistencia["asistencia"]==1)
-					$result = $result."<td>&#10004</td>";
-				else
 					$result = $result."<td>X</td>";
+				else
+					$result = $result."<td>F</td>";
 	
 			}
 			}
@@ -844,7 +844,34 @@ class DiscipularServicioController extends Controller
     		return new Response($result);
     }
     
-    function gerTablaResumenReporteSemanalIndeli($desde,$hasta){
-    	
+    function gerTablaResumenReporteSemanalIndeliAction($desde,$hasta){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$sql = "select sum(ofrenda) as ofrenda, count (clase_curso.id) as clases,
+				(SELECT count(id_persona)
+				  FROM docente
+					where activo = true) as docentes,
+				(select count (m.id) 
+					from matric m
+					inner join curso_impartido ci on (m.id_curso_impartido = ci.id)) as matriculados,
+				(select (SUM(CASE WHEN asistencia=true then 1
+					ELSE 0
+					END) ) from asistencia_clase_curso acc 
+					inner join clase_curso cc on (acc.id_clase_curso = cc.id)
+					where cc.fecha_dicto BETWEEN '".$desde."' and '".$hasta."') as asistencia
+				from clase_curso
+				where fecha_dicto BETWEEN '".$desde."' and '".$hasta."'";
+    	$smt = $em->getConnection()->prepare($sql);
+    	$smt->execute();
+    	$tabla = $smt->fetchAll();
+    	$result= "<table class='table table-striped table-bordered'><tr>
+    			<td rowspan='6'>INDELI RESUMEN</td>
+    			<td>Maestros</td><td>".$tabla[0]['docentes']."</td>
+    			<tr><td>Clases</td><td>".$tabla[0]['clases']."</td></tr>
+    			<tr><td>Alumnos</td><td>".$tabla[0]['matriculados']."</td></tr>
+    			<tr><td>Asistencia</td><td>".($tabla[0]['matriculados']-$tabla[0]['asistencia'])."</td></tr>
+    			<tr><td>No Asistieron</td><td>".$tabla[0]['asistencia']."</td></tr>
+    			<tr><td>Ofrenda</td><td>".$tabla[0]['ofrenda']."</td></tr>
+    					</table>";
+    	return new Response($result);
     }
 }
