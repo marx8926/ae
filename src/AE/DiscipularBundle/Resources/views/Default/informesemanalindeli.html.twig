@@ -92,22 +92,7 @@
                 var m = date.getMonth()+1;
                 var y = date.getFullYear();
                 return '' + y +'-'+ (m<=9?'0'+m:m) +'-'+ (d<=9?'0'+d:d);
-            }
-            
-            var sayhola = function(data){
-        		console.log(data);
-        		location.reload();
-        		};
-    		function EnviarMatricular(boton){
-        		$("#idCurso").val($(boton).attr("data"));
-        		$("#IrAForm").attr("action","{{ path('discipular_matricular')}}");
-        		$("#IrAForm").submit();
-        	}
-        	function IrAAsignacion(boton){
-        		$("#idCurso").val($(boton).attr("data"));
-        		$("#IrAForm").attr("action","{{ path('discipular_lista_clases')}}");
-        		$("#IrAForm").submit();
-            }
+            };
         	
     </script>             
 {%endblock%}
