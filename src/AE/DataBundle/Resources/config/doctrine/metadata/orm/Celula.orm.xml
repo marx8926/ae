@@ -9,6 +9,9 @@
     <field name="familia" type="string" column="familia" length="100" nullable="false"/>
     <field name="telefono" type="string" column="telefono" length="20" nullable="true"/>
     <field name="activo" type="boolean" column="activo" nullable="true"/>
+    <field name="dia" type="string" column="dia" length="25" nullable="true"/>
+    <field name="hora" type="time" column="hora" nullable="true"/>
+    
     <many-to-one field="idRed" target-entity="Red">
       <join-columns>
         <join-column name="id_red" referenced-column-name="id"/>

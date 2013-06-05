@@ -49,6 +49,21 @@ class Celula
      * @ORM\Column(name="telefono", type="string", length=20, nullable=true)
      */
     private $telefono;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="dia", type="string", length=25, nullable=true)
+     */
+    private $dia;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="hora", type="time", nullable=true)
+     */
+    private $hora;
+
 
     /**
      * @var \Ubicacion
@@ -377,5 +392,51 @@ class Celula
     public function getIdLider()
     {
         return $this->idLider;
+    }
+    
+     /**
+     * Set dia
+     *
+     * @param string $dia
+     * @return Celula
+     */
+    public function setDia($dia)
+    {
+        $this->dia = $dia;
+    
+        return $this;
+    }
+
+    /**
+     * Get dia
+     *
+     * @return string 
+     */
+    public function getDia()
+    {
+        return $this->dia;
+    }
+
+    /**
+     * Set hora
+     *
+     * @param \DateTime $hora
+     * @return Celula
+     */
+    public function setHora($hora)
+    {
+        $this->hora = $hora;
+    
+        return $this;
+    }
+
+    /**
+     * Get hora
+     *
+     * @return \DateTime 
+     */
+    public function getHora()
+    {
+        return $this->hora;
     }
 }
