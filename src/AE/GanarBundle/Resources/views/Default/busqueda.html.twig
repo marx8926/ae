@@ -29,13 +29,14 @@
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead id='lol'>
                 		<tr>
-		                    <th>ID</th>
+		                   <th>ID</th>
 		                    <th>Nombres</th>
 		                    <th>Apellidos</th>
 		                    <th>Edad</th>
 		                    <th>Red</th>
-		                    <th>Célula</th>
 		                    <th>Conversión</th>
+                                    <th>ID G.</th>
+                                    <th>Ganado por</th>
 		                </tr>
 					</thead>
 					
@@ -228,15 +229,16 @@
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_nuevo_convertido_all')}}',
+                "sAjaxSource": '{{path('servicio_nuevo_convertido_all_ganador')}}',
                 "aoColumns": [
-                    { "mDataProp": "id" },
+                     { "mDataProp": "id" },
                     { "mDataProp": "nombres" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
                     { "mDataProp": "red" },
-                    { "mDataProp": "celula"},
-                    { "mDataProp": "conversion"}
+                    { "mDataProp": "conversion"},
+                    { "mDataProp": "ganador"},
+                    { "mDataProp": "gnom"}
                 ],
 		"aaSorting": [ [6,'desc']],//por consultar el tipo de orden
 		"aoColumnDefs": [
