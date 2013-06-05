@@ -84,6 +84,10 @@ servicio_lista_descartados:
   pattern: /lista_descartados
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:lista_descartados}
   
+servicio_lista_descartados_red:
+  pattern: /lista_descartados_red/{red}/{inicio}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:lista_descartados_red}
+  
   
 servicio_consolidador_consolidado:
   pattern: /consolidador_consolidado

@@ -14,6 +14,26 @@
 {% block content %}    
 <div class="span9" >
 <h1>Herramientas de Consolidación</h1>
+
+<div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" class="rango" >
+                   
+                </select>
+            </div>
+            </div>
+
+            <div class="control-group ">
+                <label class="control-label" for="consolidador"> Consolidadores</label>
+                    <div class="controls">
+                        <select id="select_consolidador" name="select_consolidador" class="rango">
+                                             
+                        </select>
+                    </div>
+            </div>
+
+
 <div class="box">
 		<div class="box-head tabs">
             <h3>Consolidados</h3>						
@@ -114,6 +134,7 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                         <script src="{{asset('js/functiongen.js')}}"></script>
                         <script src="{{asset('js/tiempo.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
 			
             <script src="https://www.google.com/jsapi"></script>
 
@@ -126,11 +147,65 @@
 	 var oTable;
          
         var values = [];
+        
+        function recargar_celula()
+        {
+            var nombre = $("#red_lista option:selected").val();  
+            
+                 var route = '{{path('servicio_consolidadores_act_red',{'id': 'name'})}}';
+                
+                 var rutas = route.replace('name',nombre);
+                 if(nombre!='-1') 
+                 init_consolidadores(rutas);       
+        }
+         function recargar_consolidadores()
+        {
+                var nombre = $("#red_lista option:selected").val();  
+            
+                 var route = '{{path('servicio_consolidadores_act_red',{'id': 'name'})}}';
+                
+                 var rutas = route.replace('name',nombre);
+                 if(nombre!='-1') 
+                 init_consolidadores(rutas);        
+        }
  
 	$(document).ready(function() {
             
+            
+            
+            var rede = '{{red}}' ;
+                                      
+             if(rede.length > 0)
+             {
+                 $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+             }
+             else
+             initRed('{{path('servicio_red_sin')}}');
+         
+            
             ajaxResposeData("tools",'{{path('servicio_getHerramientas')}}');
             
+            
+            //'{{path('servicio_consolidado_seguir')}}'
+            
+             $('#red_lista').change(recargar_consolidadores);
+
+               $(".rango").change(function(){
+                
+                var net = $('#red_lista option:selected').val();
+                var consolidador = $('#select_consolidador option:selected').val();
+                
+                
+                var url = "{{path('servicio_consolidado_seguir_red_consol',{'red':'net','consol':'ini'})}}";
+                url = url.replace('net',net);
+                url = url.replace('ini',consolidador);
+                
+                if(net!='-1' && consolidador!='-1')
+                {
+
+                    get_tabla(url);
+                }
+                });
            
             $("#vista").css({"display":"none"});
 
@@ -207,15 +282,17 @@
                     }
                     );
                     return false;});
-            
-   
-            /* Build the DataTable with third column using our custom sort functions */
+             
+	 });
+   function get_tabla(url)   
+   {
+         /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
             	"bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_consolidado_seguir')}}',
+                "sAjaxSource": url,
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "nom" },
@@ -246,7 +323,6 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-	 });
-      
+   }
 </script>
 {%endblock %}

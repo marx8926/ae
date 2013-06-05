@@ -14,9 +14,30 @@
 {% block content %} 
 <div class="span9" >
 <h1>Lista de Descartados</h1>
+
+    <div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" class="rango" >
+                   
+                </select>
+            </div>
+        </div>
+
+         <div class="control-group">
+            <label class="control-label" >Año</label>
+            <div class="controls">
+                <select id="year_lista" name="year_lista" class="rango" >
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                </select>
+            </div>
+        </div>
+
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Descartados</h3>							
+            <h3 id="titulo_informe" name="titulo_informe">Descartados</h3>							
         </div>
 
         <div class="box-content box-nomargin">
@@ -80,6 +101,7 @@
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -92,8 +114,37 @@
          
         var values = [];
          
+        function recargar_celula()
+        {
+            
+        }
 	$(document).ready(function() {
             
+             var rede = '{{red}}' ;
+                                      
+             if(rede.length > 0)
+             {
+                 $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+             }
+             else
+             initRed('{{path('servicio_red_sin')}}');
+         
+         ///'{{path('servicio_lista_descartados')}}'
+             $('.rango').change(function(){
+                 var net = $('#red_lista option:selected').val();
+                var year = $('#year_lista option:selected').val();
+                
+                var url = "{{path('servicio_lista_descartados_red',{'red':'net','inicio':'ini'})}}";
+                url = url.replace('net',net);
+                url = url.replace('ini',year);
+                
+                if(net!='-1')
+                {
+                    $("#titulo_informe").text('Descartados de '+net+' - '+year);
+                    get_tabla(url);
+                }
+             });
+         
             $('#ocultar').css({'display':'none'});
             
         
@@ -177,13 +228,19 @@
                 }
             });
  
-            /* Build the DataTable with third column using our custom sort functions */
+           
+ 
+	 });
+         
+         function get_tabla(url)
+         {
+              /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_lista_descartados')}}',
+                "sAjaxSource": url,
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "nombres" },
@@ -212,8 +269,8 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
- 
-	 });
+            
+         }
   
        </script>
 {%endblock %} 

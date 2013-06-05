@@ -604,6 +604,44 @@ class ConsolidarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$todo)); 
    }
    
+   
+    public function lista_descartados_redAction($red, $inicio)
+   {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $todo = array();
+        $ini = new \DateTime();
+        $ini->setDate($inicio, '01','01');
+        
+        $fin = new \DateTime();
+        $fin->setDate($inicio, '12', '31');
+        
+        $em->beginTransaction();
+        try
+        {
+            
+            $sql = "select * from get_lista_descartados_red(:net,:ini,:fin)";
+          
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':net'=>$red, ':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d')));
+        
+            $todo = $smt->fetchAll();
+           
+            $em->commit();
+            $em->clear();
+
+        }catch(Exception $e)
+        {
+            $em->rollback();
+            $em->clear();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse(array('aaData'=>$todo)); 
+   }
+   
       public function consolidador_consolidadoAction()
    {
        $this->getDoctrine()->getEntityManager()->beginTransaction();
