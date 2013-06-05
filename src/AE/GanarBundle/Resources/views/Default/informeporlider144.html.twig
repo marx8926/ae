@@ -272,7 +272,6 @@
                 var doce = $('#doce_lista option:selected').val();
                 var padre = $('#ciento_lista option:selected').val();
                 
-                year = year+'-01-01';
                 
                 var url = "{{path('servicio_nuevos_por_red_ciento',{'red':'net','inicio':'ini','doce':'dozen','padre':'father'})}}";
                 url = url.replace('net',net);

@@ -42,6 +42,10 @@ servicio_consolidado_termino:
   pattern: /consolidado_termino
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado_termino}
   
+servicio_consolidado_termino_red_year:
+  pattern: /consolidado_termino_red/{red}/{year}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado_termino_red_year}
+  
 servicio_consolidado_seguir:
   pattern: /consolidado_seguir
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado_seguir}

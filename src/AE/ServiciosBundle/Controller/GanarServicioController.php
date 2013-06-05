@@ -593,8 +593,13 @@ class GanarServicioController extends Controller
     
     public function nuevos_red_liderAction($red, $inicio)
     {
-        $sql = "select * from  get_ganador_lider_red(:red,:ini)";
+        $sql = "select * from  get_ganador_lider_red(:red,:ini,:fin)";
 
+        $ini = new \DateTime();
+        $ini->setDate($inicio, '01', '01');
+        $fin = new \DateTime();
+        $fin->setDate($inicio,'12', '31');
+        
         $em = $this->getDoctrine()->getEntityManager();
         
         $redes = array();
@@ -603,7 +608,7 @@ class GanarServicioController extends Controller
             $em->beginTransaction();
             
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':red'=>$red,':ini'=>$inicio));
+            $smt->execute(array(':red'=>$red,':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d')));
  
             $redes = $smt->fetchAll();
             $em->commit();
@@ -620,9 +625,13 @@ class GanarServicioController extends Controller
     
     public function nuevos_red_lider_doceAction($red, $inicio, $doce)
     {
-               $sql = "select * from  get_ganador_lider_red_doce(:red,:ini,:doce)";
+               $sql = "select * from  get_ganador_lider_red_doce(:red,:ini,:fin,:doce)";
 
         $em = $this->getDoctrine()->getEntityManager();
+        $ini = new \DateTime();
+        $ini->setDate($inicio, '01', '01');
+        $fin = new \DateTime();
+        $fin->setDate($inicio,'12', '31');
         
         $redes = array();
        
@@ -630,7 +639,7 @@ class GanarServicioController extends Controller
             $em->beginTransaction();
             
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':red'=>$red,':ini'=>$inicio,':doce'=>$doce));
+            $smt->execute(array(':red'=>$red,':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d'),':doce'=>$doce));
  
             $redes = $smt->fetchAll();
             $em->commit();
@@ -648,9 +657,15 @@ class GanarServicioController extends Controller
     
      public function nuevos_red_lider_cientoAction($red, $inicio, $doce, $padre)
     {
-        $sql = "select * from  get_ganador_lider_red_ciento(:red,:ini,:padre,:doce)";
+        $sql = "select * from  get_ganador_lider_red_ciento(:red,:ini,:fin,:padre,:doce)";
 
         $em = $this->getDoctrine()->getEntityManager();
+        
+        $ini = new \DateTime();
+        $ini->setDate($inicio, '01', '01');
+        $fin = new \DateTime();
+        $fin->setDate($inicio,'12', '31');
+        
         
         $redes = array();
        
@@ -658,7 +673,7 @@ class GanarServicioController extends Controller
             $em->beginTransaction();
             
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':red'=>$red,':ini'=>$inicio,':padre'=>$padre, ':doce'=>$doce));
+            $smt->execute(array(':red'=>$red,':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d'),':padre'=>$padre, ':doce'=>$doce));
  
             $redes = $smt->fetchAll();
             $em->commit();
@@ -675,9 +690,15 @@ class GanarServicioController extends Controller
 
      public function nuevos_red_lider_milAction($red, $inicio, $doce, $ciento, $padre)
     {
-        $sql = "select * from  get_ganador_lider_red_mil(:red,:ini,:padre,:doce,:ciento)";
+        $sql = "select * from  get_ganador_lider_red_mil(:red,:ini,:fin,:padre,:doce,:ciento)";
 
         $em = $this->getDoctrine()->getEntityManager();
+        
+        $ini = new \DateTime();
+        $ini->setDate($inicio, '01', '01');
+        $fin = new \DateTime();
+        $fin->setDate($inicio,'12', '31');
+        
         
         $redes = array();
        
@@ -685,7 +706,7 @@ class GanarServicioController extends Controller
             $em->beginTransaction();
             
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':red'=>$red,':ini'=>$inicio,':padre'=>$padre, ':doce'=>$doce,':ciento'=>$ciento));
+            $smt->execute(array(':red'=>$red,':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d'),':padre'=>$padre, ':doce'=>$doce,':ciento'=>$ciento));
  
             $redes = $smt->fetchAll();
             $em->commit();

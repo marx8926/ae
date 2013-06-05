@@ -295,6 +295,40 @@ class ConsolidarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$todo));
    }
    
+   public function consolidado_termino_red_yearAction($red, $year)
+   {
+       
+       $todo = array();
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       $fin = new \DateTime();
+       $fin->setDate($year, '12','31');
+       
+       $ini = new \DateTime();
+       $ini->setDate($year, '01','01');
+       
+       $em->beginTransaction();
+       try
+       {
+           
+           $sql = "select *from get_consolidado_termino_xred(:ini, :fin, :net)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d'),
+               ':net'=>$red));
+           $todo = $smt->fetchAll();
+           
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
    public  function consolidado_seguirAction()
    {
        $em = $this->getDoctrine()->getEntityManager();

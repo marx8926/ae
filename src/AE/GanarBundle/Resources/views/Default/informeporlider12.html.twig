@@ -211,9 +211,7 @@
                 var net = $('#red_lista option:selected').val();
                 var year = $('#year_lista option:selected').val();
                 var lider = $('#doce_lista option:selected').val();
-                
-                year = year+'-01-01';
-                
+                                
                 var url = "{{path('servicio_nuevos_por_red_doce',{'red':'net','inicio':'ini','doce':'dozen'})}}";
                 url = url.replace('net',net);
                 url = url.replace('ini',year);
