@@ -23,6 +23,22 @@
 			<input type= "text" class="datepick rango" id="inicio" name="inicio"> al <input type= "text" class="datepick rango" id="fin" name="fin">
 		</div>
 	</div>
+        
+        <div class="control-group ">
+		<label class="control-label" >Red </label>
+		<div class="controls">
+                    <select id="red_lista" name="red_lista">
+                    </select>
+                </div>
+	</div>
+        
+         <div class="control-group ">
+		<label class="control-label" >Consolidadores </label>
+		<div class="controls">
+                    <select id="select_consolidador" name="select_consolidador">
+                    </select>
+                </div>
+	</div>
 			<div class="control-group ">
             	<label class="control-label" for="consolidador"> Leche Espiritual</label>
                 <div class="controls">
@@ -91,10 +107,43 @@
 	 var oTable;
          
         var values = [];
+        
+        function recargar_celula()
+        {
+          var red = $('#red_lista option:selected').val();
+          
+           var route = '{{path('servicio_consolidadores_act_red',{'id': 'name'})}}';
+           
+            
+           if(red!='-1'){
+           var rutas = route.replace('name',red);
+                 
+                 console.log(rutas);
+           init_consolidadores(rutas); 
+           }
+        }
          
 	$(document).ready(function() {
 
             init_leche_espiritual("{{path('servicio_leche_espiritual')}}");
+            
+            $('#red_lista').change(recargar_celula);
+            
+             var rede = '{{red}}';
+                  
+                  {% if is_granted('ROLE_CONSOLIDAR') %}
+                    initRed('{{path('servicio_red_sin')}}');
+                                     
+                  {% else %}
+                      
+                      
+                      if(rede.length ===0)
+                      $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
+                      else $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+
+                      $("<option value='-1'>Sin  Celula </option>").appendTo('#celula_lista');
+
+                  {% endif%}
 
              FechaActualT('inicio');
               FechaActualT('fin');
@@ -112,13 +161,17 @@
                 
                 event.preventDefault();
                 
-                var url = '{{path('servicio_reporte_leche_espiritual_consolida',{'inicio':'init','fin':'end','leche':'milk'}) }}';
+                var url = '{{path('servicio_reporte_leche_espiritual_consolida',{'inicio':'init','fin':'end','leche':'milk','red':'net','consol':'con'}) }}';
                 var ruta = url.replace('init',inicio);
                 ruta = ruta.replace('end',fin);
-                if($('#select_leche').val()!='-1')
+                if($('#select_leche').val()!='-1' && $('#red_lista option:selected').val()!='-1' && $('#select_consolidador').val()!='-1' )
                 {
                     ruta = ruta.replace('milk',$('#select_leche').val());
-                
+                    ruta = ruta.replace('net',$('#red_lista').val());
+                    ruta = ruta.replace('con',$('#select_consolidador').val());
+
+                    console.log(ruta);
+                    
                     ajaxResposeDataPost("primer",ruta);
                 }
                 

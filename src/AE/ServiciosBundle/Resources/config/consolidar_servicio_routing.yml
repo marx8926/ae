@@ -89,7 +89,7 @@ servicio_herramienta_nuevos:
     _method: POST
     
 servicio_reporte_leche_espiritual_consolida:
-  pattern: /getLecheEspiritualConsolida/{inicio}/{fin}/{leche}
+  pattern: /getLecheEspiritualConsolida/{inicio}/{fin}/{leche}/{red}/{consol}
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getLecheEspiritualConsolida}
   requirements:
    _method: POST

@@ -18,22 +18,83 @@ class InformesController extends Controller
 {
     public function informeNoconsolidadoAction()
     {
-        return $this->render('AEConsolidarBundle:Default:informeNoconsolidado.html.twig');
+        
+        $securityContext = $this->get('security.context');
+        
+        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+        $red = NULL;
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        if($ganador != NULL)
+        {
+            $sql = "select * from get_red_persona(:id)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$ganador->getId()));
+            $req = $smt->fetch();
+            
+            $red = $req['red'];
+        }
+        return $this->render('AEConsolidarBundle:Default:informeNoconsolidado.html.twig',array('red'=>$red));
     }
     
     public function informeHerramientasAction()
     {
-        return $this->render('AEConsolidarBundle:Default:informeHerramientas.html.twig');
+        $securityContext = $this->get('security.context');
+        
+        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+        $red = NULL;
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        if($ganador != NULL)
+        {
+            $sql = "select * from get_red_persona(:id)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$ganador->getId()));
+            $req = $smt->fetch();
+            
+            $red = $req['red'];
+        }
+        return $this->render('AEConsolidarBundle:Default:informeHerramientas.html.twig',array('red'=>$red));
     }
     
     public function informeLecheEspiritualAction()
     {
-        return $this->render('AEConsolidarBundle:Default:InformeLecheEspiritual.html.twig');
+        $securityContext = $this->get('security.context');
+        
+        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+        $red = NULL;
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        if($ganador != NULL)
+        {
+            $sql = "select * from get_red_persona(:id)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$ganador->getId()));
+            $req = $smt->fetch();
+            
+            $red = $req['red'];
+        }
+        return $this->render('AEConsolidarBundle:Default:InformeLecheEspiritual.html.twig',array('red'=>$red));
     }
     
     public function informeDescartadosAction()
     {
-        return $this->render('AEConsolidarBundle:Default:InformeDescartados.html.twig');
+        $securityContext = $this->get('security.context');
+        
+        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+        $red = NULL;
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        if($ganador != NULL)
+        {
+            $sql = "select * from get_red_persona(:id)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$ganador->getId()));
+            $req = $smt->fetch();
+            
+            $red = $req['red'];
+        }
+        return $this->render('AEConsolidarBundle:Default:InformeDescartados.html.twig', array('red'=>$red));
     }
 }
 

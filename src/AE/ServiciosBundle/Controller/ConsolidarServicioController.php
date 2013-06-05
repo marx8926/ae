@@ -118,7 +118,7 @@ class ConsolidarServicioController extends Controller
         $em->clear();
         
         $n = count($todo);
-        $temp = "";
+        $temp = "<option value='-1'>Sin Consolidador </option>";
         for($i=0; $i<$n; $i++)
         {
                $temp = $temp. "<option value='". $todo[$i]['id']."' >". $todo[$i]['red']." ".$todo[$i]['nombre']."  ". $todo[$i]['apellidos']." </option>";
@@ -687,7 +687,7 @@ class ConsolidarServicioController extends Controller
    }
    
    
-   public function getLecheEspiritualConsolidaAction($inicio, $fin, $leche)
+   public function getLecheEspiritualConsolidaAction($inicio, $fin, $leche, $red, $consol)
    {
        $result = "";
        
@@ -703,11 +703,11 @@ class ConsolidarServicioController extends Controller
            $init = new \DateTime($inicio);
            $end  = new \DateTime($fin);
            
-           $sql = "select * from get_reporte_leche_espiritual_consolida(:inicio,:fin,:leche)";
+           $sql = "select * from get_reporte_leche_espiritual_consolidador_red(:inicio,:fin,:leche,:net,:consol)";
 
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':inicio'=>$init->format('Y-m-d H:i:s'),':fin'=>$end->format('Y-m-d H:i:s'),
-               ':leche'=>$leche));          
+               ':leche'=>$leche, ':net'=>$red, ':consol'=>$consol));          
            $todo = $smt->fetchAll(); 
            $em->clear();
            

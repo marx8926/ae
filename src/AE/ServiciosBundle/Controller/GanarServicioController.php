@@ -815,9 +815,9 @@ class GanarServicioController extends Controller
             
             $descartados_red = $this->invierte_resultados($descartados_red_b);
             
-            $sql5 = " select * from get_ganados_xlugar(:inicio,:fin)";
+            $sql5 = " select * from get_ganados_xlugar(:pastor,:inicio,:fin)";
             $smt5 = $em->getConnection()->prepare($sql5);
-            $smt5->execute(array(':inicio'=>$inicio,':fin'=>$fin));
+            $smt5->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
             $lugar_red = $smt5->fetchAll();
            
            

@@ -128,6 +128,9 @@
 					var fechaarray =  $("#fecha").val().split('/');
 					fechaselect= new Date(fechaarray[2],fechaarray[1]-1,fechaarray[0]);
 					var i=0;
+                                        var desde = dateToYMD(new Date());
+                                        var hasta = dateToYMD(new Date());
+
 					while(base<fechaselect){
 						desde = dateToYMD(new Date(2000,0,3+7*i));
 						i++;
@@ -136,7 +139,6 @@
 					}
                          var url = "{{path('servicio_informe_data_semanal',{'pastor':':pas','inicio':':ini','fin':'end'})}}";
                          
-                         console.log(url);
                          
                          if($('#pastor option:selected').val()!='-1')
                              {
@@ -144,8 +146,8 @@
                                  url = url.replace(':ini',desde);
                                  url = url.replace('end',hasta);
                                  
-                                 console.log(url);
-                                 
+
+                                 $('#titulo_informe').text('Informe Ganar Semana del ' + desde + ' al ' + hasta );
                                  get_tabla(url);
                              }
  		});
