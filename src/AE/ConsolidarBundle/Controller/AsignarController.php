@@ -63,7 +63,7 @@ class AsignarController extends Controller
                 $id_temas[] = $datos['id'.  strval($i)];
                 
              }
-           
+            
               $em->beginTransaction();
             try
             {
@@ -90,7 +90,7 @@ class AsignarController extends Controller
                     //miembro
                     $miembro = $em->getRepository('AEDataBundle:Miembro');
                     $miembro_f = $miembro->findOneBy(array('id'=>$id));
-                    
+                                        
                     if($miembro_f==NULL)
                     {
                         $miembro_f = new Miembro();
@@ -105,8 +105,7 @@ class AsignarController extends Controller
                         $em->flush();
                     }
                     
-                    //agregar consolida (consolidador, nuevo_convertido)
-                    
+                  
                     
                     $consolida = new Consolida();
                     $consolida->setFechaInicio(new \DateTime($ini));
@@ -119,6 +118,8 @@ class AsignarController extends Controller
        
                     $em->persist($consolida);
                     $em->flush();
+                    
+                    
 
                     //recuperar herramientas 
                     $tools = $em->getRepository('AEDataBundle:Herramienta')->findAll();
@@ -135,7 +136,7 @@ class AsignarController extends Controller
                             ':tiempo'=>$date->format('Y-m-d H:i:s')));
                     }
                     
-          
+                    
                      $n = $num_clases;
                      
                      for($i =0; $i< $n; $i++)
@@ -162,9 +163,11 @@ class AsignarController extends Controller
   
                        }
                      }
+                       //agregar consolida (consolidador, nuevo_convertido)
+                    
                     
                     $em->commit();
-                    
+                    $em->clear();
                     $return=array("responseCode"=>200,  "greeting"=>'ook');
                 }
                /* else

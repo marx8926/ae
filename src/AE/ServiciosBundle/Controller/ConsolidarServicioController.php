@@ -47,6 +47,38 @@ class ConsolidarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$todo));
    }
    
+   
+     public function lconsolidadores_redAction($red)
+   {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        try
+        {
+            $em->beginTransaction();
+            
+            $sql = " select * from  get_consolidadores_red(:red)" ;
+                
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red));
+        
+            $todo = $smt->fetchAll();
+            
+            $em->commit();
+            $em->clear();
+            
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+
+        return new JsonResponse(array('aaData'=>$todo));
+   }
+   
    public  function lista_espiritualAction()
    {
        $todo = array();
@@ -357,6 +389,35 @@ class ConsolidarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$todo));
    }
    
+   
+    public  function consolidado_seguir_redAction($red, $consol)
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       $em->beginTransaction();
+       
+       $todo = array();
+       
+       try
+       {
+          
+           $sql = "select *from get_seguimiento_red_con(:red,:con)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red,':con'=>$consol));
+           $todo = $smt->fetchAll();
+           
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
     public function consolidadoAction($id)
     {
        $em = $this->getDoctrine()->getEntityManager();
@@ -481,6 +542,36 @@ class ConsolidarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$todo)); 
    }
    
+   
+    public function pordescartar_redAction($red)
+   {
+       $em = $this->getDoctrine()->getEntityManager();
+       $todo = array();
+
+       try{
+           $em->beginTransaction();
+           
+            $sql = "select * from descartar where red=:net";
+          
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':net'=>$red));
+        
+            $todo = $smt->fetchAll();
+            
+          $em->commit();
+                      $em->clear();
+
+       }
+       catch(Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw $e;
+       }
+        return new JsonResponse(array('aaData'=>$todo)); 
+   }
+   
+  
    public function lista_descartadosAction()
    {
         $em = $this->getDoctrine()->getEntityManager();

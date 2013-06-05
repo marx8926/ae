@@ -19,7 +19,22 @@ class DescartarController extends Controller
 {
    public function descartarAction()
      {
-         return $this->render('AEConsolidarBundle:Default:descartar.html.twig');
+        $securityContext = $this->get('security.context');
+        
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                $red = $req['red'];
+            }
+         return $this->render('AEConsolidarBundle:Default:descartar.html.twig',array('red'=>$red));
      }
      
      public function descartar_updateAction()

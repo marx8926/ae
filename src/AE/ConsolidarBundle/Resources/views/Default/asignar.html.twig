@@ -56,7 +56,7 @@
                     </div>
             </div>
             
-             <div class="control-group">
+            <div class="control-group">
             <label class="control-label" >Red</label>
             <div class="controls">
                 <select id="red_lista" name="red_lista" >
@@ -246,13 +246,13 @@
                     var url=$("#registro").attr("action");
                           
                     //start send the post request
+                    
                     $.post(url,{
                         formName:$("#registro").serialize(),
                         other:"attributes",
                         id: $('#code').text(),
                         num: $('#numero').val()
                     },function(data){
-                        console.log(data);
 
                     //the response is in the data variable
                     if(data.responseCode===200 ){           

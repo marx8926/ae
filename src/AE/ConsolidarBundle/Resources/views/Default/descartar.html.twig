@@ -13,6 +13,15 @@
 {% block content %} 
 <div class="span9" >
 	<h1>Descartar Consolidados</h1>
+        
+        <div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" class='rango'>
+                   
+                </select>
+            </div>
+        </div>
     <div class="box">
         <div class="box-head tabs">
             <h3>Descartar</h3>							
@@ -108,6 +117,7 @@
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -118,9 +128,33 @@
 	 var oTable;
          
         var values = [];
+        
+        function recargar_celula()
+        {
+             var nom = $('#red_lista option:selected').val();
+            
+            if(nom!='-1')
+            {
+                
+                var url = "{{path('servicio_por_descartar_red',{'red':'net'})}}";
+                url = url.replace('net',nom);
+                                
+                get_tabla(url);
+            }
+        }
          
 	$(document).ready(function() {
             
+             $("#red_lista").change(recargar_celula);
+            
+            var rede = '{{red}}' ;
+                                      
+             if(rede.length > 0)
+             {
+                 $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+             }
+             else
+             initRed('{{path('servicio_red_sin')}}');
             $('#ocultar').css({'display':'none'});
             
             $('#persona tbody').click(function(event){
@@ -194,13 +228,18 @@
                 return false;
             });
  
-            /* Build the DataTable with third column using our custom sort functions */
+           
+	 });
+         
+         function get_tabla(url)
+         {
+              /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_por_descartar')}}',
+                "sAjaxSource": url,
 
                 "aoColumns": [
                     { "mDataProp": "id" },
@@ -231,7 +270,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-	 });
+         }
        </script>
 {%endblock %} 
 

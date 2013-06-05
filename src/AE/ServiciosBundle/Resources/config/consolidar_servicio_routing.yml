@@ -4,6 +4,10 @@ servicio_consolidadores:
   pattern: /lconsolidadores
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:lconsolidadores}
   
+servicio_consolidadores_red:
+  pattern: /lconsolidadores_red/{red}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:lconsolidadores_red}
+  
 #leche espirituales
 servicio_leche_espiritual:
   pattern: /leche_espiritual
@@ -50,6 +54,10 @@ servicio_consolidado_seguir:
   pattern: /consolidado_seguir
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado_seguir}
   
+servicio_consolidado_seguir_red_consol:
+  pattern: /consolidado_seguir_red/{red}/{consol}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado_seguir_red}
+  
 servicio_consolidado:
   pattern: /consolidado/{id}
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado}
@@ -67,6 +75,10 @@ servicio_temas_id:
 servicio_por_descartar:
   pattern: /pordescartar
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:pordescartar}
+  
+servicio_por_descartar_red:
+  pattern: /pordescartar_red/{red}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:pordescartar_red}
   
 servicio_lista_descartados:
   pattern: /lista_descartados
