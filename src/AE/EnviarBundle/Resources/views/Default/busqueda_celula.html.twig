@@ -11,20 +11,29 @@
 
 {% block content %} 
 <div class="span9" >
-<h1>Lista de Células</h1>
+<h1 >Informe de Células</h1>
 
         <div class="control-group">
             		<label class="control-label" >Red</label>
             		<div class="controls">
-                		<select id="red_lista" name="red_lista">
+                		<select id="red_lista" name="red_lista" class="rango">
                    
+                		</select>
+            		</div>
+        </div>
+
+         <div class="control-group">
+            		<label class="control-label" >Tipo de Célula</label>
+            		<div class="controls">
+                		<select id="tipo" name="tipo" class="rango" >
+                                    <option value="0">Evangelistica</option>
                 		</select>
             		</div>
         </div>
 
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Células</h3>							
+            <h3 id="titulo_informe" name="titulo_informe">Informe de Células</h3>							
         </div>
 
         <div class="box-content box-nomargin">
@@ -42,11 +51,12 @@
 		                    <th>Nombres</th>
 		                    <th>Apellidos</th>
 		                    <th width="10%">Tipo de Lider</th>
-		                    <th width="8%">Tipo Cel.</th>
-                                    <th width="8%">Red</th>
 		                    <th>Dirección</th>
-		                    <th width="10%">Creación</th>
-                                    <th width="5%">Activo</th>
+                                    <th>Dia</th>
+                                    <th>Hora</th>
+		                    <th width="10%">Apertura</th>
+                                    <th width="5%">Familia Anfitriona</th>
+                                    <th># Miembros</th>
 		                </tr>
 					</thead>
 					
@@ -128,6 +138,20 @@
         
         function recargar_celula()
         {
+             var ruta = '{{path('_enviar_lista_celula_tabla_red',{'red':':net','tipo':':tip'})}}'; 
+             
+             var neti = $('#red_lista').val();
+             
+             if(neti!='-1')
+             {
+                 ruta = ruta.replace(':net',neti);
+                 ruta = ruta.replace(':tip',$('#tipo').val());
+           
+                 console.log(ruta);
+                get_tabla(ruta);
+                
+                $('#titulo_informe').text('Informe de Células '+neti);
+             }
             
         }
          
@@ -188,10 +212,9 @@
             
             enviar("desactivarForm",eq);
      
-            var ruta = '{{path('_enviar_lista_celula_tabla')}}';
-            
-            get_tabla(ruta);
-            
+     
+            $('.rango').change(recargar_celula);
+           
 	 });
          
          function get_tabla(url)
@@ -203,16 +226,17 @@
                 "bServerSide": false,
                 "bDestroy": true,
                 "sAjaxSource": url,
-                "aoColumns": [
+                "aoColumns": [		                    
                     { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "tip_lider" },
-                    { "mDataProp": "tipo" },
-                    {"mDataProp": "id_red"},
                     { "mDataProp": "direccion"},
+                    {  "mDataProp" : "dia"},
+                    { "mDataProp" : "hora"},
                     { "mDataProp": "fecha_creacion"},
-                    {"mDataProp": "activo"}
+                    {"mDataProp": "familia"},
+                    {"mDataProp": "numero"}
                 ],
 		"aaSorting": [ [5,'asc'], [4,'asc'],[3,'asc'] ],
 		"aoColumnDefs": [

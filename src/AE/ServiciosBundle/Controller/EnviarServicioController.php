@@ -275,7 +275,7 @@ class EnviarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$todo));
     }
     
-     public function getListaCelulaTabla_redAction($red)
+     public function getListaCelulaTabla_redAction($red, $tipo)
     {
         $em = $this->getDoctrine()->getEntityManager();
         
@@ -285,21 +285,21 @@ class EnviarServicioController extends Controller
         try{
         
             
-            $sql = "select * from get_celula_evan_lider_red(:red)";
+            $sql = "select * from get_celula_evan_lider_red(:red,:tip)";
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':red'=>$red));
+            $smt->execute(array(':red'=>$red,':tip'=>$tipo));
             $lider_red = $smt->fetchAll();
             $em->clear();
             
-            $sql = "select * from get_celula_evan_misionero(:red)";
+            $sql = "select * from get_celula_evan_misionero(:red,:tip)";
             $smt1 = $em->getConnection()->prepare($sql);
-            $smt1->execute(array(':red'=>$red));
+            $smt1->execute(array(':red'=>$red,':tip'=>$tipo));
             $misionero = $smt1->fetchAll();
             $em->clear();
             
-            $sql = "select * from get_celula_evan_pastor_eje(:red)";
+            $sql = "select * from get_celula_evan_pastor_eje(:red,:tip)";
             $smt2 = $em->getConnection()->prepare($sql);
-            $smt2->execute(array(':red'=>$red));
+            $smt2->execute(array(':red'=>$red,':tip'=>$tipo));
             $pastor = $smt2->fetchAll();
             $em->clear();
             
@@ -312,9 +312,9 @@ class EnviarServicioController extends Controller
                 $todo[]=$value;
             }
             
-            $sql = "select * from get_celula_evan_lider(:red)";
+            $sql = "select * from get_celula_evan_lider(:red,:tip)";
             $smt3 = $em->getConnection()->prepare($sql);
-            $smt3->execute(array(':red'=>$red));
+            $smt3->execute(array(':red'=>$red,':tip'=>$tipo));
             
             $lideres = $smt3->fetchAll();
             $em->clear();
