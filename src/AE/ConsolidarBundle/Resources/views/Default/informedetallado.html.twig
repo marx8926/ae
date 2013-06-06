@@ -14,7 +14,7 @@
 {% block content %}
 <div class="row-fluid"> 
 <div class="span12" >
-<h1>Informe de Consolidacion</h1>
+<h1 >Informe de Consolidacion</h1>
 <br>
 <div class="form-horizontal">
 	<div class="control-group ">
@@ -56,7 +56,7 @@
     </form>  
 		<div class="box" style="margin-top:0;">
 			<div class="box-head tabs">
-            	<h3>Leche Espiritual - Consolidados</h3>							
+            	<h3 id="titulo_informe" name="titulo_informe">Leche Espiritual - Consolidados</h3>							
         	</div>
 
         	<div class="box-content box-nomargin"> 
@@ -140,8 +140,6 @@
                       $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
                       else $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
 
-                      $("<option value='-1'>Sin  Celula </option>").appendTo('#celula_lista');
-
                   {% endif%}
 
              FechaActualT('inicio');
@@ -168,6 +166,9 @@
                     ruta = ruta.replace('milk',$('#select_leche').val());
                     ruta = ruta.replace('net',$('#red_lista').val());
                     ruta = ruta.replace('con',$('#select_consolidador').val());
+                    
+                    $('#titulo_informe').text('Informe de '+
+                            $('#select_consolidador option:selected').text()+' Semana '+ $('#inicio').val());
 
                     console.log(ruta);
                     

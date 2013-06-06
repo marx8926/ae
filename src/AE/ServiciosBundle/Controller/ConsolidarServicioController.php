@@ -1099,5 +1099,135 @@ class ConsolidarServicioController extends Controller
        }  
        return new JsonResponse(array('aaData'=>$todo));
    }
+   
+   
+    public function invierte_resultados($in)
+    {
+        $out = array();
+        
+        foreach ($in as $key => $value) {
+            
+            $out[$value['red']]= $value;
+        }
+        
+        return $out;
+    }
+    
+    //uniones de los resultados de las consultadas separadas
+    
+    public function union_resultados_consolidar(
+            $red, $lideres, $porconsolidar, $consolidados, $noconsolidados,$encuentro)
+    {
+        $out = array();
+       
+        
+        $n = count($red);
+        
+        $cont = 0;
+        foreach ($red as $key => $value) {
+           
+            $temp = array();
+            
+            $temp['red'] = $value['red'];
+            $temp['nombres']=$value['nombres'];
+            
+            $temp['lideres']=$lideres[$value['red']]['lideres'];
+            $temp['meta'] = $temp['lideres']*7;
+            
+            $temp['porconsolidar']=$porconsolidar[$value['red']]['pconsolidar'];
+            $temp['consolidados']= $consolidados[$value['red']]['pconsolidados'];
+            
+            $temp['noconsolidados']=$noconsolidados[$value['red']]['pconsolidados'];
+            $temp['encuentro'] = $encuentro[$value['red']]['pencuentro'];
+            
+            $out[] = $temp;
+        }
+        
+        return $out;
+    }
+   
+   
+       public function informe_semanal_consolidar_pastorAction($pastor, $inicio, $fin)
+    {
+     
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+   
+        $begin = new \DateTime($inicio);
+        $end = new \DateTime($fin);
+        
+        $init  = new \DateTime();
+        $init->setDate($begin->format('Y'),'01','01');
+        
+        $em->beginTransaction();
+       
+        try{
+            
+               
+            $sql1="select * from get_encargados_red_xpastor(:pastor)";
+            $smt1 = $em->getConnection()->prepare($sql1);
+            $smt1->execute(array(':pastor'=>$pastor));
+            $red_encargado_b = $smt1->fetchAll();
+            $red_encargado = $this->invierte_resultados($red_encargado_b);
+        
+            $sql2="select * from get_lideres_red_xpastor(:pastor)";
+            $smt2 = $em->getConnection()->prepare($sql2);
+            $smt2->execute(array(':pastor'=>$pastor));
+            $lideres_red_b = $smt2->fetchAll();
+            $lideres_red = $this->invierte_resultados($lideres_red_b);
+
+            //por consolidar
+            $sql3="select * from get_porconsolidar_red_xpastor(:pastor,:inicio,:fin)";
+            $smt3 = $em->getConnection()->prepare($sql3);
+            $smt3->execute(array(':pastor'=>$pastor,':inicio'=>$init->format('Y-m-d'),':fin'=>$fin));
+            $porconsolidar_b = $smt3->fetchAll();
+            
+            $porconsolidar = $this->invierte_resultados($porconsolidar_b);
+        
+            //consolidados
+            $sql4=" select * from get_consolidados_red_xpastor(:pastor, :inicio, :fin)";
+            $smt4 = $em->getConnection()->prepare($sql4);
+            $smt4->execute(array(':pastor'=>$pastor,':inicio'=>$begin->format('Y-m-d H:i:s'),
+                ':fin'=>$end->format('Y-m-d H:i:s')));
+            $consolidados_b = $smt4->fetchAll();
+            
+            $consolidados_red = $this->invierte_resultados($consolidados_b);
+            
+            //no consolidados
+            
+            $sql5 = " select * from get_no_consolidados_red_xpastor(:pastor,:inicio,:fin)";
+            $smt5 = $em->getConnection()->prepare($sql5);
+            $smt5->execute(array(':pastor'=>$pastor,':inicio'=>$begin->format('Y-m-d H:i:s'),
+                ':fin'=>$end->format('Y-m-d H:i:s')));
+            $no_consolidados_b= $smt5->fetchAll();
+            $no_consolidados_red = $this->invierte_resultados($no_consolidados_b);
+           
+           
+            //por encuentro
+            
+            $sql6 = " select * from get_pencuentro_xpastor(:pastor, :inicio, :fin)";
+            $smt6 = $em->getConnection()->prepare($sql6);
+            $smt6->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+            $encuentro_b = $smt6->fetchAll();
+            $encuentro = $this->invierte_resultados($encuentro_b);
+
+            $todo = $this->union_resultados_consolidar($red_encargado, 
+$lideres_red, $porconsolidar, $consolidados_red,$no_consolidados_red,$encuentro);
+
+            
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$todo)); 
+    }
+
+
 }
 

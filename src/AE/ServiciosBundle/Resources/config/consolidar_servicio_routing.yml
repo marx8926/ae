@@ -123,3 +123,8 @@ servicio_reporte_descartados:
 servicio_reporte_almas_por_consolidador:
   pattern: /getReporteAlmasConsolidador/{id}
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:getReporteAlmasConsolidador}
+  
+  
+servicio_informe_consolidar_semanal_pastor:
+  pattern: /servicio_informe_consolidar_semanal/{pastor}/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:informe_semanal_consolidar_pastor}

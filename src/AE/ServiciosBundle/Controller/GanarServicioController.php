@@ -722,7 +722,7 @@ class GanarServicioController extends Controller
     }
     
     
-    public function invierte_resultados($in)
+    private function invierte_resultados($in)
     {
         $out = array();
         
@@ -734,7 +734,7 @@ class GanarServicioController extends Controller
         return $out;
     }
     
-    public function union_resultados_ganar($red, $lideres, $ganados, $descartados, $lugar)
+    private function union_resultados_ganar($red, $lideres, $ganados, $descartados, $lugar)
     {
         $out = array();
        
