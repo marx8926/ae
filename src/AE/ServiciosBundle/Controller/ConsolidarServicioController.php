@@ -913,15 +913,7 @@ class ConsolidarServicioController extends Controller
            
            $body="<tbody id='tablas1' name='tablas1'>";
            
-           //creamos el cuerpo
-         /*  
-           if(count($todo)>0)
-           {
-                $old = $todo[0]['id'];
-                $newe = $todo[0]['id'];
-           }
-          * 
-          */
+         
            $old = NULL;
            $newe = NULL;
            $cont =0;
@@ -954,6 +946,22 @@ class ConsolidarServicioController extends Controller
                   
                   $cadena = $cuerpo; 
                   
+                  //descartado
+                  
+                  $sql4 = "select * from descartado n inner join consolida c on c.id_nuevo_convertido=n.id and ".
+                          "c.pausa=true and n.fecha_descarte between :ini and :fin and c.id_nuevo_convertido=:id";
+                  
+                  $smt4 = $em->getConnection()->prepare($sql4);
+                  $smt4->execute(array(':ini'=>$init->format('Y-m-d'),
+                      ':fin'=>$end->format('Y-m-d'),':id'=>$value['id']));
+                  
+                  $resultado = $smt4->fetchAll();
+                  
+                  if(count($resultado)>0)
+                  {
+                       $cadena = str_replace('Descartado', ' ', $cadena); //titulo
+
+                  }
                   
                   //herramientas 
                   
