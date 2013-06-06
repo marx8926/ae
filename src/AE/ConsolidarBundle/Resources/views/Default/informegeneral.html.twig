@@ -61,47 +61,7 @@
                 }
                 
                 
-              
-         function get_tabla(ruta)
-         {
-               /* Build the DataTable with third column using our custom sort functions */
-            oTable = $('#persona').dataTable( {
-                                    
-                "bProcessing": true,
-                "bServerSide": false,
-                "bDestroy": true,
-                "sAjaxSource": ruta,
-                "aoColumns": [
-                     { "mDataProp": "red" },
-                    { "mDataProp": "nombres" },
-                    { "mDataProp": "lideres" },
-                    { "mDataProp": "meta" },
-                    { "mDataProp": "porconsolidar" },
-                    { "mDataProp": "consolidados"},
-                    { "mDataProp": "noconsolidados"},
-                    { "mDataProp": "encuentro" }
-            
-                ],
-		"aaSorting": [ [0,'desc']],//por consultar el tipo de orden
-		"aoColumnDefs": [
-                    { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
-                "oTableTools": {
-			"sRowSelect": "single",
-                        "fnRowSelected": function ( node ) {
-                            var s=$(node).children();
-                            alert("Selected Row : " + s[0]);
-                        }
-		},
-                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
-					"sPaginationType": "bootstrap",
-					"oLanguage": {
-						"sLengthMenu": "_MENU_ registros por página"
-					}
-            } );	
-         }
-      
-            
+       
              function dateToYMD(date)
             {
                 var d = date.getDate();
@@ -171,6 +131,44 @@
             });
             });
             
+                   
+         function get_tabla(ruta)
+         {
+           oTable = $('#persona').dataTable( {
+                                    
+                "bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": ruta,
+                "aoColumns": [
+                     { "mDataProp": "red" },
+                    { "mDataProp": "nombres" },
+                    { "mDataProp": "lideres" },
+                    { "mDataProp": "meta" },
+                    { "mDataProp": "porconsolidar" },
+                    { "mDataProp": "consolidados"},
+                    { "mDataProp": "noconsolidados"},
+                    { "mDataProp": "encuentro"}
+                ],
+		"aaSorting": [ [0,'desc']],//por consultar el tipo de orden
+		"aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+		],"sDom": 'T<"clear">lfrtip',
+                "oTableTools": {
+			"sRowSelect": "single",
+                        "fnRowSelected": function ( node ) {
+                            var s=$(node).children();
+                            alert("Selected Row : " + s[0]);
+                        }
+		},
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ registros por página"
+					}
+            } );	
+         }
+      
             
         	
     </script>             
@@ -218,8 +216,9 @@
             		<thead id='lol'>
                 		<tr>
 		                    <th>Red</th>
-		                    <th>Lider 12</th>
+		                    <th width="30%">Lider 12</th>
 		                    <th>Lideres</th>
+                                    <th>Meta </th>
 		                    <th>Por Consolidar</th>
 		                    <th>Consolidados</th>
 		                    <th>No Consolidados</th>
