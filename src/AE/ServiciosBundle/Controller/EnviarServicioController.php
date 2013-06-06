@@ -285,21 +285,21 @@ class EnviarServicioController extends Controller
         try{
         
             
-            $sql = "select * from lista_celula_lider_red_act";
+            $sql = "select * from get_celula_evan_lider_red(:red)";
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute();
+            $smt->execute(array(':red'=>$red));
             $lider_red = $smt->fetchAll();
             $em->clear();
             
-            $sql = "select * from lista_celula_misionero_act";
+            $sql = "select * from get_celula_evan_misionero(:red)";
             $smt1 = $em->getConnection()->prepare($sql);
-            $smt1->execute();
+            $smt1->execute(array(':red'=>$red));
             $misionero = $smt1->fetchAll();
             $em->clear();
             
-            $sql = "select * from lista_celula_pastor_eje_act";
+            $sql = "select * from get_celula_evan_pastor_eje(:red)";
             $smt2 = $em->getConnection()->prepare($sql);
-            $smt2->execute();
+            $smt2->execute(array(':red'=>$red));
             $pastor = $smt2->fetchAll();
             $em->clear();
             
@@ -312,9 +312,10 @@ class EnviarServicioController extends Controller
                 $todo[]=$value;
             }
             
-            $sql = "select * from lista_celula_lider_act";
+            $sql = "select * from get_celula_evan_lider(:red)";
             $smt3 = $em->getConnection()->prepare($sql);
-            $smt3->execute();
+            $smt3->execute(array(':red'=>$red));
+            
             $lideres = $smt3->fetchAll();
             $em->clear();
             
