@@ -57,7 +57,29 @@
                    
                                 </select>
                             </div>
-                        </div>               
+                        </div> 
+                            
+                               <div class="control-group">
+                            <label class="control-label" >Día</label>
+                            <div class="controls">
+                                <select id="dia" name="dia" required >
+                                    <option value="Lunes">Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miercoles">Miercoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes">Viernes</option>
+                                    <option value="Sabado">Sabado</option>
+                                    <option value="Domingo">Domingo</option>
+                                </select>
+                            </div>
+                        </div>        
+                            
+                        <div class="control-group">
+                            <label class="control-label">Hora</label>
+                            <div class="controls">
+                                <input type="time" id="hora" name="hora" value="{{hora}}" required >
+                            </div>
+                        </div>     
            
                     </fieldset>
         
@@ -109,8 +131,8 @@
         	<label class="control-label">Ubicación</label>
         	<div id="map-ll" style="display:none;">
             	<label style="display:none;">Dirección: </label> <input id="addresspicker_map" name="addresspicker_map" disabled="disabled" style="display: none;"/>   <br/>
-				<label>Latitud:</label> <input id="lat" name="latitud" value="-8.116752">
-                <label>Longitud:</label> <input id="lng" name="longitud" value="-79.019616"> <br/>
+				<label>Latitud:</label> <input id="lat" name="latitud" value="{{latitud}}">
+                <label>Longitud:</label> <input id="lng" name="longitud" value="{{longitud}}"> <br/>
             </div>
             <div class="controls">
          		<div id="map" class="input-xxlarge"></div>
@@ -236,6 +258,7 @@
                 }
                $(document).ready(function(){
                
+                    $('#dia').val("{{dia}}");
  
                     $("#tip_red").change(change_tipo);
                     $("#red_lista").change(change_red);

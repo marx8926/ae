@@ -37,6 +37,9 @@ _enviar_lista_celula_tabla:
   pattern: /enviar_lista_celula_tabla
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaTabla}
   
+_enviar_lista_celula_tabla_red:
+  pattern: /enviar_lista_celula_tabla_red/{red}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaTabla_red}
   
 _enviar_lista_celula_tabla_des:
   pattern: /enviar_lista_celula_tabla_des

@@ -275,6 +275,66 @@ class EnviarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$todo));
     }
     
+     public function getListaCelulaTabla_redAction($red)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        $em->beginTransaction();
+        
+        try{
+        
+            
+            $sql = "select * from lista_celula_lider_red_act";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute();
+            $lider_red = $smt->fetchAll();
+            $em->clear();
+            
+            $sql = "select * from lista_celula_misionero_act";
+            $smt1 = $em->getConnection()->prepare($sql);
+            $smt1->execute();
+            $misionero = $smt1->fetchAll();
+            $em->clear();
+            
+            $sql = "select * from lista_celula_pastor_eje_act";
+            $smt2 = $em->getConnection()->prepare($sql);
+            $smt2->execute();
+            $pastor = $smt2->fetchAll();
+            $em->clear();
+            
+            $todo = $lider_red;
+            foreach ($misionero as $key => $value) {
+                $todo[]=$value;                
+            }
+            
+            foreach ($pastor as $key => $value) {
+                $todo[]=$value;
+            }
+            
+            $sql = "select * from lista_celula_lider_act";
+            $smt3 = $em->getConnection()->prepare($sql);
+            $smt3->execute();
+            $lideres = $smt3->fetchAll();
+            $em->clear();
+            
+            foreach ($lideres as $key => $value) {
+                $todo[]=$value;
+            }
+           
+            $em->commit();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse(array('aaData'=>$todo));
+    }
+    
     
     public function getListaCelulaTablaDesAction()
     {

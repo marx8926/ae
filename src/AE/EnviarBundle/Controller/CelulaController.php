@@ -16,10 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\TransactionRequiredException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class CelulaController extends Controller
 {
@@ -53,7 +49,18 @@ class CelulaController extends Controller
             $longitud = $datos['longitud'];
             
             $tipo = $datos['tip_red'];
-            $id   = $datos['ids'];
+            if($id_red!='-1')
+                $id   = $datos['ids'];
+            else {
+                $id_red=NULL;
+                $id;
+            }
+            $dia  = $datos['dia'];
+            $hora = $datos['hora'];
+            $creacion_b = $datos['creacion'];
+            $creacion_a =explode('/', $creacion_b,3);
+            $creacion = $creacion_a[2].'-'.$creacion_a[1].'-'.$creacion_a[0];
+            
             
             $em = $this->getDoctrine()->getEntityManager();
             $em->beginTransaction();
@@ -74,31 +81,35 @@ class CelulaController extends Controller
                 $em->persist($ubicacion);
                 $em->flush();
                 
-                $sql = "select insert_celula(:tip, :fam, :tel , :ubi, :red,:caso,:idx)";
+                $sql = "select insert_celula(:tip, :fam, :tel , :ubi, :red,:caso,:idx,:dia, :hora, :creacion)";
                 
                 $smt = $em->getConnection()->prepare($sql);
                 
                 switch (intval($tipo)) {
                     case 0: //lider
                         $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
-                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>2,':idx'=>$id));
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>2,':idx'=>$id,
+                            ':dia'=>$dia ,':hora'=>$hora,':creacion'=>$creacion));
 
                         break;
                     case 1: //misionero
                         $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
-                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>1,':idx'=>$id));
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>1,':idx'=>$id,
+                            ':dia'=>$dia ,':hora'=>$hora,':creacion'=>$creacion));
                         break;
                     
                     case 2:
                       //pastor ejecutivo
                         $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
-                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>0,':idx'=>$id));                        
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>0,':idx'=>$id,
+                            ':dia'=>$dia ,':hora'=>$hora,':creacion'=>$creacion));                        
                         break;
                     
                     case 3:
                       //lider
                         $smt->execute(array(':tip'=>$tipocell,':fam'=>$familia,':tel'=>$telefono,
-                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>3,':idx'=>$id));                        
+                                ':ubi'=>$ubicacion->getId(),':red'=>$id_red,':caso'=>3,':idx'=>$id,
+                            ':dia'=>$dia ,':hora'=>$hora,':creacion'=>$creacion));                        
                         break;
 
                     default:

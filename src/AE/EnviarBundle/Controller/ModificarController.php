@@ -16,10 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\TransactionRequiredException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class ModificarController extends Controller
 {
@@ -50,6 +46,8 @@ class ModificarController extends Controller
         $departamento = NULL;
         $provincia = NULL;
         $idp = NULL;
+        $hora = NULL;
+        $dia = NULL;
         
         try
         {
@@ -78,8 +76,12 @@ class ModificarController extends Controller
             $departamento = $todo['coddepartamento'];
             $provincia = $todo['codprovincia'];
             $idp = $todo['idp'];
+            $dia = $todo['dia'];
+            $hora = $todo['hora'];
             
             $em->commit();
+            $em->clear();
+            
         }
         catch(Exception $e)
         {
@@ -93,7 +95,8 @@ class ModificarController extends Controller
             'tipo'=>$tipo, 'familia'=>$familia,'telefono'=>$telefono,'activo'=>$activo,'caso'=>$caso,
             'ubi_id'=>$ubi_id, 'direccion'=>$direccion, 'referencia'=>$referencia,'latitud'=>$latitud,
             'longitud'=>$longitud,'ubigeo'=>$id_ubigeo,'red'=>$red, 'distrito'=>$distrito,
-           'provincia'=>$provincia,'departamento'=>$departamento,'celula'=>$form, 'idp'=>$idp));
+           'provincia'=>$provincia,'departamento'=>$departamento,'celula'=>$form, 'idp'=>$idp,'dia'=>$dia,
+           'hora'=>$hora));
         
     }
     
@@ -123,6 +126,8 @@ class ModificarController extends Controller
             $tipo = $datos['tip_red'];
             $id   = $datos['ids'];
             $ubicacion = $datos['idubicacion'];
+            $dia = $datos['dia'];
+            $hora = $datos['hora'];
             
             $mision = NULL;
             $pastor = NULL;
@@ -136,7 +141,8 @@ class ModificarController extends Controller
             try{
                 $em->beginTransaction();
                 
-                $sql = "select update_cell(:tip, :fam, :tel,:red, :mision, :pastor, :lider,:liderl, :idx, :dir,:refer,:lati,:longitu, :ubigeo, :idubi)";
+                $sql = "select update_cell(:tip, :fam, :tel,:red, :mision, :pastor, :lider,:liderl, :idx, :dir,:refer,:lati,:longitu, :ubigeo, :idubi
+                    ,:dia, :hora)";
                 $smt = $em->getConnection()->prepare($sql);
                 
                 switch (intval($tipo)) {
@@ -161,7 +167,7 @@ class ModificarController extends Controller
                 
                 $retorna = array(':tip'=>$tipocell,':fam'=>$familia, ':tel'=>$telefono,':red'=>$id_red,':mision'=>$mision,':pastor'=>$pastor,
                     ':lider'=>$lider,':liderl'=>$liderL,':idx'=>$celula, ':dir'=>$direccion, ':refer'=>$referencia,':lati'=>$latitud,':longitu'=>$longitud,
-                    ':ubigeo'=>$distrito,':idubi'=>$ubicacion);
+                    ':ubigeo'=>$distrito,':idubi'=>$ubicacion, ':dia'=>$dia, ':hora'=>$hora);
                 
                 $smt->execute($retorna);
                 

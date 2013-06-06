@@ -12,6 +12,16 @@
 {% block content %} 
 <div class="span9" >
 <h1>Lista de Células</h1>
+
+        <div class="control-group">
+            		<label class="control-label" >Red</label>
+            		<div class="controls">
+                		<select id="red_lista" name="red_lista">
+                   
+                		</select>
+            		</div>
+        </div>
+
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Células</h3>							
@@ -163,13 +173,21 @@
             
             enviar("desactivarForm",eq);
      
-            /* Build the DataTable with third column using our custom sort functions */
+            var ruta = '{{path('_enviar_lista_celula_tabla')}}';
+            
+            get_tabla(ruta);
+            
+	 });
+         
+         function get_tabla(url)
+         {
+             /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('_enviar_lista_celula_tabla')}}',
+                "sAjaxSource": url,
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
@@ -198,10 +216,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-   
-           
-            
-	 });
+         }
 
        </script>
 {%endblock %} 

@@ -7,6 +7,8 @@
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/DT_bootstrap.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+        <link rel="stylesheet" href="{{asset('js/jquery-addresspicker/demos/themes/base/jquery.ui.all.css')}}">
 {% endblock %}
 
 {%block content %}
@@ -55,8 +57,38 @@
                    
                                 </select>
                             </div>
-                        </div>               
-           
+                        </div>    
+                            
+                       <div class="control-group">
+                            <label class="control-label" >Creación</label>
+                            <div class="controls">
+                                <input type="text" id="creacion" name="creacion" class="datepick" required >
+                                <p class="help-block">Día/Mes/Año</p>  
+                            </div>
+                        </div> 
+                            
+                         <div class="control-group">
+                            <label class="control-label" >Día</label>
+                            <div class="controls">
+                                <select id="dia" name="dia" required >
+                                    <option value="Lunes">Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miercoles">Miercoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes">Viernes</option>
+                                    <option value="Sabado">Sabado</option>
+                                    <option value="Domingo">Domingo</option>
+                                </select>
+                            </div>
+                        </div>        
+                            
+                        <div class="control-group">
+                            <label class="control-label">Hora</label>
+                            <div class="controls">
+                                <input type="time" id="hora" name="hora" value="00:00:00" required >
+                            </div>
+                        </div>        
+                       
                     </fieldset>
         
         <fieldset>
@@ -210,8 +242,15 @@
             
                 function change_red()
                 {
-                    change_tipo();
-                    $('#lider_block').css({"display":"block"});
+                    
+                    if($('#red_lista option:selected').val()!='-1')
+                    {
+                        $('#lider_block').css({"display":"block"});
+                                            change_tipo();
+
+                    }
+                    else $('#lider_block').css({"display":"none"});
+
                 }
                $(document).ready(function(){
                
@@ -247,6 +286,8 @@
                     var url=$("#myForm").attr("action");
    
                     //start send the post request
+                    
+                    console.log($("#myForm").serialize());
                     $.post(url,{
                         formName:$("#myForm").serialize(),
                         other:"attributes"
