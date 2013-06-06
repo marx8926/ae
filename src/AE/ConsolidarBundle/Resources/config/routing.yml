@@ -123,6 +123,13 @@ consolidar_informe_descartados:
   pattern: /informe_descartados
   defaults: {_controller: AEConsolidarBundle:Informes:informeDescartados}
   
+consolidado_informe_detallado:
+  pattern: /informe_detallado
+  defaults: {_controller: AEConsolidarBundle:Informes:informeDetallado}
+  
+consolidado_informe_resumido:
+  pattern: /informe_resumido
+  defaults: {_controller: AEConsolidarBundle:Informes:informeResumido}
   
 consolidar_vista:
   pattern: /vista/{id}

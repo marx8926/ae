@@ -127,7 +127,7 @@ class ConsolidarServicioController extends Controller
         $temp = "";
         for($i=0; $i<$n; $i++)
         {
-               $temp = $temp. "<option value='". $todo[$i]['id']."' >". $todo[$i]['red']." ".$todo[$i]['nombre']."  ". $todo[$i]['apellidos']." </option>";
+               $temp = $temp. "<option value='". $todo[$i]['id']."' >". $todo[$i]['nombre']."  ". $todo[$i]['apellidos']." </option>";
               
         }
   
@@ -858,12 +858,18 @@ class ConsolidarServicioController extends Controller
       $em = $this->getDoctrine()->getEntityManager();
        $todo = array();
        $tools = array();
+       $tool_per = array();
 
        $em->beginTransaction();
 
        try
        {
-           $init = new \DateTime($inicio);
+           
+           $begin = new \DateTime($inicio);
+           
+           $init = new \DateTime();
+           $init->setDate($begin->format('Y'), '01', '01');
+           
            $end  = new \DateTime($fin);
            
            $sql = "select * from get_reporte_leche_espiritual_consolidador_red(:inicio,:fin,:leche,:net,:consol)";
@@ -886,32 +892,38 @@ class ConsolidarServicioController extends Controller
            $herramienta = array();
            
            //creamos la cabezera
-           $temp = "<thead> <tr> <th>N°</th> <th>ID</th> <th>Nombres</th><th>Apellidos</th><th>Red</th>";
-           $cuerpo = "<tr> <td>N°</td><td>ID</td> <td>Nombres</td><td>Apellidos</td><td>Red</td>";
+           $temp = "<thead> <tr> <th>N°</th> <th>Inicio</th> <th>Nombres</th><th>Apellidos</th><th>Edad</th><th>Dirección</th> <th>Telefono</th>".
+                   "<th>Co</th> <th> Vi </th> <th>Cé</th><th>Ig</th>";
+           $cuerpo = "<tr> <td>N°</td> <td>Inicio</td>  <td>Nombres</td><td>Apellidos</td><td>Edad</td><td>Dirección</td> <td>Telefono</td>".
+                   "<td>Contacto</td><td> Visita </td> <td>Célula</td><td>Iglesia</td>";
            
             $result="<table id='persona' name='persona' class='table table-striped table-bordered'>";
 
            foreach ($tools as $key => $value) {
                $herramienta[$value['titulo']]=$value['titulo'];
                
-               $temp = $temp."<th>".$value['titulo']."</th>";
+               $temp = $temp."<th>".($key+1)."</th>";
                $cuerpo = $cuerpo."<td>".$value['titulo']."</td>";
                
            }
-           $temp = $temp." </thead> </tr>";
-           $cuerpo = $cuerpo." </tr>";
+           $temp = $temp." <th>De</th> <th>En</th> </thead> </tr>";
+           $cuerpo = $cuerpo."<td>Descartado</td> <td>Encuentro<td></tr>";
            
            $result = $result.$temp;
            
            $body="<tbody id='tablas1' name='tablas1'>";
            
            //creamos el cuerpo
-           
+         /*  
            if(count($todo)>0)
            {
                 $old = $todo[0]['id'];
                 $newe = $todo[0]['id'];
            }
+          * 
+          */
+           $old = NULL;
+           $newe = NULL;
            $cont =0;
            $cadena = $cuerpo; 
            $numero = 0;
@@ -921,10 +933,19 @@ class ConsolidarServicioController extends Controller
                
                
                $newe = $value['id'];
-               if($newe == $old && $cont!=0)
+               if($newe == $old )
                {
               //      $body = str_replace($value['titulo'], ($value['hecho']==TRUE)?'T':'F', $body); //titulo
-                    $body = str_replace($value['titulo'], (count($value['fin'])>0)?'T':'F', $body); //titulo
+                   
+                   if(count($value['fin'])>0)
+                   {
+                       $fin = new \DateTime($value['fin']);
+                       
+                    $body = str_replace($value['titulo'], '  &#10003; <br> '.$fin->format('d/m'), $body); //titulo
+                   }
+                   else
+                    $body = str_replace($value['titulo'], ' ', $body); //titulo
+        
 
                }
                else
@@ -932,14 +953,55 @@ class ConsolidarServicioController extends Controller
                   $body = $this->reemplazo($body, $herramienta);
                   
                   $cadena = $cuerpo; 
+                  
+                  
+                  //herramientas 
+                  
+                  $sql0 = "select * from get_reporte_herramientas_persona(:id,:ini,:fin)";
+                  $smt0 = $em->getConnection()->prepare($sql0);
+                  $smt0->execute(array(':id'=>$value['id'],':ini'=>$init->format('Y-m-d H:i:s'),
+                            ':fin'=>$end->format('Y-m-d H:i:s')));
+           
+                  $tool_per = $smt0->fetchAll();
+                  $em->clear();
+                  
+                  foreach ($tool_per as $key => $vale) {
+                      if(count($vale['fecha'])>0)
+                      {
+                        $cadena = str_replace($vale['tool'],' &#10003;' , $cadena); //inicio
+                      }
+                      else 
+                      {
+                        $cadena = str_replace($vale['tool'],'' , $cadena); //inicio
+
+                      }
+                  }
+                  
                   $cadena = str_replace('N°', strval($numero), $cadena); //id
                   
-                  $cadena = str_replace('ID', $value['id'], $cadena); //id
+                  
+                  $ini = new \DateTime($value['fecha_inicio']);
+                  
+                  $cadena = str_replace('Inicio',$ini->format('d/m/y') , $cadena); //inicio
+                  
+                  
                   $cadena = str_replace('Nombres', $value['nombre'], $cadena); //nombre
                   $cadena = str_replace('Apellidos', $value['apellidos'], $cadena); //apellidos
-                  $cadena = str_replace('Red', $value['red'], $cadena); //red
+                  $cadena = str_replace('Edad', $value['edad'], $cadena); //edad
+                  $cadena = str_replace('Dirección', $value['direccion'], $cadena); //direccion
+                  $cadena = str_replace('Telefono', $value['telefono'], $cadena); //telefono
 
-                  $cadena = str_replace($value['titulo'], (count($value['fin'])>0)?'T':'F', $cadena); //titulo
+
+
+                  //$cadena = str_replace($value['titulo'], (count($value['fin'])>0)?$value['fin']:'', $cadena); //titulo
+                   if(count($value['fin'])>0)
+                   {
+                       $fin = new \DateTime($value['fin']);
+                       
+                    $cadena = str_replace($value['titulo'], '  &#10003; <br> '.$fin->format('d/m'), $cadena); //titulo
+                   }
+                   else
+                    $cadena = str_replace($value['titulo'], ' ', $cadena); //titulo
                   
                   $body = $body.$cadena;
                   $cont =$cont+1;
@@ -949,6 +1011,18 @@ class ConsolidarServicioController extends Controller
            }
            
            $result = $result.$body."</tbody> </table>";
+           
+           $sql2 = "select * from herramienta";
+           $smt2 = $em->getConnection()->prepare($sql2);
+           $smt2->execute();
+           $herr = $smt2->fetchAll();
+           
+           foreach ($herr as $key => $value) {
+              $result = str_replace($value['nombre'], ' ', $result); //titulo
+
+           }
+           $result = str_replace('Descartado', ' ', $result); //titulo
+
 
            $em->commit();
            $em->clear();

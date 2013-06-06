@@ -1,0 +1,137 @@
+{% extends "::base.html.twig" %}
+
+{% block titulo %}Informe Herramientas - {% endblock %}
+
+{% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        
+        <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">  
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+{% endblock %}                 
+
+{% block content %} 
+<div class="span9" >
+	<h1>Informe Herramientas</h1>
+	<br>
+	<div class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label">Del</label>
+			<div class="controls">
+				<input type= "text" class="datepick rango"  id="inicio" name="inicio" class="rango"> al <input type= "text" class="datepick rango"  id="fin" name="fin" >
+			</div>
+		</div>
+	</div>
+	<form id='form' method='POST' style="margin-bottom:0;">
+        		<input id='content' type='hidden' name='content' >
+    			<input id='title' type='hidden' name='title' >
+    			<input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+    			<input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+    </form>
+	<div class="box" style="margin-top:0;">
+		<div class="box-head tabs">
+            <h3>Herramientas - Consolidados</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+        	
+                    <div  id="primer" name="primer">
+                    </div>
+                
+    	</div>
+	</div>
+        <div class="form-horizontal" id="ocultar" name="ocultar">
+        	<button class="btn-success" id="vista" name="vista"> Activar </button>
+        </div>
+        
+</div>    
+                 
+{% endblock %}
+      
+ {%block javascript %}
+            
+            <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+			<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+                        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                        <script src="{{asset('js/functiongen.js')}}">   </script>
+                        <script src="{{asset('js/tiempo.js')}}"></script>
+			<script src="https://www.google.com/jsapi"></script>
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
+       
+ 
+    <script type="text/javascript">
+
+         var trselected; 
+	 var oTable;
+         
+        var values = [];
+         
+	$(document).ready(function() {
+
+            FechaActualT('inicio');
+            FechaActualT('fin');
+
+            var date1 =  $("#inicio").val().split('/');
+            var date2 =  $("#fin").val().split('/');
+            inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
+            fin = date2[2] + '-' + date2[1] + '-' + date2[0];
+            
+            $('#ocultar').css({'display':'none'});            
+        
+            $('.rango').change(function(){
+            	var date1 =  $("#inicio").val().split('/');
+                var date2 =  $("#fin").val().split('/');
+                inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
+                fin = date2[2] + '-' + date2[1] + '-' + date2[0];
+                
+               // event.preventDefault();
+                
+                var url = '{{path('servicio_herramienta_nuevos',{'inicio':'init','fin':'end'}) }}';
+                var ruta = url.replace('init',inicio);
+                ruta = ruta.replace('end',fin);
+                console.log(ruta);
+                              
+                ajaxResposeDataPost("primer",ruta);
+                
+            });
+            
+            $("#pdfbutton").click(function(event) {
+                //$("#persona th").css("width","auto");
+        	$("#content").val($("#persona").html());
+        	$("#title").val($("h3").html());
+        	//$("#content").val($("#lol").html() + $("tbody").html());
+                $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#form").submit();
+            });
+
+            $("#excelbutton").click(function(event) {
+        	$("#content").val("<table>" + $("#persona").html() + "</table>");
+                $("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+                $("#form").submit();
+            });
+
+	 });
+   
+  
+       </script>
+{%endblock %} 
