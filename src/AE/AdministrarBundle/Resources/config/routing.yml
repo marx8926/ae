@@ -206,3 +206,11 @@ administrar_lider1728up:
   defaults: {_controller: AEAdministrarBundle:Lider:adminlider1728up}
   requirements:
     _method: POST
+    
+administrar_asistencia_culto:
+  pattern: /asistencia_culto
+  defaults: {_controller: AEAdministrarBundle:Lider:asistencia_culto}
+  
+administrar_asistencia_culto_up:
+  pattern: /asistencia_culto_up
+  defaults: {_controller: AEAdministrarBundle:Lider:asistencia_culto_up}

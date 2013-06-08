@@ -1,0 +1,197 @@
+{% extends "::base.html.twig" %}
+
+{% block titulo %}Informe Semanal - {% endblock %}
+
+{% block stylesheets %}
+	<link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
+    <style>
+    	.encurso{
+    		color: #008500;
+    	}
+    	.cerrado{
+    		color: #fb000d;
+    	}
+	</style>
+{% endblock %}
+
+{%block javascript %}
+  	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>			
+	<script src="{{asset('js/functiongen.js')}}"></script>
+        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+        <script src="{{asset('js/tiempo.js')}}"></script>
+        <script src="{{asset('js/ganar.js')}}"></script>
+            
+    <script type="text/javascript">
+        
+           function pastores(data)    
+                {
+                
+                $('#pastor').empty();
+
+                $("<option value='-1'>Sin pastor</option>").appendTo('#pastor');
+                
+          
+                for(var i=0;i<data.length;i++)
+                    {
+                      $('<option value='+data[i].id+'>'+data[i].nombres+'</option>').appendTo('#pastor');
+
+                    }
+                }
+                
+                
+       
+             function dateToYMD(date)
+            {
+                var d = date.getDate();
+                var m = date.getMonth()+1;
+                var y = date.getFullYear();
+                return '' + y +'-'+ (m<=9?'0'+m:m) +'-'+ (d<=9?'0'+d:d);
+            };
+            
+            var logg = function logeo(data)
+            {
+                    console.log(data);
+                    
+                    if(data.responseCode == 200)
+                        {
+                            alert('Registro Completado');
+                        }
+            }
+                
+            function recargar_celula()
+            {
+                
+            }
+            
+            $(document).ready(function() {
+                
+                
+                var rede = '{{red}}' ;
+                   
+                   enviar('myForm', logg);
+                   
+                   if(rede.length > 0)
+                   {
+                      $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                   }
+                    else
+                    initRed('{{path('servicio_red_sin')}}');
+                
+                $.ajax(
+                {
+                url: '{{path('servicio_lista_pastores_ejecutivos')}}',
+                async: false,
+                dataType:"json",
+                type: "POST",
+                }).done(pastores); 
+            	 
+               FechaActualT('fecha');
+
+                
+                $(".rango").change(function(){
+                    var base = new Date(2000,0,3);
+					var fechaarray =  $("#fecha").val().split('/');
+					fechaselect= new Date(fechaarray[2],fechaarray[1]-1,fechaarray[0]);
+					var i=0;
+                                        var desde = dateToYMD(new Date());
+                                        var hasta = dateToYMD(new Date());
+
+					while(base<fechaselect){
+						desde = dateToYMD(new Date(2000,0,3+7*i));
+						i++;
+						base = new Date(2000,0,3+7*i);
+						hasta = dateToYMD(base);
+					}
+              
+            
+                        $('#inicio').val(desde);
+                        $('#fini').val(hasta);
+                         
+ 		});
+                                
+                               
+               $("#pdfbutton").click(function(event) {
+                $("#persona th").css("width","auto");
+            	$("#content").val($("#persona").html());
+            	$("#title").val($("h3").html());
+            	//$("#content").val($("#lol").html() + $("tbody").html());
+                $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+		 		$("#form").submit();
+            });
+
+            $("#excelbutton").click(function(event) {
+            	$("#content").val("<table>" + $("#persona").html() + "</table>");
+		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+		$("#form").submit();
+            });
+            });
+            
+    
+    </script>             
+{%endblock%}
+
+
+{% block content %}
+	<div class="span9">
+<h1>Registro de asistencia al culto por red</h1>
+<br>
+
+<form id="myForm" name="myForm" method="POST" action="{{path('administrar_asistencia_culto_up')}}">
+<div class="form-horizontal">
+
+    
+    
+        <div class="control-group">
+				<label class="control-label">Seleccione la semana</label>
+				<div class="controls">
+					<input type= "text" class="datepick rango" name="fecha" id="fecha" required>
+				</div>
+	</div>
+    
+        <div class="control-group">
+            <label class="control-label">Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" class="rango" required>
+                </select>
+            </div>
+        </div>
+    
+         <div class="control-group">
+            <label class="control-label"># asistentes</label>
+            <div class="controls">
+                <input type="number" id="asistencia"  name="asistencia"  required>
+            </div>
+        </div>
+    
+        <input type="hidden" id="inicio" name="inicio" value="">
+        <input type="hidden" id="fini" name="fini" value="">
+              
+</div>
+</form>
+
+</div>
+
+{% endblock %}

@@ -38,4 +38,26 @@ class InformeController extends Controller
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type               
     }
+    
+    public function informe_semanalvistaAction()
+    {
+        $securityContext = $this->get('security.context');
+        
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                $red = $req['red'];
+            }
+            
+        return $this->render('AEEnviarBundle:Default:informecelulas.html.twig',array('red'=>$red));
+    
+    }
 }

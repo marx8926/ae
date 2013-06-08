@@ -234,5 +234,24 @@ class LiderController extends Controller
     
     }
 
-
+    public function asistencia_cultoAction()
+    {
+         $securityContext = $this->get('security.context');
+        
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                    $red = $req['red'];
+            }
+            
+            return $this->render('AEAdministrarBundle:otro:asistenciaculto.html.twig',array('red'=>$red));
+    }
 }

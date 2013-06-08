@@ -115,3 +115,7 @@ enviar_celulograma_up:
   defaults: {_controller: AEEnviarBundle:Informe:celulogramaUp}
   requirements:
     _method: POST
+    
+enviar_informe_semanal:
+  pattern: /informe_semanal_cell
+  defaults: {_controller: AEEnviarBundle:Informe:informe_semanalvista}
