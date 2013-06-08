@@ -37,14 +37,15 @@ class AsistenciaCulto
     private $asistentes;
 
     /**
-     * @var \LiderRed
+     * @var \Red
      *
-     * @ORM\ManyToOne(targetEntity="LiderRed")
+     * @ORM\ManyToOne(targetEntity="Red",cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="liderred", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_red", referencedColumnName="id")
      * })
      */
-    private $liderred;
+    private $idRed;
+
 
 
 
@@ -104,26 +105,27 @@ class AsistenciaCulto
         return $this->asistentes;
     }
 
-    /**
-     * Set liderred
+      /**
+     * Set idRed
      *
-     * @param \AE\DataBundle\Entity\LiderRed $liderred
+     * @param \AE\DataBundle\Entity\Red $idRed
      * @return AsistenciaCulto
      */
-    public function setLiderred(\AE\DataBundle\Entity\LiderRed $liderred = null)
+    public function setIdRed(\AE\DataBundle\Entity\Red $idRed = null)
     {
-        $this->liderred = $liderred;
+        $this->idRed = $idRed;
     
         return $this;
     }
 
     /**
-     * Get liderred
+     * Get idRed
      *
-     * @return \AE\DataBundle\Entity\LiderRed 
+     * @return \AE\DataBundle\Entity\Red 
      */
-    public function getLiderred()
+    public function getIdRed()
     {
-        return $this->liderred;
+        return $this->idRed;
     }
+   
 }

@@ -214,3 +214,9 @@ administrar_asistencia_culto:
 administrar_asistencia_culto_up:
   pattern: /asistencia_culto_up
   defaults: {_controller: AEAdministrarBundle:Lider:asistencia_culto_up}
+  requirements:
+    _method: POST
+    
+administrar_asistencia_lista:
+  pattern: /asistencia_lista
+  defaults: {_controller: AEAdministrarBundle:Lider:asistencia_lista}

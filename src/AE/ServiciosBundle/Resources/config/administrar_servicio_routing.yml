@@ -32,3 +32,7 @@ servicio_lista_pastores_ejecutivos:
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:pastores_ejecutivos}
   requirements:
     _method: POST
+        
+servicio_adminasistencia_red:
+  pattern: /servicio_adminasistencia_red/{red}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:servicio_asistencia_red}

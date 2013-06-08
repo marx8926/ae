@@ -1,0 +1,237 @@
+{% extends "::base.html.twig" %}
+
+{% block titulo %}Asistencia al culto {% endblock %}
+
+{% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}                 
+
+{% block content %} 
+<div class="span9" >
+	<h1>Asistencia por Red</h1>
+        
+        
+        <div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" class="rango" >
+                   
+                </select>
+            </div>
+        </div>
+        
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Asistencia</h3>	
+                </div>
+       
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                
+                    <input id='content' type='hidden' name='content' >
+                    <input id='title' type='hidden' name='title' >
+                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+            
+            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+            		<thead id='lol'>
+                		<tr>
+                                    <th>Red</th>
+		                   <th>ID</th>
+		                    <th>Culto</th>
+		                    <th>Asistentes</th>		                   
+		                </tr>
+					</thead>
+					
+	
+    			</table>
+   			</form>
+    	</div>
+            
+	</div>
+    <div class="form-horizontal" id="select" name="select">
+        
+            <input type="button" class="btn btn-primary" id="modificar" name="modificar" value="Modificar">
+        
+        <!-- button class="btn-success" id="modificar" name="modificar" value="Modificar">
+        	<a id="mas" href="" >Modificar</a>
+        </button -->
+        
+    </div>
+</div>    
+                 
+{% endblock %}
+      
+ {%block javascript %}
+            
+            <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+                        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                       	<script src="{{asset('js/functiongen.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
+
+			
+			<script src="https://www.google.com/jsapi"></script>
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
+            
+          
+ 
+ 
+    <script type="text/javascript">
+ 
+         var trselected; 
+	 var oTable;
+         
+        var values = [];
+        
+        function recargar_celula()
+        {
+            
+        }
+         
+	$(document).ready(function() {
+            
+            
+            
+             var rede = '{{red}}' ;
+             
+             $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
+
+                                      
+             if(rede.length > 0)
+             {
+                 $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+             }
+             else
+             initRed('{{path('servicio_red_sin')}}');
+            
+        
+             $('#select').css({'display':'none'});
+             
+             
+             $('.rango').change(function(){
+                 
+                 var net = $('#red_lista option:selected').val();
+                 
+                 var url = "{{path('servicio_adminasistencia_red',{'red':'net'})}}";
+                 url = url.replace('net',net);
+                 if(url!='-1')
+                 get_tabla(url);
+                 
+             });
+
+
+            $("#pdfbutton").click(function(event) {
+                $("#persona th").css("width","auto");
+            	$("#content").val($("#persona").html());
+            	$("#title").val($("h3").html());
+            	//$("#content").val($("#lol").html() + $("tbody").html());
+                $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+		 		$("#form").submit();
+            });
+
+            $("#excelbutton").click(function(event) {
+            	$("#content").val("<table>" + $("#persona").html() + "</table>");
+		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+		$("#form").submit();
+            });
+        
+            $('#persona tbody').click(function(event){
+                $(oTable.fnSettings().aoData).each(function(){
+                    $(this.nTr).removeClass('row_selected');
+                });
+                
+                $(event.target.parentNode).addClass('row_selected');
+                
+                trselected = $(event.target.parentNode);
+                
+                var tds = $(trselected).find('td');
+                
+                values = [];
+  
+                $.each(tds, function(index, item) {
+                    values.push(item.innerHTML); 
+                }); 
+                $('#select').css({'display':'block'});
+            });
+          
+            $('#modificar').click(function(){       
+                var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !=0)
+                {
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                    val.push(item.innerHTML);   
+                      }); 
+                    var route = '{{path('ganar_modificar',{'id': 'nom'})}}';
+                    var rutas = route.replace('nom',val[0]);                    
+                    //$('#mas').attr("href",rutas);                    
+                    $(this).target = "_blank";
+                    //window.open($(this).prop('href'));
+                    window.open(rutas);
+                    return false;                                   
+                }                 
+           });
+            
+            
+	 });
+         
+         function get_tabla(url)
+         {
+             /* Build the DataTable with third column using our custom sort functions */
+            oTable = $('#persona').dataTable( {
+                                    
+                "bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": url,
+                "aoColumns": [
+                    {"mDataProp":"id_red"},
+                     { "mDataProp": "id" },
+                    { "mDataProp": "culto" },
+                    { "mDataProp": "asistentes" }
+                   
+                ],
+		"aaSorting": [ [0,'desc']],//por consultar el tipo de orden
+		"aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+		],"sDom": 'T<"clear">lfrtip',
+                "oTableTools": {
+			"sRowSelect": "single",
+                        "fnRowSelected": function ( node ) {
+                            var s=$(node).children();
+                            alert("Selected Row : " + s[0]);
+                        }
+		},
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ registros por página"
+					}
+            } );	
+         }
+      
+       </script>
+{%endblock %} 
