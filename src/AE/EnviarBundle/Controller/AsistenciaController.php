@@ -78,6 +78,8 @@ class AsistenciaController extends Controller
             
         $n = $datos['numfilas'];
         
+        $invitados = $datos['invitados'];
+        
         try{
             $em->beginTransaction();  
             for($i=0; $i<$n ;$i++)
@@ -97,10 +99,10 @@ class AsistenciaController extends Controller
                 }
             }
                 
-            $sql= "select update_clase_cell(:id,:monto)";
+            $sql= "select update_clase_cell(:id,:monto,:invitados)";
                 
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':id'=>$clase,':monto'=>$ofrenda));
+            $smt->execute(array(':id'=>$clase,':monto'=>$ofrenda,':invitados'=>$invitados));
               
             $em->commit();
             

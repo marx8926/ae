@@ -7,6 +7,7 @@
     <field name="ofrenda" type="float" column="ofrenda" nullable="true"/>
     <field name="fechaDicto" type="date" column="fecha_dicto" nullable="true"/>
     <field name="fechaAsignado" type="date" column="fecha_asignado" nullable="true"/>
+    <field name="invitados" type="integer" column="invitados" nullable="true"/>
     <many-to-one field="idTemaCelula" target-entity="TemaCelula">
       <join-columns>
         <join-column name="id_tema_celula" referenced-column-name="id"/>

@@ -43,6 +43,14 @@ class ClaseCell
      * @ORM\Column(name="ofrenda", type="float", nullable=true)
      */
     private $ofrenda;
+    
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="invitados", type="integer", nullable=true)
+     */
+    private $invitados;
 
 
     /**
@@ -163,7 +171,7 @@ class ClaseCell
      */
     public function setFechaAsignado($fechaAsignado)
     {
-        $this->fechaDicto = $fechaAsignado;
+        $this->fechaAsignado = $fechaAsignado;
     
         return $this;
     }
@@ -175,7 +183,7 @@ class ClaseCell
      */
     public function getFechaAsignado()
     {
-        return $this->fechaDicto;
+        return $this->fechaAsignado;
     }
 
     /**
@@ -279,5 +287,30 @@ class ClaseCell
     {
         return $this->idTemaCelula;
     }
+    
+    
+       /**
+     * Set invitados
+     *
+     * @param integer $invitados
+     * @return ClaseCell
+     */
+    public function setInvitados($invitados)
+    {
+        $this->invitados = $invitados;
+    
+        return $this;
+    }
+
+    /**
+     * Get invitados
+     *
+     * @return integer 
+     */
+    public function getInvitados()
+    {
+        return $this->invitados;
+    }
+
     
 }
