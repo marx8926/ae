@@ -220,3 +220,11 @@ administrar_asistencia_culto_up:
 administrar_asistencia_lista:
   pattern: /asistencia_lista
   defaults: {_controller: AEAdministrarBundle:Lider:asistencia_lista}
+  
+administrar_registro_ropa_vista:
+  pattern: /registro_ropa_vista
+  defaults: {_controller: AEAdministrarBundle:Ropa:vista_ropa}
+  
+administrar_registro_ropa_vista_up:
+  pattern: /registro_ropa_vista_up
+  defaults: {_controller: AEAdministrarBundle:Ropa:registro_ropa_up}

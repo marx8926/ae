@@ -1,0 +1,353 @@
+{% extends "::base.html.twig" %}
+
+{% block titulo %}Registro de tallas miembros - {% endblock %}
+        
+{% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
+        
+        <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
+{% endblock %}
+
+{%block content %}    
+<div class="span9" >
+    
+    <fieldset>
+          <div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" required >
+                   
+                </select>
+            </div>
+            
+            
+        </div>
+     </fieldset>
+	<h1>Registro de tallas miembros</h1>
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Miembros sin tallas</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                <input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+				<input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+				<input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+        <thead>
+            <tr>
+                <th>ID</th>
+		<th>Nombres</th>
+		<th>Edad</th>
+                <th>Ocupación</th>
+                <th>DNI</th>
+		<th>Dirección</th>
+                <th>Telefono</th>
+                <th>Celular</th>   
+            </tr>
+	</thead>
+	<tbody id="tablas1" name="tablas1" >
+	
+	</tbody>
+	
+    </table>
+    </form>
+    	</div>
+	</div>
+        
+    <div >
+        <fieldset>
+            <legend>Tallas</legend>
+        <form id="myForm" name="myForm" method="POST" action="{{path('administrar_registro_ropa_vista_up')}}" class="form-horizontal">
+         
+            <div class="control-group">
+                <label class="control-label" >Camisa/Blusa</label>
+                <div class="controls">
+                    <input id="shirt" name="shirt" type="text" class="input-xlarge" required>
+                </div>
+            </div>
+                 
+            <div class="control-group">
+                <label class="control-label" >Pantalon</label>
+                <div class="controls">
+                    <input id="pants" name="pants" type="text" class="input-xlarge" required>
+                </div>
+            </div>
+                 
+            <div class="control-group">
+                <label class="control-label" >Polo</label>
+                <div class="controls">
+                    <input id="polo" name="polo" type="text" class="input-xlarge" required>
+                </div>
+            </div>
+                 
+            <div class="control-group">
+                <label class="control-label" >Calzado</label>
+                <div class="controls">
+                    <input id="shoes" name="shoes" type="text" class="input-xlarge" required>
+                </div>
+            </div>
+            <div class="control-group" >
+                <label class="control-label" ></label>
+                <div class="controls">
+                    <input class="btn btn-primary" type="submit" id="save" name="save" value="Registrar" />
+                </div>
+            </div>
+            
+            <input type="hidden" id="idpersona" name="idpersona" required >
+            
+        </form>    
+       </fieldset>
+    </div>
+        
+ </div>    
+{% endblock %}
+      
+ {%block javascript %}
+ 	
+	<script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>
+        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+        <script src="{{asset('js/functiongen.js')}}"></script>
+        <script src="{{asset('js/ganar.js')}}"></script>
+            
+    <script src="http://www.google.com/jsapi"></script>
+	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+    <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
+  
+    <script type="text/javascript">
+          
+  
+         
+         var trselected; 
+	 var oTable;
+         
+        var values = [];
+        
+        function recargar_celula()
+        {
+            var net = $('#red_lista').val();
+            
+            if(net!='-1')
+            {
+                var url='{{path('servicio_administrar_miembro_sin_talla',{'red':':net'})}}';
+                
+                url = url.replace(':net',net);
+            
+                get_tabla(url);     
+            }
+        }
+       
+        
+	$(document).ready(function() {
+
+            var rede = '{{red}}' ;
+                   
+                   if(rede.length > 0)
+                   {
+                      $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                      cambiar_red();
+                   }
+                   else
+                    initRed('{{path('servicio_red_sin')}}');
+                
+                $('#red_lista').change(recargar_celula);
+                            
+		$("#pdfbutton").click(function(event) {
+            $("#persona th").css("width","auto");
+        	$("#content").val($("#persona").html());
+        	$("#title").val($("h3").html());
+        	//$("#content").val($("#lol").html() + $("tbody").html());
+            $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#form").submit();
+        });
+
+        $("#excelbutton").click(function(event) {
+        	$("#content").val("<table>" + $("#persona").html() + "</table>");
+	$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+	$("#form").submit();
+        });
+        
+             $('#persona tbody').click(function(event){
+                $(oTable.fnSettings().aoData).each(function(){
+                    $(this.nTr).removeClass('row_selected');
+                });
+                
+                $(event.target.parentNode).addClass('row_selected');
+                
+                trselected = $(event.target.parentNode);
+                
+                var tds = $(trselected).find('td');
+                
+                values = [];
+  
+                $.each(tds, function(index, item) {
+                    values.push(item.innerHTML); 
+                });  
+                
+                
+                $('#idpersona').val(values[0]);
+                
+               
+            });
+            
+            
+             $("#myForm").submit(function(event){                        
+                    event.preventDefault();                             
+                    //get the url for the form
+                    var url=$("#myForm").attr("action");                     
+                    //start send the post request    
+                    $.post(url,{
+                        formName:$("#myForm").serialize(),
+                        other:"attributes"
+                    },function(data){                      
+                    //the response is in the data variable
+                    if(data.responseCode===200 ){          
+                      
+                        alert('Registro Completado');
+                        location.reload();
+                    }
+                    else if(data.responseCode===400){//bad request
+                       alert('Error bad request');
+                        }
+                    else{                        
+                        if(data.responseCode===500)
+                        {
+                            alert('Error bad request');
+                        }
+                        else alert("An unexpeded error occured.");
+                        }
+                    }
+                    );
+                    return false;});
+                    
+             $('#modificar').click(function(){       
+                var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !=0)
+                {
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                    val.push(item.innerHTML);   
+                      }); 
+                    var route = '{{path('ganar_modificar',{'id': 'nom'})}}';
+                    var rutas = route.replace('nom',val[0]);                    
+                    //$('#mas').attr("href",rutas);                    
+                    $(this).target = "_blank";
+                    //window.open($(this).prop('href'));
+                    window.open(rutas);
+                    return false;                                   
+                }                 
+           });
+            
+            
+            
+            
+            //click handler para crear usuario
+            $('#crearuser').click(function(){
+                console.log('crearusear');
+                
+                 var anSelected = fnGetSelected(oTable);
+                //oTable.fnDeleteRow(anSelected[0]);
+                if(anSelected.length !==0)
+                {
+                    console.log(anSelected);
+                    var tds = $(anSelected).find('td');
+                    var val = [];
+                    $.each(tds, function(index, item) {
+                    val.push(item.innerHTML); 
+  
+                      }); 
+                    $('#persona_id').val(val[0]);
+                
+                //carga datos de usuario
+                                   
+                    var url = '{{path('servicio_usuario_id',{'id':'cod'}) }}';
+                    var ruta = url.replace('cod',val[0]);
+                    $.ajax(
+                        {   url : ruta,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                        }
+                    ).done(user);                
+                 }
+            });
+   
+	 });
+         
+         function get_tabla(url)
+         {
+               /* Build the DataTable with third column using our custom sort functions */
+            oTable = $('#persona').dataTable( {
+                                    
+            	"bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": url,
+                "aoColumns": [
+                    { "mDataProp": "id" },
+                    { "mDataProp": "nombres" },
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "ocupacion" },
+                    { "mDataProp":"dni"},
+                    { "mDataProp": "direccion"},
+                    { "mDataProp": "telefono"},
+                    { "mDataProp": "celular"}
+                ],
+		"aaSorting": [ [0,'asc'], [1,'asc'] ],
+		"aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+		],"sDom": 'T&lt;"clear"&gt;lfrtip',
+                "oTableTools": {
+			"sRowSelect": "single",
+                        "sSwfPath": "{{asset('js/tabletools/media/swf/copy_csv_xls_pdf.swf')}}",
+                        "fnRowSelected": function ( node ) {
+                            var s=$(node).children();
+                            alert("Selected Row : " + s[0]);
+                        },
+                        "aButtons": [
+				"copy",
+				"csv",
+				"xls",
+				{
+					"sExtends": "pdf",
+					"sPdfOrientation": "landscape",
+					"sPdfMessage": "Your custom message would go here."
+				},
+				"print"
+			]
+		},
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ registros por página"
+					}
+            } );	
+         }
+   
+       </script>
+{%endblock %}  

@@ -277,4 +277,36 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        
        return new JsonResponse(array('aaData'=>$est));
    }
+   
+   public function miembrosintallaAction($red)
+   {
+          $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       
+       try
+       {
+           $sql ="select * from get_miembros_sinropa_red(:net)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':net'=>$red));
+           
+           $est = $smt->fetchAll();
+          /* 
+           foreach ($est as $key => $value) {
+               $result = $result."<option value='".$value['id']."' >".$value['nombres']."</option>";
+           }
+            */          
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$est));
+   }
 }

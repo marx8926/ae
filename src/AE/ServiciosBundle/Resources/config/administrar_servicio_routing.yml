@@ -36,3 +36,7 @@ servicio_lista_pastores_ejecutivos:
 servicio_adminasistencia_red:
   pattern: /servicio_adminasistencia_red/{red}
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:servicio_asistencia_red}
+
+servicio_administrar_miembro_sin_talla:
+  pattern: /servicio_administrar_miembro_sin_talla/{red}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:miembrosintalla}
