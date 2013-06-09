@@ -1138,8 +1138,9 @@ class EnviarServicioController extends Controller
     
     //uniones de los resultados de las consultadas separadas
     
-    public function union_resultados_consolidar(
-            $red, $lideres, $porconsolidar, $consolidados, $noconsolidados,$encuentro)
+    public function union_resultados_enviar(            
+            $red,$lideres,$doce,  $ciento, $mil, $celulas,
+$asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
     {
         $out = array();
        
@@ -1147,6 +1148,23 @@ class EnviarServicioController extends Controller
         $n = count($red);
         
         $cont = 0;
+        
+        $n = count($red);
+         $totales = array();
+        $totales['red']='';
+        $totales['nombres']='TOTALES';
+        $totales['lideres']=0;
+        $totales['doce']=0;
+        $totales['ciento']=0;
+        $totales['mil']=0;
+        $totales['celulas']=0;
+        $totales['asistencia_celula']=0;
+        $totales['tumpis'] =0;
+        $totales['nuevos']=0;
+        $totales['nueva_cell']=0;
+        $totales['ofrenda']=0;
+       
+        
         foreach ($red as $key => $value) {
            
             $temp = array();
@@ -1155,16 +1173,49 @@ class EnviarServicioController extends Controller
             $temp['nombres']=$value['nombres'];
             
             $temp['lideres']=$lideres[$value['red']]['lideres'];
-            $temp['meta'] = $temp['lideres']*7;
+            $totales['lideres']+=$temp['lideres'];
             
-            $temp['porconsolidar']=$porconsolidar[$value['red']]['pconsolidar'];
-            $temp['consolidados']= $consolidados[$value['red']]['pconsolidados'];
+            $temp['doce'] = $doce[$value['red']]['lideres'];            
+            $totales['doce']+=$temp['doce'];
             
-            $temp['noconsolidados']=$noconsolidados[$value['red']]['pconsolidados'];
-            $temp['encuentro'] = $encuentro[$value['red']]['pencuentro'];
+            $temp['ciento'] = $ciento[$value['red']]['lideres'];            
+            $totales['ciento']+=$temp['ciento'];
+            
+            $temp['mil'] = $mil[$value['red']]['lideres'];
+            $totales['mil']+=$temp['mil'];
+            
+            $temp['celulas'] = $celulas[$value['red']]['celulas'];    
+            $totales['celulas']+=$temp['celulas'];
+            
+            $temp['asistencia_celula'] = $asistencia[$value['red']]['asistencia'];            
+            $totales['asistencia_celula']+=$temp['asistencia_celula'];
+            
+            $tump =$tumpis[$value['red']]['asistencia'];
+            $temp['tumpis'] = ($tump==NULL)?0:$tump;            
+            $totales['tumpis']+=$temp['tumpis'];
+            
+            $temp['nuevos'] = $nuevos[$value['red']]['nuevos'];
+            $totales['nuevos']+= $temp['nuevos'];
+            
+            $temp['nueva_cell'] =$nueva_cell[$value['red']]['nuevas'];
+            $totales['nueva_cell']+=$temp['nueva_cell'];
+            
+            $ofren = $ofrenda[$value['red']]['ofrenda'];
+            
+            $temp['ofrenda'] = ($ofren==NULL)?0.0:$ofren;
+            $totales['ofrenda'] = $totales['ofrenda'] + $temp['ofrenda'];
             
             $out[] = $temp;
         }
+        
+        $resumen = $totales;
+       
+       $resumen['nombres']='RESUMEN';
+       
+        $out[]=$totales;
+        $out[]=$resumen;
+        
+        
         
         return $out;
     }
@@ -1222,9 +1273,7 @@ class EnviarServicioController extends Controller
             $mil_b = $smt7->fetchAll();
             
             $mil = $this->invierte_resultados($mil_b);
-            
-            
-
+       
             //celulas
             
             $sql5 = " select * from get_celulas_xpastor(:pastor,:fin)";
@@ -1257,6 +1306,7 @@ class EnviarServicioController extends Controller
            $smt10 = $em->getConnection()->prepare($sql10);
            $smt10->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
            $nuevos_b = $smt10->fetchAll();
+           $nuevos = $this->invierte_resultados($nuevos_b);
            
            //nuevas celulas
            
@@ -1275,8 +1325,8 @@ class EnviarServicioController extends Controller
             $ofrenda_b = $smt6->fetchAll();
             $ofrenda = $this->invierte_resultados($ofrenda_b);
 
-            $todo = $this->union_resultados_consolidar($red_encargado, 
-$lideres_red, $porconsolidar, $consolidados_red,$no_consolidados_red,$encuentro);
+            $todo = $this->union_resultados_enviar($red_encargado, 
+$lideres_red, $doce, $ciento,$mil,$celulas, $asistencia,$tumpis,$nuevos,$nueva_cell, $ofrenda);
 
             
             $em->commit();
@@ -1288,8 +1338,36 @@ $lideres_red, $porconsolidar, $consolidados_red,$no_consolidados_red,$encuentro)
             $em->close();
             throw $e;
         }
-       return new JsonResponse(array('aaData'=>$todo)); 
+       return new JsonResponse($todo); 
     }
 
 
+    public function informe_enviar_semanal_resumidoAction($pastor, $pastora, $inicio, $fin)
+    {
+        $pastor_out = $this->informe_semanal_enviar_pastorAction($pastor, $inicio, $fin);
+        
+        $pastora_out = $this->informe_semanal_enviar_pastorAction($pastora, $inicio, $fin);
+        
+        $es_pastor= $pastor_out->getContent();
+        
+        $resultado_pastor = json_decode($es_pastor,true);
+        
+        $resumen_hombres = end($resultado_pastor);
+        
+       $resumen_hombres['red']='Hombres';
+        
+        $es_pastora = $pastora_out->getContent();
+        
+        $resultado_pastora = json_decode($es_pastora,true);
+        
+        $resumen_mujeres = end($resultado_pastora);
+        $resumen_mujeres['red']='Mujeres';
+        
+        $final = array();
+        
+        $final[]=$resumen_hombres;
+        $final[]=$resumen_mujeres;
+        
+        return new JsonResponse($final);
+    }
 }
