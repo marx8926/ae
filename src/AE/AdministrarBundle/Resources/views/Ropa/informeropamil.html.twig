@@ -1,1 +1,319 @@
-{# empty Twig template #}
+{% extends "::base.html.twig" %}
+
+{% block titulo %}Registrar 12 de la Red - '{{red}}' {% endblock %}
+        
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+        {% endblock %}
+        
+{% block content %}
+        <div class="span9" id="registro_form">
+        <h1>Registrar Red</h1>
+        <br>
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" >Red</label>
+                <div class="controls">
+                    <select id="red_lista" name="red_lista" >
+                   
+                    </select>
+                </div>           
+            </div>
+                
+            <div class="control-group">
+                <label class="control-label" >Mis 12</label>
+                <div class="controls">
+                    <select id="doce_lista" name="doce_lista" >
+                   
+                    </select>
+                </div>           
+            </div>
+                
+             <div class="control-group">
+                <label class="control-label" >Mis 144</label>
+                <div class="controls">
+                    <select id="ciento_lista" name="ciento_lista" >
+                   
+                    </select>
+                </div>           
+            </div>
+        
+        </fieldset>
+        
+      
+        <h1>Lista de los Líderes de Red</h1>
+        
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Líderes de Red</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                <input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+				<input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+				<input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+	
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+        <thead>
+            <tr>
+              
+                <th>ID</th>
+		<th>Nombres</th>
+		<th>Apellidos</th>
+		<th>Edad</th>
+                <th>Red</th>
+                <th>Celular</th>
+                <th>Telefono</th>
+		<th>Fecha Inicio</th>
+            </tr>
+	</thead>
+	<tbody id="tablas1" name="tablas1" >
+	
+	</tbody>
+	
+    </table>
+    </form>
+    	</div>
+                
+       <form id="myForm" name="myForm" method="POST" action="{{path('administrar_lider1728up')}}" >
+                <input id="abuelo" name="abuelo" type="hidden" value="">
+                <input id="padre" name="padre" type="hidden" value="">
+                <input id="personaid" name="personaid" type="hidden" value="" >
+                <input id="redid" name="redid" type="hidden" value="">
+                <input type="submit" id="subir" name="subir" value="Asignar">
+       </form>
+	</div>
+	
+        
+{% endblock %}
+     
+   {%block javascript %}
+          <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+                        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                       	<script src="{{asset('js/functiongen.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
+
+			
+			<script src="https://www.google.com/jsapi"></script>
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            <script src="{{asset('js/DT_bootstrap.js')}}"> </script> <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
+            
+             <script type="text/javascript">
+                 var trselected; 
+                var oTable;
+         
+                var values = []; 
+                
+                var logg = function logeo(data)
+                {
+                    console.log(data);
+                    
+                    if(data.responseCode == 200)
+                    {
+                            alert('Registro Completado');
+                    }
+                }
+    
+                $(document).ready(function(){
+                    
+                   var rede = '{{red}}' ;
+                   
+                   enviar('myForm', logg);
+                   
+                   if(rede.length > 0)
+                   {
+                      $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                      cambiar_red();
+                   }
+                   else
+                    initRed('{{path('servicio_red_sin')}}');
+
+                    $('#red_lista').change(cambiar_red);
+                    $('#doce_lista').change(cambiar_doce);
+                    $('#ciento_lista').change(cambiar_mil);
+                    
+                      $('#persona tbody').click(function(event){
+                        $(oTable.fnSettings().aoData).each(function(){
+                        $(this.nTr).removeClass('row_selected');
+                        });
+                
+                        $(event.target.parentNode).addClass('row_selected');
+                        
+                        trselected = $(event.target.parentNode);
+                
+                        var tds = $(trselected).find('td');
+                
+                        values = [];
+  
+                        $.each(tds, function(index, item) {
+                            values.push(item.innerHTML); 
+                        }); 
+                        $('#select').css({'display':'block'});
+                        
+                        $('#personaid').val(values[0]);
+                });
+                
+                
+            });
+                
+            function recargar_celula()
+            {
+                cambiar_red();
+            }
+                
+            function cambiar_red()
+            {
+                var nombre = $("#red_lista option:selected").val();  
+            
+               var route = '{{path('servicio_administrar_doce_red',{'red': 'name'})}}';
+            
+               if(nombre!= '-1')
+               {
+                 var rutas = route.replace('name',nombre);
+               
+                 $.ajax(
+                        {url : rutas,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(doces); 
+
+                    cambiar_doce();
+                    
+                   var name = $("#red_lista option:selected").val();  
+            
+                var route = '{{path('servicio_lider_sin',{'red': 'name'})}}';
+            
+                var rutas = route.replace('name',name);
+               
+                console.log(rutas);
+                
+                get_tabla(rutas);
+
+               }
+            }
+            
+            function doces(data)
+            {
+               $('#doce_lista').empty();
+               
+               for(var i=0; i<data.length ; i++)   
+               { 
+                   
+                $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#doce_lista');
+               } 
+               
+               
+            }
+            function cambiar_doce()
+            {
+               $('#abuelo').val($("#doce_lista option:selected").val());
+
+               var net = $("#red_lista option:selected").val();
+               var nombre = $("#doce_lista option:selected").val();  
+               
+               if(nombre.length >0)
+               {
+               
+                    var route = '{{path('servicio_administrar_ciento_red',{'red': 'name','lider':':led'})}}';
+               
+                    route = route.replace('name',net);
+                    route = route.replace(':led',nombre);
+
+                    $.ajax(
+                        {url : route,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(miles); 
+               }
+            }
+            function miles(data)
+            {
+                $('#ciento_lista').empty();
+               
+               for(var i=0; i<data.length ; i++)   
+               { 
+                   
+                $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#ciento_lista');
+               }  
+               
+               cambiar_mil();
+            }
+            
+            function cambiar_mil()
+            {
+                 
+                 var nombre = $('#ciento_lista option:selected').val();
+                 
+                 $('#padre').val(nombre);
+                 $('#abuelo').val($('#doce_lista option:selected').val());
+                 $('#redid').val($("#red_lista option:selected").val());
+            
+              
+            }
+            
+            function get_tabla(url)
+            {
+                 oTable = $('#persona').dataTable( {
+                                    
+                "bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": url,
+                "aoColumns": [
+                    { "mDataProp": "id" },
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos" },
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "red" },
+                    { "mDataProp": "celular"},
+                    { "mDataProp": "telefono"},
+                    { "mDataProp": "fecha_obtencion"}
+                ],
+                "aaSorting": [ [0,'asc'], [1,'asc'] ],
+                "aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+                    ],"sDom": 'T<"clear">lfrtip',
+                "oTableTools": { 
+                   "sRowSelect": "single",
+                    "fnRowSelected": function ( node ) {
+                        var s=$(node).children();
+                        alert("Selected Row : " + s[0]);
+                    }
+                },
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+				"sPaginationType": "bootstrap",
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ registros por página"
+				}
+                } );	
+            
+            }
+              
+            </script>
+            
+    {%endblock%}
