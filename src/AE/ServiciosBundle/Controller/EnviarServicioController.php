@@ -1222,6 +1222,8 @@ class EnviarServicioController extends Controller
             $mil_b = $smt7->fetchAll();
             
             $mil = $this->invierte_resultados($mil_b);
+            
+            
 
             //celulas
             
@@ -1230,15 +1232,48 @@ class EnviarServicioController extends Controller
             $smt5->execute(array(':pastor'=>$pastor,':fin'=>$end->format('Y-m-d')));
             $celulas_b= $smt5->fetchAll();
             $celulas = $this->invierte_resultados($celulas_b);
-           
-           
-            //por encuentro
             
-            $sql6 = " select * from get_pencuentro_xpastor(:pastor, :inicio, :fin)";
+            
+            //asistencia celula
+            
+           $sql8 = "select * from get_asistencia_celula_xpastor(:pastor,:inicio,:fin)";
+           $smt8 = $em->getConnection()->prepare($sql8);
+           $smt8->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+           $asistencia_b = $smt8->fetchAll();
+           $asistencia = $this->invierte_resultados($asistencia_b);
+           
+           
+           //asistencia al tumpis
+           $sql9 = "select * from get_asistencia_culto_xpastor(:pastor, :inicio,:fin)";
+           $smt9 = $em->getConnection()->prepare($sql9);
+           $smt9->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+           $tumpis_b = $smt9->fetchAll();
+           $tumpis = $this->invierte_resultados($tumpis_b);
+           
+           
+           //nuevos convertidos
+           
+           $sql10 = "select * from get_nuevo_conv_xpastor(:pastor,:inicio, :fin)";
+           $smt10 = $em->getConnection()->prepare($sql10);
+           $smt10->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+           $nuevos_b = $smt10->fetchAll();
+           
+           //nuevas celulas
+           
+           $sql11 = "select * from get_nuevas_celula_xpastor(:pastor,:inicio,:fin)";
+           $smt11 = $em->getConnection()->prepare($sql11);
+           $smt11->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+           $nueva_cell_b = $smt11->fetchAll();
+           $nueva_cell = $this->invierte_resultados($nueva_cell_b);
+           
+           
+            //ofrenda
+            
+            $sql6 = " select * from get_ofrenda_celula_xpastor(:pastor, :inicio, :fin)";
             $smt6 = $em->getConnection()->prepare($sql6);
             $smt6->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
-            $encuentro_b = $smt6->fetchAll();
-            $encuentro = $this->invierte_resultados($encuentro_b);
+            $ofrenda_b = $smt6->fetchAll();
+            $ofrenda = $this->invierte_resultados($ofrenda_b);
 
             $todo = $this->union_resultados_consolidar($red_encargado, 
 $lideres_red, $porconsolidar, $consolidados_red,$no_consolidados_red,$encuentro);
