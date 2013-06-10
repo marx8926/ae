@@ -17,13 +17,22 @@
           <div class="control-group">
             <label class="control-label" >Red</label>
             <div class="controls">
-                <select id="red_lista" name="red_lista" >
+                <select id="red_lista" name="red_lista" required class="rango" >
                    
                 </select>
-            </div>
-            
-            
+            </div>         
         </div>
+                
+         <div class="control-group">
+            <label class="control-label" >Tipo de Lider</label>
+            <div class="controls">
+                <select id="lider_lista" name="lider_lista" required  class="rango">
+                    <option value="1">12</option>
+                    <option value="12">144</option>
+                    <option value="144">1728</option>
+                </select>
+            </div>         
+        </div>        
         </fieldset>
         
       
@@ -44,15 +53,17 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
         <thead>
             <tr>
-              
-                <th>ID</th>
-		<th>Nombres</th>
-		<th>Apellidos</th>
-		<th>Edad</th>
-                <th>Red</th>
-                <th>Celular</th>
-                <th>Telefono</th>
-		<th>Fecha Inicio</th>
+              <th>Nombres</th>
+		<th width="5%">Edad</th>
+                <th>Dirección</th>
+                <th width="10%">Ocupación</th>
+                <th width="10%">Fecha <br> Nacimiento</th>
+                <th width="8%">Telefono</th>
+                <th width="8%">Celular</th>
+		<th width="5%">Camisa</th>
+                <th width="5%">Pantalon</th>
+                <th width="5%">Polo</th>
+                <th width="5%">Calzado</th>
             </tr>
 	</thead>
 	<tbody id="tablas1" name="tablas1" >
@@ -63,10 +74,6 @@
     </form>
     	</div>
                 
-       <form id="myForm" name="myForm" method="POST" action="{{path('administrar_lider12_up')}}" >
-                <input id="personaid" name="personaid" type="hidden" value="" >
-                <input type="submit" id="subir" name="subir" value="Asignar">
-       </form>
 	</div>
 	
         
@@ -105,20 +112,9 @@
          
                 var values = []; 
                 
-                var logg = function logeo(data)
-                {
-                    console.log(data);
-                    
-                    if(data.responseCode == 200)
-                        {
-                            alert('Registro Completado');
-                        }
-                }
-    
+              
                 $(document).ready(function(){
-                                     
-                   enviar('myForm', logg);
-                   
+                                                        
                    var rede = '{{red}}' ;
                    
                    if(rede.length > 0)
@@ -129,44 +125,28 @@
                    else
                     initRed('{{path('servicio_red_sin')}}');
 
-                    $('#red_lista').change(cambiar_red);
                     
-                      $('#persona tbody').click(function(event){
-                        $(oTable.fnSettings().aoData).each(function(){
-                        $(this.nTr).removeClass('row_selected');
-                        });
-                
-                        $(event.target.parentNode).addClass('row_selected');
-                        
-                        trselected = $(event.target.parentNode);
-                
-                        var tds = $(trselected).find('td');
-                
-                        values = [];
-  
-                        $.each(tds, function(index, item) {
-                            values.push(item.innerHTML); 
-                        }); 
-                        $('#select').css({'display':'block'});
-                        
-                        $('#personaid').val(values[0]);
-                });
-                
+                  $('.rango').change(cambiar_red);
                 
             });
                 
             function recargar_celula()
             {
-                cambiar_red();
             }
                 
             function cambiar_red()
             {
-               var nombre = $("#red_lista option:selected").val();  
+               var nombre = $("#red_lista option:selected").val(); 
+               
+               var lider = $('#lider_lista option:selected').val();
             
-               var route = '{{path('servicio_lider_sin',{'red': 'name'})}}';
+               var route = '{{path('servicio_administrar_informe_ropa',{'red': 'name','tipo':':tipo'})}}';
             
                var rutas = route.replace('name',nombre);
+               
+               rutas = rutas.replace(':tipo',lider);
+               
+               console.log(rutas);
                
                get_tabla(rutas);
                   
@@ -181,14 +161,17 @@
                 "bDestroy": true,
                 "sAjaxSource": url,
                 "aoColumns": [
-                    { "mDataProp": "id" },
-                    { "mDataProp": "nombre" },
-                    { "mDataProp": "apellidos" },
+                    { "mDataProp": "nombres" },
                     { "mDataProp": "edad" },
-                    { "mDataProp": "red" },
-                    { "mDataProp": "celular"},
+                    { "mDataProp": "direccion" },
+                    { "mDataProp": "ocupacion"},
+                    { "mDataProp": "fecha_nacimiento"},
                     { "mDataProp": "telefono"},
-                    { "mDataProp": "fecha_obtencion"}
+                    { "mDataProp": "celular"},
+                    { "mDataProp": "camisa"},
+                    { "mDataProp": "pantalon"},
+                    { "mDataProp": "polo"},
+                    { "mDataProp": "calzado"}
                 ],
                 "aaSorting": [ [0,'asc'], [1,'asc'] ],
                 "aoColumnDefs": [

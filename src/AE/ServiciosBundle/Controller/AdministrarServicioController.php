@@ -309,4 +309,92 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        
        return new JsonResponse(array('aaData'=>$est));
    }
+   
+   public function informe_ropa_liderredAction()
+   {
+           $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       
+       try
+       {
+           $sql ="select * from datos_lideres_red";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute();
+           
+           $est = $smt->fetchAll();
+                  
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$est));
+   }
+
+   
+    
+   public function informe_ropaAction($red, $tipo)
+   {
+       $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       
+       try
+       {
+           $sql ="select * from get_ropa_por_tipo_lider(:red,:tipo)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red,':tipo'=>$tipo));
+           
+           $est = $smt->fetchAll();
+                  
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$est));
+   }
+
+   
+   public function informe_ropa_miembrosAction($red)
+   {
+       $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       
+       try
+       {
+           $sql ="select * from get_ropa_por_red(:red)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red));
+           
+           $est = $smt->fetchAll();
+                  
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$est));
+   }
+
 }

@@ -40,3 +40,15 @@ servicio_adminasistencia_red:
 servicio_administrar_miembro_sin_talla:
   pattern: /servicio_administrar_miembro_sin_talla/{red}
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:miembrosintalla}
+  
+servicio_administrar_informe_ropa_liderred:
+  pattern: /administrar_informe_ropa_liderred
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:informe_ropa_liderred}
+  
+servicio_administrar_informe_ropa:
+  pattern: /administrar_informe_ropa/{red}/{tipo}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:informe_ropa}
+  
+servicio_administrar_informe_ropa_miembros:
+  pattern: /administrar_informe_ropa_miembros/{red}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:informe_ropa_miembros}

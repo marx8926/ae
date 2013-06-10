@@ -228,3 +228,15 @@ administrar_registro_ropa_vista:
 administrar_registro_ropa_vista_up:
   pattern: /registro_ropa_vista_up
   defaults: {_controller: AEAdministrarBundle:Ropa:registro_ropa_up}
+  
+administrar_informe_ropa_red:
+  pattern: /informe_ropa_red
+  defaults: {_controller: AEAdministrarBundle:Ropa:informeropared}
+  
+administrar_informe_ropa_tipo:
+  pattern: /informe_ropa_tipo
+  defaults: {_controller: AEAdministrarBundle:Ropa:informeropatipo}
+  
+administrar_informe_ropa:
+  pattern: /informe_ropa
+  defaults: {_controller: AEAdministrarBundle:Ropa:informeropa}

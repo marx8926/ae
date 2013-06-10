@@ -1,1 +1,144 @@
-{# empty Twig template #}
+{% extends "::base.html.twig" %}
+
+{% block titulo %}Datos Personales de Lideres de Red - '{{red}}' {% endblock %}
+        
+        {% block stylesheets %}
+        <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/bootstrap-responsive.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+        {% endblock %}
+        
+{% block content %}
+        <div class="span9" id="registro_form">
+        <h1>Datos Personales de Lideres de Red</h1>
+        <br>
+        
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Datos personales</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                <input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+				<input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+				<input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+	
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+        <thead>
+            <tr>
+              
+		<th>Nombres</th>
+		<th width="5%">Edad</th>
+                <th>Dirección</th>
+                <th width="10%">Ocupación</th>
+                <th width="10%">Fecha <br> Nacimiento</th>
+                <th width="8%">Telefono</th>
+                <th width="8%">Celular</th>
+		<th width="5%">Camisa</th>
+                <th width="5%">Pantalon</th>
+                <th width="5%">Polo</th>
+                <th width="5%">Calzado</th>
+            </tr>
+	</thead>
+	<tbody id="tablas1" name="tablas1" >
+	
+	</tbody>
+	
+    </table>
+    </form>
+    	</div>
+                
+      
+	</div>
+	
+        
+{% endblock %}
+     
+   {%block javascript %}
+          <script src="{{asset('js/jquery.js')}}"></script>
+			<script src="{{asset('js/less.js')}}"></script>
+			<script src="{{asset('js/bootstrap.min.js')}}"></script>
+			<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+			<script src="{{asset('js/bootstrap.js')}}"></script>
+			<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+			<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+			<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+			<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+			<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+			<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+			<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+			<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+			<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+			<script src="{{asset('js/ui.spinner.js')}}"></script>
+			<script src="{{asset('js/custom.js')}}"></script>
+                        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                       	<script src="{{asset('js/functiongen.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
+
+			
+			<script src="https://www.google.com/jsapi"></script>
+            <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+            <script src="{{asset('js/DT_bootstrap.js')}}"> </script> <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
+            
+             <script type="text/javascript">
+                 var trselected; 
+                var oTable;
+         
+                var values = []; 
+          
+            $(document).ready(function(){
+             
+                var route = '{{path('servicio_administrar_informe_ropa_liderred')}}';
+               
+               get_tabla(route);         
+            });
+           
+            function get_tabla(url)
+            {
+                 oTable = $('#persona').dataTable( {
+                                    
+                "bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": url,
+                "aoColumns": [   
+                    { "mDataProp": "nombres" },
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "direccion" },
+                    { "mDataProp": "ocupacion"},
+                    { "mDataProp": "fecha_nacimiento"},
+                    { "mDataProp": "telefono"},
+                    { "mDataProp": "celular"},
+                    { "mDataProp": "camisa"},
+                    { "mDataProp": "pantalon"},
+                    { "mDataProp": "polo"},
+                    { "mDataProp": "calzado"}
+
+                ],
+                "aaSorting": [ [0,'asc'], [1,'asc'] ],
+                "aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+                    ],"sDom": 'T<"clear">lfrtip',
+                "oTableTools": {
+                    "sRowSelect": "single",
+                    "fnRowSelected": function ( node ) {
+                        var s=$(node).children();
+                        alert("Selected Row : " + s[0]);
+                    }
+                },
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+				"sPaginationType": "bootstrap",
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ registros por página"
+				}
+                } );	
+            
+            }
+              
+            </script>
+            
+    {%endblock%}
