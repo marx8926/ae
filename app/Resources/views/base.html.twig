@@ -354,9 +354,15 @@
                                         {% if is_granted('ROLE_LIDER_RED')%}
 					<li>
 						<a href="{{path('enviar_busqueda_celula')}}">
-							Lista de Células
+							Lista de Células 
 						</a>
 					</li>
+                                        
+                                        <li>
+                                            <a href="{{path('enviar_registro_discipulado')}}">
+                                              Registro Discipulado
+                                            </a>
+                                        </li>
                                         {% endif %}
                                         {% if is_granted('ROLE_ENVIAR')%}
                                         <li>

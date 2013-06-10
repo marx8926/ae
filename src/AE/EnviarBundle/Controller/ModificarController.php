@@ -277,4 +277,25 @@ class ModificarController extends Controller
     {
         return $this->render('AEEnviarBundle:Default:activarcelula.html.twig');
     }
+    
+    public function registro_discipuladoAction()
+    {
+        $securityContext = $this->get('security.context');
+        
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                $red = $req['red'];
+            }
+            
+        return $this->render('AEEnviarBundle:Mentoreo:asignacion.html.twig',array('red'=>$red));
+    }
 }

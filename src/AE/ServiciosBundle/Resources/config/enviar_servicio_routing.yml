@@ -111,3 +111,8 @@ servicio_informe_enviar_semanal_pastor:
 servicio_informe_enviar_semanal_resumido:
   pattern: /servicio_informe_enviar_semanal_resumido/{pastor}/{pastora}/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:informe_enviar_semanal_resumido}
+  
+  
+servicio_miembros_sin_discipulado:
+  pattern: /serviciomiembro_sin_discipulado/{red}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:miembrodiscipulado}

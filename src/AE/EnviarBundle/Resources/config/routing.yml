@@ -119,3 +119,12 @@ enviar_celulograma_up:
 enviar_informe_semanal:
   pattern: /informe_semanal_cell
   defaults: {_controller: AEEnviarBundle:Informe:informe_semanalvista}
+  
+  
+enviar_celulas_mentoreo:
+  pattern: /celulas_mentoreo
+  defaults: {_controller: AEEnviarBundle:Busqueda:celulas_mentoreo}
+  
+enviar_registro_discipulado:
+  pattern: /registro_discipulado
+  defaults: {_controller: AEEnviarBundle:Modificar:registro_discipulado}

@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block titulo %}Lista de Células - {% endblock %}
+{% block titulo %}Lista de Células Evangelisticas - {% endblock %}
 
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
@@ -11,7 +11,7 @@
 
 {% block content %} 
 <div class="span9" >
-<h1 >Informe de Células</h1>
+<h1 >Informe de Células </h1>
 
         <div class="control-group">
             		<label class="control-label" >Red</label>
@@ -27,6 +27,7 @@
             		<div class="controls">
                 		<select id="tipo" name="tipo" class="rango" >
                                     <option value="0">Evangelistica</option>
+                                    <option value="1">Mentoreo</option>
                 		</select>
             		</div>
         </div>
@@ -51,6 +52,7 @@
 		                    <th>Nombres</th>
 		                    <th>Apellidos</th>
 		                    <th width="10%">Tipo de Lider</th>
+                                    <th>Tipo</th>
 		                    <th>Dirección</th>
                                     <th>Dia</th>
                                     <th>Hora</th>
@@ -138,6 +140,11 @@
         
         function recargar_celula()
         {
+            
+        }
+        function recargar()
+        {
+            
              var ruta = '{{path('_enviar_lista_celula_tabla_red',{'red':':net','tipo':':tip'})}}'; 
              
              var neti = $('#red_lista').val();
@@ -152,7 +159,6 @@
                 
                 $('#titulo_informe').text('Informe de Células '+neti);
              }
-            
         }
          
 	$(document).ready(function() {
@@ -213,7 +219,7 @@
             enviar("desactivarForm",eq);
      
      
-            $('.rango').change(recargar_celula);
+            $('.rango').change(recargar);
            
 	 });
          
@@ -231,6 +237,7 @@
                     { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "tip_lider" },
+                    { "mDataProp": "tipo"},
                     { "mDataProp": "direccion"},
                     {  "mDataProp" : "dia"},
                     { "mDataProp" : "hora"},

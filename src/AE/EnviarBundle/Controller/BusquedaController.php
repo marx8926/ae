@@ -38,5 +38,26 @@ class BusquedaController extends Controller
             }
             
         return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig',array('red'=>$red));
-    }   
+    }  
+    
+    public function celulas_mentoreoAction()
+    {
+         $securityContext = $this->get('security.context');
+        
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                $red = $req['red'];
+            }
+            
+        return $this->render('AEEnviarBundle:Mentoreo:celulas.html.twig',array('red'=>$red));
+    }
 }
