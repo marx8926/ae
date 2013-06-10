@@ -30,20 +30,6 @@ class DiscipuladoClase
     private $idClaseCell;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_miembro", type="bigint", nullable=false)
-     */
-    private $idMiembro;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="estado", type="boolean", nullable=true)
-     */
-    private $estado;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_dicto", type="date", nullable=true)
@@ -58,13 +44,6 @@ class DiscipuladoClase
     private $asistio;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dictado", type="date", nullable=true)
-     */
-    private $dictado;
-
-    /**
      * @var \Discipulado
      *
      * @ORM\ManyToOne(targetEntity="Discipulado")
@@ -73,16 +52,6 @@ class DiscipuladoClase
      * })
      */
     private $idDiscipulado;
-
-    /**
-     * @var \ClaseCell
-     *
-     * @ORM\ManyToOne(targetEntity="ClaseCell")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_clase_celula", referencedColumnName="id")
-     * })
-     */
-    private $idClaseCelula;
 
 
 
@@ -117,52 +86,6 @@ class DiscipuladoClase
     public function getIdClaseCell()
     {
         return $this->idClaseCell;
-    }
-
-    /**
-     * Set idMiembro
-     *
-     * @param integer $idMiembro
-     * @return DiscipuladoClase
-     */
-    public function setIdMiembro($idMiembro)
-    {
-        $this->idMiembro = $idMiembro;
-    
-        return $this;
-    }
-
-    /**
-     * Get idMiembro
-     *
-     * @return integer 
-     */
-    public function getIdMiembro()
-    {
-        return $this->idMiembro;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param boolean $estado
-     * @return DiscipuladoClase
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-    
-        return $this;
-    }
-
-    /**
-     * Get estado
-     *
-     * @return boolean 
-     */
-    public function getEstado()
-    {
-        return $this->estado;
     }
 
     /**
@@ -212,29 +135,6 @@ class DiscipuladoClase
     }
 
     /**
-     * Set dictado
-     *
-     * @param \DateTime $dictado
-     * @return DiscipuladoClase
-     */
-    public function setDictado($dictado)
-    {
-        $this->dictado = $dictado;
-    
-        return $this;
-    }
-
-    /**
-     * Get dictado
-     *
-     * @return \DateTime 
-     */
-    public function getDictado()
-    {
-        return $this->dictado;
-    }
-
-    /**
      * Set idDiscipulado
      *
      * @param \AE\DataBundle\Entity\Discipulado $idDiscipulado
@@ -255,28 +155,5 @@ class DiscipuladoClase
     public function getIdDiscipulado()
     {
         return $this->idDiscipulado;
-    }
-
-    /**
-     * Set idClaseCelula
-     *
-     * @param \AE\DataBundle\Entity\ClaseCell $idClaseCelula
-     * @return DiscipuladoClase
-     */
-    public function setIdClaseCelula(\AE\DataBundle\Entity\ClaseCell $idClaseCelula = null)
-    {
-        $this->idClaseCelula = $idClaseCelula;
-    
-        return $this;
-    }
-
-    /**
-     * Get idClaseCelula
-     *
-     * @return \AE\DataBundle\Entity\ClaseCell 
-     */
-    public function getIdClaseCelula()
-    {
-        return $this->idClaseCelula;
     }
 }

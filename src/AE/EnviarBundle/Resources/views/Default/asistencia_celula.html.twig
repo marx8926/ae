@@ -161,9 +161,22 @@
             
         var ids=[];
         
+        var tip=0;
 	$(document).ready(function() {
-            var url = '{{path('_enviar_asistencia_celula_class',{'id':':id'})}}';
-            url = url.replace(':id','{{id}}');
+            var url = '{{path('_enviar_asistencia_celula_class',{'id':':id','tipo':':tip'})}}';
+            
+                        url = url.replace(':id','{{id}}');
+
+            if('{{tipo}}'==='Mentoreo')
+            {    url = url.replace(':tip',1);
+                tip=1;
+            }          
+            else
+            {
+                url = url.replace(':tip',0);
+                tip=0;
+            }
+            
             ajaxResposeData("tabla_asistencia",url);
             
             $("#pdfbutton").click(function(event) {
@@ -213,9 +226,11 @@
                 
                 var n = $('.check_ast').length;
                 $('#numfilas').val(n);
+                var url = "{{path('enviar_asistencia_celula_update',{'tipo':':tip'})}}";
                 
-                $("#form").attr("action","{{path('enviar_asistencia_celula_update')}}");
-                console.log($('#form').serialize());
+                url = url.replace(':tip', tip);
+                
+                $("#form").attr("action",url);
                 $("#form").submit();
             });
             

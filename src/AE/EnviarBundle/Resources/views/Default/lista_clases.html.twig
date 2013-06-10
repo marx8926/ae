@@ -54,9 +54,7 @@
 
                 <label class="control-label"> Dar click en el boton</label>
                 <div class="controls">
-                    <button >
-                        <a href="" id="down" name="down">Click</a>
-                    </button>
+                        <a href="" id="down" name="down" target="_blank">Click</a>
                 </div>
                 
             </div>
@@ -169,8 +167,9 @@
 
                        var ruta = "{{asset(':es')}}";
                        var url = ruta.replace(':es',data.greeting);
-                       
+                                              
                        $("#down").attr("href",url);
+                       console.log(url);
                        $("#clicker").css({"display":"block"});
 
                     }

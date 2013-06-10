@@ -40,8 +40,9 @@ class AsistenciaController extends Controller
         $ofrendaT = NULL;
         
         $em = $this->getDoctrine()->getEntityManager();
+        $em->beginTransaction();
+
         try {
-            $em->beginTransaction();
             $sql = "select ofrenda from clase_cell where id=:idx";
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute(array(':idx'=>$id));
@@ -53,12 +54,11 @@ class AsistenciaController extends Controller
         }
 
         return $this->render('AEEnviarBundle:Default:asistencia_celula.html.twig',array('id'=>$id, 'celula'=>$celula,
-            'red'=>$red,'tipo'=>intval($tipo)==0?'Evangelistica':'Discipulado', 'titulo'=>$titulo,
-            'dia'=>$dia.'-'.$horario, 'dicto'=>$dicto, 'ofrenda'=>($ofrendaT==NULL)?0:$ofrendaT['ofrenda']));
+            'red'=>$red,'tipo'=>intval($tipo)==0?'Evangelistica':'Mentoreo', 'titulo'=>$titulo,
+            'dia'=>'horario por ponrer', 'dicto'=>$dicto, 'ofrenda'=>($ofrendaT==NULL)?0:$ofrendaT['ofrenda']));
     }
-    
-    
-    public function asistencia_celula_updateAction()
+        
+    public function asistencia_celula_updateAction($tipo)
     {
         $request = $this->get('request');
         
@@ -68,8 +68,6 @@ class AsistenciaController extends Controller
 
         parse_str($form,$datos);   
       
-        
-        
         $clase = $datos['claseid'];
         
         $em = $this->getDoctrine()->getEntityManager();
@@ -81,24 +79,43 @@ class AsistenciaController extends Controller
         $invitados = $datos['invitados'];
         
         try{
-            $em->beginTransaction();  
-            for($i=0; $i<$n ;$i++)
-            {
+            $em->beginTransaction(); 
             
-                $var = "check".strval($i);
-                if(strpos($form, $var)!==false)
+            if(intval($tipo)==0)
+            {
+                for($i=0; $i<$n ;$i++)
                 {
-                   $id = $datos['miembro'.strval($i)];
+                    $var = "check".strval($i);
+                    if(strpos($form, $var)!==false)
+                    {
+                        $id = $datos['miembro'.strval($i)];
                     
-                    $sql = "select update_clase_cell_miembro(:miembro,:clase,:band)";
+                        $sql = "select update_clase_cell_miembro(:miembro,:clase,:band)";
                         
-                    $smt = $em->getConnection()->prepare($sql);
-                    $smt->execute(array(':miembro'=>$id,':clase'=>$clase,':band'=>TRUE));      
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':miembro'=>$id,':clase'=>$clase,':band'=>TRUE));      
                     
-                   
+                    }
                 }
             }
-                
+            else
+            {
+                 for($i=0; $i<$n ;$i++)
+                {
+                    $var = "check".strval($i);
+                    if(strpos($form, $var)!==false)
+                    {
+                        $id = $datos['miembro'.strval($i)];
+                    
+                        $sql = "select update_clase_cell_disc(:miembro,:clase,:band)";
+                        
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':miembro'=>$id,':clase'=>$clase,':band'=>TRUE));      
+                    
+                    }
+                }
+            }
+            
             $sql= "select update_clase_cell(:id,:monto,:invitados)";
                 
             $smt = $em->getConnection()->prepare($sql);
@@ -110,8 +127,9 @@ class AsistenciaController extends Controller
          }             
             catch(Exception  $e)
             {
-                $this->getDoctrine()->getEntityManager()->rollback();
-                $this->getDoctrine()->getEntityManager()->close();
+                $em->rollback();
+                $em->close();
+                
                 $ret=array("responseCode"=>400, "greeting"=>"Bad");
                 
                 throw $e;

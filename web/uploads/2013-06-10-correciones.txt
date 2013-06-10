@@ -1,0 +1,26 @@
+
+Lista de Descartdos(Revizar) por redes.
+
+Cambiar Simbologia de Verdadero y Falso
+
+Agregar Datos de Usuario
+
+Categorizacion de Miembros
+
+Cambiar Celular(Tablas) por lider de celula
+
+
+
+Enviar
+>>>>>>>>>>>>>>>>>>>>
+Cambiar Familia por Familia Anfitriona
+
+Cambiar mentoreo por Discipulado
+
+Reporte de Creacion de Celulas por Redes/Fechas
+
+Reporte de 12  (Nro>>>>Nombre y Apellido>>>Codigo de Lider de 12>>>Edad>>>>Fechas Nacimiento>>>>/Fijo/RPM/RPC >>>>Direccion de Celula>>>>Dia de La Celula>>>>>Hora)
+Reporte de 144
+Reporte de 1728 (Editar para cada Area)
+
+Discipular seleccion de alumnos por redes

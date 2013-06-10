@@ -56,7 +56,7 @@ _enviar_lista_celula_temas:
    defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaTemas}
    
 _enviar_asistencia_celula_class:
-  pattern: /enviar_asistencia_celula_class/{id}
+  pattern: /enviar_asistencia_celula_class/{id}/{tipo}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getAsistenciaCelulaClass}
   
 servicio_enviar_temas_celula:

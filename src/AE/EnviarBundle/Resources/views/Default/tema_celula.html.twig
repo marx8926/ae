@@ -18,7 +18,7 @@
                         <div class="control-group">
                             <label class="control-label" >Titulo</label>
                             <div class="controls">
-                                <input type="text" id="titulo" name="titulo" placeholder="Titulo" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" required autofocus>
+                                <input type="text" id="titulo" name="titulo" placeholder="Titulo" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç0-9]+$|" required autofocus>
                             </div>
                         </div>
             
@@ -41,7 +41,7 @@
                             <div class="controls">
                                 <select id="tipo"  name="tipo" required>
                                     <option value="Evangelistica">Evangelistica</option>
-                                    <option value="Discipulado">Discipulado</option>
+                                    <option value="Mentoreo">Mentoreo</option>
                                 </select>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
             	$('#cargar').click(function(ev) {
             		FileUp.uploadQueue(ev);
             	});
-            });
+           
 
             $("#myForm").submit(function(){
                 
@@ -105,6 +105,8 @@
                    
                    
                 //start send the post request
+                console.log(url);
+                console.log($("#myForm").serialize());
                 $.post(url,{
                     formName:$("#myForm").serialize(),
                     other:"attributes"
@@ -130,6 +132,7 @@
                     }
                 }
                 );
-                return false;});               
+                return false;});   
+             });
     </script>                    
 {%endblock%}

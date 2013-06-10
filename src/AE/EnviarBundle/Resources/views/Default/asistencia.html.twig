@@ -27,7 +27,7 @@
                 <div class="controls">
                 	<select id="tipo_list" name="tipo_list">
                     	<option value="0">Evangelistica</option>
-                        <option value="1">Discipulado</option>
+                        <option value="1">Mentoreo</option>
                     </select>
                	</div>
             </div>
@@ -51,8 +51,7 @@
                                                                 <th>Id</th>
 								<th>Titulo</th>
 								<th>Autor</th>
-								<th>Dia</th>
-								<th>Hora</th>
+								
                                                                 <th width="12%">Asignado</th>
 								<th width="12%">Dictado</th>
                                                                 <th>Invitados</th>
@@ -190,7 +189,7 @@
                                 
                 $("#tipo_list").change(function(){  
                                         
-                                        $('#tip_cell').val($('#tipo_list').text());
+                                        $('#tip_cell').val($('#tipo_list option:selected').val());
                                         
                                         url = "{{path('_enviar_lista_celula_red_tipo',{'red':':red','tipo':':tipo'})}}";
                                         url = url.replace(':red',$('#redes_lista option:selected').val());
@@ -199,7 +198,7 @@
 				});
                                 
                 $('#red_id').val($('#redes_lista').val());
-                $('#tip_cell').val($('#tipo_list').val());
+                $('#tip_cell').val($('#tipo_list option:selected').val());
 
                 url = url.replace(':red',$('#redes_lista').val());
                 url = url.replace(':tipo',$('#tipo_list').val());
@@ -226,9 +225,9 @@
                     $('#asiste').val(values[0]);
                     $('#asistencia').css({display:'block'});
                     $('#titulocell').val(values[1]);
-                    $('#dia_cell').val(values[3]);
-                    $('#horario_cell').val(values[4]);
                     $('#dictaco_cell').val(values[5]);
+                    
+                    
          
                     
                 });
@@ -242,9 +241,8 @@
              var url = "{{path('_enviar_lista_celula_temas',{'id':':id'})}}";
              
             url = url.replace(':id',celula);
-            
+                         
             console.log(url);
-             
              /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#tema').dataTable( {
                                     
@@ -255,9 +253,7 @@
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "titulo" },
-                    { "mDataProp": "autor" },
-                    { "mDataProp": "dia" },
-                    { "mDataProp": "hora" },
+                    { "mDataProp": "autor" },                  
                     { "mDataProp": "asignado"},
                     { "mDataProp": "dictado"},
                     {"mDataProp": "invitado"}

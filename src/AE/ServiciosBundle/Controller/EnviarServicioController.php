@@ -424,6 +424,8 @@ class EnviarServicioController extends Controller
 					
 					<th>Fecha Inicio</th>
 					<th>Tipo</th>
+                                        <th>Dia </th>
+                                        <th>Hora </th>
                                         <th>Ver</th>
 				</tr>";
 		
@@ -435,6 +437,8 @@ class EnviarServicioController extends Controller
 					<td>".$val['apellidos']."</td>
 					<td>".$val['fecha_creacion']."</td>
 					<td>".(($val['tipo']==0)?'Evangelistica':'Discipulado')."</td>
+                                        <td>".$val['dia']."</td>
+					<td>".$val['hora']."</td>
 					<td><input type='button' id='ver' class='button_ver' data='".$val["id"]."' onclick='IrATema(this)' value='Ver'></td>
 					</tr>
 					";
@@ -479,7 +483,7 @@ class EnviarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$todo));
     }
     
-    public function getAsistenciaCelulaClassAction($id)
+    public function getAsistenciaCelulaClassAction($id,$tipo)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $em->beginTransaction();
@@ -487,9 +491,9 @@ class EnviarServicioController extends Controller
        try
        {
           
-          $sql = "select *from  asistencia_tema(:id)";
+          $sql = "select *from  asistencia_tema(:id,:tipo)";
           $smt = $em->getConnection()->prepare($sql);
-          $smt->execute(array(':id'=>$id));
+          $smt->execute(array(':id'=>$id,':tipo'=>$tipo));
           
           $todo = $smt->fetchAll();
           $em->clear();

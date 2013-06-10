@@ -49,8 +49,9 @@
                 <form id="clase_celulaForm" name="clase_celulaForm" class="form-horizontal" action="{{path('enviar_crear_class_cell_update')}}" method="POST">    
                  <fieldset> 
                   <legend>Distribuir</legend>
+                  <div id="distribuir" name="distribuir">
                   <div class="control-group">
-                    <label class="control-label">Día</label>
+                    <label class="control-label">Día Limite</label>
                     <div class="controls">
                         <select id="dia" name="dia">
                             <option value="Lunes">Lunes</option>
@@ -128,7 +129,7 @@
                         </select>
                     </div>
                   </div>
-                  
+                   </div>
                    <div class="control-group">
                         <label class="control-label">Redes</label>
                         <div class="controls">
@@ -208,6 +209,9 @@
          
 	$(document).ready(function() {
             
+            $('#distribuir').css({'display':'none'});
+            
+        
              $.ajax(
                    {
                     url : '{{path('servicio_red')}}',
@@ -263,10 +267,11 @@
             var funcion = function(data)
             {
                 //console.log(data.greeting);
+                console.log(data);
                 if(data.responseCode==200)
                 {
                     alert('Registro Completado');
-                   location.reload();
+                   //location.reload();
                 }
                 else
                 {

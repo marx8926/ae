@@ -67,7 +67,7 @@ enviar_asistencia_celula:
     _method: POST
   
 enviar_asistencia_celula_update:
-  pattern: /asistencia_celula_update
+  pattern: /asistencia_celula_update/{tipo}
   defaults: {_controller: AEEnviarBundle:Asistencia:asistencia_celula_update}
   requirements:
     _method: POST

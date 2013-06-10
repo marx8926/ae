@@ -42,7 +42,7 @@ class TemasController extends Controller
        
             $em = $this->getDoctrine()->getEntityManager();         
       
-            $this->getDoctrine()->getEntityManager()->beginTransaction();
+            $em->beginTransaction();
             try
             {
                 $celula = new TemaCelula();
@@ -55,7 +55,7 @@ class TemasController extends Controller
                 $em->persist($celula);
                 $em->flush();
                 
-		$uploadFileName = date("Y-m-d-H-i-s-").$file;
+		$uploadFileName = date("Y-m-d-").$file;
 		$url = "uploads/".$uploadFileName;
                        
                 $archivo = new Archivo();
@@ -67,7 +67,7 @@ class TemasController extends Controller
                 $em->persist($archivo);
                 $em->flush();
                 
-                $this->getDoctrine()->getEntityManager()->commit();
+                $em->commit();
                 
                 $return=array("responseCode"=>200,  "greeting"=>'OK');   
             }catch(Exception $e)
