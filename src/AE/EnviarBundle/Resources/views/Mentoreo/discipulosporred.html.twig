@@ -58,7 +58,7 @@
     </form>
     	</div>
                 
-      <div class="form-horizontal" id="usos" name="usos">
+      <div class="form-inline" id="usos" name="usos">
           
           <form id="activar" name="activar" type="POST" action="{{path('enviar_activar_discipulo')}}">
             <input type="hidden" id="idactivar" name="idactivar" value="-1">  
@@ -71,9 +71,9 @@
           </form>
           <input id="cambiar" name="cambiar" type="button" value="Cambiar célula" class="btn btn-primary">
       </div>
-      
+      </div>
       <div id="cambio" name="cambio" >          
-       <form id="myForm" name="myForm" method="POST" action="{{path('enviar_registro_discipulado_up')}}" class="form-horizontal" >
+       <form id="myForm" name="myForm" method="POST" action="{{path('enviar_actualizar_discipulado_up')}}" class="form-horizontal" >
            <fieldset>
           <div class="control-group">
             <label class="control-label" >Celula discipulado</label>
@@ -87,11 +87,15 @@
                 <input id="personaid" name="personaid" type="hidden" value="-1" >
                 
                 <input id="idred" name="idred" type="hidden" value="-1">
-                
-                <input type="submit" id="subir" name="subir" value="Asignar" class="btn btn-primary">
+                <div class="control-group">
+                    <label class="control-label" ></label>
+                    <div class="controls">
+                          <input type="submit" id="subir" name="subir" value="Asignar" class="btn btn-primary">
+                    </div>
+                </div>
        </form>
        </div>
-	</div>
+	
 	
         
 {% endblock %}
@@ -192,7 +196,10 @@
 
                 });
                 
-                
+                $('#cambiar').click(function(){
+                    
+                    $('#cambio').css({'display':'block'});
+                });
             });
                 
             function recargar_celula()

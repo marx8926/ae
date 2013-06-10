@@ -351,6 +351,55 @@ class ModificarController extends Controller
   
     }
     
+     public function actualizar_discipulado_upAction()
+    {
+        $request    = $this->get('request');
+        
+        $name     = $request->request->get('formName');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $return = NULL;
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+        
+        $em->beginTransaction();
+        $id = $datos['personaid'];
+            $red = $datos['idred'];
+            $celula = $datos['celula_lista'];
+
+        if($name!=NULL  && $id!='-1' && $red!='-1' && $celula!='-1')
+        {
+        try
+        {
+            
+            $sql = "select update_discipulo(:cell, :id, :red)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':cell'=>$celula,':id'=>$id,':red'=>$red));
+            
+            $em->commit();
+            $return=array("responseCode"=>200, "greeting"=>$celula);  
+
+        }
+        catch(Exception $e)
+        {
+            $return=array("responseCode"=>400, "greeting"=>"Bad");     
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        }
+        else             $return=array("responseCode"=>400, "greeting"=>"Bad");     
+
+            
+       // return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type     
+  
+    }
     
     public function desactivar_discipuloAction()
     {

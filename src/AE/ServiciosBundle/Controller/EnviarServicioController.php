@@ -83,10 +83,11 @@ class EnviarServicioController extends Controller
           $total = "";
           
           $n = count($todo);
-          for($i=0; $i<$n; $i++)
+          
+          foreach ($todo as $value) 
           {
-              $linea = "<option value='".$todo[$i]['id']."'>";
-                $linea = $linea.$todo[$i]['id']."-".$todo[$i]['nombre']." ".$todo[$i]['apellidos']."</option>";
+              $linea = "<option value='".$value['id']."'>";
+                $linea = $linea.$value['id']."-".$value['nombre']." ".$value['apellidos']."</option>";
                 $total = $total.$linea;
           }
           $em->commit();

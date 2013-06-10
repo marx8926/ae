@@ -135,6 +135,12 @@ enviar_registro_discipulado_up:
   requirements:
     _method: POST
     
+enviar_actualizar_discipulado_up:
+  pattern: /actualizar_discipulado_up
+  defaults: {_controller: AEEnviarBundle:Modificar:actualizar_discipulado_up}
+  requirements:
+    _method: POST
+    
 enviar_discipulos_por_red:
   pattern: /discipulos_por_red
   defaults: {_controller: AEEnviarBundle:Informe:discipulos_por_red}
