@@ -11,7 +11,6 @@
         
 {% block content %}
         <div class="span9" id="registro_form">
-        <h1>Asignación a discipulado</h1>
         <br>
         <fieldset>
           <div class="control-group">
@@ -25,7 +24,7 @@
         </fieldset>
         
       
-        <h1>Lista de Miembros sin mentoreo</h1>
+        <h1>Lista de Miembros de red en mentoreo</h1>
         
 	<div class="box">
 		<div class="box-head tabs">
@@ -42,13 +41,13 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
         <thead>
             <tr>
-              
                 <th>ID</th>
 		<th>Nombres</th>
 		<th>Apellidos</th>
 		<th>Edad</th>
                 <th>Inicio</th>
-		<th>Dirección</th>
+		<th>Célula</th>
+                <th>Activo</th>
             </tr>
 	</thead>
 	<tbody id="tablas1" name="tablas1" >
@@ -59,6 +58,21 @@
     </form>
     	</div>
                 
+      <div class="form-horizontal" id="usos" name="usos">
+          
+          <form id="activar" name="activar" type="POST" action="{{path('enviar_activar_discipulo')}}">
+            <input type="hidden" id="idactivar" name="idactivar" value="-1">  
+            <input  type="submit" value="Activar" class="btn btn-primary" >   
+          </form>
+          
+          <form id="desactivar" name="desactivar" type="POST" action="{{path('enviar_desactivar_discipulo')}}">
+            <input type="hidden" id="iddesactivar" name="iddesactivar">
+            <input  type="submit" value="Desactivar" class="btn btn-danger" > 
+          </form>
+          <input id="cambiar" name="cambiar" type="button" value="Cambiar célula" class="btn btn-primary">
+      </div>
+      
+      <div id="cambio" name="cambio" >          
        <form id="myForm" name="myForm" method="POST" action="{{path('enviar_registro_discipulado_up')}}" class="form-horizontal" >
            <fieldset>
           <div class="control-group">
@@ -76,6 +90,7 @@
                 
                 <input type="submit" id="subir" name="subir" value="Asignar" class="btn btn-primary">
        </form>
+       </div>
 	</div>
 	
         
@@ -128,6 +143,14 @@
                 $(document).ready(function(){
                                      
                    enviar('myForm', logg);
+                   enviar('activar', logg);
+                   enviar('desactivar', logg);
+
+                   
+                   $('#usos').css({'display':'none'});
+                   $('#cambio').css({'display':'none'});
+   
+                
                    
                    var rede = '{{red}}' ;
                    
@@ -160,6 +183,13 @@
                         $('#select').css({'display':'block'});
                         
                         $('#personaid').val(values[0]);
+                        
+                        $('#idactivar').val(values[0]);
+                        $('#iddesactivar').val(values[0]);
+
+                        
+                        $('#usos').css({'display':'block'});
+
                 });
                 
                 
@@ -176,7 +206,7 @@
                
                $('#idred').val(nombre);
             
-               var route = '{{path('servicio_miembros_sin_discipulado',{'red': 'name'})}}';
+               var route = '{{path('servicio_miembros_con_discipulado',{'red': 'name'})}}';
             
                var rutas = route.replace('name',nombre);
                
@@ -203,7 +233,8 @@
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
                     { "mDataProp": "inicio"},
-                    { "mDataProp": "direccion"}
+                    { "mDataProp": "celula"},
+                    { "mDataProp": "activo"}
                 ],
                 "aaSorting": [ [0,'asc'], [1,'asc'] ],
                 "aoColumnDefs": [

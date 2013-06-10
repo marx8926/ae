@@ -60,4 +60,25 @@ class InformeController extends Controller
         return $this->render('AEEnviarBundle:Default:informecelulas.html.twig',array('red'=>$red));
     
     }
+    
+    public function discipulos_por_redAction()
+    {
+       $securityContext = $this->get('security.context');
+        
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                $red = $req['red'];
+            }
+            
+        return $this->render('AEEnviarBundle:Mentoreo:discipulosporred.html.twig',array('red'=>$red)); 
+    }
 }

@@ -128,3 +128,25 @@ enviar_celulas_mentoreo:
 enviar_registro_discipulado:
   pattern: /registro_discipulado
   defaults: {_controller: AEEnviarBundle:Modificar:registro_discipulado}
+  
+enviar_registro_discipulado_up:
+  pattern: /registro_discipulado_up
+  defaults: {_controller: AEEnviarBundle:Modificar:registro_discipulado_up}
+  requirements:
+    _method: POST
+    
+enviar_discipulos_por_red:
+  pattern: /discipulos_por_red
+  defaults: {_controller: AEEnviarBundle:Informe:discipulos_por_red}
+  
+enviar_desactivar_discipulo:
+  pattern: /desactivar_discipulo
+  defaults: {_controller: AEEnviarBundle:Modificar:desactivar_discipulo}
+  requirements:
+    _method: POST
+    
+enviar_activar_discipulo:
+  pattern: /activar_discipulo
+  defaults: {_controller: AEEnviarBundle:Modificar:activar_discipulo}
+  requirements:
+    _method: POST

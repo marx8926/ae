@@ -11,6 +11,7 @@ use AE\DataBundle\Entity\Celula;
 use AE\DataBundle\Entity\TemaCelula;
 use AE\DataBundle\Entity\Archivo;
 use AE\DataBundle\Entity\Horario;
+use AE\DataBundle\Entity\Discipulado;
 
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\TransactionRequiredException;
@@ -298,4 +299,153 @@ class ModificarController extends Controller
             
         return $this->render('AEEnviarBundle:Mentoreo:asignacion.html.twig',array('red'=>$red));
     }
+    
+    public function registro_discipulado_upAction()
+    {
+        $request    = $this->get('request');
+        
+        $name     = $request->request->get('formName');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $return = NULL;
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+        
+        $em->beginTransaction();
+        $id = $datos['personaid'];
+            $red = $datos['idred'];
+            $celula = $datos['celula_lista'];
+
+        if($name!=NULL  && $id!='-1' && $red!='-1' && $celula!='-1')
+        {
+        try
+        {
+            
+            
+            $sql = "select insert_discipulo(:cell, :id, :red)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':cell'=>$celula,':id'=>$id,':red'=>$red));
+            
+            $em->commit();
+            $return=array("responseCode"=>200, "greeting"=>$celula);  
+
+        }
+        catch(Exception $e)
+        {
+            $return=array("responseCode"=>400, "greeting"=>"Bad");     
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        }
+        else             $return=array("responseCode"=>400, "greeting"=>"Bad");     
+
+            
+       // return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type     
+  
+    }
+    
+    
+    public function desactivar_discipuloAction()
+    {
+        $request    = $this->get('request');
+        
+        $name     = $request->request->get('formName');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $return = NULL;
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+        
+        $em->beginTransaction();
+        $id = $datos['iddesactivar'];
+         
+        if($name!=NULL  && $id!='-1' )
+        {
+        try
+        {
+            
+            $sql = "select update_discipulo_estado(:idp,:state)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':idp'=>$id,':state'=>'FALSE'));
+            
+            $em->commit();
+            $return=array("responseCode"=>200, "greeting"=>'good');  
+
+        }
+        catch(Exception $e)
+        {
+            $return=array("responseCode"=>400, "greeting"=>"Bad");     
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        }
+        else             $return=array("responseCode"=>400, "greeting"=>"Bad");     
+
+            
+       // return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type     
+  
+    }
+
+    public function activar_discipuloAction()
+    {
+                $request    = $this->get('request');
+        
+        $name     = $request->request->get('formName');
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $return = NULL;
+        
+        $datos = array();
+
+        parse_str($name,$datos);
+        
+        $em->beginTransaction();
+        $id = $datos['idactivar'];
+         
+        if($name!=NULL  && $id!='-1' )
+        {
+        try
+        {
+            
+            $sql = "select update_discipulo_estado(:idp,:state)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':idp'=>$id,':state'=>'TRUE'));
+            
+            $em->commit();
+            $return=array("responseCode"=>200, "greeting"=>'good');  
+
+        }
+        catch(Exception $e)
+        {
+            $return=array("responseCode"=>400, "greeting"=>"Bad");     
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        }
+        else             $return=array("responseCode"=>400, "greeting"=>"Bad");     
+
+            
+       // return $this->render('AEEnviarBundle:Default:busqueda_celula.html.twig');
+        $return=json_encode($return);//jscon encode the array
+        
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type     
+  
+    }
+    
 }

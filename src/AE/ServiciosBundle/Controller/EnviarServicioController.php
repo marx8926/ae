@@ -1370,4 +1370,102 @@ $lideres_red, $doce, $ciento,$mil,$celulas, $asistencia,$tumpis,$nuevos,$nueva_c
         
         return new JsonResponse($final);
     }
+    
+    public function miembrosindiscipuladoAction($red)
+    {
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        
+        $em->beginTransaction();
+       
+        try{
+            
+               
+            $sql1="select * from get_miembros_sin_disc_xred(:net)";
+            $smt1 = $em->getConnection()->prepare($sql1);
+            $smt1->execute(array(':net'=>$red));
+            $todo = $smt1->fetchAll();
+
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$todo)); 
+    }
+    
+   
+    public function miembrocondiscipuladoAction($red)
+    {
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        
+        $em->beginTransaction();
+       
+        try{
+            
+               
+            $sql1="select * from get_miembros_con_disc_xred(:net)";
+            $smt1 = $em->getConnection()->prepare($sql1);
+            $smt1->execute(array(':net'=>$red));
+            $todo = $smt1->fetchAll();
+
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+       return new JsonResponse(array('aaData'=>$todo)); 
+    }
+    
+   
+    
+    
+    public function celulas_discipuladoAction($red)
+    {
+        $todo = array();
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $em->beginTransaction();
+        
+        $result = "<option value='-1'>Sin Célula </option>";
+       
+        try{
+            
+               
+            $sql1="select * from get_lideres_celula_dis(:net)";
+            $smt1 = $em->getConnection()->prepare($sql1);
+            $smt1->execute(array(':net'=>$red));
+            $todo = $smt1->fetchAll();
+            
+            foreach ($todo as $key => $value) {
+                $result = $result."<option value='".$value['id']."'>".$value['id']." ".
+                        $value['nombres']."</option>";
+            }
+
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+        
+        return new Response("<select>".$result."</select>");
+    }
 }

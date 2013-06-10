@@ -115,4 +115,15 @@ servicio_informe_enviar_semanal_resumido:
   
 servicio_miembros_sin_discipulado:
   pattern: /serviciomiembro_sin_discipulado/{red}
-  defaults: {_controller: AEServiciosBundle:EnviarServicio:miembrodiscipulado}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:miembrosindiscipulado}
+  
+servicio_miembros_con_discipulado:
+  pattern: /serviciomiembro_con_discipulado/{red}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:miembrocondiscipulado}
+  
+servicio_celulas_discipulado_red:
+  pattern: /celulas_discipulado/{red}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:celulas_discipulado}
+  requirements:
+    _method: POST
+   
