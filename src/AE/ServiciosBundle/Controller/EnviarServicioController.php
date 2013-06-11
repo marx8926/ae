@@ -1144,7 +1144,8 @@ class EnviarServicioController extends Controller
     //uniones de los resultados de las consultadas separadas
     
     public function union_resultados_enviar(            
-            $red,$lideres,$doce,  $ciento, $mil, $celulas,
+            $red,//$lideres,
+            $doce,  $ciento, $mil, $celulas,
 $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
     {
         $out = array();
@@ -1158,7 +1159,7 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
          $totales = array();
         $totales['red']='';
         $totales['nombres']='TOTALES';
-        $totales['lideres']=0;
+        //$totales['lideres']=0;
         $totales['doce']=0;
         $totales['ciento']=0;
         $totales['mil']=0;
@@ -1177,8 +1178,8 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
             $temp['red'] = $value['red'];
             $temp['nombres']=$value['nombres'];
             
-            $temp['lideres']=$lideres[$value['red']]['lideres'];
-            $totales['lideres']+=$temp['lideres'];
+            //$temp['lideres']=$lideres[$value['red']]['lideres'];
+            //$totales['lideres']+=$temp['lideres'];
             
             $temp['doce'] = $doce[$value['red']]['lideres'];            
             $totales['doce']+=$temp['doce'];
@@ -1218,7 +1219,7 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
        $resumen['nombres']='RESUMEN';
        
         $out[]=$totales;
-        $out[]=$resumen;
+        //$out[]=$resumen;
         
         
         
@@ -1248,13 +1249,13 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
             $smt1->execute(array(':pastor'=>$pastor));
             $red_encargado_b = $smt1->fetchAll();
             $red_encargado = $this->invierte_resultados($red_encargado_b);
-        
+        /*
             $sql2="select * from get_lideres_red_xpastor(:pastor)";
             $smt2 = $em->getConnection()->prepare($sql2);
             $smt2->execute(array(':pastor'=>$pastor));
             $lideres_red_b = $smt2->fetchAll();
             $lideres_red = $this->invierte_resultados($lideres_red_b);
-
+*/
             //sus 12
             $sql3="select * from get_lideres_xpastor(:pastor,1)";
             $smt3 = $em->getConnection()->prepare($sql3);
@@ -1290,7 +1291,7 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
             
             //asistencia celula
             
-           $sql8 = "select * from get_asistencia_celula_xpastor(:pastor,:inicio,:fin)";
+           $sql8 = "select * from get_asistencia_celula_total_xpastor(:pastor,:inicio,:fin)";
            $smt8 = $em->getConnection()->prepare($sql8);
            $smt8->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
            $asistencia_b = $smt8->fetchAll();
@@ -1331,7 +1332,8 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
             $ofrenda = $this->invierte_resultados($ofrenda_b);
 
             $todo = $this->union_resultados_enviar($red_encargado, 
-$lideres_red, $doce, $ciento,$mil,$celulas, $asistencia,$tumpis,$nuevos,$nueva_cell, $ofrenda);
+//$lideres_red,
+                    $doce, $ciento,$mil,$celulas, $asistencia,$tumpis,$nuevos,$nueva_cell, $ofrenda);
 
             
             $em->commit();
@@ -1343,19 +1345,201 @@ $lideres_red, $doce, $ciento,$mil,$celulas, $asistencia,$tumpis,$nuevos,$nueva_c
             $em->close();
             throw $e;
         }
-       return new JsonResponse($todo); 
+        
+         $result = "<table cellpadding='0' cellspacing='0' border='0' class='display table table-striped dataTable table-bordered'>
+			<thead>
+				<tr>
+					<th>RED</th>
+					<th>12 DEL PASTOR</th>
+					<th>LIDERES <br> DE 12</th>
+					<th>LIDERES <br> DE 144</th>
+					<th>LIDERES <br> DE 1278</th>
+                                        <th>CÉLULAS</th>
+                                        <th>ASISTENCIA <br> CÉLULAS</th>
+                                        <th>ASISTENCIA <br> TUMPIS</th>
+                                        
+					<th>NUEVOS<br>CONVERTIDOS</th>
+                                        <th>NUEVAS <br> CÉLULAS </th>
+                                        <th>OFRENDA </th>
+				</tr>
+                        </thead> <tbody>    
+                            ";
+        
+        foreach ($todo as $key => $row) {
+            
+            $linea = "<tr>";
+            foreach ($row as $value) {
+                $linea= $linea."<td>".$value."</td>";
+            }
+            $linea = $linea."</tr>";
+            
+            $result = $result.$linea;
+        }
+        
+        $final = "<tfoot><tr>
+						<th colspan='2'>RESUMEN</th>
+						<th colspan='3'>TOTAL DE LIDERES</th>
+						 <th colspan='1'>CÉLULAS</td>
+                                                <th>ASISTENCIA <br> CÉLULAS</th>
+                                                <th>ASISTENCIA <br> TUMPIS</th>
+                                        
+                                                <th>NUEVOS<br>CONVERTIDOS</th>
+                                                <th>NUEVAS <br> CÉLULAS </th>
+                                                <th>OFRENDA </th>
+					</tr>
+                <tr>
+                <td colspan='2'> </td>
+                <td colspan='3'>
+                ";
+        
+        //</tfoot>";
+        $ultimo = end($todo);
+
+        $final = $final.($ultimo['doce']+$ultimo['ciento']+$ultimo['mil'])."</td><td colspan='1'> ".$ultimo['celulas'].
+                 "</td><td>".$ultimo['asistencia_celula']."</td><td>".$ultimo['tumpis']."</td><td>".$ultimo['nuevos']."</td><td>".$ultimo['nueva_cell'].
+               "</td><td>".$ultimo['ofrenda']."</td> </tr> </tfoot>";
+        
+            
+        
+        $result = $result."</tbody>".$final;
+        
+       return new Response($result); 
     }
 
 
+    public function informe_semanal_enviar($pastor, $inicio, $fin)
+    {
+     
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+   
+        $begin = new \DateTime($inicio);
+        $end = new \DateTime($fin);
+        
+        $init  = new \DateTime();
+        $init->setDate($begin->format('Y'),'01','01');
+        
+        $em->beginTransaction();
+       
+        try{
+            
+               
+            $sql1="select * from get_encargados_red_xpastor(:pastor)";
+            $smt1 = $em->getConnection()->prepare($sql1);
+            $smt1->execute(array(':pastor'=>$pastor));
+            $red_encargado_b = $smt1->fetchAll();
+            $red_encargado = $this->invierte_resultados($red_encargado_b);
+        /*
+            $sql2="select * from get_lideres_red_xpastor(:pastor)";
+            $smt2 = $em->getConnection()->prepare($sql2);
+            $smt2->execute(array(':pastor'=>$pastor));
+            $lideres_red_b = $smt2->fetchAll();
+            $lideres_red = $this->invierte_resultados($lideres_red_b);
+*/
+            //sus 12
+            $sql3="select * from get_lideres_xpastor(:pastor,1)";
+            $smt3 = $em->getConnection()->prepare($sql3);
+            $smt3->execute(array(':pastor'=>$pastor));
+            $doce_b = $smt3->fetchAll();
+            
+            $doce = $this->invierte_resultados($doce_b);
+        
+            //sus 144
+            $sql4=" select * from  get_lideres_xpastor(:pastor,12)";
+            $smt4 = $em->getConnection()->prepare($sql4);
+            $smt4->execute(array(':pastor'=>$pastor));
+            $ciento_b = $smt4->fetchAll();
+            
+            $ciento = $this->invierte_resultados($ciento_b);
+            
+            //sus 1278
+            $sql7=" select * from  get_lideres_xpastor(:pastor,144)";
+            $smt7 = $em->getConnection()->prepare($sql7);
+            $smt7->execute(array(':pastor'=>$pastor));
+            $mil_b = $smt7->fetchAll();
+            
+            $mil = $this->invierte_resultados($mil_b);
+       
+            //celulas
+            
+            $sql5 = " select * from get_celulas_xpastor(:pastor,:fin)";
+            $smt5 = $em->getConnection()->prepare($sql5);
+            $smt5->execute(array(':pastor'=>$pastor,':fin'=>$end->format('Y-m-d')));
+            $celulas_b= $smt5->fetchAll();
+            $celulas = $this->invierte_resultados($celulas_b);
+            
+            
+            //asistencia celula
+            
+           $sql8 = "select * from get_asistencia_celula_total_xpastor(:pastor,:inicio,:fin)";
+           $smt8 = $em->getConnection()->prepare($sql8);
+           $smt8->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+           $asistencia_b = $smt8->fetchAll();
+           $asistencia = $this->invierte_resultados($asistencia_b);
+           
+           
+           //asistencia al tumpis
+           $sql9 = "select * from get_asistencia_culto_xpastor(:pastor, :inicio,:fin)";
+           $smt9 = $em->getConnection()->prepare($sql9);
+           $smt9->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+           $tumpis_b = $smt9->fetchAll();
+           $tumpis = $this->invierte_resultados($tumpis_b);
+           
+           
+           //nuevos convertidos
+           
+           $sql10 = "select * from get_nuevo_conv_xpastor(:pastor,:inicio, :fin)";
+           $smt10 = $em->getConnection()->prepare($sql10);
+           $smt10->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+           $nuevos_b = $smt10->fetchAll();
+           $nuevos = $this->invierte_resultados($nuevos_b);
+           
+           //nuevas celulas
+           
+           $sql11 = "select * from get_nuevas_celula_xpastor(:pastor,:inicio,:fin)";
+           $smt11 = $em->getConnection()->prepare($sql11);
+           $smt11->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+           $nueva_cell_b = $smt11->fetchAll();
+           $nueva_cell = $this->invierte_resultados($nueva_cell_b);
+           
+           
+            //ofrenda
+            
+            $sql6 = " select * from get_ofrenda_celula_xpastor(:pastor, :inicio, :fin)";
+            $smt6 = $em->getConnection()->prepare($sql6);
+            $smt6->execute(array(':pastor'=>$pastor,':inicio'=>$inicio,':fin'=>$fin));
+            $ofrenda_b = $smt6->fetchAll();
+            $ofrenda = $this->invierte_resultados($ofrenda_b);
+
+            $todo = $this->union_resultados_enviar($red_encargado, 
+//$lideres_red,
+                    $doce, $ciento,$mil,$celulas, $asistencia,$tumpis,$nuevos,$nueva_cell, $ofrenda);
+
+            
+            $em->commit();
+            $em->clear();
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            throw $e;
+        }
+        
+       return new JsonResponse($todo); 
+       
+    }
     public function informe_enviar_semanal_resumidoAction($pastor, $pastora, $inicio, $fin)
     {
-        $pastor_out = $this->informe_semanal_enviar_pastorAction($pastor, $inicio, $fin);
+        $pastor_out = $this->informe_semanal_enviar($pastor, $inicio, $fin);
         
-        $pastora_out = $this->informe_semanal_enviar_pastorAction($pastora, $inicio, $fin);
+        $pastora_out = $this->informe_semanal_enviar($pastora, $inicio, $fin);
         
         $es_pastor= $pastor_out->getContent();
         
         $resultado_pastor = json_decode($es_pastor,true);
+        
         
         $resumen_hombres = end($resultado_pastor);
         
@@ -1373,7 +1557,88 @@ $lideres_red, $doce, $ciento,$mil,$celulas, $asistencia,$tumpis,$nuevos,$nueva_c
         $final[]=$resumen_hombres;
         $final[]=$resumen_mujeres;
         
-        return new JsonResponse($final);
+        $result ="<table class='table table-striped table-bordered'>
+					<tr>
+						<th rowspan='3'>Hombres</th>
+						<th>Líderes <br> de 12</th>
+						<th>Líderes <br> de 144</th>
+						<th>Líderes <br> de 1728</th>
+						<th>Células</th>
+						<th>Asistencia <br> a Células</th>
+						<th>Asistencia <br> al Tumpis</th>
+						<th>Nuevos <br> Convertidos</th>
+						<th>Nuevas <br> Células</th>
+						<th>Ofrendas</th>
+					</tr>
+					<tr>
+						<td>".$resumen_hombres['doce']." </td>
+						<td>".$resumen_hombres['ciento']." </td>
+						<td>".$resumen_hombres['mil']." </td>
+						<td rowspan='2'>".$resumen_hombres['celulas']." </td>
+						<td rowspan='2'>".$resumen_hombres['asistencia_celula']." </td>
+						<td rowspan='2'>".$resumen_hombres['tumpis']." </td>
+						<td rowspan='2'>".$resumen_hombres['nuevos']." </td>
+						<td rowspan='2'>".$resumen_hombres['nueva_cell']." </td>
+						<td rowspan='2'>".$resumen_hombres['ofrenda']." </td>
+					</tr>
+					<tr>
+						<td colspan='2'>".($resumen_hombres['doce']+$resumen_hombres['ciento']
+                +$resumen_hombres['mil'])."</td>
+					</tr>
+                                        
+                                        <tr>
+						<th rowspan='3'>Mujeres</th>
+						<th>Líderes <br> de 12</th>
+						<th>Líderes <br> de 144</th>
+						<th>Líderes <br> de 1728</th>
+						<th>Células</th>
+						<th>Asistencia <br> a Células</th>
+						<th>Asistencia <br> al Tumpis</th>
+						<th>Nuevos <br> Convertidos</th>
+						<th>Nuevas <br> Células</th>
+						<th>Ofrendas</th>
+					</tr>
+					<tr>
+						<td>".$resumen_mujeres['doce']." </td>
+						<td>".$resumen_mujeres['ciento']." </td>
+						<td>".$resumen_mujeres['mil']." </td>
+						<td rowspan='2'>".$resumen_mujeres['celulas']." </td>
+						<td rowspan='2'>".$resumen_mujeres['asistencia_celula']." </td>
+						<td rowspan='2'>".$resumen_mujeres['tumpis']." </td>
+						<td rowspan='2'>".$resumen_mujeres['nuevos']." </td>
+						<td rowspan='2'>".$resumen_mujeres['nueva_cell']." </td>
+						<td rowspan='2'>".$resumen_mujeres['ofrenda']." </td>
+					</tr>
+					<tr>
+						<td colspan='2'>".($resumen_mujeres['doce']+$resumen_mujeres['ciento']
+                +$resumen_mujeres['mil'])."</td>
+					</tr>
+
+                                        <tr>
+						<th rowspan='3'>Resumen</th>
+						<th colspan='3'>Total de<br> Líderes</th>
+						<th>Células</th>
+						<th>Asistencia <br>a Células</th>
+						<th>Asistencia <br>al Tumpis</th>
+						<th>Nuevos <br>Convertidos</th>
+						<th>Nuevas <br> Células</th>
+						<th>Ofrendas</th>
+					</tr>
+					<tr>
+						<td colspan='3'>".($resumen_hombres['doce']+$resumen_mujeres['doce']+
+                $resumen_hombres['ciento']+$resumen_mujeres['ciento']+
+                $resumen_hombres['mil']+$resumen_mujeres['mil']
+                )."</td>
+						<td colspan='1'>".($resumen_hombres['celulas']+$resumen_mujeres['celulas'])."</td>
+						<td>".($resumen_hombres['asistencia_celula']+$resumen_mujeres['asistencia_celula'])."</td>
+						<td>".($resumen_hombres['tumpis']+$resumen_mujeres['tumpis'])."</td>
+						<td>".($resumen_hombres['nuevos']+$resumen_mujeres['nuevos'])."</td>
+						<td>".($resumen_hombres['nueva_cell']+$resumen_mujeres['nueva_cell'])."</td>
+						<td>".($resumen_hombres['ofrenda']+$resumen_mujeres['ofrenda'])."</td>
+					</tr>
+				</table>";
+        
+        return new Response($result);
     }
     
     public function miembrosindiscipuladoAction($red)
@@ -1471,6 +1736,6 @@ $lideres_red, $doce, $ciento,$mil,$celulas, $asistencia,$tumpis,$nuevos,$nueva_c
             throw $e;
         }
         
-        return new Response("<select>".$result."</select>");
+        return new Response($result);
     }
 }

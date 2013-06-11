@@ -156,3 +156,11 @@ enviar_activar_discipulo:
   defaults: {_controller: AEEnviarBundle:Modificar:activar_discipulo}
   requirements:
     _method: POST
+    
+enviar_informe_red:
+  pattern: /enviar_informe_red
+  defaults: {_controller: AEEnviarBundle:Informe:informe_red}
+  
+enviar_informe_resumido:
+  pattern: /enviar_informe_resumido
+  defaults: {_controller: AEEnviarBundle:Informe:informe_resumido}

@@ -107,10 +107,14 @@ servicio_ofrenda_celula:
 servicio_informe_enviar_semanal_pastor:
   pattern: /servicio_informe_enviar_semanal/{pastor}/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:informe_semanal_enviar_pastor}
+  requirements:
+    _method: POST
   
 servicio_informe_enviar_semanal_resumido:
   pattern: /servicio_informe_enviar_semanal_resumido/{pastor}/{pastora}/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:informe_enviar_semanal_resumido}
+  requirements:
+    _method: POST
   
   
 servicio_miembros_sin_discipulado:

@@ -425,13 +425,21 @@
 							Celulograma
 						</a>
 					</li>
-                                        {% endif %}
                                         
                                         <li>
-                                            <a href="{{path('enviar_informe_semanal')}}">
-                                             Informe Semanal Células
+                                            <a href="{{path('enviar_informe_red')}}">
+                                             Informe Semanal por Pastor
                                             </a>
                                         </li>
+                                        
+                                        <li>
+                                            <a href="{{path('enviar_informe_resumido')}}">
+                                             Informe General de Enviar
+                                            </a>
+                                        </li>
+                                        
+                                       {% endif %}
+
 				</ul>
 			</li>
 			{% if is_granted('ROLE_PASTOR_ASOCIADO')%}
