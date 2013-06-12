@@ -228,7 +228,6 @@
         {
             
             
-            console.log(dato);
             
            // if(dato.ROLE_USER === true)
              //   $('#usuario').attr('checked',true);
@@ -339,14 +338,12 @@
             //get the url for the form
             var url=$("#myForm").attr("action");
             
-            console.log($('#myForm').serialize());
            
             $.post(url,{
              formName:$("#myForm").serialize(),
                 other:"attributes"
              },function(data){
                     //the response is in the data variable
-                    console.log(data);
 
                if(data.responseCode===200 ){           
                       
