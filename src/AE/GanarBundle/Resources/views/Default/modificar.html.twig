@@ -90,31 +90,33 @@
                 <div class="control-group"> </div>
         
                 <div class="control-group" >
-                    <label class="control-label"> Nombres </label>
+                    <label class="control-label"> Nombres (*) </label>
                     <div class="controls">
                         <input type="text" id="inputNombres" name="inputNombres" placeholder="Nombres" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" value="{{nombre}}" required />
                     </div>
                 </div>
         
                 <div class="control-group" >
-                    <label class="control-label">Apellidos</label>
+                    <label class="control-label">Apellidos (*)</label>
                     <div class="controls">
                         <input type="text" id="inputApellidos" name="inputApellidos" placeholder="Apellidos" class="input-xxlarge" pattern="|^[a-zA-Z ñÑáéíóúüç]+$|" value="{{apellidos}}" required />
                     </div>
                 </div>
                 
                 <div class="control-group ">
-                    <label class="control-label" for="select02"> Estado Civil</label>
+                    <label class="control-label" for="select02"> Estado Civil (*)</label>
                     <div class="controls">
                         <select id="select_Civil" name="select_Civil" required >
                             <option value="0">Solter@</option>
                             <option value="1">Casad@</option>                    
+                            <option value="2">Conviviente</option>
+                            <option value="3">Viud@</option>
                         </select>
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label class= "control-label" for="select01"> Sexo </label>
+                    <label class= "control-label" for="select01"> Sexo (*)</label>
                     <div  class="controls">
                         <select name="select_Sexo" id="select_Sexo"  required >
                             <option value="1">Masculino</option>
@@ -124,7 +126,7 @@
                 </div>
         
                  <div class="control-group">
-                    <label class="control-label" >DNI</label>
+                    <label class="control-label" >DNI (*)</label>
                     <div class="controls">
                         <input type="text" class="input-large" placeholder="DNI" id="inputDni" name="inputDni" pattern="[0-9]{8}" value="{{dni}}" required />
                         <p class="help-block">8 digitos</p>
@@ -132,14 +134,14 @@
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" >Ocupación</label>
+                    <label class="control-label" >Ocupación (*)</label>
                     <div class="controls">
                         <input type="text" class="input-large" placeholder="Ocupación" id="inputOcupacion" name="inputOcupacion" value="{{ocupacion}}" required />
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" >Fecha nacimiento</label>
+                    <label class="control-label" >Fecha nacimiento (*)</label>
                     <div class="controls">
                         <input type= "text" class="datepick" id="inputFechaNacimiento" name="inputFechaNacimiento" value="{{fecha_nacimiento}}"/>
                         <p class="help-block">Día/Mes/Año</p>  
@@ -147,9 +149,9 @@
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" >Edad</label>
+                    <label class="control-label" >Edad (*)</label>
                     <div class="controls">
-                        <input type="text" class="input-large" placeholder="Edad" id="inputEdad" name="inputEdad"  pattern="[0-9]{2}" value="{{edad}}" required />
+                        <input type="text" class="input-large" placeholder="Edad" id="inputEdad" name="inputEdad" value="{{edad}}" required />
                     </div>
                 </div>
         
@@ -173,7 +175,7 @@
                 <legend>Ubicación</legend>
         
                 <div class="control-group">
-                    <label class="control-label">Dirección</label>
+                    <label class="control-label">Dirección (*)</label>
                     <div class="controls">
                         <input type="text" class="input-xxlarge" id="inputDireccion" name="inputDireccion" value="{{direccion}}" required >
                     </div>
@@ -187,7 +189,7 @@
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" > Departamento</label>
+                    <label class="control-label" > Departamento (*)</label>
                     <div class="controls">
                         <select name="departamento_lista" id="departamento_lista" required >
                     
@@ -196,7 +198,7 @@
                 </div>
         
                 <div class="control-group">
-                    <label class="control-label" >Provincia</label>
+                    <label class="control-label" >Provincia (*)</label>
                     <div class="controls">
                         <select name="provincia_lista" id="provincia_lista" required>
                    
@@ -205,7 +207,7 @@
                 </div>
         
                 <div class="control-group">
-                    <label class="control-label">Distrito</label>
+                    <label class="control-label">Distrito (*)</label>
                     <div class="controls">
                         <select name="distrito_lista" id="distrito_lista" required>
                     
@@ -245,7 +247,7 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Fecha</label>
+            <label class="control-label">Fecha de Conversión (*)</label>
             <div class="controls">
                 <input type= "text" class="datepick" id="inputFechaConversion" name="inputFechaConversion" value="{{conversion}}"/>
                 <p class="help-block">Día/Mes/Año</p>  
@@ -253,7 +255,7 @@
         </div>
         
          <div class="control-group">
-            <label class="control-label">Dia de Visitas</label>
+            <label class="control-label">Dia de Visitas (*)</label>
             <div class="controls">
                 <select id="dia_lista" name="dia_lista" >
                     <option value="Lunes">Lunes</option>
@@ -268,13 +270,13 @@
         </div>
         
         <div class="control-group" >
-            <label class="control-label">Hora de Visitas</label>
+            <label class="control-label">Hora de Visitas (*)</label>
             <div class="controls">
                 <input type="time" id="inputHora" name="inputHora" value="{{hora}}" required >                       
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Lugar</label>
+            <label class="control-label">Lugar (*)</label>
             <div class="controls">
                 <select id="lugar" name="lugar" required>
                    

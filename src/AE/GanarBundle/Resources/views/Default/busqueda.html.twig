@@ -12,9 +12,33 @@
 {% block content %} 
 <div class="span9" >
 	<h1>Buscar Nuevos Convertidos</h1>
+        
+         <div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" class="rango" >
+                   
+                </select>
+            </div>
+        </div>
+         <div class="control-group">
+            <label class="control-label" >Desde</label>
+            <div class="controls">
+                <input type="text" class="datepick rango" id="desde" name="desde" required>
+            </div>
+        </div>
+        
+        
+         <div class="control-group">
+            <label class="control-label" >Hasta</label>
+            <div class="controls">
+                <input type="text" class="datepick rango" id="hasta" name="hasta" required>
+            </div>
+        </div>
+        
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Nuevos Convertidos</h3>	
+                    <h3>Nuevos Convertidos</h3>	
                 </div>
        
 
@@ -84,7 +108,10 @@
 			<script src="{{asset('js/custom.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                        	<script src="{{asset('js/functiongen.js')}}"></script>
-
+                        <script src="{{asset('js/ganar.js')}}"></script>
+                        <script src="{{asset('js/tiempo.js')}}"></script>
+                	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+		
 			
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
@@ -99,9 +126,31 @@
 	 var oTable;
          
         var values = [];
+         function recargar_celula()
+         {
+             
+         }
+         
          
 	$(document).ready(function() {
             
+             FechaActualT('desde');
+            FechaActualT('hasta');
+            
+            var rede = '{{red}}';
+                  
+            {% if is_granted('ROLE_GANAR') %}
+                 initRed('{{path('servicio_red_sin')}}');
+                                     
+            {% else %}                      
+                      
+                      if(rede.length ===0)
+                      $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
+                      else $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+
+                      $("<option value='-1'>Sin  Celula </option>").appendTo('#celula_lista');
+
+            {% endif%}
         
              $('#select').css({'display':'none'});
 
@@ -116,6 +165,7 @@
             });
 
             $("#excelbutton").click(function(event) {
+                console.log($("#persona").html());
             	$("#content").val("<table>" + $("#persona").html() + "</table>");
 		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
 		$("#form").submit();
@@ -222,17 +272,40 @@
             
             //click handler para vista
             
-   
+            
+$(".rango").change(function(){
+                
+                var net = $('#red_lista option:selected').val();
+                var date1 =  $("#desde").val().split('/');
+                var date2 =  $("#hasta").val().split('/');
+                var desde = date1[2] + '-' + date1[1] + '-' + date1[0];
+                var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
+               
+                var url = "{{path('servicio_nuevo_convertido_all_ganador_red_tiempo',{'red':'net','inicio':'ini','fin':':fin'})}}";
+                url = url.replace('net',net);
+                url = url.replace('ini',desde);
+                url = url.replace(':fin',hasta);
+                
+                if(net!='-1')
+                {
+                     get_tabla(url);
+                }
+            });            
+            
+	 });
+  
+       function get_tabla(url)
+       {
             /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_nuevo_convertido_all_ganador')}}',
+                "sAjaxSource": url, 
                 "aoColumns": [
                      { "mDataProp": "id" },
-                    { "mDataProp": "nombres" },
+                    { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
                     { "mDataProp": "red" },
@@ -243,7 +316,11 @@
 		"aaSorting": [ [6,'desc']],//por consultar el tipo de orden
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
+		],
+                        "sScrollY": "200px",
+        "bPaginate": false,
+        "bScrollCollapse": true,
+        "sDom": 'T<"clear">lfrtip',
                 "oTableTools": {
 			"sRowSelect": "single",
                         "fnRowSelected": function ( node ) {
@@ -252,16 +329,13 @@
                         }
 		},
                 "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
-					"sPaginationType": "bootstrap",
+					/*"sPaginationType": "bootstrap",
 					"oLanguage": {
 						"sLengthMenu": "_MENU_ registros por página"
-					}
+					}*/
             } );	
    
-          
-            
-	 });
-         
+       }
       
        </script>
 {%endblock %} 

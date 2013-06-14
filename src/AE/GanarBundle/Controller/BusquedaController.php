@@ -9,7 +9,25 @@ class BusquedaController extends Controller
 
     public function busquedaAction()
     {
-        return $this->render('AEGanarBundle:Default:busqueda.html.twig');
+        $securityContext = $this->get('security.context');
+        
+        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+        $red = NULL;
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        if($ganador != NULL)
+        {
+            $sql = "select * from get_red_persona(:id)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':id'=>$ganador->getId()));
+            $req = $smt->fetch();
+            
+            $red = $req['red'];
+        }
+        
+        return $this->render('AEGanarBundle:Default:busqueda.html.twig',
+                array('red'=>$red));
+        
     }
  
     public function vistaAction($id)
@@ -41,6 +59,8 @@ class BusquedaController extends Controller
         $cons_nom = NULL;
         $conversion = NULL;
         $peticion = NULL;
+        $dni = NULL;
+        $ocupacion = NULL;
         
         $ubigeo = array();
         $redes = array();
@@ -75,6 +95,8 @@ class BusquedaController extends Controller
             $latitud = $redes['latitud'];
             $longitud = $redes['longitud'];
             $id_ubigeo = $redes['id_ubigeo'];
+            $dni = $redes['dni'];
+            $ocupacion = $redes['ocupacion'];
             
             
             //ubigeo
@@ -135,7 +157,8 @@ class BusquedaController extends Controller
             'direccion'=>$direccion,'referencia'=>$referencia,'latitud'=>$latitud,'longitud'=>$longitud,'id_ubigeo'=>$id_ubigeo,
             'departamento'=>$departamento,'provincia'=>$provincia,'distrito'=>$distrito,
             'red'=>$red,'celula'=>$celula,'lider'=>$lider_ap.' '.$lider_nom,'cons'=>$cons_ap.' '.$cons_nom,
-            'conversion'=>$conversion,'peticion'=>$peticion));
+            'conversion'=>$conversion,'peticion'=>$peticion,
+            'dni'=>$dni, 'ocupacion'=>$ocupacion));
     }
     
 }

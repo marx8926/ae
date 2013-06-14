@@ -591,21 +591,20 @@ class GanarServicioController extends Controller
        return new Response("<select>".$result."</select>");
     }
     
-    public function nuevos_red_liderAction($red, $inicio)
+    public function nuevos_red_liderAction($red, $inicio,$fini)
     {
         $sql = "select * from  get_ganador_lider_red(:red,:ini,:fin)";
 
-        $ini = new \DateTime();
-        $ini->setDate($inicio, '01', '01');
-        $fin = new \DateTime();
-        $fin->setDate($inicio,'12', '31');
+        $ini = new \DateTime($inicio);
+        $fin = new \DateTime($fini);
         
         $em = $this->getDoctrine()->getEntityManager();
         
         $redes = array();
        
+        $em->beginTransaction();
+
         try{
-            $em->beginTransaction();
             
             $smt = $em->getConnection()->prepare($sql);
             $smt->execute(array(':red'=>$red,':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d')));
@@ -856,6 +855,30 @@ class GanarServicioController extends Controller
             throw $e;
         }
        return new JsonResponse(array('aaData'=>$todo)); 
+    }
+    
+    
+    public function listaconvertidos_ganador_redAction($red, $inicio, $fin)
+    {
+         $em = $this->getDoctrine()->getEntityManager();
+        $redes = array();
+        try {
+            $em->beginTransaction();
+            
+            $sql = "select *from get_nuevos_convertidos_ganador_red_tiempo(:red, :inicio,:fin)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':inicio'=>$inicio,':fin'=>$fin));
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+        
+        return new JsonResponse(array('aaData'=>$redes));
     }
 
  }

@@ -64,12 +64,18 @@
 							Registrar
 						</a>
 					</li>
-                                        {% if ( (is_granted('ROLE_ADMIN') or is_granted('ROLE_GANAR')) or (is_granted('ROLE_PASTOR_ASOCIADO') or is_granted('ROLE_PASTOR_EJECUTIVO')) ) %}
-					<li>
+                                        
+                                        {% if ( is_granted('ROLE_LIDER_RED') )%}
+                                        <li>
 						<a href="{{path('ganar_busqueda')}}">
 							Buscar
 						</a>
 					</li>
+                                        
+                                        {% endif %}
+                                        
+                                        {% if ( (is_granted('ROLE_ADMIN') or is_granted('ROLE_GANAR')) or (is_granted('ROLE_PASTOR_ASOCIADO') or is_granted('ROLE_PASTOR_EJECUTIVO')) ) %}
+					
                                         <li>
                                                 <a href="{{path('ganar_modificar_ganador')}}">
                                                     Modificar Ganador

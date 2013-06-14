@@ -7,6 +7,7 @@
         <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
 {% endblock %}                 
 
 {% block content %} 
@@ -14,6 +15,21 @@
 <div class="span12" >
 	<h1>Informe de Nuevos Convertidos de los 12</h1>
         
+        
+        <div class="control-group">
+            <label class="control-label" >Desde</label>
+            <div class="controls">
+                <input type="text" class="datepick rango" id="desde" name="desde" required>
+            </div>
+        </div>
+        
+        
+         <div class="control-group">
+            <label class="control-label" >Hasta</label>
+            <div class="controls">
+                <input type="text" class="datepick rango" id="hasta" name="hasta" required>
+            </div>
+        </div>
         
         <div class="control-group">
             <label class="control-label" >Red</label>
@@ -32,18 +48,6 @@
                     </select>
                 </div>           
         </div>
-        
-        <div class="control-group">
-            <label class="control-label" >Año</label>
-            <div class="controls">
-                <select id="year_lista" name="year_lista" class="rango" >
-                    <option value="2013">2013</option>
-                    <option value="2012">2012</option>
-                    <option value="2011">2011</option>
-                </select>
-            </div>
-        </div>
-        
         
 	<div class="box">
 		<div class="box-head tabs">
@@ -122,6 +126,8 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                        	<script src="{{asset('js/functiongen.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
+                        <script src="{{asset('js/tiempo.js')}}"></script>
+                	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
 
 			
 			<script src="https://www.google.com/jsapi"></script>
@@ -189,8 +195,10 @@
             
 	$(document).ready(function() {
             
+            FechaActualT('desde');
+            FechaActualT('hasta');
             
-             var rede = '{{red}}' ;
+            var rede = '{{red}}' ;
              
              $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
 

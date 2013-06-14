@@ -46,6 +46,10 @@ servicio_nuevo_convertido_all_ganador:
   pattern: /lista_convertidos_ganador
   defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos_ganador}
   
+servicio_nuevo_convertido_all_ganador_red_tiempo:
+  pattern: /lista_convertidos_ganador_red/{red}/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos_ganador_red}
+  
 servicio_persona_id:
   pattern: /persona/{id}
   defaults: {_controller: AEServiciosBundle:GanarServicio:persona}
@@ -92,7 +96,7 @@ servicio_red_tipo:
     _method: POST
    
 servicio_nuevos_por_red:
-  pattern: /servicio_nuevos_red/{red}/{inicio}
+  pattern: /servicio_nuevos_red/{red}/{inicio}/{fini}
   defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider}
   
 servicio_nuevos_por_red_doce:
