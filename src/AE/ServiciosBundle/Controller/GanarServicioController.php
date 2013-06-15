@@ -622,15 +622,11 @@ class GanarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$redes));
     }
     
-    public function nuevos_red_lider_doceAction($red, $inicio, $doce)
+    public function nuevos_red_lider_doceAction($red, $inicio, $fin, $doce)
     {
                $sql = "select * from  get_ganador_lider_red_doce(:red,:ini,:fin,:doce)";
 
         $em = $this->getDoctrine()->getEntityManager();
-        $ini = new \DateTime();
-        $ini->setDate($inicio, '01', '01');
-        $fin = new \DateTime();
-        $fin->setDate($inicio,'12', '31');
         
         $redes = array();
        
@@ -638,7 +634,7 @@ class GanarServicioController extends Controller
             $em->beginTransaction();
             
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':red'=>$red,':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d'),':doce'=>$doce));
+            $smt->execute(array(':red'=>$red,':ini'=>$inicio,':fin'=>$fin,':doce'=>$doce));
  
             $redes = $smt->fetchAll();
             $em->commit();
@@ -860,10 +856,13 @@ class GanarServicioController extends Controller
     
     public function listaconvertidos_ganador_redAction($red, $inicio, $fin)
     {
-         $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();
+        
         $redes = array();
+
+        $em->beginTransaction();
+
         try {
-            $em->beginTransaction();
             
             $sql = "select *from get_nuevos_convertidos_ganador_red_tiempo(:red, :inicio,:fin)";
             $smt = $em->getConnection()->prepare($sql);
@@ -880,6 +879,33 @@ class GanarServicioController extends Controller
         
         return new JsonResponse(array('aaData'=>$redes));
     }
+
+     public function listaconvertidos_ganador_tiempoAction($inicio, $fin)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+
+        $em->beginTransaction();
+
+        try {
+            
+            $sql = "select *from get_nuevos_convertidos_ganador_tiempo(:inicio,:fin)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':inicio'=>$inicio,':fin'=>$fin));
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+        
+        return new JsonResponse(array('aaData'=>$redes));
+    }
+
 
  }
 

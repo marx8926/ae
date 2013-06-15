@@ -165,16 +165,6 @@
                         </label>
                       </div>
                   </div>
-                  
-                  
-               
-              <div class="control-group">
-                  <label class="control-label"></label>
-                  <div class="controls">
-                      <input class="btn btn-small btn-primary" type="submit" name="login" title="Guardar" value="Guardar" />
-                  </div>
-              </div>
-              
               
               <div id="usuariodiv">
                    <fieldset>
@@ -189,7 +179,7 @@
                 <div class="control-group">     
                     <label class="control-label" >Contraseña</label>      
                     <div class="controls">
-                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xlarge" value="clm">      
+                        <input type="password" id="inputPassword" name="inputPassword" placeholder="Contraseña" class="input-xlarge">      
                     </div>
                 </div>
           
@@ -197,6 +187,13 @@
             </fieldset>
               </div>     
           
+              <div class="control-group">
+                  <label class="control-label"></label>
+                  <div class="controls">
+                      <input class="btn btn-small btn-primary" type="submit" name="login" title="Guardar" value="Guardar" />
+                  </div>
+              </div>
+              
         </form>
                 
        </fieldset>
@@ -232,7 +229,8 @@
            // if(dato.ROLE_USER === true)
              //   $('#usuario').attr('checked',true);
             
-            if(dato.ROLE_LIDER === true)
+            if(dato.ROLE_LIDER === true || dato.ROLE_LIDERSIN === true || dato.ROLE_LIDER12 === true
+         || dato.ROLE_LIDER144 === true || dato.ROLE_LIDER1728 === true)
                 $('#celula').attr('checked', true); 
 
             if(dato.ROLE_LIDER_RED === true)
@@ -281,11 +279,18 @@
             if(dato!==false)
             {
                       $('#usuariodiv') .css({'display':'none'});                      
-                      $('#divusuario').css({'display':'none'});            
+                      $('#divusuario').css({'display':'none'});  
+                      
+                      
             }
             else {     
                 $('#usuariodiv') .css({'display':'block'});
                 $('#divusuario').css({'display':'none'});
+                $('#usuario').attr('checked', true); 
+            
+                $('#inputUsuario').attr('required',true);
+                $('#inputPassowrd').attr('required',true);
+
             }
 
         }
@@ -348,8 +353,7 @@
                if(data.responseCode===200 ){           
                       
                  alert('Registro Completado');
-                 var href="{{path('main')}}";
-                 //location.reload();
+                 location.reload();
                    
               //   $(location).attr('href',href); 
           

@@ -72,15 +72,15 @@
 						</a>
 					</li>
                                         
-                                        {% endif %}
-                                        
-                                        {% if ( (is_granted('ROLE_ADMIN') or is_granted('ROLE_GANAR')) or (is_granted('ROLE_PASTOR_ASOCIADO') or is_granted('ROLE_PASTOR_EJECUTIVO')) ) %}
-					
-                                        <li>
+                                         <li>
                                                 <a href="{{path('ganar_modificar_ganador')}}">
                                                     Modificar Ganador
                                                 </a>
                                         </li>
+                                        {% endif %}
+                                        
+					
+                                       
 					<li>
 						<a href="#" class='light toggle-collapsed'>
 							Informes
@@ -105,17 +105,23 @@
                                                             </a>
                                                         </li>
                                                         -->
+                                                        
+                                                        {% if (is_granted('ROLE_LIDER_RED') ) %}
+
                                                         <li>
                                                             <a href="{{path('ganar_informe_por_lider')}}" >
                                                              Informe por Lider de Red
                                                             </a>
                                                         </li>
+                                                        {% endif %}
+                                                        
+                                                        {% if (is_granted('ROLE_LIDER12'))%}
                                                         <li>
                                                             <a href="{{path('ganar_informe_por_lider12')}}">
                                                              Informe por Lider12
                                                             </a>
                                                         </li>
-                                                        
+                                                        {% endif %}
                                                          <li>
                                                             <a href="{{path('ganar_informe_por_lider144')}}">
                                                              Informe por Lider144
@@ -130,6 +136,8 @@
 						</ul>
 					</li>
 				
+                                        {% if ( (is_granted('ROLE_ADMIN') or is_granted('ROLE_GANAR')) or (is_granted('ROLE_PASTOR_ASOCIADO') or is_granted('ROLE_PASTOR_EJECUTIVO')) ) %}
+
                                           {% endif %}
 
                                         </ul>

@@ -50,6 +50,10 @@ servicio_nuevo_convertido_all_ganador_red_tiempo:
   pattern: /lista_convertidos_ganador_red/{red}/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos_ganador_red}
   
+servicio_nuevo_convertido_all_ganador_tiempo:
+  pattern: /lista_convertidos_ganador_tiempo/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos_ganador_tiempo}
+  
 servicio_persona_id:
   pattern: /persona/{id}
   defaults: {_controller: AEServiciosBundle:GanarServicio:persona}
@@ -100,7 +104,7 @@ servicio_nuevos_por_red:
   defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider}
   
 servicio_nuevos_por_red_doce:
-  pattern: /servicio_nuevos_red_doce/{red}/{inicio}/{doce}
+  pattern: /servicio_nuevos_red_doce/{red}/{inicio}/{fin}/{doce}
   defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider_doce}
   
 servicio_nuevos_por_red_ciento:

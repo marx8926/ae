@@ -7,55 +7,37 @@
         <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
 {% endblock %}                 
 
 {% block content %} 
 <div class="span9" >
 	<h1>Modificar ganador de convertidos</h1>
-	<div class="box">
-		<div class="box-head tabs">
-            <h3>Nuevos Convertidos</h3>	
-                </div>
-       
-
-        <div class="box-content box-nomargin">
-        	<form id='form' method='POST'>
-                
-                    <input id='content' type='hidden' name='content' >
-                    <input id='title' type='hidden' name='title' >
-                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
-                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
-            
-            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
-            		<thead id='lol'>
-                		<tr>
-		                    <th>ID</th>
-		                    <th>Nombres</th>
-		                    <th>Apellidos</th>
-		                    <th>Edad</th>
-		                    <th>Red</th>
-		                    <th>Conversión</th>
-                                    <th>ID G.</th>
-                                    <th>Ganado por</th>
-		                </tr>
-					</thead>
-					
-	
-    			</table>
-   			</form>
-    	</div>
-            
-	</div>
         
-    
-        <fieldset>
-            <legend>Ganador</legend>
+        
+      <fieldset>
+       <legend>Ganador</legend>
             
-            <form id="myForm" name="myForm" method="POST" action="{{path('ganar_modificar_ganador_up')}}">
+      <form id="myForm" name="myForm" method="POST" action="{{path('ganar_modificar_ganador_up')}}">
+                
+                <div class="control-group">
+            <label class="control-label" >Desde</label>
+            <div class="controls">
+                <input type="text" class="datepick rango" id="desde" name="desde" required>
+            </div>
+        </div>
+        
+        
+         <div class="control-group">
+            <label class="control-label" >Hasta</label>
+            <div class="controls">
+                <input type="text" class="datepick rango" id="hasta" name="hasta" required>
+            </div>
+        </div>
         <div class="control-group">
             <label class="control-label" >Red</label>
             <div class="controls">
-                <select id="red_lista" name="red_lista" >
+                <select id="red_lista" name="red_lista" class="rango">
                    
                 </select>
             </div>
@@ -98,6 +80,41 @@
         
         </fieldset>
         
+        
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Nuevos Convertidos</h3>	
+                </div>
+       
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                
+                    <input id='content' type='hidden' name='content' >
+                    <input id='title' type='hidden' name='title' >
+                    <input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+                    <input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+            
+            	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+            		<thead id='lol'>
+                		<tr>
+		                    <th>ID</th>
+		                    <th>Nombres</th>
+		                    <th>Apellidos</th>
+		                    <th>Edad</th>
+		                    <th>Red</th>
+		                    <th>Conversión</th>
+                                    <th>ID G.</th>
+                                    <th>Ganado por</th>
+		                </tr>
+					</thead>
+					
+	
+    			</table>
+   			</form>
+    	</div>
+            
+	</div>
     
 </div>    
                  
@@ -125,6 +142,9 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                        	<script src="{{asset('js/functiongen.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
+                        <script src="{{asset('js/tiempo.js')}}"></script>
+                	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+                      	<script src="{{asset('js/datatable_plugins.js')}}"></script>
 
 			
 			<script src="https://www.google.com/jsapi"></script>
@@ -172,7 +192,8 @@
                     
                     if(data.responseCode == 200)
                     {
-                            alert('Registro Completado');
+                          alert('Registro Completado');
+                          oTable.fnReloadAjax();                            
                     }
         }
         
@@ -181,11 +202,25 @@
             
             enviar('myForm', logg);
             
+           var rede = '{{red}}';
+           
+            FechaActualT('desde');
+            FechaActualT('hasta');
+                  
             {% if is_granted('ROLE_GANAR') %}
-                    initRed('{{path('servicio_red_sin')}}');
-                    
-            {% endif %}
-            
+                 initRed('{{path('servicio_red_sin')}}');
+                 
+            $("<option value='0'>Todos</option>").appendTo('#red_lista');
+                                     
+            {% else %}                      
+                      
+                      if(rede.length ===0)
+                      $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
+                      else $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+
+                      $("<option value='-1'>Sin  Celula </option>").appendTo('#celula_lista');
+
+            {% endif%}
         
              $('#select').css({'display':'none'});
 
@@ -228,16 +263,51 @@
                 
             });
          
-            /* Build the DataTable with third column using our custom sort functions */
+                
+              $(".rango").change(function(){
+                
+                var net = $('#red_lista option:selected').val();
+                var date1 =  $("#desde").val().split('/');
+                var date2 =  $("#hasta").val().split('/');
+                var desde = date1[2] + '-' + date1[1] + '-' + date1[0];
+                var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
+               
+                var url = "{{path('servicio_nuevo_convertido_all_ganador_red_tiempo',{'red':'net','inicio':'ini','fin':':fin'})}}";
+                url = url.replace('ini',desde);
+                url = url.replace(':fin',hasta);
+                url = url.replace('net',net);
+
+                if(net!='-1' && net!='0')
+                {
+                    get_tabla(url);
+                }
+                else if(net=='0')
+                    {
+                        var url1 = "{{path('servicio_nuevo_convertido_all_ganador_tiempo',{'inicio':'ini','fin':':fin'})}}";
+                        url1 = url1.replace('ini',desde);
+                        url1 = url1.replace(':fin',hasta);
+                        
+                        get_tabla(url1);
+                    }
+               
+
+            });            
+            
+	 });
+         
+         function get_tabla(url)
+         {
+             //'{{path('servicio_nuevo_convertido_all_ganador')}}',
+              /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_nuevo_convertido_all_ganador')}}',
+                "sAjaxSource": url, 
                 "aoColumns": [
                     { "mDataProp": "id" },
-                    { "mDataProp": "nombres" },
+                    { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
                     { "mDataProp": "red" },
@@ -262,11 +332,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-   
-          
-            
-	 });
-         
+         }
       
        </script>
 {%endblock %} 

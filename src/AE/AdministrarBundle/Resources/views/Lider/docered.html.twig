@@ -11,7 +11,7 @@
         
 {% block content %}
         <div class="span9" id="registro_form">
-        <h1>Registrar Doce</h1>
+        <h1>Registrar 12 de la Red</h1>
         <br>
         <fieldset>
           <div class="control-group">
@@ -27,11 +27,11 @@
         </fieldset>
         
       
-        <h1>Lista de los Líderes de Red</h1>
+        <h1>Lista de los nuevos líderes</h1>
         
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Líderes de Red</h3>							
+            <h3>Líderes</h3>							
         </div>
 
         <div class="box-content box-nomargin">
@@ -65,7 +65,7 @@
                 
        <form id="myForm" name="myForm" method="POST" action="{{path('administrar_lider12_up')}}" >
                 <input id="personaid" name="personaid" type="hidden" value="" >
-                <input type="submit" id="subir" name="subir" value="Asignar">
+                <input type="submit" id="subir" name="subir" value="Asignar"  class="btn btn-primary">
        </form>
 	</div>
 	
@@ -93,8 +93,8 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                        	<script src="{{asset('js/functiongen.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
+                      	<script src="{{asset('js/datatable_plugins.js')}}"></script>
 
-			
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script> <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->     
@@ -112,6 +112,9 @@
                     if(data.responseCode == 200)
                         {
                             alert('Registro Completado');
+                            
+                            oTable.fnReloadAjax();
+
                         }
                 }
     

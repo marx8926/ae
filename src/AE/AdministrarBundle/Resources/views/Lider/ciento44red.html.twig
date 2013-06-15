@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block titulo %}Registrar 12 de la Red - '{{red}}' {% endblock %}
+{% block titulo %}Registrar 144 de la Red - '{{red}}' {% endblock %}
         
         {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
@@ -11,7 +11,7 @@
         
 {% block content %}
         <div class="span9" id="registro_form">
-        <h1>Registrar Red</h1>
+        <h1>Registrar 144 de la Red </h1>
         <br>
         <fieldset>
             <div class="control-group">
@@ -35,7 +35,7 @@
         </fieldset>
         
       
-        <h1>Lista de los Líderes de Red</h1>
+        <h1>Lista de los Líderes </h1>
         
 	<div class="box">
 		<div class="box-head tabs">
@@ -103,6 +103,7 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                        	<script src="{{asset('js/functiongen.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
+                        <script src="{{asset('js/datatable_plugins.js')}}"></script>
 
 			
 			<script src="https://www.google.com/jsapi"></script>
@@ -122,6 +123,9 @@
                     if(data.responseCode == 200)
                     {
                             alert('Registro Completado');
+                            
+                            oTable.fnReloadAjax();
+
                     }
                 }
     

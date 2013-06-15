@@ -61,6 +61,10 @@ class LiderController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':idx'=>$id));
                 
+                $sql1 = "select insert_user_rol(:persona,:rol)";
+                $smt1 = $em->getConnection()->prepare($sql1);
+                $smt1->execute(array(':persona'=>$id,':rol'=>'ROLE_LIDER12'));
+                
                 $em->commit();
                 $em->clear();
                 $return=array("responseCode"=>200, "greeting"=>'ok' ); 
@@ -135,7 +139,11 @@ class LiderController extends Controller
                 $sql = "UPDATE lider SET  tipo=12, padre=:pad WHERE id=:idx";
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':idx'=>$id,':pad'=>$padre));
-                
+               
+                 $sql1 = "select insert_user_rol(:persona,:rol)";
+                $smt1 = $em->getConnection()->prepare($sql1);
+                $smt1->execute(array(':persona'=>$id,':rol'=>'ROLE_LIDER144'));
+               
                 $em->commit();
                 $em->clear();
                 $return=array("responseCode"=>200, "greeting"=>'ok' ); 
@@ -209,6 +217,10 @@ class LiderController extends Controller
                 $smt = $em->getConnection()->prepare($sql);
                 $smt->execute(array(':idx'=>$id,':pad'=>$padre));
                 
+                 $sql1 = "select insert_user_rol(:persona,:rol)";
+                $smt1 = $em->getConnection()->prepare($sql1);
+                $smt1->execute(array(':persona'=>$id,':rol'=>'ROLE_LIDER1728'));
+               
                 $em->commit();
                 $em->clear();
                 $return=array("responseCode"=>200, "greeting"=>'ok' ); 

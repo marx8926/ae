@@ -322,6 +322,9 @@ class PermisoController extends Controller
          $id = NULL;
          $usuario = NULL;
          
+         $i_user = NULL;
+         $i_pass = NULL;
+         
          $em = $this->getDoctrine()->getEntityManager();
          
          
@@ -385,6 +388,12 @@ class PermisoController extends Controller
            if(strpos($name,'docente')!==false)
                    $docente = $datos['docente'];
            
+           if(strpos($name,'inputUsuario')!==false)
+                   $i_user = $datos['inputUsuario'];
+           
+           if(strpos($name,'inputPassword')!==false)
+                   $i_pass = $datos['inputPassword'];
+           
            
            $em->beginTransaction();
            
@@ -425,6 +434,7 @@ class PermisoController extends Controller
                     
                     $pass = $datos['inputPassword'];
                     $usuario->setPassword($pass);
+                    $usuario->setNombre($i_user);
                     $usuario->addIdRol($rol);
                 } 
                 else
@@ -440,7 +450,7 @@ class PermisoController extends Controller
                  $como = $em->getRepository('AEDataBundle:Lider');
                  $result = $como->findOneBy(array('id'=>$persona->getId()));
                      
-                 $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDER')); 
+                 $rol = $con->findOneBy(array('nombre'=>'ROLE_LIDERSIN')); 
                      
                      if($result ==NULL)
                      {

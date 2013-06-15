@@ -46,6 +46,7 @@ class InformeController extends Controller
         
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
+            $lider = NULL;
             $em = $this->getDoctrine()->getEntityManager();
         
             if($ganador != NULL)
@@ -56,8 +57,11 @@ class InformeController extends Controller
                 $req = $smt->fetch();
                 if(count($req)>0)
                 $red = $req['red'];
+                
+                $lider = $ganador->getId();
             }
-            return $this->render('AEGanarBundle:Default:informeporlider12.html.twig', array('red'=>$red));
+            return $this->render('AEGanarBundle:Default:informeporlider12.html.twig', array('red'=>$red,
+                'lider'=>$lider));
         }
         
         public function InformeLider144Action()

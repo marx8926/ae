@@ -176,12 +176,28 @@
                $('#doce_lista').empty();
                $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
 
+               var leader = '{{lider}}';
+               var cadena = '';
                
                for(var i=0; i<data.length ; i++)   
                { 
                    
                 $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#doce_lista');
-               } 
+                
+                 if(leader==data[i].id)
+                 {
+                     cadena= data[i].nombre+' '+data[i].apellidos;
+                 }
+               }
+               
+               {% if (is_granted('ROLE_LIDER12'))%}
+                   
+                   $('#doce_lista').clear();
+                   
+                   $('<option value='+leader+'>'+cadena+'</option>').appendTo('#doce_lista');
+
+                   
+               {% endif %}
                
                $('#padre').val($("#doce_lista option:selected").val());
             }
@@ -199,6 +215,7 @@
             FechaActualT('hasta');
             
             var rede = '{{red}}' ;
+            
              
              $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
 
@@ -217,12 +234,17 @@
             $(".rango").change(function(){
                 
                 var net = $('#red_lista option:selected').val();
-                var year = $('#year_lista option:selected').val();
+                var date1 =  $("#desde").val().split('/');
+                var date2 =  $("#hasta").val().split('/');
+                var desde = date1[2] + '-' + date1[1] + '-' + date1[0];
+                var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
+                
                 var lider = $('#doce_lista option:selected').val();
                                 
-                var url = "{{path('servicio_nuevos_por_red_doce',{'red':'net','inicio':'ini','doce':'dozen'})}}";
+                var url = "{{path('servicio_nuevos_por_red_doce',{'red':'net','inicio':'ini','fin':':fin','doce':'dozen'})}}";
                 url = url.replace('net',net);
-                url = url.replace('ini',year);
+                url = url.replace('ini',desde);
+                url = url.replace(':fin',hasta);
                 
                 if(net!='-1' && lider!='-1')
                 {
@@ -245,6 +267,7 @@
                                 }
                         });
                     
+                    console.log(url);
                      get_tabla(url);
                 }
                 else $('#titulo_informe').text('Informe Ganar');

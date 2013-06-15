@@ -7,6 +7,7 @@
         <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
 {% endblock %}                 
 
 {% block content %} 
@@ -111,6 +112,8 @@
                         <script src="{{asset('js/ganar.js')}}"></script>
                         <script src="{{asset('js/tiempo.js')}}"></script>
                 	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+                        <script src="{{asset('js/datatable_plugins.js')}}"></script>
+
 		
 			
 			<script src="https://www.google.com/jsapi"></script>
@@ -141,6 +144,8 @@
                   
             {% if is_granted('ROLE_GANAR') %}
                  initRed('{{path('servicio_red_sin')}}');
+                 
+            $("<option value='0'>Todos</option>").appendTo('#red_lista');
                                      
             {% else %}                      
                       
@@ -227,7 +232,6 @@
                     var route = '{{path('ganar_eliminar_miembro',{'id': 'nom'})}}';
             
                     var rutas = route.replace('nom',val[0]);
-                    console.log(rutas);
                     
                      $.ajax(
                     {
@@ -239,9 +243,8 @@
                        //aporte de carlos para esto
                        if(data.responseCode==200 ){           
                       
-                        var anSelected = fnGetSelected( oTable );
-                        if(anSelected.length)
-                            oTable.fnDeleteRow( anSelected[0] );
+                        oTable.fnReloadAjax();
+
                     }
 
                     });
@@ -273,7 +276,7 @@
             //click handler para vista
             
             
-$(".rango").change(function(){
+              $(".rango").change(function(){
                 
                 var net = $('#red_lista option:selected').val();
                 var date1 =  $("#desde").val().split('/');
@@ -282,14 +285,24 @@ $(".rango").change(function(){
                 var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
                
                 var url = "{{path('servicio_nuevo_convertido_all_ganador_red_tiempo',{'red':'net','inicio':'ini','fin':':fin'})}}";
-                url = url.replace('net',net);
                 url = url.replace('ini',desde);
                 url = url.replace(':fin',hasta);
-                
-                if(net!='-1')
+                url = url.replace('net',net);
+
+                if(net!='-1' && net!='0')
                 {
-                     get_tabla(url);
+                    get_tabla(url);
                 }
+                else if(net=='0')
+                    {
+                        var url1 = "{{path('servicio_nuevo_convertido_all_ganador_tiempo',{'inicio':'ini','fin':':fin'})}}";
+                        url1 = url1.replace('ini',desde);
+                        url1 = url1.replace(':fin',hasta);
+                        
+                        get_tabla(url1);
+                    }
+               
+
             });            
             
 	 });
