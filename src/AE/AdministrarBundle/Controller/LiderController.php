@@ -65,6 +65,7 @@ class LiderController extends Controller
                 $smt1 = $em->getConnection()->prepare($sql1);
                 $smt1->execute(array(':persona'=>$id,':rol'=>'ROLE_LIDER12'));
                 
+               
                 $em->commit();
                 $em->clear();
                 $return=array("responseCode"=>200, "greeting"=>'ok' ); 

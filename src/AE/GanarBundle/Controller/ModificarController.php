@@ -500,6 +500,8 @@ class ModificarController extends Controller
     {
                $securityContext = $this->get('security.context');
         
+       if($securityContext->isGranted('ROLE_LIDER_RED'))
+       {
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
@@ -516,6 +518,8 @@ class ModificarController extends Controller
             }      
         
         return $this->render('AEGanarBundle:Default:ganador.html.twig', array('red'=>$red));
+       }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
 
     }
     
@@ -527,16 +531,7 @@ class ModificarController extends Controller
         $datos = array();
 
         parse_str($name,$datos);
-        
-       /* 
-        $return = array("responseCode"=>200, "greeting"=>$datos);
-
-       
-                     
-        $return=json_encode($return);//jscon encode the array
-        
-        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-    */
+     
         $red = NULL;
         $tipo = NULL;
         $lider = NULL;
@@ -583,7 +578,6 @@ class ModificarController extends Controller
         $return=json_encode($return);//jscon encode the array
         
         return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
-    
         
     }
 

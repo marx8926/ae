@@ -59,12 +59,13 @@
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
+                                      {% if (is_granted('ROLE_LIDERSIN')) %}
 					<li>
 						<a href="{{path('ganar_persona')}}">
 							Registrar
 						</a>
 					</li>
-                                        
+                                      {% endif %}  
                                         {% if ( is_granted('ROLE_LIDER_RED') )%}
                                         <li>
 						<a href="{{path('ganar_busqueda')}}">
@@ -110,7 +111,7 @@
 
                                                         <li>
                                                             <a href="{{path('ganar_informe_por_lider')}}" >
-                                                             Informe por Lider de Red
+                                                             Informe de 12 del Pastor@
                                                             </a>
                                                         </li>
                                                         {% endif %}
@@ -118,21 +119,25 @@
                                                         {% if (is_granted('ROLE_LIDER12'))%}
                                                         <li>
                                                             <a href="{{path('ganar_informe_por_lider12')}}">
-                                                             Informe por Lider12
+                                                             Informe de 144 del Pastor@
                                                             </a>
                                                         </li>
                                                         {% endif %}
+                                                        
+                                                        {% if(is_granted('ROLE_LIDER144')) %}
                                                          <li>
                                                             <a href="{{path('ganar_informe_por_lider144')}}">
-                                                             Informe por Lider144
+                                                             Informe de 1278 del Pastor@
                                                             </a>
                                                         </li>
-                                                        
+                                                        {% endif %}
+                                                        {% if(is_granted('ROLE_GANAR')) %}
                                                         <li>
                                                             <a href="{{path('ganar_informe_semanal_ganar')}}">
                                                              Informe Semanal Ganar
                                                             </a>
                                                         </li>
+                                                        {% endif %}
 						</ul>
 					</li>
 				

@@ -14,19 +14,20 @@ servicio_administrar_lista_redes_ubicacion:
   pattern: /lista_redes_ubicacion
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:lista_redes_ubicacion}
   
-servicio_administrar_doce_red:
-  pattern: /administrar_doce_red/{red}
-  defaults: {_controller: AEServiciosBundle:AdministrarServicio:administrar_doce_red}
-  requirements:
-    _method: POST
-    
+
 servicio_administrar_ciento_red:
-  pattern: /administrar_ciento_red/{red}/{lider}
-  defaults: {_controller: AEServiciosBundle:AdministrarServicio:administrar_ciento_red}
+  pattern: /ciento_red/{red}/{lider}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:ciento_red}
   requirements:
    _method: POST
    
    
+servicio_administrar_doce_red:
+  pattern: /servicio_doce_red/{red}
+  defaults: {_controller: AEServiciosBundle:AdministrarServicio:doce_red}
+  requirements:
+    _method: POST
+  
 servicio_lista_pastores_ejecutivos:
   pattern: /lista_pastores_ejecutivos
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:pastores_ejecutivos}

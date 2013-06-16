@@ -124,15 +124,15 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        
    public function lista_redes_ubicacionAction()
    {
-       $this->getDoctrine()->getEntityManager()->beginTransaction();
        
        $est = array();
        
        $em = $this->getDoctrine()->getEntityManager();
        
+       $em->beginTransaction();
+
        try
        {
-           $em->beginTransaction();
           
            $sql = "select * from lista_red_ubicacion";
            $smt = $em->getConnection()->prepare($sql);
@@ -153,38 +153,28 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        return new JsonResponse(array("aaData"=>$est));
    }
 
-   public function administrar_doce_redAction($red)
+   public function doce_redAction($red)
    {
-       $this->getDoctrine()->getEntityManager()->beginTransaction();
-       
-       $est = array();
-       
+       $est= array();
        $em = $this->getDoctrine()->getEntityManager();
-       $em->beginTransaction();
        
-       try
-       {
+       $em->beginTransaction();
+       try {
            $sql = "select * from info_doce_red(:red)";
            $smt = $em->getConnection()->prepare($sql);
            $smt->execute(array(':red'=>$red));
-           
            $est = $smt->fetchAll();
-                      
            $em->commit();
            $em->clear();
+       } catch (Exception $exc) {
+           throw $exc;
        }
-       catch (Exception $e)
-       {
-           $em->rollback();
-           $em->close();
-       }
-       
+
        return new JsonResponse($est);
    }
    
-   public function administrar_ciento_redAction($red, $lider)
+   public function ciento_redAction($red, $lider)
    {
-       $this->getDoctrine()->getEntityManager()->beginTransaction();
        
        $est = array();
        
@@ -206,11 +196,11 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        {
            $em->rollback();
            $em->close();
+           throw $e;
        }
        
        return new JsonResponse($est);
    }
-    
    public function pastores_ejecutivosAction()
    {
        

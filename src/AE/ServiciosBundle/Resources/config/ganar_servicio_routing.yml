@@ -108,7 +108,7 @@ servicio_nuevos_por_red_doce:
   defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider_doce}
   
 servicio_nuevos_por_red_ciento:
-  pattern: /servicio_nuevos_red_ciento/{red}/{inicio}/{doce}/{padre}
+  pattern: /servicio_nuevos_red_ciento/{red}/{inicio}/{fin}/{doce}/{padre}
   defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider_ciento}
   
 servicio_nuevos_por_red_mil:

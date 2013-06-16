@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block titulo %} Informe Ganar 12 de Red {% endblock %}
+{% block titulo %} Informe Ganar 144 de Red {% endblock %}
 
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
@@ -13,7 +13,7 @@
 {% block content %} 
         <div class="row-fluid">
 <div class="span12" >
-	<h1>Informe de Nuevos Convertidos de los 12</h1>
+	<h1>Informe de Nuevos Convertidos de los 144</h1>
         
         
         <div class="control-group">
@@ -159,7 +159,7 @@
                if(nombre!= '-1')
                {
                  var rutas = route.replace('name',nombre);
-               
+                                
                  $.ajax(
                         {url : rutas,
                          dataType:"json",
@@ -192,11 +192,12 @@
                
                {% if (is_granted('ROLE_LIDER12'))%}
                    
-                   $('#doce_lista').clear();
-                   
-                   $('<option value='+leader+'>'+cadena+'</option>').appendTo('#doce_lista');
+                   if(leader.length>0)
+                   {
+                       $('#doce_lista').empty();
+                       $('<option value='+leader+'>'+cadena+'</option>').appendTo('#doce_lista');
 
-                   
+                   }
                {% endif %}
                
                $('#padre').val($("#doce_lista option:selected").val());
@@ -227,7 +228,8 @@
              else
              initRed('{{path('servicio_red_sin')}}');
             
-        
+                         cambiar_red();
+
              $('#select').css({'display':'none'});
              
              
@@ -267,7 +269,6 @@
                                 }
                         });
                     
-                    console.log(url);
                      get_tabla(url);
                 }
                 else $('#titulo_informe').text('Informe Ganar');

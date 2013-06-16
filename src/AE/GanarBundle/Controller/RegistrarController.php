@@ -18,8 +18,12 @@ class RegistrarController extends Controller
     public function personaAction()
     {
         
+        
+
         $securityContext = $this->get('security.context');
         
+        if($securityContext->isGranted('ROLE_LIDERSIN'))
+        {
         $ganador = $securityContext->getToken()->getUser()->getIdPersona();
         $red = NULL;
         $em = $this->getDoctrine()->getEntityManager();
@@ -36,6 +40,9 @@ class RegistrarController extends Controller
 
 
         return $this->render('AEGanarBundle:Default:registrar.html.twig', array('red'=>$red));
+        }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
     public function addpersonaAction()
     {
@@ -182,21 +189,6 @@ class RegistrarController extends Controller
                 if(strlen($email)>0)
                 {    $persona->setEmail($email);
                 
-                
-                 
-                //    $request = $this->getRequest();
-               //    $message = \Swift_Message::newInstance()
-                 //           ->setSubject('Gracias por registrarse')
-                   //             ->setFrom('cmclmtrujillo@gmail.com')
-                     //       ->setTo($email)
-                       //     ->setBody($this->renderView('AEloginBundle:Default:holamundo.txt.twig',
-                       //             array('nombres' => $nombres,
-                //'apellidos'=>$apellidos,
-                //'subject'=>'Registro en AC')));
-                //$this->get('mailer')->send($message);
-
-                //$this->get('session')->setFlash('notice', 'Tu contacto fue enviado exitosamente. Dios te bendiga!');
-  
                 }
                 $em->persist($persona);
                 $em->flush();
@@ -263,7 +255,7 @@ class RegistrarController extends Controller
                 $nuev_con->setHora(new \DateTime($hora));
                 
 
-                if($securityContext->isGranted('ROLE_PROFESOR') || $securityContext->isGranted('ROLE_LIDER') ||
+                if($securityContext->isGranted('ROLE_PROFESOR') || $securityContext->isGranted('ROLE_LIDERSIN') ||
                         $securityContext->isGranted('ROLE_CONSOLIDADOR'))
                 {
                     $ganador = $securityContext->getToken()->getUser()->getIdPersona();

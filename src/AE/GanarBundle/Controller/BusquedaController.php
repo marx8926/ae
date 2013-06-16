@@ -11,6 +11,9 @@ class BusquedaController extends Controller
     {
         $securityContext = $this->get('security.context');
         
+        
+        if($securityContext->isGranted('ROLE_LIDER_RED'))
+        {
         $ganador = $securityContext->getToken()->getUser()->getIdPersona();
         $red = NULL;
         $em = $this->getDoctrine()->getEntityManager();
@@ -27,6 +30,8 @@ class BusquedaController extends Controller
         
         return $this->render('AEGanarBundle:Default:busqueda.html.twig',
                 array('red'=>$red));
+        }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
         
     }
  
