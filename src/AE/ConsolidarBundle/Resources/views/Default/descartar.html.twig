@@ -6,7 +6,6 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-
         <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">               
 {% endblock %}                 
 
@@ -155,6 +154,8 @@
              }
              else
              initRed('{{path('servicio_red_sin')}}');
+         
+             
             $('#ocultar').css({'display':'none'});
             
             $('#persona tbody').click(function(event){
@@ -189,41 +190,36 @@
                     var tds = $(anSelected).find('td');
                     var val = [];
                     $.each(tds, function(index, item) {
-                    val.push(item.innerHTML); 
-  
+                    val.push(item.innerHTML);   
                       }); 
                       
-                    var id = $('#nomb').val();
-                 
-                    var url=$("#myForm").attr("action");                    
-                     
+                    var id = $('#nomb').val();                 
+                    var url=$("#myForm").attr("action");                                         
                     //start send the post request
                     $.post(url,{
                         formName:$("#myForm").serialize(),
                         other:"attributes"
                     },function(data){
                     //the response is in the data variable
-                    if(data.responseCode===200 ){           
+                    if(data.responseCode==200 ){           
                       
                        alert('Registro Completado');
-                       var anSelected = fnGetSelected( oTable );
-                       oTable.fnDeleteRow( anSelected[0] );
-                       
-                       location.reload();
+                       //var anSelected = fnGetSelected( oTable );
+                       //oTable.fnDeleteRow( anSelected[0] );
+                       oTable.fnReloadAjax();                    
                     }
-                    else if(data.responseCode===400){//bad request
+                    else if(data.responseCode==400){//bad request
                        alert('Error bad request');
                         }
                     else{                        
-                        if(data.responseCode===500)
+                        if(data.responseCode==500)
                         {
                             alert('Error bad request');
                         }
                         else alert("An unexpeded error occured.");
                         }
                     }
-                    );
-                    
+                    );                    
                 }
                 return false;
             });

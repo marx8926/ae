@@ -6,10 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
 
@@ -21,8 +17,12 @@ class ContactoController extends Controller
         
         $securityContext = $this->get('security.context');
         
+        if($securityContext->isGranted('ROLE_CONSOLIDADOR'))
+        {
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
+            $consolidador = NULL;
+            
             $em = $this->getDoctrine()->getEntityManager();
         
             if($ganador != NULL)
@@ -32,9 +32,25 @@ class ContactoController extends Controller
                 $smt->execute(array(':id'=>$ganador->getId()));
                 $req = $smt->fetch();
                 if(count($req)>0)
-                $red = $req['red'];
+                {
+                    $red = $req['red'];
+                    $consolidador=$ganador->getId();
+                }
             }
-        return $this->render('AEConsolidarBundle:Default:contacto.html.twig',array('red'=>$red));
+            
+            if($securityContext->isGranted('ROLE_LIDER_RED'))
+              $consolidador=NULL;
+            
+            if($securityContext->isGranted('ROLE_CONSOLIDAR'))
+            {  
+                $consolidador=NULL;
+                $red = NULL;
+            }
+        return $this->render('AEConsolidarBundle:Default:contacto.html.twig',array('red'=>$red,'consolidador'=>$consolidador));
+        
+        }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
 
     public function contactoherramientaAction()

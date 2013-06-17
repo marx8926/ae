@@ -167,7 +167,7 @@
                                         </li>
                                     {% endif %}
    
-                                    {% if is_granted('ROLE_CONSOLIDADOR') or is_granted('ROLE_LIDER_RED') %}   
+                                    {% if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') %}   
                                         <li>
                                             <a href="{{path('consolidar_busqueda')}}">
                                                 Búsqueda de Consolidadores
@@ -206,7 +206,7 @@
 					</li>
                                     {% endif %}    
                                      
-                                    {% if is_granted('ROLE_CONSOLIDAR')%}
+                                    {% if is_granted('ROLE_LIDER_RED')%}
 					<li>
 						<a href="{{path('consolidar_descartar')}}">
 							Descartar
@@ -229,7 +229,7 @@
                                             </a>
                                         </li>
                                      {% endif %}
-                                     {%if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') %}
+                                     {%if is_granted('ROLE_CONSOLIDADOR') or is_granted('ROLE_LIDER_RED') %}
                                         <li>
                                             <a href="{{path('consolidar_contacto')}}">
                                              Herramientas de Consolidación
@@ -237,14 +237,16 @@
                                         </li>
                                      {% endif %}
                                         
-                                     {% if is_granted('ROLE_CONSOLIDAR')%}
+                                     {% if is_granted('ROLE_CONSOLIDADOR')%}
                                         <li>
                                             <a href="#" class='light toggle-collapsed'>
 							Informes
 							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 						</a>
 						<ul class='collapsed-nav closed dentro'>
-							<li>
+							
+                                                        <!--
+                                                        <li>
 								     
                                                             <a href="{{path('consolidar_informe_no_consolidado')}}">
                                                                 Informe No Consolidados
@@ -255,28 +257,31 @@
                                                                 Informe Herramientas
                                                             </a>
 							</li>
+                                                        
                                                         <li>
                                                              <a href="{{path('consolidar_informe_leche_espiritual')}}">
                                                                 Informe Leche Espiritual
                                                             </a>
                                                         </li>
+                                                        
                                                         <li>
                                                             <a href="{{path('consolidar_informe_descartados')}}">
                                                                 Informe Descartados
                                                                 </a>
                                                         </li>
-                                                        
+                                                        -->
                                                         <li>
                                                             <a href="{{path('consolidado_informe_detallado')}}">
                                                             Informe Detallado
                                                             </a>
                                                         </li>
-                                                        
+                                                        {% if is_granted('ROLE_CONSOLIDAR')%}
                                                         <li>
                                                             <a href="{{path('consolidado_informe_resumido')}}">
                                                             Informe Resumido
                                                             </a>
                                                         </li>
+                                                        {% endif %}
 						</ul>
                                             
                                        

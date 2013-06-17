@@ -6,7 +6,7 @@
         <link href="{{asset('css/bootstrap.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/style.css')}}" media="screen" rel="stylesheet" type="text/css">
         <link href="{{asset('css/bootstrap-responsive.css')}}" media="screen" rel="stylesheet" type="text/css">
-        
+        <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
         <link rel="stylesheet" href="{{asset('css/DT_bootstrap.css')}}">  
                  
 {% endblock %}                 
@@ -23,18 +23,21 @@
                 </select>
             </div>
         </div>
-
+ 
          <div class="control-group">
-            <label class="control-label" >Año</label>
+            <label class="control-label" >Desde</label>
             <div class="controls">
-                <select id="year_lista" name="year_lista" class="rango" >
-                    <option value="2013">2013</option>
-                    <option value="2012">2012</option>
-                    <option value="2011">2011</option>
-                </select>
+                <input type="text" class="datepick rango" id="desde" name="desde" required>
             </div>
         </div>
-
+        
+         <div class="control-group">
+            <label class="control-label" >Hasta</label>
+            <div class="controls">
+                <input type="text" class="datepick rango" id="hasta" name="hasta" required>
+            </div>
+        </div>
+   
 	<div class="box">
 		<div class="box-head tabs">
             <h3 id="titulo_informe" name="titulo_informe">Descartados</h3>							
@@ -103,6 +106,8 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
 			<script src="https://www.google.com/jsapi"></script>
+                        <script src="{{asset('js/tiempo.js')}}"></script>
+                	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
        
@@ -120,6 +125,9 @@
         }
 	$(document).ready(function() {
             
+             FechaActualT('desde');
+             FechaActualT('hasta');
+            
              var rede = '{{red}}' ;
                                       
              if(rede.length > 0)
@@ -129,18 +137,22 @@
              else
              initRed('{{path('servicio_red_sin')}}');
          
-         ///'{{path('servicio_lista_descartados')}}'
              $('.rango').change(function(){
                  var net = $('#red_lista option:selected').val();
-                var year = $('#year_lista option:selected').val();
+
+                var date1 =  $("#desde").val().split('/');
+                var date2 =  $("#hasta").val().split('/');
+                var desde = date1[2] + '-' + date1[1] + '-' + date1[0];
+                var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
                 
-                var url = "{{path('servicio_lista_descartados_red',{'red':'net','inicio':'ini'})}}";
+                var url = "{{path('servicio_lista_descartados_red',{'red':'net','inicio':'ini','fin':':fin'})}}";
                 url = url.replace('net',net);
-                url = url.replace('ini',year);
+                url = url.replace('ini',desde);
+                url = url.replace(':fin',hasta);
                 
                 if(net!='-1')
                 {
-                    $("#titulo_informe").text('Descartados de '+net+' - '+year);
+                    $("#titulo_informe").text('Descartados de '+net+' - '+desde +' hasta ' + hasta);
                     get_tabla(url);
                 }
              });
@@ -255,7 +267,11 @@
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
+		],
+                 "sScrollY": "200px"
+,                "bPaginate": false,
+                "bScrollCollapse": true,
+                "sDom": 'T<"clear">lfrtip',
                 "oTableTools": {
 			"sRowSelect": "single",
                         "fnRowSelected": function ( node ) {

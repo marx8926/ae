@@ -215,8 +215,7 @@
                     window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
                
                 }
-            });
-            
+            });            
            
            $('#eliminar').click(function(){
             var anSelected = fnGetSelected(oTable);
@@ -241,11 +240,8 @@
                     }).done(function(data){
                        // oTable.fnReloadAjax();
                        //aporte de carlos para esto
-                       if(data.responseCode==200 ){           
-                      
-                        oTable.fnReloadAjax();
-
-                        }
+                       if(data.responseCode==200 )
+                        oTable.fnReloadAjax();                    
                     });
                                    
                 }
@@ -296,12 +292,9 @@
                     {
                         var url1 = "{{path('servicio_nuevo_convertido_all_ganador_tiempo',{'inicio':'ini','fin':':fin'})}}";
                         url1 = url1.replace('ini',desde);
-                        url1 = url1.replace(':fin',hasta);
-                        
+                        url1 = url1.replace(':fin',hasta);                        
                         get_tabla(url1);
-                    }
-               
-
+                    }              
             });            
             
 	 });

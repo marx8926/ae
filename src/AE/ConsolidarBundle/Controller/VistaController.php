@@ -15,7 +15,9 @@ class VistaController extends Controller
    public function lista_consolidarAction()
    {
         $securityContext = $this->get('security.context');
-        
+       
+        if($securityContext->isGranted('ROLE_LIDER_RED'))
+        {
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
@@ -27,9 +29,15 @@ class VistaController extends Controller
                 $smt->execute(array(':id'=>$ganador->getId()));
                 $req = $smt->fetch();
                 if(count($req)>0)
-                $red = $req['red'];
+                    $red = $req['red'];
+                
+                if($securityContext->isGranted('ROLE_CONSOLIDAR'))
+                    $red =NULL;
             }
         return $this->render('AEConsolidarBundle:Default:lista_consolidador.html.twig', array('red'=>$red));
+        }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
    }
    
     public function lista_consolidadosAction()

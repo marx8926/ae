@@ -16,10 +16,15 @@ class SeguirController extends Controller
 {
      public function lista_seguirAction()
      {
-           $securityContext = $this->get('security.context');
-        
+         
+         $securityContext = $this->get('security.context');
+         
+         if($securityContext->isGranted('ROLE_CONSOLIDADOR'))
+         {     
+            $securityContext = $this->get('security.context');
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
+            $consolidador =NULL;
             $em = $this->getDoctrine()->getEntityManager();
         
             if($ganador != NULL)
@@ -29,9 +34,28 @@ class SeguirController extends Controller
                 $smt->execute(array(':id'=>$ganador->getId()));
                 $req = $smt->fetch();
                 if(count($req)>0)
-                $red = $req['red'];
+                {
+                    $red = $req['red'];
+                    $consolidador= $ganador->getId();
+                }
+                if($securityContext->isGranted('ROLE_LIDER_RED'))
+                {
+                    $consolidador = NULL;
+                }
+                
+                if($securityContext->isGranted('ROLE_CONSOLIDAR'))
+                {
+                    $red =NULL;
+                    $consolidador=NULL;
+                }
+                
             }
-         return $this->render('AEConsolidarBundle:Default:lista_seguir.html.twig', array('red'=>$red));
+            
+            return $this->render('AEConsolidarBundle:Default:lista_seguir.html.twig',array('red'=>$red
+                    ,'consolidador'=>$consolidador));
+         }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+                  
      }
      
      public function seguirAction($id)

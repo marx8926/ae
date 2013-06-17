@@ -130,23 +130,37 @@
                 
                  var rutas = route.replace('name',nombre);
                  if(nombre!='-1') 
-                 init_consolidadores(rutas);        
+                    init_consolidadores(rutas);   
+             
+                  var cons = '{{consolidador}}';
+              
+              {% if (is_granted('ROLE_CONSOLIDADOR')) %}
+                  if(cons.length >0)
+                  {
+                      $("#select_consolidador").val(cons);
+                      var texto = $('#select_consolidador option:selected').text();
+              
+                       //clear the data
+              
+                      $('#select_consolidador').empty();              
+                      $("<option value='"+cons+"'>"+texto+"</option>").appendTo('#select_consolidador');
+                  }
+              {% endif %}
         }
 	$(document).ready(function() {
-            
-            
-            
-        var rede = '{{red}}' ;
+           
+             var rede = '{{red}}' ;
                                       
              if(rede.length > 0)
              {
                  $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                 
+                 recargar_consolidadores();
              }
              else
              initRed('{{path('servicio_red_sin')}}');
-         
 
-                $('#red_lista').change(recargar_consolidadores);
+               $('#red_lista').change(recargar_consolidadores);
 
                $(".rango").change(function(){
                 
@@ -213,24 +227,18 @@
                     var tds = $(anSelected).find('td');
                     var val = [];
                     $.each(tds, function(index, item) {
-                    val.push(item.innerHTML); 
-  
+                        val.push(item.innerHTML);   
                       }); 
                                          
                    var route = '{{path('consolidar_seguir',{'id': 'nom'})}}';
             
                     var rutas = route.replace('nom',val[5]);
-     
-                    //$('#otro').attr("href",rutas);
-                    
+                         
                     $(this).target = "_blank";
                     window.open(rutas);
                     return false;
-                    //window.open(rutas, '_blank', 'toolbar=0,location=0,menubar=0');
                 }
             });
-            //click handler para vista
-
             
 	 });
       
@@ -258,7 +266,11 @@
 		"aaSorting": [ [0,'asc'], [1,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
+		],
+                "sScrollY": "200px",
+                "bPaginate": false,
+                "bScrollCollapse": true,
+                "sDom": 'T<"clear">lfrtip',
                 "oTableTools": {
 			"sRowSelect": "single",
                         "fnRowSelected": function ( node ) {

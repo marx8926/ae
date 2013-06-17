@@ -62,7 +62,10 @@
         	<div class="box-content box-nomargin"> 
         		<div  id="primer" name="primer">
                 </div>
-			</div>
+		
+                 <p class="dataTables_info"><strong></strong> Co=contacto, Vi=visita, Cé=célula, Ig=Iglesia</p>
+   			    
+                </div>
 		</div>
 	      
 </div>    
@@ -116,9 +119,25 @@
            
             
            if(red!='-1'){
-           var rutas = route.replace('name',red);
+            var rutas = route.replace('name',red);
                  
-           init_consolidadores(rutas); 
+            init_consolidadores(rutas); 
+            
+            
+             var cons = '{{consolidador}}';
+              
+             {% if (is_granted('ROLE_CONSOLIDADOR')) %}
+                  if(cons.length >0)
+                  {
+                      $("#select_consolidador").val(cons);
+                      var texto = $('#select_consolidador option:selected').text();
+              
+                       //clear the data
+              
+                      $('#select_consolidador').empty();              
+                      $("<option value='"+cons+"'>"+texto+"</option>").appendTo('#select_consolidador');
+                  }
+              {% endif %}
            }
         }
          
@@ -138,23 +157,23 @@
                       
                       if(rede.length ===0)
                       $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
-                      else $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                      else {
+                          $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                          recargar_celula();
+                      }
 
                   {% endif%}
 
              FechaActualT('inicio');
               FechaActualT('fin');
 
-              var date1 =  $("#inicio").val().split('/');
-              var date2 =  $("#fin").val().split('/');
-              inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
-              fin = date2[2] + '-' + date2[1] + '-' + date2[0];
+              
         
             $('#rang').click(function(event){
             	var date1 =  $("#inicio").val().split('/');
                 var date2 =  $("#fin").val().split('/');
-                inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
-                fin = date2[2] + '-' + date2[1] + '-' + date2[0];
+                var inicio = date1[2] + '-' + date1[1] + '-' + date1[0];
+                var fin = date2[2] + '-' + date2[1] + '-' + date2[0];
                 
                 event.preventDefault();
                 
@@ -169,8 +188,6 @@
                     
                     $('#titulo_informe').text('Informe de '+
                             $('#select_consolidador option:selected').text()+' Semana '+ $('#inicio').val());
-
-                    console.log(ruta);
                     
                     ajaxResposeDataPost("primer",ruta);
                 }

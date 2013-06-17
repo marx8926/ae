@@ -6,10 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
 
@@ -656,17 +652,12 @@ class ConsolidarServicioController extends Controller
    }
    
    
-    public function lista_descartados_redAction($red, $inicio)
+    public function lista_descartados_redAction($red, $inicio,$fin)
    {
         $em = $this->getDoctrine()->getEntityManager();
 
         $todo = array();
-        $ini = new \DateTime();
-        $ini->setDate($inicio, '01','01');
-        
-        $fin = new \DateTime();
-        $fin->setDate($inicio, '12', '31');
-        
+       
         $em->beginTransaction();
         try
         {
@@ -674,7 +665,7 @@ class ConsolidarServicioController extends Controller
             $sql = "select * from get_lista_descartados_red(:net,:ini,:fin)";
           
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':net'=>$red, ':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d')));
+            $smt->execute(array(':net'=>$red, ':ini'=>$inicio,':fin'=>$fin));
         
             $todo = $smt->fetchAll();
            
@@ -717,6 +708,32 @@ class ConsolidarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$todo));
    }
 
+   
+      public function consolidador_consolidado_redAction($red)
+   {
+       $this->getDoctrine()->getEntityManager()->beginTransaction();
+       $todo = array();
+       try
+       {
+           $em = $this->getDoctrine()->getEntityManager();
+           $sql = "select *from get_consolidador_consolidado_red(:red)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red));
+           $todo = $smt->fetchAll();
+           $em->clear();
+           
+           $this->getDoctrine()->getEntityManager()->commit();
+       }
+       catch (Exception $e)
+       {
+           $this->getDoctrine()->getEntityManager()->rollback();
+           $this->getDoctrine()->getEntityManager()->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+
+ 
    public function getToolsAction()
    {
        $em = $this->getDoctrine()->getEntityManager();

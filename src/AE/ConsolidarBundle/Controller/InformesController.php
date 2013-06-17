@@ -6,10 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
 
@@ -101,41 +97,69 @@ class InformesController extends Controller
     {
          $securityContext = $this->get('security.context');
         
-        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
-        $red = NULL;
-        $em = $this->getDoctrine()->getEntityManager();
-        
-        if($ganador != NULL)
+        if($securityContext->isGranted('ROLE_CONSOLIDADOR'))
         {
-            $sql = "select * from get_red_persona(:id)";
-            $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':id'=>$ganador->getId()));
-            $req = $smt->fetch();
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $consolidador=NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+               if(count($req)>0)
+                $red = $req['red'];
             
-            $red = $req['red'];
+            
+            
+            if($securityContext->isGranted('ROLE_CONSOLIDADOR'))
+                $consolidador = $ganador->getId();
+            
+            if($securityContext->isGranted('ROLE_LIDER_RED'))
+                $consolidador = NULL;
+            
+            if($securityContext->isGranted('ROLE_CONSOLIDAR'))
+            {
+                $red = NULL;
+                $consolidador = NULL;
+            }
+            }
+        return $this->render('AEConsolidarBundle:Default:informedetallado.html.twig',array('red'=>$red,
+            'consolidador'=>$consolidador));
         }
-        return $this->render('AEConsolidarBundle:Default:informedetallado.html.twig',array('red'=>$red));
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
     }
     
     public function informeResumidoAction()
     {
          $securityContext = $this->get('security.context');
         
-        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
-        $red = NULL;
-        $em = $this->getDoctrine()->getEntityManager();
-        
-        if($ganador != NULL)
+        if($securityContext->isGranted('ROLE_LIDER_RED'))
         {
-            $sql = "select * from get_red_persona(:id)";
-            $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':id'=>$ganador->getId()));
-            $req = $smt->fetch();
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
             
-            $red = $req['red'];
-        }
+                if(count($req)>0)
+                $red = $req['red'];
+                
+                if($securityContext->isGranted('ROLE_CONSOLIDAR'))
+                    $red = NULL;
+            }
         return $this->render('AEConsolidarBundle:Default:informegeneral.html.twig',array('red'=>$red));
-   
+        }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
 }
 

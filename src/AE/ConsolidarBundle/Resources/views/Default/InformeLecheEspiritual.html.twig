@@ -118,7 +118,6 @@
            if(red!='-1'){
            var rutas = route.replace('name',red);
                  
-                 console.log(rutas);
            init_consolidadores(rutas); 
            }
         }
@@ -139,7 +138,9 @@
                       
                       if(rede.length ===0)
                       $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
-                      else $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                      else {$("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                          recargar_celula();
+                      }
 
                       $("<option value='-1'>Sin  Celula </option>").appendTo('#celula_lista');
 
