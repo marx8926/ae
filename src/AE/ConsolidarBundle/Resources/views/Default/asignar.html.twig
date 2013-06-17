@@ -35,6 +35,7 @@
 		<th>Red</th>
                 <th>Célula</th>
                 <th>Conversión</th>
+                <th>Ganado por</th>
             </tr>
 	</thead>
 	<tbody id="tablas1" name="tablas1" >
@@ -53,13 +54,15 @@
                         <label class="control-label" id="code" name="code" ></label>
                         
                         <label class="control-label" id="nuevo" name="nuevo"  ></label>
+                        
+                        <input type="hidden" class="datepick" id="hasta" name="hasta">
                     </div>
             </div>
             
             <div class="control-group">
             <label class="control-label" >Red</label>
             <div class="controls">
-                <select id="red_lista" name="red_lista" >
+                <select id="red_lista" name="red_lista" class='rango' >
                    
                 </select>
             </div>
@@ -68,7 +71,7 @@
             <div class="control-group ">
                 <label class="control-label" for="consolidador"> Consolidadores</label>
                     <div class="controls">
-                        <select id="select_consolidador" name="select_consolidador">
+                        <select id="select_consolidador" name="select_consolidador" class='rango'>
                                              
                         </select>
                     </div>
@@ -77,7 +80,7 @@
             <div class="control-group ">
                 <label class="control-label" for="consolidador"> Leche Espiritual</label>
                     <div class="controls">
-                        <select id="select_leche" name="select_leche" >
+                        <select id="select_leche" name="select_leche" class='rango' >
                                              
                         </select>
                     </div>
@@ -116,8 +119,10 @@
 	<script src="{{asset('js/ui.spinner.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>			
 	<script src="{{asset('js/functiongen.js')}}"></script>
-    <script src="{{asset('js/tiempo.js')}}"></script>
-    <script src="{{asset('js/tablasfeatures.js')}}"></script>
+        <script src="{{asset('js/tiempo.js')}}"></script>
+        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+        <script src="{{asset('js/ganar.js')}}"></script>
+        <script src="{{asset('js/datatable_plugins.js')}}"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -140,19 +145,57 @@
                  var rutas = route.replace('name',nombre);
                  
                  init_consolidadores(rutas);        
+                 
+                 // tablas
+                 
+                 var url = '{{path('servicio_nuevo_convertido_all_ganador_red_tiempo_sin',{'red':':net','inicio':':ini','fin':':fin'})}}';
+                 
+                 var date2 =  $("#hasta").val().split('/');
+                 var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
+                 var desde = '1970-01-01';
+                 if(nombre!='-1')
+                 {
+                         url = url.replace(':net',nombre);
+                         url = url.replace(':ini',desde);
+                         url = url.replace(':fin',hasta);
+                 }
+                 else
+                 {
+                     url = '{{path('servicio_nuevo_convertido_all_ganador_tiempo_sin',{'inicio':':ini','fin':':fin'})}}';
+ 
+                     url = url.replace(':ini',desde);
+                     url = url.replace(':fin',hasta);
+                
+                 }
+                                  
+                 get_tabla(url);
+
         }
         
         function miembro(dato)
         {
+            var leche = $("#select_leche option:selected").val(); 
+            var red = $("#red_lista option:selected").val();  
+            var consolidador = $('#select_consolidador option:selected').val();
+
+
+            if(leche!='-1'&& red!='-1' && consolidador!='-1')
+            {
             $('#code').text(dato[0]); $('#code').val(dato[0]);
             $('#nuevo').text(dato[1]+' '+dato[2]);
+            
+              cargar_data();
+            }
         }
        
         function cambio_leche()
         {
             var nombre = $("#select_leche option:selected").val();  
+            var leche = $("#select_leche option:selected").val(); 
+            var red = $("#red_lista option:selected").val(); 
             
-            if(nombre !== '-1')
+            
+            if(nombre != '-1' && leche!='-1' && red!='-1')
             {
                 var route = '{{path('servicio_leche_esp_temas',{'id': 'name'})}}';
             
@@ -170,26 +213,50 @@
             else $('#temas').empty();
 
         }
+        
+        function recargar_celula()
+        {
+          recargar_consolidadores();
+
+        }
+        
+        function clickeo(event)
+        {
+            
+                $(oTable.fnSettings().aoData).each(function(){
+                    $(this.nTr).removeClass('row_selected');
+                });
+                
+                $(event.target.parentNode).addClass('row_selected');
+                
+                trselected = $(event.target.parentNode);
+                
+                var tds = $(trselected).find('td');
+                values = [];
+  
+                $.each(tds, function(index, item) {
+                    values.push(item.innerHTML); 
+                });        
+                 //desbloquear div temas
+                $('#temas').css({'display':'block'});
+                miembro(values);
+            
+        }
 	$(document).ready(function() {
           
-            //lista de redes
-            $.ajax(
-                        {url : '{{path('servicio_red')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-            ).done(function(dato){
-                     $('#red_lista').empty();
-                                    
-                    for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#red_lista');
-                    } 
-                    recargar_consolidadores();
-            }); 
+            var rede = '{{red}}' ;
+            FechaActualT('hasta');
 
+            
+            if(rede.length > 0)
+            {
+                 $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+            }
+            else
+                initRed('{{path('servicio_red_sin')}}');
+            
            
+
             init_leche_espiritual("{{path('servicio_leche_espiritual')}}");
             
             //bloquear div temas
@@ -213,41 +280,18 @@
 
              $("#excelbutton").click(function(event) {
              	$("#content").val("<table>" + $("#persona").html() + "</table>");
-     	$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
-     	$("#form").submit();
+                $("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+                $("#form").submit();
              });
             
-            $('#persona tbody').click(function(event){
-                $(oTable.fnSettings().aoData).each(function(){
-                    $(this.nTr).removeClass('row_selected');
-                });
-                
-                $(event.target.parentNode).addClass('row_selected');
-                
-                trselected = $(event.target.parentNode);
-                
-                var tds = $(trselected).find('td');
-                values = [];
-  
-                $.each(tds, function(index, item) {
-                    values.push(item.innerHTML); 
-                });        
-                 //desbloquear div temas
-                $('#temas').css({'display':'block'});
-                miembro(values);
-            });
-            
-            
+            $('#persona tbody').click(clickeo);
             
             $("#registro").submit(function(event){
                     event.preventDefault();
                              
                     //get the url for the form
                     var url=$("#registro").attr("action");
-                          
-                    //start send the post request
-                    
-                    $.post(url,{
+                     $.post(url,{
                         formName:$("#registro").serialize(),
                         other:"attributes",
                         id: $('#code').text(),
@@ -255,19 +299,15 @@
                     },function(data){
 
                     //the response is in the data variable
-                    if(data.responseCode===200 ){           
-                      
+                    if(data.responseCode===200 ){                                 
                         alert('Registro Completado');
-                        location.reload();
+                        oTable.fnReloadAjax();
                     }
-                    else if(data.responseCode===400){//bad request
+                    else if(data.responseCode===400)//bad request
                        alert('Error bad request');
-                        }
                     else{                        
                         if(data.responseCode===500)
-                        {
                             alert('Error bad request');
-                        }
                         else alert("An unexpeded error occured.");
                         }
                     }
@@ -275,30 +315,49 @@
                     
                     return false;
             });
+          
+            $('.rango').change(cargar_data);
+	 });
+         
+         function cargar_data()
+         {
+              var nombre = $("#select_leche option:selected").val();  
+            var leche = $("#select_leche option:selected").val(); 
+            var red = $("#red_lista option:selected").val(); 
             
-            //click handler para vista
             
-   
-            /* Build the DataTable with third column using our custom sort functions */
+            if(nombre != '-1' && leche!='-1' && red!='-1')
+            {
+                    cambio_leche();
+            }
+            
+         }
+         function get_tabla(url)
+         {            
+              /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
-                                    
             	"bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_nuevo_convertido_all')}}',
+                "sAjaxSource": url,
                 "aoColumns": [
                     { "mDataProp": "id" },
-                    { "mDataProp": "nombres" },
+                    { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
                     { "mDataProp": "red" },
                     { "mDataProp": "celula"},
-                    { "mDataProp":"conversion"}
+                    { "mDataProp":"conversion"},
+                    { "mDataProp":"gnom"}
                 ],
 		"aaSorting": [ [6,'desc'], [4,'desc'],[5,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
+		],
+                "sScrollY": "200px",
+                "bPaginate": false,
+                "bScrollCollapse": true,                
+                "sDom": 'T<"clear">lfrtip',
                 "oTableTools": {
 			"sRowSelect": "single",
                         "fnRowSelected": function ( node ) {
@@ -312,9 +371,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-   
-          
-	 });
+         }
  
        </script>
 {%endblock %}

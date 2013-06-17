@@ -6,10 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
 
@@ -39,9 +35,14 @@ class VistaController extends Controller
     public function lista_consolidadosAction()
     {
          $securityContext = $this->get('security.context');
+         if($securityContext->isGranted('ROLE_CONSOLIDADOR'))
+         {
+     
+            $securityContext = $this->get('security.context');
         
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
+            $consolidador =NULL;
             $em = $this->getDoctrine()->getEntityManager();
         
             if($ganador != NULL)
@@ -51,9 +52,28 @@ class VistaController extends Controller
                 $smt->execute(array(':id'=>$ganador->getId()));
                 $req = $smt->fetch();
                 if(count($req)>0)
-                $red = $req['red'];
+                {
+                    $red = $req['red'];
+                    $consolidador= $ganador->getId();
+                }
+                if($securityContext->isGranted('ROLE_LIDER_RED'))
+                {
+                    $consolidador = NULL;
+                }
+                
+                if($securityContext->isGranted('ROLE_CONSOLIDAR'))
+                {
+                    $red =NULL;
+                    $consolidador=NULL;
+                }
+                
             }
-         return $this->render('AEConsolidarBundle:Default:lista_consolidados.html.twig',array('red'=>$red));
+            
+            return $this->render('AEConsolidarBundle:Default:lista_consolidados.html.twig',array('red'=>$red
+                    ,'consolidador'=>$consolidador));
+         }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
     
      public function vistaAction($id)

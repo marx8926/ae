@@ -6,10 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
 
@@ -900,6 +896,57 @@ class GanarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$redes));
     }
 
+     public function listaconvertidos_ganador_red_sinAction($red, $inicio, $fin)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+
+        $em->beginTransaction();
+
+        try {
+            
+            $sql = "select *from get_nuevos_convertidos_ganador_red_tiempo_sin_consolidar(:red, :inicio,:fin)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':inicio'=>$inicio,':fin'=>$fin));
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+        
+        return new JsonResponse(array('aaData'=>$redes));
+    }
+
+     public function listaconvertidos_ganador_tiempo_sinAction($inicio, $fin)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $redes = array();
+
+        $em->beginTransaction();
+
+        try {
+            
+            $sql = "select *from get_nuevos_convertidos_ganador_tiempo_sin_consolidar(:inicio,:fin)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':inicio'=>$inicio,':fin'=>$fin));
+            $redes = $smt->fetchAll();
+            $em->commit();
+            $em->clear();
+            
+        } catch (Exception $exc) {
+            $em->rollback();
+            $em->close();
+            throw $exc;
+        }
+        
+        return new JsonResponse(array('aaData'=>$redes));
+    }
 
  }
 

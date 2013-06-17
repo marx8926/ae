@@ -14,6 +14,16 @@
 {% block content %} 
 <div class="span9" >
 <h1>Búsqueda de Consolidadores</h1>
+
+    <div class="control-group">
+            <label class="control-label" >Red</label>
+            <div class="controls">
+                <select id="red_lista" name="red_lista" class="rango" >
+                   
+                </select>
+            </div>
+        </div>
+
 	<div class="box">
 		<div class="box-head tabs">
             <h3>Consolidadores</h3>							
@@ -79,7 +89,7 @@
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
             
             <script src="{{asset('js/tablasfeatures.js')}}"></script>
- 
+               <script src="{{asset('js/ganar.js')}}"></script>
  
     <script type="text/javascript">
           
@@ -89,7 +99,37 @@
          
         var values = [];
          
+         
+           
+        function recargar_celula()
+        {
+                cambiar_red();
+        }
+        
+        function cambiar_red()
+        {
+             var nombre = $("#red_lista option:selected").val();  
+            
+               var route = '{{path('servicio_consolidadores_red',{'red': 'name'})}}';
+            
+              route = route.replace('name',nombre);
+               
+               if(nombre!='-1')  
+                get_tabla(route);
+        }
+        
 	$(document).ready(function() {
+           
+        
+              var rede = '{{red}}' ;
+            
+            if(rede.length > 0)
+            {
+                 $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+            }
+            else
+                initRed('{{path('servicio_red_sin')}}');
+            
             
             $("#nom_vista").css({'display':'none'});
             
@@ -152,17 +192,21 @@
                
                 }
             });
+           
+	 });
+         
+      
+        function get_tabla(url)
+        {
+            //'{{path('servicio_consolidadores')}}'
             
-            //click handler para vista
-            
-   
             /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
                 "bProcessing": true,
                 "bServerSide": false,
                 "bDestroy": true,
-                "sAjaxSource": '{{path('servicio_consolidadores')}}',
+                "sAjaxSource": url,
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "nombre" },
@@ -176,7 +220,10 @@
 		"aaSorting": [ [4,'asc'], [0,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
+		],      "sScrollY": "200px",
+                "bPaginate": false,
+                "bScrollCollapse": true,
+                "sDom": 'T<"clear">lfrtip',
                 "oTableTools": {
 			"sRowSelect": "single",
                         "fnRowSelected": function ( node ) {
@@ -190,40 +237,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-   
-            /*
-                $('#persona tbody td').click(function(){
-                var theRow = $(this).parent().index();
-                console.log(theRow);
-            });
-              */   
-
-            /* Add a click handler for the delete row */
-            /*$('#delete').click( function() {
-		var anSelected = fnGetSelected( oTable );
-		oTable.fnDeleteRow( anSelected[0] );
-           
-            } );
-            */
-            
-	 });
          
-        /* Get the rows which are currently selected */
-function fnGetSelected( oTableLocal )
-{
-	var aReturn = new Array();
-	var aTrs = oTableLocal.fnGetNodes();
-	
-	for ( var i=0 ; i<aTrs.length ; i++ )
-	{
-            
-		if ( $(aTrs[i]).hasClass('row_selected') )
-		{
-			aReturn.push( aTrs[i] );
-		}
-	}
-	return aReturn;
-}
-       
+        }
        </script>
 {%endblock %} 

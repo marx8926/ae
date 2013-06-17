@@ -39,6 +39,10 @@ class InformeController extends Controller
                     if(count($req)>0)
                     $red = $req['red'];
                 }
+                
+                if($securityContext->isGranted('ROLE_GANAR'))
+                    $red = NULL;
+                    
                 return $this->render('AEGanarBundle:Default:informeporlider.html.twig', array('red'=>$red));
             }
            else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
@@ -68,6 +72,17 @@ class InformeController extends Controller
                 
                 $lider = $ganador->getId();
             }
+            
+            
+             if($securityContext->isGranted('ROLE_GANAR'))
+             {
+                 $red = NULL;
+                 $lider = NULL;
+             }
+             
+             if($securityContext->isGranted('ROLE_LIDER_RED'))
+                    $lider = NULL;
+              
             return $this->render('AEGanarBundle:Default:informeporlider12.html.twig', array('red'=>$red,
                 'lider'=>$lider));
             }
@@ -115,8 +130,21 @@ class InformeController extends Controller
                 if($securityContext->isGranted('ROLE_LIDER12'))
                 {
                     $doce = $ganador->getId();
+                    $ciento=NULL;
+                }
+                
+                if($securityContext->isGranted('ROLE_LIDER_RED'))
+                {
+                    $doce=NULL;
+                    $ciento=NULL;
                 }
 
+                if($securityContext->isGranted('ROLE_GANAR'))
+                {
+                    $doce=NULL;
+                    $ciento=NULL;
+                    $red=NULL;
+                }
             }
             
             return $this->render('AEGanarBundle:Default:informeporlider144.html.twig', array('red'=>$red,'doce'=>$doce,

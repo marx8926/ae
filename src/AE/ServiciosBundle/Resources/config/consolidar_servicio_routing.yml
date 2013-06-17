@@ -42,13 +42,21 @@ servicio_nuevos_consolidadores:
   pattern: /nuevos_consolidadores
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:nuevos_consolidadores}
   
+servicio_nuevos_consolidadores_red:
+  pattern: /nuevos_consolidadores_red/{red}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:nuevos_consolidadores_red}
+  
 servicio_consolidado_termino:
   pattern: /consolidado_termino
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado_termino}
   
 servicio_consolidado_termino_red_year:
-  pattern: /consolidado_termino_red/{red}/{year}
+  pattern: /consolidado_termino_red/{red}/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado_termino_red_year}
+  
+servicio_consolidado_termino_red_year_cons:
+  pattern: /consolidado_termino_red/{red}/{inicio}/{fin}/{cons}
+  defaults: {_controller: AEServiciosBundle:ConsolidarServicio:consolidado_termino_red_year_cons}
   
 servicio_consolidado_seguir:
   pattern: /consolidado_seguir

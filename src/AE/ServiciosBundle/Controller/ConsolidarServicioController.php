@@ -299,6 +299,37 @@ class ConsolidarServicioController extends Controller
         return new JsonResponse(array('aaData'=>$todo));
    }
    
+    public function nuevos_consolidadores_redAction($red)
+   {
+       
+       $todo = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+
+       try{
+         
+           $em->beginTransaction();
+           $sql = "select * from get_por_consolidadores_red(:red)";
+                
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red));
+        
+           $todo = $smt->fetchAll();
+           
+           $em->commit();
+           $em->clear();
+        }
+        catch (Exception $e){
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+   
+    
+        
+        return new JsonResponse(array('aaData'=>$todo));
+   }
       
    public function consolidado_terminoAction()
    {
@@ -327,17 +358,11 @@ class ConsolidarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$todo));
    }
    
-   public function consolidado_termino_red_yearAction($red, $year)
+   public function consolidado_termino_red_yearAction($red, $inicio, $fin)
    {
        
        $todo = array();
        $em = $this->getDoctrine()->getEntityManager();
-       
-       $fin = new \DateTime();
-       $fin->setDate($year, '12','31');
-       
-       $ini = new \DateTime();
-       $ini->setDate($year, '01','01');
        
        $em->beginTransaction();
        try
@@ -345,8 +370,34 @@ class ConsolidarServicioController extends Controller
            
            $sql = "select *from get_consolidado_termino_xred(:ini, :fin, :net)";
            $smt = $em->getConnection()->prepare($sql);
-           $smt->execute(array(':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d'),
-               ':net'=>$red));
+           $smt->execute(array(':ini'=>$inicio,':fin'=>$fin,':net'=>$red));
+           $todo = $smt->fetchAll();
+           
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+       }
+       
+       return new JsonResponse(array('aaData'=>$todo));
+   }
+   
+   public function consolidado_termino_red_year_consAction($red, $inicio, $fin, $cons)
+   {
+       
+       $todo = array();
+       $em = $this->getDoctrine()->getEntityManager();
+       
+       $em->beginTransaction();
+       try
+       {
+           
+           $sql = "select *from get_consolidado_termino_xred_consolidador(:ini, :fin, :net,:cons)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':ini'=>$inicio,':fin'=>$fin,':net'=>$red,':cons'=>$cons));
            $todo = $smt->fetchAll();
            
            $em->commit();

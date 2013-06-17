@@ -54,6 +54,14 @@ servicio_nuevo_convertido_all_ganador_tiempo:
   pattern: /lista_convertidos_ganador_tiempo/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos_ganador_tiempo}
   
+servicio_nuevo_convertido_all_ganador_red_tiempo_sin:
+  pattern: /lista_convertidos_ganador_red_sin/{red}/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos_ganador_red_sin}
+  
+servicio_nuevo_convertido_all_ganador_tiempo_sin:
+  pattern: /lista_convertidos_ganador_tiempo_sin/{inicio}/{fin}
+  defaults: {_controller: AEServiciosBundle:GanarServicio:listaconvertidos_ganador_tiempo_sin}
+  
 servicio_persona_id:
   pattern: /persona/{id}
   defaults: {_controller: AEServiciosBundle:GanarServicio:persona}

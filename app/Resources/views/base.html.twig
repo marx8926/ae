@@ -154,7 +154,7 @@
 				</a>
 				<ul class='collapsed-nav closed'>
 					
-                                     {% if is_granted('ROLE_CONSOLIDAR') %}
+                                     {% if is_granted('ROLE_LIDER_RED') %}
                                         <li>
 						<a href="{{path('consolidar_registro')}}">
 							Registrar Consolidador
@@ -173,15 +173,16 @@
                                                 Búsqueda de Consolidadores
                                             </a>
                                         </li>
-                                    {% endif %}
+                                   
                                         
 					<li>
 						<a href="{{path('consolidar_asignar_consolidar')}}">
 							Asignar Consolidador
 						</a>
 					</li>
+                                    {% endif %}
                                         
-                                    {% if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') %}
+                                    {% if is_granted('ROLE_CONSOLIDAR') or is_granted('ROLE_LIDER_RED') or is_granted('ROLE_CONSOLIDADOR') %}
                                         <li>
                                             <a href="{{path('consolidar_lista_consolidados')}}">
                                                 Lista de Consolidados
