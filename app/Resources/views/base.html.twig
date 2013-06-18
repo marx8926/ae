@@ -302,17 +302,12 @@
 							Administrar Personal
 						</a>
 					</li>
-                                        
-                                      {% endif %}
-                                      
-                                      {%  if is_granted('ROLE_DISCIPULAR') %}
+                                                                            
 					<li>
 						<a href="{{path('discipular_administrar_estudiante')}}">
 							Administrar Estudiante
 						</a>
 					</li>
-                                        
-                                       
                                         
 					<li>
 						<a href="{{path('discipular_crearcurso')}}">
@@ -342,25 +337,35 @@
 						</a>
 					</li>
                                         
+                                       {% endif %}
+
+                                       {% if is_granted('ROLE_LIDER_RED') %}
                                         <li>
                                             <a href="{{path('discipular_informe_vision')}}">
                                                 Informe Visión
                                             </a>
                                         
-                                        </li>
+                                        </li>                                        
+                                       {% endif %}
+                                        
+                                       {% if is_granted('ROLE_DISCIPULAR') %}
                                         <li>
                                             <a href="{{path('discipular_informe_semanal_indeli')}}">
                                                 Reporte Semanal
                                             </a>
                                         
                                         </li>
+                                      {% endif %}
+
+                                       {% if is_granted('ROLE_LIDER_RED') %}
                                          <li>
                                             <a href="{{path('discipular_informe_asistenciaredes')}}">
                                                 Informe Discipular por Redes
                                             </a>
                                         
                                         </li>
-                                        {% endif %}
+                                        
+                                       {% endif %}
 				</ul>
 			</li>
 			<li>

@@ -216,29 +216,31 @@
 						<th>Apellidos</th>
 						<th>Curso</th>
 						<th>Dia</th>
-		                <th>Hora Inicio</th>
-		                <th>Hora Fin</th>
-		                <th>Estado Matricula</th>
+		                <th>Hora <br> Inicio</th>
+		                <th>Hora <br> Fin</th>
+		                <th>Estado <br> Matricula</th>
 		                <th>Estado</th>
 		            </tr>
 				</thead>
 				<tbody id="tablas2" name="tablas2" ></tbody>
 		    </table>
 		</div>
+                {% if (is_granted('ROLE_DISCIPULAR'))%}
 		<div id="alineados">
-		<form  method="POST" id="CerrarAsignacionForm" action='{{path('discipular_cerrar_asignacion')}}'>
+                    <form  method="POST" id="CerrarAsignacionForm" action='{{path('discipular_cerrar_asignacion')}}'>
 			<input id="idAsignacionCerrar" type="hidden" name="id">
 			<input type="submit" class="btn btn-danger" id="cerrar" name="enviar" value="Cerrar Curso">
-		</form>
-		<form  method="POST" id="CerrarMatriculaForm" action='{{path('discipular_cerrar_matricula')}}'>
+                    </form>
+                    <form  method="POST" id="CerrarMatriculaForm" action='{{path('discipular_cerrar_matricula')}}'>
 			<input id="idAsignacionCerrarMatricula" type="hidden" name="id">
 			<input type="submit" class="btn btn-danger" id="cerrarm" name="enviar" value="Cerrar Matricula">
-		</form>
-		<form  method="POST" id="EliminarAsignacionForm" action='{{path('discipular_eliminar_asignacion')}}'>
+                    </form>
+                    <form  method="POST" id="EliminarAsignacionForm" action='{{path('discipular_eliminar_asignacion')}}'>
 			<input id="idAsignacionEliminar" type="hidden" name="id">
 			<input type="submit" class="btn btn-danger" id="eliminar" name="enviar" value="Eliminar">
-		</form>
+                    </form>
 		</div>
+                {% endif %}
 	</div>
 	</fieldset>
 </div>

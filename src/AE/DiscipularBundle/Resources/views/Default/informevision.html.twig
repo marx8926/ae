@@ -43,6 +43,17 @@
     <script type="text/javascript">
             $(document).ready(function() {
             	ajaxResposeDataPost("div_redes_option","{{ path('_enviar_lista_red')}}");
+                
+                var rede = '{{red}}';
+                
+                if(rede.length>0)
+                {
+                    $('#redes_select_option').emptyl();
+                    
+                    $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#redes_select_option');
+                    
+                }
+                
             	var red = $("#redes_select_option").val();
             	url = "{{path('_option_celula_red',{'idred':'idred'})}}";
             	url = url.replace('idred',red);

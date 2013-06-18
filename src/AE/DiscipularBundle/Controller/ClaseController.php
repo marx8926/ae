@@ -86,7 +86,7 @@ class ClaseController extends Controller {
 			$idclase = $datos["idclase"];
 			
 			$em = $this->getDoctrine()->getEntityManager();
-			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			$em->beginTransaction();
 			try
 			{
 				$count = count($idestudiantes);
@@ -104,13 +104,13 @@ class ClaseController extends Controller {
 				}		
 			}catch(Exception $e)
 			{
-				$this->getDoctrine()->getEntityManager()->rollback();
-				$this->getDoctrine()->getEntityManager()->close();
+				$em->rollback();
+				$em->close();
 				$return=array("responseCode"=>400, "greeting"=>"Bad");
 					
 				throw $e;
 			}
-			$this->getDoctrine()->getEntityManager()->commit();
+			$em->commit();
 			$return=array("responseCode"=>200, "id"=>$datos );
 		}
 		else{

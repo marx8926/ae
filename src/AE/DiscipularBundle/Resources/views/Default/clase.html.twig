@@ -41,17 +41,21 @@
                 
             {% if is_granted('ROLE_PROFESOR')%}
             	ajaxResposeData("tabla_asistencia",'{{path('_tabla_clase_asistencia',{'idclase':''})}}/{{idclase}}');
-            	enviar("ActualizarClaseForm",sayhola);
+            	enviar("ActualizarClaseForm",sayhola1);
             	enviar("EditFechaForm",sayhola);
             	enviar("EditOfrendaForm",sayhola);
                 {% endif%}
             });
             
             var sayhola = function(data){
-        		console.log(data);
-        		//location.reload();
+        		//location.reload();                          
         		}
-    		
+    
+           var sayhola1 = function(data){
+        		//location.reload();
+                          if(data.responseCode==200)
+                              alert('Registro Completado');
+        		}
     		function Editar(classname){
         		$("."+classname).attr("disabled",false);
     		}
@@ -125,13 +129,17 @@
 				</div>
 
                                 {% if is_granted('ROLE_PROFESOR')%}
-				<div >
-					<strong>Ofrenda Fecha:</strong>
-					<form id="EditOfrendaForm" action="{{ path('discipular_actualizar_ofrenda_clase') }}" methos="POST">
-						<input type="text" id="ofrendainput" name="ofrenda" onchange="EditarDato('ofrenda','ofrendainput')">
+				<div class="control-group" >
+					<strong class="control-label">Ofrenda:</strong>
+					<form id="EditOfrendaForm" action="{{ path('discipular_actualizar_ofrenda_clase') }}" methos="POST" >
+						
+                                             <div class="controls">
+                                               <input type="text" id="ofrendainput" name="ofrenda" onchange="EditarDato('ofrenda','ofrendainput')" required>
+                                               
 						<input type="hidden" name="idclase" value="{{idclase}}">
 						<input type="submit" class="btn btn-primary" id="finalizar_ofrenda" name="finalizar" value="Guardar">
 						<a class="btn" href="#close" id="close-modal">Cerrar</a>
+                                            </div>
 					</form>
 				</div>
                                 {% endif %}

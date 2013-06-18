@@ -3,17 +3,11 @@
 namespace AE\DiscipularBundle\Controller;
 
 use AE\DataBundle\Entity\ClaseCurso;
-
 use AE\DataBundle\Entity\Horario;
-
 use AE\DataBundle\Entity\CursoImpartido;
-
 use AE\DataBundle\Entity\Archivo;
-
 use Doctrine\Tests\Models\DirectoryTree\File;
-
 use AE\DataBundle\Entity\TemaCurso;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use AE\DataBundle\Entity\Prerequisito;
@@ -24,7 +18,15 @@ use Doctrine\ORM\TransactionRequiredException;
 class AsignarCursoController extends Controller{
 
 	public function indexAction(){
+            
+            $securityContext = $this->get('security.context');
+        
+            if($securityContext->isGranted('ROLE_DISCIPULAR'))
+            {
 		return $this->render('AEDiscipularBundle:Default:asignarcurso.html.twig');
+            }
+            else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
 	}
 	
 	public function RegistrarAsignacionAction(){
@@ -91,7 +93,7 @@ class AsignarCursoController extends Controller{
 			$date_hora_fin->setTime(intval($hora_fin_H),intval($hora_fin_i),0);
 			
 			$em = $this->getDoctrine()->getEntityManager();			
-			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			$em->beginTransaction();
 			try
 			{                
 				$Horario = new Horario();
@@ -132,7 +134,9 @@ class AsignarCursoController extends Controller{
 					
 				throw $e;
 			}
-			$this->getDoctrine()->getEntityManager()->commit();
+			$em->commit();
+                        $em->clear();
+                        
 			$return=array("responseCode"=>200, "id"=>$datos );
 		}
 		else{

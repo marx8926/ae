@@ -5,10 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
 
@@ -41,13 +38,15 @@ class DiscipularServicioController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "SELECT * FROM curso";
+		$sql = "SELECT * FROM lista_cursos_all";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
 	
 		$todo = $smt->fetchAll();
 	
+                $em->clear();
+                
 		return new JsonResponse(array('aaData'=>$todo));
 	}
 	
@@ -94,6 +93,7 @@ class DiscipularServicioController extends Controller
 		$smt->execute();
 	
 		$todo = $smt->fetchAll();
+                $em->clear();
 	
 		return new JsonResponse(array('aaData'=>$todo));
 	}
@@ -103,17 +103,14 @@ class DiscipularServicioController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select 
-				miembro.id, persona.nombre, persona.apellidos, persona.edad, 
-				miembro.id_red as red, miembro.id_celula as celula, 
-				miembro.fecha_obtencion as fecha from miembro 
-				inner join persona on persona.id = miembro.id 
-				where miembro.activo=true and NOT EXISTS (SELECT * FROM estudiante as d where d.id = miembro.id)";
+		$sql = "select * from lista_miembros_noestudiantes";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
 	
 		$todo = $smt->fetchAll();
+                
+                $em->clear();
 	
 		return new JsonResponse(array('aaData'=>$todo));
 	}
@@ -122,7 +119,7 @@ class DiscipularServicioController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select miembro.id, persona.nombre, persona.apellidos,  miembro.id_red as red, docente.activo as estado,docente.fecha_inicio as inicio, docente.fecha_fin as fin from miembro inner join persona on (persona.id = miembro.id) inner join docente on (miembro.id = docente.id_persona) where miembro.activo=true";
+		$sql = "select * from lista_personal";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -136,7 +133,7 @@ class DiscipularServicioController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select miembro.id, persona.nombre, persona.apellidos,  miembro.id_red as red, estudiante.activo as estado,estudiante.fecha_inicio as inicio, estudiante.fecha_fin as fin from miembro inner join persona on (persona.id = miembro.id) inner join estudiante on (miembro.id = estudiante.id) where miembro.activo=true";
+		$sql = " select * from lista_miembros_estudiantes";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
@@ -191,18 +188,13 @@ class DiscipularServicioController extends Controller
 	
 		$em = $this->getDoctrine()->getEntityManager();
 	
-		$sql = "select
-				curso_impartido.id as id, persona.nombre, persona.apellidos, curso.titulo as curso,
-				horario.dia, horario.hora_inicio, horario.hora_fin, curso_impartido.estado_matricula, curso_impartido.activo
-				from persona
-				inner join curso_impartido on (persona.id = curso_impartido.id_persona_docente) 
-				inner join horario on (curso_impartido.id_horario= horario.id)
-				inner join curso on (curso.id = curso_impartido.id_curso)";
+		$sql = "select * from lista_curso_impartido";
 	
 		$smt = $em->getConnection()->prepare($sql);
 		$smt->execute();
 	
 		$todo = $smt->fetchAll();
+                $em->clear();
 	
 		return new JsonResponse(array('aaData'=>$todo));
 	}
@@ -309,14 +301,14 @@ class DiscipularServicioController extends Controller
 		$result='<table id="tabla_asignacion_estado" name="tabla_asignacion_estado" class="table table-striped table-bordered">
 					<thead>
 						<tr>
-							<th>ID</th>
 							<th>Nombre</th>
 							<th>Red</th>';
-		$Ofrenda="<tr><td>Ofrendas</td><td><td/>";
+		$Ofrenda="<tr><td>Ofrendas</td><td></td>";
 			foreach ($todoofrenda as $key => $valofrenda){
 				$result=$result."<th>".($key+1)."</th>";
 				$Ofrenda = $Ofrenda."<td>".$valofrenda['ofrenda']."</td>";
 			}
+                    
 		$result=$result."</tr></thead><tbody>";
 		
 		$sql = "select concat(persona.nombre,'', persona.apellidos) as estudiante, persona.id, miembro.id_red
@@ -335,7 +327,6 @@ class DiscipularServicioController extends Controller
 		foreach ($todo as $key1 => $val){
 			
 			$result = $result."<tr>
-					<td>".$val['id']."</td>
 					<td>".$val['estudiante']."</td>
 					<td>".$val['id_red']."</td>";
 			
@@ -485,6 +476,8 @@ class DiscipularServicioController extends Controller
 		$smt->execute();
 		
 		$todo = $smt->fetchAll();
+                
+                $em->clear();
 		
 		return new JsonResponse(array('aaData'=>$todo));
 	}
@@ -540,6 +533,8 @@ class DiscipularServicioController extends Controller
 						</tr>";
 		}
 		$result = $result."</tbody></table>";
+                
+                $em->clear();
 		return new Response($result);
 	}
 	

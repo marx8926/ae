@@ -12,7 +12,16 @@ use AE\DataBundle\Entity\Persona;
 class RegistrarPersonalController extends Controller {
 	public function indexAction()
 	{
-		return $this->render('AEDiscipularBundle:Default:registrarpersonal.html.twig');
+            
+            $securityContext = $this->get('security.context');
+        
+            if($securityContext->isGranted('ROLE_DISCIPULAR'))
+            {
+                return $this->render('AEDiscipularBundle:Default:registrarpersonal.html.twig');
+        
+            }
+            else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+        
 	}
 	
 	public function RegistroPersonalAction(){
@@ -32,7 +41,7 @@ class RegistrarPersonalController extends Controller {
 			$descripcion = $datos['descripcion'];
 	
 			$em = $this->getDoctrine()->getEntityManager();	
-			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			$em->beginTransaction();
 			
 			try
 			{
@@ -55,7 +64,7 @@ class RegistrarPersonalController extends Controller {
 					
 				throw $e;
 			}
-			$this->getDoctrine()->getEntityManager()->commit();
+			$em->commit();
 			$return=array("responseCode"=>200, "id"=>$datos );
 		}
 		else{

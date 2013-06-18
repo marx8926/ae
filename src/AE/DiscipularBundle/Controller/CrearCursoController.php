@@ -18,8 +18,16 @@ class CrearCursoController extends Controller{
 
 	public function indexAction()
 	{
+            
+             $securityContext = $this->get('security.context');
+        
+            if($securityContext->isGranted('ROLE_DISCIPULAR'))
+            {
 		return $this->render('AEDiscipularBundle:Default:crearcurso.html.twig');
-	}
+            }
+            else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
+        }
 
 	public function RegistrarCursoAction(){
 		$request = $this->get('request');
@@ -51,7 +59,7 @@ class CrearCursoController extends Controller{
 				$estado = false;
 	
 			$em = $this->getDoctrine()->getEntityManager();	
-			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			$em->beginTransaction();
 			try
 			{
 				$curso = new Curso();
@@ -103,13 +111,15 @@ class CrearCursoController extends Controller{
 				
 			}catch(Exception $e)
 			{
-				$this->getDoctrine()->getEntityManager()->rollback();
-				$this->getDoctrine()->getEntityManager()->close();
+				$em->rollback();
+				$em->close();
 				$return=array("responseCode"=>400, "greeting"=>"Bad");
 					
 				throw $e;
 			}
-			$this->getDoctrine()->getEntityManager()->commit();
+			$em->commit();
+                        $em->clear();
+                        
 			$return=array("responseCode"=>200, "id"=>$datos );
 		}
 		else{
@@ -142,7 +152,7 @@ class CrearCursoController extends Controller{
 			
 			$return=array("responseCode"=>200, "id"=>$datos );
 			$return=json_encode($return);//jscon encode the array
-			
+			$em->clear();
 			return new Response($return,200,array('Content-Type'=>'application/json'));
 		}
 	}
@@ -165,7 +175,7 @@ class CrearCursoController extends Controller{
 			$smt->execute();
 				
 			$todo = $smt->fetchAll();
-				
+                        $em->clear();
 			$return=array("responseCode"=>200, "id"=>$datos );
 			$return=json_encode($return);//jscon encode the array
 				

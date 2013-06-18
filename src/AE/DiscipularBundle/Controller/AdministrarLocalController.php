@@ -23,7 +23,13 @@ use Doctrine\ORM\TransactionRequiredException;
 class AdministrarLocalController extends Controller{
 
 	public function indexAction(){
+             $securityContext = $this->get('security.context');
+        
+            if($securityContext->isGranted('ROLE_DISCIPULAR'))
+            {
 		return $this->render('AEDiscipularBundle:Default:administrarlocal.html.twig');
+            }
+            else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
 	}
 	public function RegistrarLocalAction(){
 		$request = $this->get('request');
@@ -43,7 +49,7 @@ class AdministrarLocalController extends Controller{
 			$tipo = $datos["tipo"];
 						
 			$em = $this->getDoctrine()->getEntityManager();	
-			$this->getDoctrine()->getEntityManager()->beginTransaction();
+			$em->beginTransaction();
 			try
 			{
 				$Local = new Local();
@@ -55,13 +61,13 @@ class AdministrarLocalController extends Controller{
 		
 			}catch(Exception $e)
 			{
-				$this->getDoctrine()->getEntityManager()->rollback();
-				$this->getDoctrine()->getEntityManager()->close();
+				$em->rollback();
+				$em->close();
 				$return=array("responseCode"=>400, "greeting"=>"Bad");
 					
 				throw $e;
 			}
-			$this->getDoctrine()->getEntityManager()->commit();
+			$em->commit();
 			$return=array("responseCode"=>200, "id"=>$datos );
 		}
 		else{
