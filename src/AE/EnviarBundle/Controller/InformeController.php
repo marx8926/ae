@@ -64,7 +64,9 @@ class InformeController extends Controller
     public function discipulos_por_redAction()
     {
        $securityContext = $this->get('security.context');
-        
+       
+       if($securityContext->isGranted('ROLE_LIDER_RED'))
+       { 
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
@@ -77,9 +79,14 @@ class InformeController extends Controller
                 $req = $smt->fetch();
                 if(count($req)>0)
                 $red = $req['red'];
+                if($securityContext->isGranted('ROLE_ENVIAR'))
+                    $red = NULL;
             }
             
         return $this->render('AEEnviarBundle:Mentoreo:discipulosporred.html.twig',array('red'=>$red)); 
+       }
+       else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
     
     public function informe_redAction()

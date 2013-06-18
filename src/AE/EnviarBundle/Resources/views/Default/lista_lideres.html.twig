@@ -89,6 +89,7 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
 			<script src="https://www.google.com/jsapi"></script>
                         <script src="{{asset('js/tiempo.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -101,37 +102,33 @@
          
         var values = [];
          
+        function recargar_celula()
+        {
+            
+        }
+        
 	$(document).ready(function() {
             
             FechaActualT('inicio');
             FechaActualT('fin');
             
             
-                //lista de redes
-            $.ajax(
-                        {url : '{{path('servicio_red')}}',
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-            ).done(function(dato){
-                
-                    for(var i=0;i<dato.length;i++)
-                    {
-                        $('<option value='+dato[i].id+'>'+dato[i].id+'-'+dato[i].nombre+' '+dato[i].apellidos+'</option>').appendTo('#red_lista');
-                    }
-            }); 
-     
+           var rede = '{{red}}' ;
+                   
+            if(rede.length > 0)
+            {
+                $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+            }
+            else
+               initRed('{{path('servicio_red_sin')}}');
 
             $('#ocultar').css({'display':'none'});
-            
-        
+                 
             $('#rang').click(function(event){
                 event.preventDefault();
                 var rede =$('#red_lista').val();
                 var url = '{{path('_enviar_lista_lideres_celula_tabla',{'id':':iden'}) }}';
                 url = url.replace(':iden',rede);
-                console.log(url);
 
                 cargar_tabla(url);                
                

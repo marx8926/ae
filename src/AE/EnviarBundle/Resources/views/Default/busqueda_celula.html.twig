@@ -27,7 +27,7 @@
             		<div class="controls">
                 		<select id="tipo" name="tipo" class="rango" >
                                     <option value="0">Evangelistica</option>
-                                    <option value="1">Mentoreo</option>
+                                    <option value="1">Discipulado</option>
                 		</select>
             		</div>
         </div>
@@ -134,7 +134,7 @@
         {
             if(data.responseCode==200 ){
     				var anSelected = fnGetSelected( oTable );
-		oTable.fnDeleteRow( anSelected[0] );
+                        oTable.fnReloadAjax();                    
             }
         }
         
@@ -153,9 +153,8 @@
              {
                  ruta = ruta.replace(':net',neti);
                  ruta = ruta.replace(':tip',$('#tipo').val());
-           
-                 console.log(ruta);
-                get_tabla(ruta);
+                 get_tabla(ruta);
+                
                 
                 $('#titulo_informe').text('Informe de Células '+neti);
              }
@@ -168,6 +167,8 @@
              if(rede.length > 0)
              {
                  $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                 recargar();
+
              }
              else
              initRed('{{path('servicio_red_sin')}}');

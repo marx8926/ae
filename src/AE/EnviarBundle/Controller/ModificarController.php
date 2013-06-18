@@ -283,7 +283,10 @@ class ModificarController extends Controller
     {
         $securityContext = $this->get('security.context');
         
-            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+        if($securityContext->isGranted('ROLE_LIDER_RED'))
+        {
+        
+        $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
         
@@ -295,9 +298,15 @@ class ModificarController extends Controller
                 $req = $smt->fetch();
                 if(count($req)>0)
                 $red = $req['red'];
+                if($securityContext->isGranted('ROLE_ENVIAR'))
+                    $red = NULL;
             }
             
+            
         return $this->render('AEEnviarBundle:Mentoreo:asignacion.html.twig',array('red'=>$red));
+        }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
     
     public function registro_discipulado_upAction()

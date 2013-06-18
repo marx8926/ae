@@ -13,7 +13,13 @@ class TemasController extends Controller
 {
     public function temacelulaAction()
     {
+        
+          $securityContext = $this->get('security.context');
+       
+       if($securityContext->isGranted('ROLE_ENVIAR'))
         return $this->render('AEEnviarBundle:Default:tema_celula.html.twig');
+       else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
         
     public function temacelula_updatedAction()

@@ -25,11 +25,11 @@
         </fieldset>
         
       
-        <h1>Lista de Miembros sin mentoreo</h1>
+        <h1>Lista de Miembros sin discipulado</h1>
         
 	<div class="box">
 		<div class="box-head tabs">
-            <h3>Miembros sin mentoreo</h3>							
+            <h3>Miembros sin discipulado</h3>							
         </div>
 
         <div class="box-content box-nomargin">
@@ -116,12 +116,11 @@
                 
                 var logg = function logeo(data)
                 {
-                    console.log(data);
                     
                     if(data.responseCode == 200)
                         {
                             alert('Registro Completado');
-                            location.reload();
+                            oTable.fnReloadAjax();
                         }
                 }
     

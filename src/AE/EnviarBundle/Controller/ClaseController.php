@@ -25,7 +25,12 @@ class ClaseController extends Controller
 {
     public function lista_clasesAction()
     {
+       $securityContext = $this->get('security.context');
+       
+       if($securityContext->isGranted('ROLE_ENVIAR'))
         return $this->render('AEEnviarBundle:Default:lista_clases.html.twig');
+       else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     } 
     
       public function lista_clases_descargaAction()
@@ -83,7 +88,12 @@ class ClaseController extends Controller
     
     public function crear_class_cellAction()
     {
+        $securityContext = $this->get('security.context');
+       
+       if($securityContext->isGranted('ROLE_ENVIAR'))
         return $this->render('AEEnviarBundle:Default:crearclase_celula.html.twig');
+       else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+        
     }
     
     public function crear_class_cell_updateAction()
