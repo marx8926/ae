@@ -55,6 +55,15 @@
                             num=data;    
                         });
                     
+                    if(num.length>0)
+                    {
+                          $('#disponible').text("No disponible");
+                    }
+                    else
+                    {
+                        $('#disponible').text("Disponible");
+                    }
+                    
                     if(v1!==v2 || num.length>0 || v1.length===0 || v2.length===0)
                         $("#guardar").css({'display':'none'});
                     else
@@ -85,6 +94,8 @@
 				<label class="control-label">Usuario:</label>
 				<div class="controls">
 					<input type="text" name="user" id="user" value="{{usuario}}" class="cambio" required >
+                                        <p class="help-block" id="disponible" name="disponible" >Disponible</p>
+
 				</div>
 			</div>
 			<div class="control-group">

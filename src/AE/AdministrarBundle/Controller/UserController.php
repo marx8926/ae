@@ -96,15 +96,22 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $todo = array();
         
+        $securityContext = $this->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+        
+        
         $em->beginTransaction();
         
         try {
             
-            $sql = "select id from usuario where nombre=:usr";
-            $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':usr'=>$user));
-            $todo = $smt->fetchAll();
             
+            if(strcmp($user->getNombre(),$user)!=0)
+            {        
+                $sql = "select id from usuario where nombre=:usr";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':usr'=>$user));
+                $todo = $smt->fetchAll();
+            }
             
         } catch (Exception $exc) {
             throw $exc;
