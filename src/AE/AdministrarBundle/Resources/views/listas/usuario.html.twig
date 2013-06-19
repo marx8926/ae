@@ -47,6 +47,38 @@
         <button class="btn btn-success" id="cambio" name="cambio">Cambiar Contraseña</button>
        	<button class="btn btn-danger" id="desactivar" name="desactivar">Desactivar</button>
     </div>
+        
+    <div id="divuser">
+    <form class="form-horizontal" id="RegLocalForm" method="POST" action="{{path('administrar_cambiar_usuario_up')}}">
+			<legend>Cambiar datos de usuario</legend>
+			<div class="control-group">
+				<label class="control-label">Usuario:</label>
+				<div class="controls">
+					<input type="text" name="user" id="user" value="" class="cambio" required >
+                                        <p class="help-block" id="disponible" name="disponible" >Disponible</p>
+
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Contraseña:</label>
+				<div class="controls">
+                                    <input type="password" name="pass" id="pass" class="cambio" required>
+				</div>
+			</div>
+			
+                        <div class="control-group">
+				<label class="control-label">Denuevo Contraseña:</label>
+				<div class="controls">
+					<input type="password" name="npass" id="npass" class="cambio" required>
+				</div>
+			</div>
+			<div class="control-group" id="guardar" name="guardar">
+				<div class="controls">
+					<input class="btn btn-primary" type="submit" value="Registrar">
+				</div>
+			</div>	
+    </form>
+    </div>
  </div>    
 {% endblock %}
       
@@ -87,6 +119,9 @@
         
 	$(document).ready(function() {
 
+            $("#divuser").css({'display':'none'});
+            
+            
 		$("#pdfbutton").click(function(event) {
             $("#persona th").css("width","auto");
         	$("#content").val($("#persona").html());
