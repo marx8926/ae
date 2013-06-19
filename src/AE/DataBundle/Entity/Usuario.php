@@ -47,6 +47,13 @@ class Usuario implements UserInterface, \Serializable
     protected $salt;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean", nullable=false)
+     */
+    private $enabled;
+    
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Rol", inversedBy="idUsuario")
@@ -163,6 +170,29 @@ class Usuario implements UserInterface, \Serializable
     public function getSalt()
     {
         return $this->salt;
+    }
+
+      /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     * @return Usuario
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean 
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
     }
 
     /**

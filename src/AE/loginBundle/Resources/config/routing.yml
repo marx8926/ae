@@ -4,7 +4,7 @@ ingreso:
   
 ingreso_check:
   pattern: /ingreso_check
-  
+
 salir:
   pattern: /salir
   

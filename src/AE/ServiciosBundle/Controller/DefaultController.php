@@ -644,7 +644,7 @@ class DefaultController extends Controller
    {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $sql = " select  usuario.id_persona as id, usuario.nombre as usuario, persona.nombre, persona.apellidos, persona.edad, persona.email from usuario inner join persona on persona.id=usuario.id_persona";
+        $sql = " select  * from lista_usuarios";
                 
         $smt = $em->getConnection()->prepare($sql);
         $smt->execute();

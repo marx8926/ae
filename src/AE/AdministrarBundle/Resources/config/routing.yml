@@ -251,6 +251,12 @@ administrar_cambiar_usuario_up:
   defaults: {_controller: AEAdministrarBundle:User:cambiarusuario_up}
   requirements:
     _method: POST
+    
+administrar_estado_usuario_up:
+  pattern: /estado_usuario_up
+  defaults: {_controller: AEAdministrarBundle:User:estadousuario_up}
+  requirements:
+    _method: POST
         
 administrar_check_user:
   pattern: /check_user/{user}

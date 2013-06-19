@@ -36,6 +36,7 @@ class DefaultController extends Controller
             'error'         => $error,
         ));
     }
+    
     public function usuarioAction($user, $pass)
     {
         
@@ -67,12 +68,21 @@ class DefaultController extends Controller
     public function mainAction()
     {
         
+        $securityContext = $this->get('security.context');
+
+        $usuario = $securityContext->getToken()->getUser();
         
+        if($usuario->getEnabled())
+        {
         $response = $this->render('AEloginBundle:Default:main.html.twig');
         
         $response->setSharedMaxAge(60);
         
         return $response;
+        }
+        else {
+               return $this->redirect($this->generateUrl('salir'));
+        }
     }
     
     public function sobreAction()

@@ -126,5 +126,60 @@ class UserController extends Controller
         
         return new JsonResponse($todo);
      }
-            
+    
+     
+     
+    public function estadousuario_upAction()
+    {
+        
+              
+                $request = $this->get('request');
+		$form=$request->request->get('formName');
+		
+		$datos = array();
+		
+		parse_str($form,$datos);
+		$usuario= null;
+		$estado = null;
+		
+		if($form!=NULL){
+				
+			$usuario = $datos["uss"];
+			$estado = $datos["estado"];
+						
+			$em = $this->getDoctrine()->getEntityManager();	
+			$em->beginTransaction();
+			try
+			{
+                            $sql = "UPDATE usuario SET  enabled=:est WHERE nombre=:nom";
+                            $smt = $em->getConnection()->prepare($sql);
+                            
+                            if(strcmp("Activo",$estado)==0)
+                            {
+                                $smt->execute(array(':est'=>'FALSE',':nom'=>$usuario));
+                            }
+                            else $smt->execute(array(':est'=>'TRUE',':nom'=>$usuario));
+
+                        }catch(Exception $e)
+			{
+				$em->rollback();
+				$em->close();
+				$return=array("responseCode"=>400, "greeting"=>"Bad");
+					
+				throw $e;
+			}
+			$em->commit();
+       			$return = array("responseCode"=>200, "greeting"=>"oK");
+
+		}
+		else{
+			$return = array("responseCode"=>400, "greeting"=>"Bad");
+		}
+			
+		$return=json_encode($return);
+		
+		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
+		
+    }
+    
 }

@@ -29,6 +29,7 @@
             <tr>
                 <th>ID</th>
                 <th>Usuarios</th>
+                <th>Estado</th>
 		<th>Nombres</th>
 		<th>Apellidos</th>
 		<th>Edad</th>
@@ -47,7 +48,7 @@
     <div class="form-horizontal">
     	<button class="btn btn-primary" id="vista" name="vista">Ver Datos</button>
         <button class="btn btn-success" id="cambio" name="cambio">Cambiar Contraseña</button>
-       	<button class="btn btn-danger" id="desactivar" name="desactivar">Desactivar</button>
+       	<button class="btn btn-danger" id="desactivar" name="desactivar">Cambiar estado</button>
     </div>
         
     <div id="divuser">
@@ -78,7 +79,15 @@
 				</div>
 			</div>	
     </form>
+    
+        
     </div>
+        
+    <form  id="activo" name="activo" method="POST" action="{{path('administrar_estado_usuario_up')}}">
+        
+        <input id="uss" name="uss" type="hidden">
+        <input id="estado" name="estado" type="hidden" >
+    </form>
  </div>    
 {% endblock %}
       
@@ -107,6 +116,8 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
                         <script src="{{asset('js/functiongen.js')}}"></script>
+                        <script src="{{asset('js/datatable_plugins.js')}}"></script>
+
             
             <script src="http://www.google.com/jsapi"></script>
 
@@ -122,6 +133,10 @@
 	$(document).ready(function() {
 
             enviar("RegLocalForm",sayhola);
+            
+            //cambio de estado
+            enviar("activo",sayhola1);
+
 
             $("#divuser").css({'display':'none'});
             
@@ -140,6 +155,7 @@
                         $("#guardar").css({'display':'none'});
                });
             
+            $("#")
             
 		$("#pdfbutton").click(function(event) {
             $("#persona th").css("width","auto");
@@ -172,6 +188,9 @@
                 });               
                 
                 $("#user").val(values[1]);
+                $("#uss").val(values[1]);
+                $("#estado").val(values[2]);
+
                 
             });
             
@@ -207,6 +226,11 @@
                 }                
             });
             
+            
+            $('#desactivar').click(function()
+            {
+                $('#activo').submit();
+            });
             //click handler para vista
             
    
@@ -220,6 +244,7 @@
                 "aoColumns": [
                     { "mDataProp": "id" },
                     { "mDataProp": "usuario" },
+                    { "mDataProp":"estado"},                    
                     { "mDataProp": "nombre" },
                     { "mDataProp": "apellidos" },
                     { "mDataProp": "edad" },
@@ -259,12 +284,21 @@
 	 });
          var sayhola = function(data){
                 
-                console.log(data);
                  if(data.responseCode==200)
                   {
                     alert('Registro Completo');
                     $("#divuser").css({'display':'none'});
                     $("#guardar").css({'display':'none'});
+                  }
+            };
+            
+          var sayhola1 = function(data){
+                
+                console.log(data);
+                 if(data.responseCode==200)
+                  {
+                    alert('Registro Completo');
+                    oTable.fnReloadAjax();
                   }
             };
        </script>
