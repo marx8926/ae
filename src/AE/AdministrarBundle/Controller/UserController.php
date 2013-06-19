@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AE\DataBundle\Entity\Usuario;
 
-
 class UserController extends Controller
 {
     public function cambiarusuarioAction()            
@@ -59,18 +58,24 @@ class UserController extends Controller
 			$em->beginTransaction();
 			try
 			{
-                            if(strcmp($pass, $npass)==0)
-			    {	$user->setNombre($usuario);	
+                            if(strcmp($pass, $npass)==0  )
+			    {
+                                if(strcmp($user->getNombre(),$usuario)==0)
+                                {
+                                    $user->setNombre($usuario);	                                   
+                                }
+                                else
+                                {
+                                    $user = $em->getRepository('AEDataBundle:Usuario')->findOneBy(array('nombre'=>$usuario));                                    
+                                }
                                 $user->setPassword($pass);
-				$em->persist($user);
-				$em->flush();
-                                
+                                $em->persist($user);
+                                $em->flush();
+                                    
                           	$return=array("responseCode"=>200, "greetings"=>'ok' );
                             }
                             else $return=array("responseCode"=>400, "greeting"=>"Bad");
 
-
-		
 			}catch(Exception $e)
 			{
 				$em->rollback();
@@ -97,7 +102,7 @@ class UserController extends Controller
         $todo = array();
         
         $securityContext = $this->get('security.context');
-        $user = $securityContext->getToken()->getUser();
+        $usuario = $securityContext->getToken()->getUser();
         
         
         $em->beginTransaction();
@@ -105,7 +110,7 @@ class UserController extends Controller
         try {
             
             
-            if(strcmp($user->getNombre(),$user)!=0)
+            if(strcmp($usuario->getNombre(),$user)!=0)
             {        
                 $sql = "select id from usuario where nombre=:usr";
                 $smt = $em->getConnection()->prepare($sql);

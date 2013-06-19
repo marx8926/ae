@@ -40,6 +40,8 @@
 	</tbody>
 	
     </table>
+                                
+                                </form>
         </div>
 	</div>
     <div class="form-horizontal">
@@ -52,11 +54,9 @@
     <form class="form-horizontal" id="RegLocalForm" method="POST" action="{{path('administrar_cambiar_usuario_up')}}">
 			<legend>Cambiar datos de usuario</legend>
 			<div class="control-group">
-				<label class="control-label">Usuario:</label>
+				<label class="control-label"></label>
 				<div class="controls">
-					<input type="text" name="user" id="user" value="" class="cambio" required >
-                                        <p class="help-block" id="disponible" name="disponible" >Disponible</p>
-
+					<input type="hidden" name="user" id="user" value="" class="cambio" required >
 				</div>
 			</div>
 			<div class="control-group">
@@ -105,6 +105,8 @@
 			<script src="{{asset('js/ui.spinner.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
+                        <script src="{{asset('js/functiongen.js')}}"></script>
             
             <script src="http://www.google.com/jsapi"></script>
 
@@ -119,7 +121,24 @@
         
 	$(document).ready(function() {
 
+            enviar("RegLocalForm",sayhola);
+
             $("#divuser").css({'display':'none'});
+            
+            
+            
+           $("#guardar").css({'display':'none'});
+                
+                $(".cambio").change(function(){
+                    
+                    var v1 = $('#pass').val();
+                    var v2 = $('#npass').val();
+                    
+                    if(v1==v2 && v1.length >0)
+                        $("#guardar").css({'display':'block'});
+                    else
+                        $("#guardar").css({'display':'none'});
+               });
             
             
 		$("#pdfbutton").click(function(event) {
@@ -151,6 +170,9 @@
                 $.each(tds, function(index, item) {
                     values.push(item.innerHTML); 
                 });               
+                
+                $("#user").val(values[1]);
+                
             });
             
             //click handler para eliminar
@@ -170,10 +192,19 @@
             
                     var rutas = route.replace('nom',val[0]);
                     
-                    console.log(rutas);
                     window.open(rutas,'1359563086883','width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
                
                 }
+            });
+            
+            $('#cambio').click(function(){
+            
+                var us = $("#user").val();
+                
+                if(us.length>0)
+                {
+                      $("#divuser").css({'display':'block'});
+                }                
             });
             
             //click handler para vista
@@ -224,7 +255,17 @@
 					}
             } );	
    
+            
 	 });
-         
+         var sayhola = function(data){
+                
+                console.log(data);
+                 if(data.responseCode==200)
+                  {
+                    alert('Registro Completo');
+                    $("#divuser").css({'display':'none'});
+                    $("#guardar").css({'display':'none'});
+                  }
+            };
        </script>
 {%endblock %}  
