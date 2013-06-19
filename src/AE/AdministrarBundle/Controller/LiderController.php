@@ -18,6 +18,8 @@ class LiderController extends Controller
         
           $securityContext = $this->get('security.context');
         
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
+         {
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
@@ -30,9 +32,14 @@ class LiderController extends Controller
                 $req = $smt->fetch();
                 if(count($req)>0)
                     $red = $req['red'];
+                
+                if($securityContext->isGranted('ROLE_PASTOR_EJECUTIVO'))
+                    $red =null;
             }
             
-        return $this->render('AEAdministrarBundle:Lider:docered.html.twig',array('red'=>$red));
+            return $this->render('AEAdministrarBundle:Lider:docered.html.twig',array('red'=>$red));
+         }
+         else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
 
     }
     
@@ -99,6 +106,8 @@ class LiderController extends Controller
         
           $securityContext = $this->get('security.context');
         
+          if($securityContext->isGranted('ROLE_LIDER_RED'))
+          {
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
@@ -112,8 +121,13 @@ class LiderController extends Controller
                 if(count($req)>0)
                     $red = $req['red'];
             }
-            
-        return $this->render('AEAdministrarBundle:Lider:ciento44red.html.twig',array('red'=>$red));
+             if($securityContext->isGranted('ROLE_PASTOR_EJECUTIVO'))
+                    $red =null;
+             
+            return $this->render('AEAdministrarBundle:Lider:ciento44red.html.twig',array('red'=>$red));
+
+          }
+          else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
 
     }
 
@@ -176,6 +190,8 @@ class LiderController extends Controller
             
           $securityContext = $this->get('security.context');
         
+          if($securityContext->isGranted('ROLE_LIDER_RED'))
+          {
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
@@ -188,9 +204,15 @@ class LiderController extends Controller
                 $req = $smt->fetch();
                 if(count($req)>0)
                     $red = $req['red'];
+                
+                 if($securityContext->isGranted('ROLE_PASTOR_EJECUTIVO'))
+                    $red =null;
             }
             
-        return $this->render('AEAdministrarBundle:Lider:milred.html.twig',array('red'=>$red));
+            return $this->render('AEAdministrarBundle:Lider:milred.html.twig',array('red'=>$red));
+          }
+          else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
     
       
@@ -252,6 +274,8 @@ class LiderController extends Controller
     {
          $securityContext = $this->get('security.context');
         
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
+         {
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
@@ -264,9 +288,16 @@ class LiderController extends Controller
                 $req = $smt->fetch();
                 if(count($req)>0)
                     $red = $req['red'];
+                
+                if($securityContext->isGranted('ROLE_PASTOR_EJECUTIVO'))
+                    $red =null;
             }
             
             return $this->render('AEAdministrarBundle:otro:asistenciaculto.html.twig',array('red'=>$red));
+         }
+         else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
+         
     }
     
     public function asistencia_culto_upAction()
@@ -339,6 +370,8 @@ class LiderController extends Controller
     {
          $securityContext = $this->get('security.context');
         
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
+         {
             $ganador = $securityContext->getToken()->getUser()->getIdPersona();
             $red = NULL;
             $em = $this->getDoctrine()->getEntityManager();
@@ -351,8 +384,13 @@ class LiderController extends Controller
                 $req = $smt->fetch();
                 if(count($req)>0)
                     $red = $req['red'];
+                if($securityContext->isGranted('ROLE_PASTOR_ASOCIADO'))
+                    $red = NULL;
             }
             
             return $this->render('AEAdministrarBundle:otro:asistencialista.html.twig',array('red'=>$red));
+            }
+            else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
 }

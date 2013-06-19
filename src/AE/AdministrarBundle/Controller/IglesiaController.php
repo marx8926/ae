@@ -16,8 +16,12 @@ class IglesiaController extends Controller
       //iglesia
     public function igleAction()
     {
-      return $this->render('AEAdministrarBundle:Iglesia:regIglesia.html.twig');
-
+        $securityContext = $this->get('security.context');
+        
+        if($securityContext->isGranted('ROLE_ADMIN'))
+            return $this->render('AEAdministrarBundle:Iglesia:regIglesia.html.twig');
+        
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
     }
     
     
@@ -113,16 +117,24 @@ class IglesiaController extends Controller
     
     public function modiglesiaAction()
     {
-         $em = $this->getDoctrine()->getEntityManager();         
+        
+        $securityContext = $this->get('security.context');
+        
+        if($securityContext->isGranted('ROLE_ADMIN'))
+        {
+            $em = $this->getDoctrine()->getEntityManager();         
          
-          $iglesias = $em->getRepository('AEDataBundle:Iglesia');
-          $igle = $iglesias->findAll();
-          $em->clear();
+            $iglesias = $em->getRepository('AEDataBundle:Iglesia');
+            $igle = $iglesias->findAll();
+            $em->clear();
           
-         $em->close();
-         
-         
-        return $this->render('AEAdministrarBundle:Iglesia:modificar.html.twig',array('id'=> $igle[0]->getId()));
+            $em->close();
+                  
+            return $this->render('AEAdministrarBundle:Iglesia:modificar.html.twig',array('id'=> $igle[0]->getId()));
+   
+        }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
     
     

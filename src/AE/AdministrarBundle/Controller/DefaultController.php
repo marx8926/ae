@@ -48,19 +48,53 @@ class DefaultController extends Controller
   
     public function lista_miembrosAction()
     {
-                return $this->render('AEAdministrarBundle:listas:miembro_red.html.twig');
+         $securityContext = $this->get('security.context');
+        
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
+         {
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                    $red = $req['red'];
+                
+                if($securityContext->isGranted('ROLE_GANAR') || $securityContext->isGranted('ROLE_ENVIAR') ||
+                        $securityContext->isGranted('ROLE_CONSOLIDAR') || $securityContext->isGranted('ROLE_DISCIPULAR') )
+                    $red =null;
+            }
+            
+            return $this->render('AEAdministrarBundle:listas:miembro_red.html.twig',array('red'=>$red));
+         }
+         else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
 
     }
     
     public function lista_miembros_allAction()
     {
-       return $this->render('AEAdministrarBundle:listas:miembros.html.twig');   
+       $securityContext = $this->get('security.context');
+
+       if ($securityContext->isGranted('ROLE_ADMIN'))
+         return $this->render('AEAdministrarBundle:listas:miembros.html.twig');   
+
+       else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
 
   
     public function lista_usuariosAction()
     {
+        $securityContext = $this->get('security.context');
+
+       if ($securityContext->isGranted('ROLE_ADMIN'))
         return $this->render('AEAdministrarBundle:listas:usuario.html.twig');
+       else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
     }
     public function claseAction()
     {

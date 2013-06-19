@@ -25,7 +25,11 @@ class PermisoController extends Controller
     
     public function permisoAction()
     {
-        return $this->render('AEAdministrarBundle:otro:permiso.html.twig');
+         $securityContext = $this->get('security.context');
+        
+        if($securityContext->isGranted('ROLE_ADMIN'))
+            return $this->render('AEAdministrarBundle:otro:permiso.html.twig');        
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
     }
     
     //guardar permisos para cada persona

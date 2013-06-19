@@ -486,7 +486,7 @@
                                             </a>
                                         </li>
                                         {% endif %}
-                                 			{% if is_granted('ROLE_PASTOR_ASOCIADO')%}
+                                 			{% if is_granted('ROLE_ADMIN')%}
         				<li>
 						<a href="{{path('administrar_iglesia')}}">
 							Registrar Iglesia
@@ -497,15 +497,21 @@
 							Modificar Iglesia
 						</a>
 					</li>
+                                        
+                                        {% endif %}
+                                        
+                                        {% if is_granted('ROLE_PASTOR_ASOCIADO')%}
 					<li>
 						<a href="{{path('administrar_red')}}">
 							Registrar Red
 						</a>
 					</li>
-				
+                                       
                                         <li>
-                                            <a href="{{path('administrar_lista_redes')}}">Redes</a>
+                                            <a href="{{path('administrar_lista_redes')}}">Lista de Redes</a>
                                         </li>
+                                        
+                                         {% endif %}
                                         
 					{% if is_granted('ROLE_ADMIN') %}
 					<li>
@@ -513,7 +519,6 @@
 							Permisos
 						</a>
 					</li>
-                                        {% endif %}
             				<ul class='collapsed-nav closed'>
  
                                         <li>
@@ -533,9 +538,11 @@
 							Registrar 1728
 						</a>
 					</li>
-                                        
+                                        {% endif %}
+
                                         </ul>
                                         
+                                        {% if is_granted('ROLE_PASTOR_ASOCIADO')%}
 					<li>
 						<a href="{{path('administrar_lista_lider_red')}}">
 							Líderes de Red
@@ -556,27 +563,34 @@
 							Misioneros
 						</a>
 					</li>
+                                        {% endif %}
+                                        
+                                        {% if is_granted('ROLE_LIDER_RED') %}
 					<li>
 						<a href="{{path('administrar_lista_miembros')}}">
 							Lista Miembros/Red
 						</a>
 					</li>
+                                        {% endif %}
+                                        {%if is_granted('ROLE_ADMIN') %}
+                                                                                
+                                            <li>
+                                                <a href="{{path('administrar_clase')}}"> Crear Leche Espiritual
+                                                </a>
+                                            </li>
                                         
-                                        <li>
-                                            <a href="{{path('administrar_lista_miembros_all')}}">
-                                                Todos los miembros
-                                            </a>
-                                            
-                                        </li>
-                                        <li>
-                                            <a href="{{path('administrar_lista_usuario')}}">Lista de Usuarios</a>
-                                        </li>
+                                            <li>
+                                                <a href="{{path('administrar_lista_miembros_all')}}">
+                                                    Todos los miembros
+                                                </a>                                            
+                                            </li>
+                                      
+                                            <li>
+                                                <a href="{{path('administrar_lista_usuario')}}">Lista de Usuarios</a>
+                                            </li>
+                                        {% endif %}
                                         
-                                        <li>
-                                            <a href="{{path('administrar_clase')}}"> Crear Leche Espiritual
-                                            </a>
-                                        </li>
-                                        
+                                        {% if is_granted('ROLE_LIDER_RED')%}
                                         <li>
                                             <a href="{{path('administrar_asistencia_culto')}}">
                                              Registrar Asistencia Culto
@@ -588,7 +602,9 @@
                                                Informe Asistencia Culto 
                                             </a>    
                                         </li>
+                                        {% endif %}
                                         
+                                        {% if is_granted('ROLE_LIDER_RED')%}
                                         <li>
                                             <a href="{{path('administrar_registro_ropa_vista')}}">Registro de ropa a miembros</a>
                                         </li>
@@ -610,25 +626,30 @@
                                             Datos personales de miembros de una red
                                             </a>
                                         </li>
+                                        {% endif %}
 					<li>
 						<a href="#" class='light toggle-collapsed'>
 							Eventos
 							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 						</a>
 						<ul class='collapsed-nav closed dentro'>
+                                                     {% if is_granted('ROLE_ADMIN')%}
 							<li>
 								<a href="{{path('administrar_administrar_evento')}}">
 									Administrar Eventos
 								</a>
 							</li>
+                                                        
+                                                     {% endif %}
+                                                     {% if is_granted('ROLE_LIDER_RED') %}
 							<li>
 								<a href="{{path('administrar_ver_eventos')}}">
 									Asistencia Eventos
 								</a>
 							</li>
+                                                     {% endif %}
 						</ul>
 					</li>
-                                                                {% endif %}
 
 				</ul>
 			</li>

@@ -19,6 +19,8 @@ class RopaController extends Controller
     {
          $securityContext = $this->get('security.context');
         
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
+         {
          $ganador = $securityContext->getToken()->getUser()->getIdPersona();
          $red = NULL;
          $em = $this->getDoctrine()->getEntityManager();
@@ -32,8 +34,14 @@ class RopaController extends Controller
             if(count($req)>0)
             $red = $req['red'];
          }
-            
+         
+         if($securityContext->isGranted('ROLE_GANAR')|| $securityContext->isGranted('ROLE_CONSOLIDAR')||
+                 $securityContext->isGranted('ROLE_ENVIAR') ||$securityContext->isGranted('ROLE_DISCIPULAR'))
+            $red = NULL;
+         
         return $this->render('AEAdministrarBundle:Ropa:registroropa.html.twig',array('red'=>$red));
+        }
+       else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
    
     }
     
@@ -126,7 +134,9 @@ class RopaController extends Controller
     public function informeroparedAction()
     {
          $securityContext = $this->get('security.context');
-        
+         
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
+         {
          $ganador = $securityContext->getToken()->getUser()->getIdPersona();
          $red = NULL;
          $em = $this->getDoctrine()->getEntityManager();
@@ -140,51 +150,73 @@ class RopaController extends Controller
             if(count($req)>0)
             $red = $req['red'];
          }
-            
+             if($securityContext->isGranted('ROLE_GANAR')|| $securityContext->isGranted('ROLE_CONSOLIDAR')||
+                 $securityContext->isGranted('ROLE_ENVIAR') ||$securityContext->isGranted('ROLE_DISCIPULAR'))
+                $red = NULL;
+             
         return $this->render('AEAdministrarBundle:Ropa:informeropared.html.twig',array('red'=>$red));
+         }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
    
     }
     
     public function informeropatipoAction()
     {
-            $securityContext = $this->get('security.context');
+          $securityContext = $this->get('security.context');
         
-         $ganador = $securityContext->getToken()->getUser()->getIdPersona();
-         $red = NULL;
-         $em = $this->getDoctrine()->getEntityManager();
-        
-         if($ganador != NULL)
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
          {
-            $sql = "select * from get_red_persona(:id)";
-            $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':id'=>$ganador->getId()));
-            $req = $smt->fetch();
-            if(count($req)>0)
-            $red = $req['red'];
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                $red = $req['red'];
+            }
+             if($securityContext->isGranted('ROLE_GANAR')|| $securityContext->isGranted('ROLE_CONSOLIDAR')||
+                 $securityContext->isGranted('ROLE_ENVIAR') ||$securityContext->isGranted('ROLE_DISCIPULAR'))
+            $red = NULL;
+             
+            return $this->render('AEAdministrarBundle:Ropa:informeropadoce.html.twig',array('red'=>$red));
          }
-            
-        return $this->render('AEAdministrarBundle:Ropa:informeropadoce.html.twig',array('red'=>$red));
+         else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
     
       public function informeropaAction()
     {
             $securityContext = $this->get('security.context');
-        
-         $ganador = $securityContext->getToken()->getUser()->getIdPersona();
-         $red = NULL;
-         $em = $this->getDoctrine()->getEntityManager();
-        
-         if($ganador != NULL)
+     
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
          {
-            $sql = "select * from get_red_persona(:id)";
-            $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':id'=>$ganador->getId()));
-            $req = $smt->fetch();
-            if(count($req)>0)
-            $red = $req['red'];
-         }
+            $ganador = $securityContext->getToken()->getUser()->getIdPersona();
+            $red = NULL;
+            $em = $this->getDoctrine()->getEntityManager();
+        
+            if($ganador != NULL)
+            {
+                $sql = "select * from get_red_persona(:id)";
+                $smt = $em->getConnection()->prepare($sql);
+                $smt->execute(array(':id'=>$ganador->getId()));
+                $req = $smt->fetch();
+                if(count($req)>0)
+                    $red = $req['red'];
+            }
+            if($securityContext->isGranted('ROLE_GANAR')|| $securityContext->isGranted('ROLE_CONSOLIDAR')||
+                 $securityContext->isGranted('ROLE_ENVIAR') ||$securityContext->isGranted('ROLE_DISCIPULAR'))
+            $red = NULL;
             
-        return $this->render('AEAdministrarBundle:Ropa:informeropa.html.twig',array('red'=>$red));
+            return $this->render('AEAdministrarBundle:Ropa:informeropa.html.twig',array('red'=>$red));
+        }
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+
     }
 }
 
