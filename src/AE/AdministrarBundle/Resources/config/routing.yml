@@ -240,3 +240,14 @@ administrar_informe_ropa_tipo:
 administrar_informe_ropa:
   pattern: /informe_ropa
   defaults: {_controller: AEAdministrarBundle:Ropa:informeropa}
+  
+  
+administrar_cambiar_usuario:
+  pattern: /cambiar_clave
+  defaults: {_controller: AEAdministrarBundle:User:cambiarusuario}
+  
+administrar_cambiar_usuario_up:
+  pattern: /cambiar_clave_up
+  defaults: {_controller: AEAdministrarBundle:User:cambiarusuario_up}
+  requirements:
+    _method: POST

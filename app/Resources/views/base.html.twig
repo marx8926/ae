@@ -472,14 +472,22 @@
 
 				</ul>
 			</li>
-			{% if is_granted('ROLE_PASTOR_ASOCIADO')%}
 			<li>
 				<a class='light toggle-collapsed'>
 					Administrar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
-					<li>
+                                    
+                                        {% if(is_granted('ROLE_USER'))%}
+                                        <li>
+                                            <a href="{{path('administrar_cambiar_usuario')}}">
+                                            Cambiar Usuario
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                 			{% if is_granted('ROLE_PASTOR_ASOCIADO')%}
+        				<li>
 						<a href="{{path('administrar_iglesia')}}">
 							Registrar Iglesia
 						</a>
@@ -620,10 +628,11 @@
 							</li>
 						</ul>
 					</li>
+                                                                {% endif %}
+
 				</ul>
 			</li>
 		
-                        {% endif %}
                         </ul>
 	</div>
 	<div class="container-fluid">
