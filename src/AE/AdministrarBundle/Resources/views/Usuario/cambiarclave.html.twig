@@ -40,10 +40,25 @@
                     var v1 = $('#pass').val();
                     var v2 = $('#npass').val();
                     
-                    if(v1===v2)
-                        $("#guardar").css({'display':'block'});
-                    else
+                    var url = "{{path('administrar_check_user',{'user':'usr'})}}";
+                    url = url.replace('usr',$('#user').val());
+                    
+                    var num = new Array();
+                    
+                     $.ajax(
+                        {url : url,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(function(data){
+                            num=data;    
+                        });
+                    
+                    if(v1!==v2 || num.length>0 || v1.length===0 || v2.length===0)
                         $("#guardar").css({'display':'none'});
+                    else
+                        $("#guardar").css({'display':'block'});
                });
             	
             });
@@ -69,7 +84,7 @@
 			<div class="control-group">
 				<label class="control-label">Usuario:</label>
 				<div class="controls">
-					<input type="text" name="user" id="user" value="{{usuario}}" required >
+					<input type="text" name="user" id="user" value="{{usuario}}" class="cambio" required >
 				</div>
 			</div>
 			<div class="control-group">

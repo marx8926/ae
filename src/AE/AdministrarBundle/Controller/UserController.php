@@ -90,4 +90,29 @@ class UserController extends Controller
 		return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type
 		
     }
+    
+    public function check_userAction($user)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $todo = array();
+        
+        $em->beginTransaction();
+        
+        try {
+            
+            $sql = "select id from usuario where nombre=:usr";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':usr'=>$user));
+            $todo = $smt->fetchAll();
+            
+            
+        } catch (Exception $exc) {
+            throw $exc;
+        }
+        $em->commit();
+        $em->clear();
+        
+        return new JsonResponse($todo);
+     }
+            
 }
