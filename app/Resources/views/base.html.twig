@@ -131,6 +131,15 @@
                                                             </a>
                                                         </li>
                                                         {% endif %}
+                                                        
+                                                        {% if is_granted('ROLE_LIDER1728') %}
+                                                         <li>
+                                                            <a href="{{path('ganar_informe_por_lider_1728')}}">
+                                                             Informe de 20736 del Pastor@
+                                                            </a>
+                                                        </li>
+                                                        
+                                                        {% endif %}
                                                         {% if(is_granted('ROLE_GANAR')) %}
                                                         <li>
                                                             <a href="{{path('ganar_informe_semanal_ganar')}}">

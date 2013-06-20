@@ -175,9 +175,9 @@ class InformeController extends Controller
                 if(count($req)>0)
                 $red = $req['red'];
             }
-            return $this->render('AEGanarBundle:Default:informeporlider12.html.twig', array('red'=>$red));
+            return $this->render('AEGanarBundle:Default:informeporlider1728.html.twig', array('red'=>$red));
 
-        }
+            }
             else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
 
         }

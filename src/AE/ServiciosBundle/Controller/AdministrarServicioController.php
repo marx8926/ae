@@ -201,6 +201,37 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        
        return new JsonResponse($est);
    }
+  
+   public function mil_redAction($red, $doce, $lider)
+   {
+       
+       $est = array();
+       
+       $em = $this->getDoctrine()->getEntityManager();
+       $em->beginTransaction();
+       
+       try
+       {
+           $sql = "select * from info_ciento_red(:red,:padre)";
+           $smt = $em->getConnection()->prepare($sql);
+           $smt->execute(array(':red'=>$red,':padre'=>$lider));
+           
+           $est = $smt->fetchAll();
+                      
+           $em->commit();
+           $em->clear();
+       }
+       catch (Exception $e)
+       {
+           $em->rollback();
+           $em->close();
+           throw $e;
+       }
+       
+       return new JsonResponse($est);
+   }
+  
+   
    public function pastores_ejecutivosAction()
    {
        
