@@ -75,18 +75,17 @@
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead id='lol'>
                 		<tr>
-		                    <th>ID</th>
-		                    <th>Nombres</th>
-		                    <th>Edad</th>
+		                   <th>Nombres</th>
+		                    <th width="5%">Edad</th>
 		                    <th>DNI</th>
-		                    <th>Estado</th>
-		                    <th>Telefono</th>
+		                    <th width="6%">Estado</th>
+		                    <th width="6%">Telefono</th>
                                     <th>Visita</th>
                                     <th>Direccion</th>
                                     <th>Referencia</th>
-                                    <th>Conversión</th>
+                                    <th width="8%">Conversión</th>
                                     <th>Petición</th>
-                                    <th>Lugar</th>
+                                    <th width="8%">Lugar</th>
 		                </tr>
 					</thead>
 					
@@ -96,19 +95,7 @@
     	</div>
             
 	</div>
-    <div class="form-horizontal" id="select" name="select">
-        <input type="button" class="btn btn-primary" id="vista" name="vista" value="Ver Datos">
-        
-         {% if is_granted('ROLE_GANAR') %}
-            <input type="button" class="btn btn-primary" id="modificar" name="modificar" value="Modificar">
-            <input type="button" class="btn btn-danger" id="eliminar" name="eliminar" value="Eliminar">                  
-         {% endif %}
-        
-        <!-- button class="btn-success" id="modificar" name="modificar" value="Modificar">
-        	<a id="mas" href="" >Modificar</a>
-        </button -->
-        
-    </div>
+    
 </div>    
        </div>          
 {% endblock %}
@@ -235,7 +222,6 @@
                     route = route.replace('name',net);
                     route = route.replace(':led',nombre);
 
-                    console.log(route);
                     $.ajax(
                         {url : route,
                          dataType:"json",
@@ -423,7 +409,6 @@
                 "bDestroy": true,
                 "sAjaxSource": url,
                 "aoColumns": [
-                    { "mDataProp": "id" },
                     { "mDataProp": "nombres" },
                     { "mDataProp": "edad" },
                     { "mDataProp": "dni" },
@@ -436,7 +421,7 @@
                     { "mDataProp": "peticion"},
                     { "mDataProp": "lugar"}
                 ],
-		"aaSorting": [ [9,'desc']],//por consultar el tipo de orden
+		"aaSorting": [ [0,'asc']],//por consultar el tipo de orden
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
 		],"sDom": 'T<"clear">lfrtip',
