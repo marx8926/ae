@@ -130,10 +130,7 @@
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
-            
-          
- 
- 
+   
     <script type="text/javascript">
  
          var trselected; 
@@ -424,7 +421,11 @@
 		"aaSorting": [ [0,'asc']],//por consultar el tipo de orden
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
+		],
+                "sScrollY": "200px",
+                "bPaginate": false,
+                "bScrollCollapse": true,
+                "sDom": 'T<"clear">lfrtip',
                 "oTableTools": {
 			"sRowSelect": "single",
                         "fnRowSelected": function ( node ) {

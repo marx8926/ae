@@ -325,7 +325,11 @@
 		"aaSorting": [ [0,'asc']],//por consultar el tipo de orden
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
-		],"sDom": 'T<"clear">lfrtip',
+		],
+                "sScrollY": "200px",
+                "bPaginate": false,
+                "bScrollCollapse": true,
+                "sDom": 'T<"clear">lfrtip',
                 "oTableTools": {
 			"sRowSelect": "single",
                         "fnRowSelected": function ( node ) {

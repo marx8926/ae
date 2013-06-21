@@ -14,7 +14,7 @@ servicio_administrar_lista_redes_ubicacion:
   pattern: /lista_redes_ubicacion
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:lista_redes_ubicacion}
   
-servicio_administrar_ciento_red:
+servicio_administrar_mil_red:
   pattern: /mil_red/{red}/{doce}/{lider}
   defaults: {_controller: AEServiciosBundle:AdministrarServicio:mil_red}
   requirements:

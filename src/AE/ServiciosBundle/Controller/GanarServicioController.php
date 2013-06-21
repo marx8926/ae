@@ -673,25 +673,19 @@ class GanarServicioController extends Controller
        return new JsonResponse(array('aaData'=>$redes)); 
     }
 
-     public function nuevos_red_lider_milAction($red, $inicio, $doce, $ciento, $padre)
+     public function nuevos_red_lider_milAction($red, $inicio, $fin, $doce, $ciento, $padre)
     {
         $sql = "select * from  get_ganador_lider_red_mil(:red,:ini,:fin,:padre,:doce,:ciento)";
 
         $em = $this->getDoctrine()->getEntityManager();
-        
-        $ini = new \DateTime();
-        $ini->setDate($inicio, '01', '01');
-        $fin = new \DateTime();
-        $fin->setDate($inicio,'12', '31');
-        
-        
+    
         $redes = array();
        
         try{
             $em->beginTransaction();
             
             $smt = $em->getConnection()->prepare($sql);
-            $smt->execute(array(':red'=>$red,':ini'=>$ini->format('Y-m-d'),':fin'=>$fin->format('Y-m-d'),':padre'=>$padre, ':doce'=>$doce,':ciento'=>$ciento));
+            $smt->execute(array(':red'=>$red,':ini'=>$inicio,':fin'=>$fin,':padre'=>$padre, ':doce'=>$doce,':ciento'=>$ciento));
  
             $redes = $smt->fetchAll();
             $em->commit();

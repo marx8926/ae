@@ -84,7 +84,6 @@
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead id='lol'>
                 		<tr>
-		                    <th>ID</th>
 		                    <th>Nombres</th>
 		                    <th>Edad</th>
 		                    <th>DNI</th>
@@ -105,19 +104,7 @@
     	</div>
             
 	</div>
-    <div class="form-horizontal" id="select" name="select">
-        <input type="button" class="btn btn-primary" id="vista" name="vista" value="Ver Datos">
-        
-         {% if is_granted('ROLE_GANAR') %}
-            <input type="button" class="btn btn-primary" id="modificar" name="modificar" value="Modificar">
-            <input type="button" class="btn btn-danger" id="eliminar" name="eliminar" value="Eliminar">                  
-         {% endif %}
-        
-        <!-- button class="btn-success" id="modificar" name="modificar" value="Modificar">
-        	<a id="mas" href="" >Modificar</a>
-        </button -->
-        
-    </div>
+   
 </div>    
        </div>          
 {% endblock %}
@@ -165,10 +152,167 @@
                  
    
          
+        function recargar_celula()
+        {
+            
+        }
+        
+        function cambiar_doce()
+        {
+             var nombre = $("#red_lista option:selected").val();  
+            
+               var route = '{{path('servicio_administrar_doce_red',{'red': 'name'})}}';
+            
+               if(nombre!= '-1')
+               {
+                 var rutas = route.replace('name',nombre);
+               
+                 $.ajax(
+                        {url : rutas,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(doce); 
+
+               }      
+        }
+        function doce(data)
+        {
+            $('#doce_lista').empty();
+            $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
+
+            for(var i=0; i<data.length ; i++)   
+             {
+                  
+                $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#doce_lista');
+                
+             }                         
+        }
+        function cambiar_ciento()
+        {
+              var net = $("#red_lista option:selected").val();
+               var nombre = $("#doce_lista option:selected").val();  
+               
+               if(nombre.length >0)
+               {
+               
+                    var route = '{{path('servicio_administrar_ciento_red',{'red': 'name','lider':':led'})}}';
+               
+                    route = route.replace('name',net);
+                    route = route.replace(':led',nombre);
+
+                    $.ajax(
+                        {url : route,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(ciento); 
+               }
+        }
+        function ciento(data)
+        {
+             $('#ciento_lista').empty();
+             
+             $("<option value='-1'>Sin Lider</option>").appendTo('#ciento_lista');
+
+              for(var i=0; i<data.length ; i++)   
+              { 
+                   
+                $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#ciento_lista');
+           
+              } 
+        }
+        
+        function cambiar_miles()
+        {
+               var net = $("#red_lista option:selected").val();
+               var doc = $("#doce_lista option:selected").val(); 
+               var cien = $("#ciento_lista option:selected").val();
+               
+               if(cien.length >0)
+               {
+               
+                    var route = '{{path('servicio_administrar_mil_red',{'red': 'name','doce':':doce','lider':':led'})}}';
+               
+                    route = route.replace('name',net);
+                    route = route.replace(':doce',doc);
+                    route = route.replace(':led',cien);
+
+                    $.ajax(
+                        {url : route,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(miles); 
+               }
+        }
+        
+        function miles(data)
+        {
+             $('#mil_lista').empty();
+             
+             $("<option value='-1'>Sin Lider</option>").appendTo('#mil_lista');
+
+              for(var i=0; i<data.length ; i++)   
+              {                    
+                $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#mil_lista');           
+              } 
+        }
+        function cambiar_datos()
+        {
+            var net = $("#red_lista option:selected").val();
+            var doc = $("#doce_lista option:selected").val(); 
+            var cien = $("#ciento_lista option:selected").val();
+            var padre= $("#mil_lista option:selected").val();
+            
+            var date1 =  $("#desde").val().split('/');
+            var date2 =  $("#hasta").val().split('/');
+            var desde = date1[2] + '-' + date1[1] + '-' + date1[0];
+            var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
+               
+            var url = "{{path('servicio_nuevos_por_red_mil',{'red':'net','inicio':'ini','fin':':fini',
+'doce':'dozen','ciento':':ciento','padre':'father'})}}";
+                url = url.replace('net',net);
+                url = url.replace('ini',desde);
+                url = url.replace(':fini',hasta);
+              
+                
+                if(net!='-1' && doc!='-1' && cien!='-1' && padre!='-1' && padre.length>0)
+                {
+                   
+                    url = url.replace('dozen',doc);
+                    url = url.replace(':ciento',cien)
+                    url = url.replace('father',padre);
+            
+                    console.log(url);
+                    
+                     get_tabla(url);
+                }
+                else {
+                }
+        }
+        
 	$(document).ready(function() {
             
-        
+             FechaActualT('desde');
+             FechaActualT('hasta');
             
+             var rede = '{{red}}' ;
+             
+             $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
+             $("<option value='-1'>Sin Lider</option>").appendTo('#ciento_lista');
+             $("<option value='-1'>Sin Lider</option>").appendTo('#mil_lista');
+
+             initRed('{{path('servicio_red_sin')}}');
+            
+             $('#red_lista').change(cambiar_doce);
+             $('#doce_lista').change(cambiar_ciento);
+             $('#ciento_lista').change(cambiar_miles);
+
+             $('.rango').change(cambiar_datos);
 	 });
          
          
@@ -182,7 +326,6 @@
                 "bDestroy": true,
                 "sAjaxSource": url,
                 "aoColumns": [
-                    { "mDataProp": "id" },
                     { "mDataProp": "nombres" },
                     { "mDataProp": "edad" },
                     { "mDataProp": "dni" },
@@ -195,7 +338,10 @@
                     { "mDataProp": "peticion"},
                     { "mDataProp": "lugar"}
                 ],
-		"aaSorting": [ [9,'desc']],//por consultar el tipo de orden
+                "sScrollY": "200px",
+                "bPaginate": false,
+                "bScrollCollapse": true,
+		"aaSorting": [ [0,'desc']],//por consultar el tipo de orden
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
 		],"sDom": 'T<"clear">lfrtip',

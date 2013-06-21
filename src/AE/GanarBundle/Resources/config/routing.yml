@@ -82,7 +82,7 @@ ganar_informe_por_lider144:
   defaults: {_controller: AEGanarBundle:Informe:InformeLider144}
   
 ganar_informe_por_lider_1728:
-  pattern: /informe_por_lider1728
+  pattern: /informe_por_lider20736
   defaults: {_controller: AEGanarBundle:Informe:InformeLider1728}
   
 ganar_modificar_ganador:

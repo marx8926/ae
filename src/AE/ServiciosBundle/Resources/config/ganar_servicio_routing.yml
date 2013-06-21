@@ -120,7 +120,7 @@ servicio_nuevos_por_red_ciento:
   defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider_ciento}
   
 servicio_nuevos_por_red_mil:
-  pattern: /servicio_nuevos_red_mil/{red}/{inicio}/{doce}/{ciento}/{padre}
+  pattern: /servicio_nuevos_red_mil/{red}/{inicio}/{fin}/{doce}/{ciento}/{padre}
   defaults: {_controller: AEServiciosBundle:GanarServicio:nuevos_red_lider_mil}
   
 servicio_informe_data_semanal:

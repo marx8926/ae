@@ -212,9 +212,9 @@ where NOT EXISTS (SELECT er.id_persona FROM evento_realizado as er where er.id_p
        
        try
        {
-           $sql = "select * from info_ciento_red(:red,:padre)";
+           $sql = "select * from info_mil_red(:red,:doce,:ciento)";
            $smt = $em->getConnection()->prepare($sql);
-           $smt->execute(array(':red'=>$red,':padre'=>$lider));
+           $smt->execute(array(':red'=>$red,':doce'=>$doce,':ciento'=>$lider));
            
            $est = $smt->fetchAll();
                       
