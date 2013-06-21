@@ -216,7 +216,6 @@
         
         function recargar_celula()
         {
-          recargar_consolidadores();
 
         }
         
@@ -291,17 +290,23 @@
                              
                     //get the url for the form
                     var url=$("#registro").attr("action");
-                     $.post(url,{
+
+                    $.post(url,{
                         formName:$("#registro").serialize(),
                         other:"attributes",
                         id: $('#code').text(),
                         num: $('#numero').val()
                     },function(data){
 
+                    
                     //the response is in the data variable
                     if(data.responseCode===200 ){                                 
                         alert('Registro Completado');
                         oTable.fnReloadAjax();
+                        
+                        $('#code').text("");
+                        $('#nuevo').text("");
+                        $('#temas').html(null);
                     }
                     else if(data.responseCode===400)//bad request
                        alert('Error bad request');

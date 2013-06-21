@@ -513,7 +513,7 @@ class ConsolidarServicioController extends Controller
          $result="<div> <input type='hidden' id='numero' name='numero' value='".count($todo)."'><table id='tabla_temas' name='tabla_temas' class='table table-striped table-bordered'>
 					<thead>
 						<tr>
-							<th>ID</th>
+							<th>N°</th>
 							<th>Tema</th>
 							<th>Fecha de Inicio</th>							
                                                         <th>Fecha de Fin</th>
@@ -523,15 +523,17 @@ class ConsolidarServicioController extends Controller
 					</thead>
 					<tbody>";
             
-       
+                $cont =1;
             	foreach ($todo as $key => $val){
 			
                     
 			$result =$result."<tr>
-                                            <td>".$val["id"]." <input type='hidden' id='list".$key."' name='list".$key."' value='".$val['leche']."' > </td>
+                                            <td>".$cont." <input type='hidden' id='list".$key."' name='list".$key."' value='".$val['leche']."' > </td>
                                             <td>".$val["titulo"]."</td>
                                             <td>".$val['inicio']."</td>";
                                              
+                        $cont++;
+                        
                         if($val['fin']!=NULL)
                         {
                             $d = new \DateTime($val['fin']);
@@ -922,7 +924,6 @@ class ConsolidarServicioController extends Controller
    {
        $result = "";
        
-       
       $em = $this->getDoctrine()->getEntityManager();
        $todo = array();
        $tools = array();
@@ -974,7 +975,7 @@ class ConsolidarServicioController extends Controller
                $cuerpo = $cuerpo."<td>".$value['titulo']."</td>";
                
            }
-           $temp = $temp." <th>De</th> <th>En</th> </thead> </tr>";
+           $temp = $temp." <th>De</th> <th>En</th> </thead> ";
            $cuerpo = $cuerpo."<td>Descartado</td> <td>Encuentro<td></tr>";
            
            $result = $result.$temp;

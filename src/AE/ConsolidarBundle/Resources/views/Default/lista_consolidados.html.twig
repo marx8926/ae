@@ -65,14 +65,12 @@
         <thead>
             <tr>
               
-                <th width='6%'>ID</th>
 		<th>Nombres</th>
 		<th>Apellidos</th>
 		<th width='6%' >Red</th>
                 <th width='6%'>Célula</th>
                 <th width='10%'>Inicio</th>
                 <th width='10%'>Fin</th>
-                <th width='6%'>Id. Con</th>
                 <th>Nom. Con</th>
                 <th>Ap. Con</th>
             </tr>
@@ -85,9 +83,11 @@
     </form>
     </div>
         </div>
+<!--
        <div class="form-horizontal">
        		<input type="button" class="btn btn-primary" id="vista" name="vista" value="Ver Datos">
         </div>
+-->
  </div>    
 {% endblock %}
       
@@ -299,18 +299,16 @@
                 "bDestroy": true,
                 "sAjaxSource": url,
                 "aoColumns": [
-                    { "mDataProp": "id" },
                     { "mDataProp": "nom" },
                     { "mDataProp": "ap" },
                     { "mDataProp": "red" },
                     { "mDataProp": "cell"},
                     { "mDataProp":"inicio"},
                     { "mDataProp":"fin"},
-                    { "mDataProp": "idcon" },
                     { "mDataProp": "nomq" },
                     { "mDataProp": "apq"}
                 ],
-		"aaSorting": [ [3,'asc'], [6,'asc'] ],
+		"aaSorting": [ [2,'asc'], [5,'asc'] ],
 		"aoColumnDefs": [
                     { "sType": 'string-case', "aTargets": [ 2 ] }
 		],

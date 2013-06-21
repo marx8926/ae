@@ -50,6 +50,20 @@ class AsignarController extends Controller
         $request = $this->get('request');
         $name=$request->request->get('formName');
         $id = $request->request->get('id');
+        
+        
+        
+        if(strlen($id)==0)
+        {
+            $return=array("responseCode"=>400, "greeting"=>"Bad1");
+             
+    
+        $return=json_encode($return);//jscon encode the array
+     
+        return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+  
+        }
+        
         $num = $request->request->get('num');
         
         $num_clases = intval($num);
@@ -86,7 +100,7 @@ class AsignarController extends Controller
                 $id_temas[] = $datos['id'.  strval($i)];
                 
              }
-            
+                         
               $em->beginTransaction();
             try
             {
@@ -95,11 +109,14 @@ class AsignarController extends Controller
                      //consolidador
                     $consolidador_q = $em->getRepository('AEDataBundle:Consolidador');
                     $consolidador_f = $consolidador_q->findOneBy(array('id'=>$consolidador));
-
+                  
                     //nuevo_convertido
                     
                     $per = $em->getRepository('AEDataBundle:Persona');
-                    $persona = $per->findOneBy(array('id'=>$id));                 
+                    $persona = $per->findOneBy(array('id'=>$id));      
+                    
+                   
+
                     
                     //nuevo_convertido
                                  
@@ -128,7 +145,7 @@ class AsignarController extends Controller
                         $em->flush();
                     }
                     
-                  
+                 
                     
                     $consolida = new Consolida();
                     $consolida->setFechaInicio(new \DateTime($ini));
@@ -215,8 +232,7 @@ class AsignarController extends Controller
            //$return=array("responseCode"=>200, "greeting"=>$time_ini);
              
          }
-         else  $return=array("responseCode"=>400, "greeting"=>"Bad1");
-             
+         else  $return=array("responseCode"=>400, "greeting"=>"Bad1");             
     
         $return=json_encode($return);//jscon encode the array
      

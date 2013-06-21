@@ -187,7 +187,9 @@
                     ruta = ruta.replace('con',$('#select_consolidador').val());
                     
                     $('#titulo_informe').text('Informe de '+
-                            $('#select_consolidador option:selected').text()+' Semana '+ $('#inicio').val());
+                            $('#select_consolidador option:selected').text()+' del '+ date1
+                    + '  al ' + date2
+                    );
                     
                     ajaxResposeDataPost("primer",ruta);
                 }

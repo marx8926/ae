@@ -27,7 +27,7 @@
 
             
             <div class="control-group ">
-                    <div class="controls-row">
+                    <div class="controls-row" id="oculto">
                         <label class="control-label" id="code" name="code" ></label>
                         <div class="controls">
                             <label class="input-xxlarge" id="nuevo" name="nuevo"  ></label>
@@ -123,6 +123,8 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                         <script src="{{asset('js/functiongen.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
+                        <script src="{{asset('js/datatable_plugins.js')}}"></script>			
+
             <script src="https://www.google.com/jsapi"></script>
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
@@ -169,6 +171,8 @@
 
             var rede = '{{red}}' ;
             $('#ocultar').css({'display':'none'});
+                         $("#oculto").css({'display':'none'});
+
         
             if(rede.length > 0)
             {
@@ -228,12 +232,13 @@
                         other:"attributes",
                         lista: values
                     },function(data){
-                        console.log(data);
                     //the response is in the data variable
                     if(data.responseCode==200 ){           
                       
                         alert('Registro Completado');
-                        location.reload();
+                        oTable.fnReloadAjax();
+                        $('#ocultar').css({'display':'none'});
+
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');

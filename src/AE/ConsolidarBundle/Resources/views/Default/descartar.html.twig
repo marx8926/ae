@@ -11,7 +11,7 @@
 
 {% block content %} 
 <div class="span9" >
-	<h1>Descartar Consolidados</h1>
+	<h1>Descartar a miembros en leche espiritual</h1>
         
         <div class="control-group">
             <label class="control-label" >Red</label>
@@ -51,7 +51,7 @@
         
     <div  id="ocultar" name="ocultar">
             <fieldset class="form-horizontal">
-            	<div class="control-group">
+            	<div class="control-group" id="oculto">
 		            <label class="control-label">ID:</label>
 		            <div class="controls">
 		                <p style="margin-top: 5px;" id="nombre" name="nombre"></p>
@@ -117,6 +117,8 @@
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
 			<script src="{{asset('js/custom.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
+                        <script src="{{asset('js/datatable_plugins.js')}}"></script>			
+
 
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
@@ -145,6 +147,8 @@
 	$(document).ready(function() {
             
              $("#red_lista").change(recargar_celula);
+             
+             $("#oculto").css({'display':'none'});
             
             var rede = '{{red}}' ;
                                       
