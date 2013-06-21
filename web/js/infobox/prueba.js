@@ -11,7 +11,7 @@ function start(){
 }
 
 function initMapa() {
-	var latlng = new google.maps.LatLng(-8.111682,-79.028628);
+	var latlng = new google.maps.LatLng(-8.097944,-79.03704479999999);
 	var myOptions = {
 		zoom: 14,
         center: latlng,
@@ -42,7 +42,6 @@ function cargarPA(){
     	console.log('NE: '+ ne.lat() +' ' +ne.lng());
     	console.log('SW: '+ sw.lat() +' ' +sw.lng());
     	for(var k=0; k<datos.length;k++){
-    		console.log('Longitud '+ k + ':' + datos[k].longitud);
     		if(datos[k].latitud < ne.lat() && datos[k].latitud > sw.lat() && datos[k].longitud < ne.lng() && datos[k].longitud > sw.lng()){
     			//console.log(datos[k].latitud);
     			arrayPA.push(datos[k]);

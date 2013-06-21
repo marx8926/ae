@@ -1,5 +1,5 @@
 ae_servicios_homepage:
-    pattern:  /test
+    pattern:  /ubicacelulas
     defaults: { _controller: AEServiciosBundle:Default:index }
  
   

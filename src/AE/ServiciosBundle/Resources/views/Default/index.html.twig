@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/DT_bootstrap.css')}}">
     <style>
 	#mapa{
-		height: 400px;
+		height: 350px;
 	}
 	</style>
 {% endblock %}
@@ -47,6 +47,7 @@
 	            async: false,
 	        }).done(function(data){
 	        	setGlobalJSON("data",data);
+                        console.log(data);
 	        	start();
             });
 		}

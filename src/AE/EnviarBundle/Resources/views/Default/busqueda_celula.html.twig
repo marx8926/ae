@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block titulo %}Lista de Células Evangelisticas - {% endblock %}
+{% block titulo %}Lista de Células por red - {% endblock %}
 
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
@@ -11,7 +11,7 @@
 
 {% block content %} 
 <div class="span9" >
-<h1 >Informe de Células </h1>
+<h1 >Busqueda de Células por red </h1>
 
         <div class="control-group">
             		<label class="control-label" >Red</label>
@@ -118,7 +118,7 @@
                         <script src="{{asset('js/functiongen.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
                         <script src="{{asset('js/ganar.js')}}"></script>
-			
+                        <script src="{{asset('js/datatable_plugins.js')}}"></script>
 			<script src="http://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>

@@ -224,8 +224,7 @@
             $("#registro").submit(function(){
                              
                     //get the url for the form
-                    var url=$("#registro").attr("action");
-                                        
+                    var url=$("#registro").attr("action");                                        
                     //start send the post request
                     $.post(url,{
                         formName:$("#registro").serialize(),
@@ -238,7 +237,6 @@
                         alert('Registro Completado');
                         oTable.fnReloadAjax();
                         $('#ocultar').css({'display':'none'});
-
                     }
                     else if(data.responseCode==400){//bad request
                        alert('Error bad request');
