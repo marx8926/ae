@@ -1054,7 +1054,9 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
         
         chdir('csv');
         
-        $path = getcwd()."/clm1.csv";
+        set_time_limit ( 600 );
+        
+        $path = getcwd()."/clm.csv";
         
         $handle = fopen($path, "r");
         
@@ -1077,7 +1079,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
         $lugar = $lugares->findOneBy(array('nombre'=>'Coliseo'));
         
         $cont =0;
-        while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+        while (($data = fgetcsv($handle, ",")) !== FALSE) {
             $todo[] = $data;
         
             $cont++;
@@ -1096,7 +1098,12 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
             
             $persona = new Persona();
             
+            
+            if(strlen($data[0])>5)
             $persona->setDni($data[0]);
+            else  $persona->setDni("12345678");
+
+           
             $persona->setNombre($data[1]);
             $persona->setApellidos($data[2]);
             
@@ -1132,11 +1139,16 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
             
             $nac = NULL;
             //fecha nacimiento
-            if(substr_count($data[9],'/')==2)
+            if(substr_count(strval($data[9]),'/')==2)
             {
-                //$fecha_a =explode('/', $data[9],3);
-                //$fecha = $fecha_a[2].'-'.$fecha_a[1].'-'.$fecha_a[0];
-                $nac = new \DateTime($data[9]);
+                $fecha_a =explode('/', $data[9],3);
+                
+                if(intval($fecha_a[0])<13)
+                    $fecha = $fecha_a[2].'-'.$fecha_a[0].'-'.$fecha_a[1];
+                else
+                    $fecha = $fecha_a[2].'-'.$fecha_a[1].'-'.$fecha_a[0];
+
+                                 $nac = new \DateTime($fecha);
             }
             else
             {
@@ -1165,10 +1177,17 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
             //conversion
                $conv = NULL;
             //fecha nacimiento
-            if(substr_count($data[10],'/')==2)
+            if(substr_count(strval($data[10]),'/')==2)
             {
+               
                 $fecha_a =explode('/', $data[10],3);
-                $fecha = $fecha_a[2].'-'.$fecha_a[1].'-'.$fecha_a[0];
+                
+                if(intval($fecha_a[0])<13)
+                    $fecha = $fecha_a[2].'-'.$fecha_a[0].'-'.$fecha_a[1];
+                else
+                    $fecha = $fecha_a[2].'-'.$fecha_a[1].'-'.$fecha_a[0];
+
+                 
                 $conv = new \DateTime($fecha);
             }
             else
