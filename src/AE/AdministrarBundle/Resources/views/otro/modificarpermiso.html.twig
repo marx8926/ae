@@ -14,6 +14,39 @@
 
       <div class="span9" id="registro_form">
             
+       <h1>Todos los Miembros</h1>
+	<div class="box">
+		<div class="box-head tabs">
+            <h3>Miembros</h3>							
+        </div>
+
+        <div class="box-content box-nomargin">
+        	<form id='form' method='POST'>
+                <input id='content' type='hidden' name='content' >
+                <input id='title' type='hidden' name='title' >
+				<input id='pdfbutton' type='button' value='PDF' class="btn btn-info">
+				<input id='excelbutton' type='button' value='Excel' class="btn btn-info">
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
+        <thead>
+            <tr>
+                <th>ID</th>
+		<th>Nombres</th>
+		<th>Apellidos</th>
+		<th>Edad</th>
+                <th>Red</th>
+                <th>Celula</th>
+		<th>Conversión</th>
+            </tr>
+	</thead>
+	<tbody id="tablas1" name="tablas1" >
+	
+	</tbody>
+	
+    </table>
+    </form>
+    	</div>
+	
+            
           <fieldset>  
                   <legend>Modificar Permisos</legend>
                   
@@ -173,6 +206,8 @@
                     <label class="control-label" >Usuario</label>
                     <div class="controls">
                         <input type="text" id="inputUsuario" name="inputUsuario" placeholder="Usuario" class="input-xlarge" pattern="|^[a-zA-Z0-9]+$|" />
+                        <p class="help-block" id="disponible" name="disponible" >Disponible</p>
+
                     </div>
                 </div>
                
@@ -205,18 +240,32 @@
       
                
       {%block javascript %}
-      <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
-            <script type="text/javascript" language="javascript" src="{{asset('js/media/js/jquery.dataTables.js')}}"></script>
-
-            <script type="text/javascript" src="{{asset('js/bootstrap-typeahead.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-collapse.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-button.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-tooltip.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap-tab.js')}}"></script>
-            <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>    
-            <script src="{{asset('js/custom.js')}}"></script>              
-            <!--[if lt IE 9]> <script type="text/javascript" src="{{asset('js/html5.js')}}"></script><![endif]-->
-      
+      <script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/less.js')}}"></script>
+	<script src="{{asset('js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('js/jquery.uniform.min.js')}}"></script>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script src="{{asset('js/bootstrap.timepicker.js')}}"></script>
+	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
+	<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+	<script src="{{asset('js/jquery.fancybox.js')}}"></script>
+	<script src="{{asset('js/plupload/plupload.full.js')}}"></script>
+	<script src="{{asset('js/plupload/jquery.plupload.queue/jquery.plupload.queue.js')}}"></script>
+	<script src="{{asset('js/jquery.cleditor.min.js')}}"></script>
+	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
+	<script src="{{asset('js/jquery.tagsinput.min.js')}}"></script>
+	<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('js/jquery.dataTables.bootstrap.js')}}"></script>
+	<script src="{{asset('js/jquery.textareaCounter.plugin.js')}}"></script>
+	<script src="{{asset('js/ui.spinner.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>
+        <script src="{{asset('js/tablasfeatures.js')}}"></script>
+            
+    <script src="http://www.google.com/jsapi"></script>
+	<!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
+    <script type="text/javascript" charset="utf-8" language="javascript" src="{{asset('js/DT_bootstrap.js')}}"> </script>
+            
       
       <script type="text/javascript">
           
@@ -336,6 +385,79 @@
 
                      
            $('#usuariodiv').css({'display':'none'});
+           
+           
+                 $("#guardar").css({'display':'none'});
+                
+                $("#inputUsuario").change(function(){
+                    
+                    var url = "{{path('administrar_check_user',{'user':'usr'})}}";
+                    url = url.replace('usr',$('#inputUsuario').val());
+                    
+                    var num = new Array();
+                    
+                     $.ajax(
+                        {url : url,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(function(data){
+                            num=data;    
+                        });
+                    
+                    if(num.length>0)
+                    {
+                          $('#disponible').text("No disponible");
+                    }
+                    else
+                    {
+                        $('#disponible').text("Disponible");
+                    }
+                    
+                   
+               });
+           
+           
+           	$("#pdfbutton").click(function(event) {
+            $("#persona th").css("width","auto");
+        	$("#content").val($("#persona").html());
+        	$("#title").val($("h3").html());
+        	//$("#content").val($("#lol").html() + $("tbody").html());
+                $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+	 		$("#form").submit();
+            });
+
+            $("#excelbutton").click(function(event) {
+        	$("#content").val("<table>" + $("#persona").html() + "</table>");
+                $("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+                $("#form").submit();
+            });
+        
+             $('#persona tbody').click(function(event){
+                $(oTable.fnSettings().aoData).each(function(){
+                    $(this.nTr).removeClass('row_selected');
+                });
+                
+                $(event.target.parentNode).addClass('row_selected');
+                
+                trselected = $(event.target.parentNode);
+                
+                var tds = $(trselected).find('td');
+                
+                values = [];
+  
+                $.each(tds, function(index, item) {
+                    values.push(item.innerHTML); 
+                });  
+                
+                $("#code").val(values[0]);
+                
+                $('#divusuario').css({'display':'none'});
+                     
+                $('#usuariodiv').css({'display':'none'});
+                                              
+            });
 				
            $("#myForm").submit(function(event){
 
@@ -378,7 +500,59 @@
              );
 
             return false;});              
+            
+            get_tabla();
         } );
+        
+         function get_tabla()
+         {
+             /* Build the DataTable with third column using our custom sort functions */
+            oTable = $('#persona').dataTable( {
+                                    
+            	"bProcessing": true,
+                "bServerSide": false,
+                "bDestroy": true,
+                "sAjaxSource": '{{path('servicio_miembro_all')}}',
+                "aoColumns": [
+                    { "mDataProp": "id" },
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos" },
+                    { "mDataProp": "edad" },
+                    { "mDataProp": "red" },
+                    { "mDataProp":"celula"},
+                    { "mDataProp": "fecha"}
+                ],
+		"aaSorting": [ [0,'asc'], [1,'asc'] ],
+		"aoColumnDefs": [
+                    { "sType": 'string-case', "aTargets": [ 2 ] }
+		],"sDom": 'T&lt;"clear"&gt;lfrtip',
+                "oTableTools": {
+			"sRowSelect": "single",
+                        "sSwfPath": "{{asset('js/tabletools/media/swf/copy_csv_xls_pdf.swf')}}",
+                        "fnRowSelected": function ( node ) {
+                            var s=$(node).children();
+                            alert("Selected Row : " + s[0]);
+                        },
+                        "aButtons": [
+				"copy",
+				"csv",
+				"xls",
+				{
+					"sExtends": "pdf",
+					"sPdfOrientation": "landscape",
+					"sPdfMessage": "Your custom message would go here."
+				},
+				"print"
+			]
+		},
+                "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+					"sPaginationType": "bootstrap",
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ registros por página"
+					}
+            } );	
+         }
+         
 
        </script>
       {%endblock %}

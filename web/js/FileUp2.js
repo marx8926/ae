@@ -106,7 +106,7 @@ function FileUp(finishfunction){
             upload.addEventListener("error", function (ev) {console.log(ev);}, false);
             xhr.open(
                 "POST",
-                "https://adminchurch.com/ae/web/upload.php"
+                "https://localhost/ae/web/upload.php"
             );
             xhr.setRequestHeader("Cache-Control", "no-cache");
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");

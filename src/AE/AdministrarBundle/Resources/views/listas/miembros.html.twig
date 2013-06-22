@@ -43,7 +43,9 @@
     </table>
     </form>
     	</div>
-	</div>
+	
+            
+        </div>
     <div class="form-horizontal">
     	<button class="btn btn-primary" id="vista" name="vista">Ver Datos</button>
         <input type="button" class="btn btn-primary" id="modificar" name="modificar" value="Modificar">
@@ -135,15 +137,15 @@
         	$("#content").val($("#persona").html());
         	$("#title").val($("h3").html());
         	//$("#content").val($("#lol").html() + $("tbody").html());
-            $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
+                $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
 	 		$("#form").submit();
-        });
+            });
 
-        $("#excelbutton").click(function(event) {
+            $("#excelbutton").click(function(event) {
         	$("#content").val("<table>" + $("#persona").html() + "</table>");
-	$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
-	$("#form").submit();
-        });
+                $("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
+                $("#form").submit();
+            });
         
              $('#persona tbody').click(function(event){
                 $(oTable.fnSettings().aoData).each(function(){
@@ -164,19 +166,7 @@
                 
                 
                 $('#persona_id').val(values[0]);
-                
-                //carga datos de usuario
-                 /*                  
-                    var url = '{{path('servicio_usuario_id',{'id':'cod'}) }}';
-                    var ruta = url.replace('cod',values[0]);
-                    $.ajax(
-                        {   url : ruta,
-                            dataType:"json",
-                            type: "POST",
-                            async: false,
-                        }
-                    ).done(user);
-                */
+                              
             });
             
             
@@ -284,7 +274,14 @@
                  }
             });
    
-            /* Build the DataTable with third column using our custom sort functions */
+            get_tabla();
+            
+
+	 });
+         
+         function get_tabla()
+         {
+             /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#persona').dataTable( {
                                     
             	"bProcessing": true,
@@ -329,8 +326,7 @@
 						"sLengthMenu": "_MENU_ registros por página"
 					}
             } );	
-
-	 });
+         }
          
    /* Get the rows which are currently selected */
 function fnGetSelected( oTableLocal )

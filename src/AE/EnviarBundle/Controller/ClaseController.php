@@ -125,22 +125,7 @@ class ClaseController extends Controller
             try
             { 
                 
-               /* $horario = new Horario();
-                $horario->setDia($dia);
-                
-                $dat1 = new \DateTime();
-                $dat1->setTime(intval($de),0,0);
-                
-                $horario->setHoraInicio($dat1);
-                
-                $dat2 = new \DateTime();
-                $dat2->setTime(intval($hasta),0, 0);
-                
-                $horario->setHoraFin($dat2);
-                
-                $em->persist($horario);
-                $em->flush();
-                */
+               
                 $tipo = $fila[4];
                 
                
@@ -172,12 +157,13 @@ class ClaseController extends Controller
                           
                          $vat = $smt->fetch();
                          
-            
-                         $sql = "select insert_clase_cell_celulas(:celula,:clase)";
-                         $smt = $em->getConnection()->prepare($sql);
+                         if($vat!=NULL)
+                         {
+                            $sql = "select insert_clase_cell_celulas(:celula,:clase)";
+                            $smt = $em->getConnection()->prepare($sql);
                          
-                         $smt->execute(array(':celula'=>$cell_evang[$i]['id'],':clase'=>$vat['id']));                         
-                     
+                            $smt->execute(array(':celula'=>$cell_evang[$i]['id'],':clase'=>$vat['id']));                         
+                         }
                        }
    
                     }
@@ -190,9 +176,11 @@ class ClaseController extends Controller
                         
                         $smt1->execute(array(':red'=>$red));
                         
-                        $celula = $smt1->fetch();
+                        $celulaT = $smt1->fetchAll();
                         $em->clear();
                         
+                        foreach ($celulaT as $key => $celula)                            
+                        {
                         $sql ="INSERT INTO clase_cell(ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula)  
 	select :ofr, :fd,:ih, :cell, :tce WHERE NOT EXISTS ( SELECT ofrenda, fecha_dicto,id_horario,
 	 id_celula, id_tema_celula from clase_cell  where id_celula=:cell and id_tema_celula=:tce ) returning id ";
@@ -203,21 +191,14 @@ class ClaseController extends Controller
                           
                          $vat = $smt->fetch();
                          
-                         /*                  
-                        $sql = "INSERT INTO clase_cell(ofrenda, fecha_dicto,id_horario,id_celula, id_tema_celula)
-                            VALUES (:ofr, :fd, :ih, :cell, :tce) returning id";
-                          
-                        $smt = $em->getConnection()->prepare($sql);
-                          
-                        $smt->execute(array(':ofr'=>0,':fd'=>NULL,':ih'=>NULL, 
-                            ':cell'=>$celula['id'],':tce'=>$id));
+                         if($vat !=NULL)
+                         {
+                             $sql = "select insert_clase_cell_celulas(:celula,:clase)";
+                            $smt = $em->getConnection()->prepare($sql);
+                            $smt->execute(array(':celula'=>$celula['id'],':clase'=>$vat['id']));
+                         }
                          
-                        $vat = $smt->fetch();
-                        $em->clear();
-                        */
-                        $sql = "select insert_clase_cell_celulas(:celula,:clase)";
-                        $smt = $em->getConnection()->prepare($sql);
-                        $smt->execute(array(':celula'=>$celula['id'],':clase'=>$vat['id']));
+                        }
                         
                     }
                      
@@ -254,11 +235,13 @@ class ClaseController extends Controller
                           $smt->execute(array(':ofr'=>0,':fd'=>NULL,':ih'=>NULL, ':cell'=>$cell_evang[$i]['id'],':tce'=>$id));
                           
                          $vat = $smt->fetch();
-                          
+                         
+                         if($vat!=NULL)
+                         {
                           $sql = "select insert_clase_cell_celulas_mentoreo(:celula,:clase)";
                           $smt = $em->getConnection()->prepare($sql);
                           $smt->execute(array(':celula'=>$cell_evang[$i]['id'],':clase'=>$vat['id']));
-
+                         }
                        }
                            
                     }
@@ -271,8 +254,10 @@ class ClaseController extends Controller
                         
                         $smt1->execute(array(':red'=>$red));
                         
-                        $celula = $smt1->fetch();
+                        $celulaT = $smt1->fetchAll();
                         
+                        foreach ($celulaT as $key => $celula) {
+                            
                         $sql ="INSERT INTO clase_cell(ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula)  
 	select :ofr, :fd,:ih, :cell, :tce WHERE NOT EXISTS ( SELECT ofrenda, fecha_dicto,id_horario,
 	 id_celula, id_tema_celula from clase_cell  where id_celula=:cell and id_tema_celula=:tce ) returning id ";
@@ -284,9 +269,14 @@ class ClaseController extends Controller
                          $vat = $smt->fetch();
                          
                        
-                        $sql = "select insert_clase_cell_celulas_mentoreo(:celula,:clase)";
-                        $smt = $em->getConnection()->prepare($sql);
-                        $smt->execute(array(':celula'=>$celula['id'],':clase'=>$vat['id']));
+                         if($vat!=NULL)
+                         {
+                             $sql = "select insert_clase_cell_celulas_mentoreo(:celula,:clase)";
+                            $smt = $em->getConnection()->prepare($sql);
+                            $smt->execute(array(':celula'=>$celula['id'],':clase'=>$vat['id']));
+                         }
+                         
+                        }
                     }
                 }
                $em->commit();

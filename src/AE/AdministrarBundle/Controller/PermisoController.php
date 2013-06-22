@@ -282,7 +282,11 @@ class PermisoController extends Controller
 
     public function modpermisoAction()
     {
-        return $this->render('AEAdministrarBundle:otro:modificarpermiso.html.twig');
+          $securityContext = $this->get('security.context');
+        
+        if($securityContext->isGranted('ROLE_ADMIN'))
+            return $this->render('AEAdministrarBundle:otro:modificarpermiso.html.twig');
+        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
     }
 
     private function en_arreglo_rol($arreglo , $rol)
@@ -460,11 +464,12 @@ class PermisoController extends Controller
                      {
                         if(strlen($cel)>0) //activar lider celula
                         {
-                        $var = new \AE\DataBundle\Entity\Lider();
+                        $var = new Lider();
                         $var->setId($persona);
                         $var->setFechaObtencion(new \DateTime());
                         $var->setActivo(TRUE);
                         $var->setTipo(0);
+                        $var->setPadre(NULL);
                         
                         $em->persist($var);
                         $em->flush();                        
@@ -479,6 +484,8 @@ class PermisoController extends Controller
                         {
                             //activar permiso
                              $result->setActivo(TRUE); 
+                             $result->setTipo(0);
+                             $result->setPadre(NULL);
                              
                              $lista = $usuario->getIdRol();
                              
@@ -489,11 +496,33 @@ class PermisoController extends Controller
                         }
                         else
                         {
-                            //desactivar permiso
-                             $result->setActivo(FALSE);                             
-                             $sql = "select eliminar_rol_user(:rol,:id)";
-                             $smt = $em->getConnection()->prepare($sql);
-                             $smt->execute(array(':rol'=>$rol->getId(),':id'=>$id));
+                            
+                             $rol_lider = $con->findOneBy(array('nombre'=>'ROLE_LIDER')); 
+                             $rol_lider12 = $con->findOneBy(array('nombre'=>'ROLE_LIDER12')); 
+                             $rol_lider144 = $con->findOneBy(array('nombre'=>'ROLE_LIDER144')); 
+                             $rol_lider1728 = $con->findOneBy(array('nombre'=>'ROLE_LIDER1728')); 
+
+                             $l_roles = array();
+                             
+                             $l_roles[] = $rol;
+                             $l_roles[] = $rol_lider;
+                             $l_roles[] = $rol_lider12;
+                             $l_roles[] = $rol_lider144;
+                             $l_roles[] = $rol_lider1728;
+
+                             //desactivar permiso
+                             $result->setActivo(FALSE);     
+                             foreach ($l_roles as $key => $roles) {
+                                $sql = "select eliminar_rol_user(:rol,:id)";
+                                $smt = $em->getConnection()->prepare($sql);
+                             
+                                $smt->execute(array(':rol'=>$roles->getId(),':id'=>$id));
+                             }
+                             
+                             $result->setActivo(FALSE); 
+                             $result->setTipo(0);
+                             $result->setPadre(NULL);
+                             
                         }
                         $em->persist($result);
                         $em->flush(); 
