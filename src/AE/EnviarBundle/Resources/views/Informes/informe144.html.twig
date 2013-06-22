@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block titulo %} Informe Ganar 1728 {% endblock %}
+{% block titulo %} Informe Lider 144 {% endblock %}
 
 {% block stylesheets %}
         <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
@@ -8,29 +8,13 @@
         <link href="{{asset('css/bootstrap-responsive.css')}}" rel="stylesheet" type="text/css">
         <link href="{{asset('css/DT_bootstrap.css')}}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{asset('css/bootstrap.datepicker.css')}}">
-
 {% endblock %}                 
 
 {% block content %} 
         <div class="row-fluid">
 <div class="span12" >
-	<h1>Informe de Nuevos Convertidos 1728</h1>
-        
-        <div class="control-group">
-            <label class="control-label" >Desde</label>
-            <div class="controls">
-                <input type="text" class="datepick rango" id="desde" name="desde" required>
-            </div>
-        </div>
-        
-        
-         <div class="control-group">
-            <label class="control-label" >Hasta</label>
-            <div class="controls">
-                <input type="text" class="datepick rango" id="hasta" name="hasta" required>
-            </div>
-        </div>
-        
+	<h1>Informe de Lideres 144</h1>
+              
         <div class="control-group">
             <label class="control-label" >Red</label>
             <div class="controls">
@@ -43,24 +27,15 @@
         <div class="control-group">
                 <label class="control-label" >Mis 12</label>
                 <div class="controls">
-                    <select id="doce_lista" name="doce_lista" >
+                    <select id="doce_lista" name="doce_lista" class="rango" >
                         
-                    </select>
-                </div>           
-        </div>
-        
-        <div class="control-group">
-                <label class="control-label" >Mis 144</label>
-                <div class="controls">
-                    <select id="ciento_lista" name="ciento_lista" class="rango" >
-                   
                     </select>
                 </div>           
         </div>
         
 	<div class="box">
 		<div class="box-head tabs">
-            <h3 id="titulo_informe" name="titulo_informe">Informe Ganar </h3>	
+            <h3 id="titulo_informe" name="titulo_informe">Informe Enviar </h3>	
                 </div>
        
 
@@ -75,17 +50,21 @@
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead id='lol'>
                 		<tr>
-		                   <th>Nombres</th>
+		                    <th>ID Cell</th>
+		                    <th>Nombres</th>
+                     		    <th>Apellidos</th>
 		                    <th width="5%">Edad</th>
+                                    <th>Nacimiento</th>
 		                    <th>DNI</th>
-		                    <th width="6%">Estado</th>
 		                    <th width="6%">Telefono</th>
-                                    <th>Visita</th>
                                     <th>Direccion</th>
-                                    <th>Referencia</th>
-                                    <th width="8%">Conversión</th>
-                                    <th>Petición</th>
-                                    <th width="8%">Lugar</th>
+                                    <th>Fecha de <br> Apertura </th>
+                                    <th>Día de la <br> Célula</th>
+                                    <th>Hora</th>
+                                    <th>Tipo de <br> Célula</th>
+                                    <th>Familia <br> Anfitriona</th>
+                                    <th>Telf. <br> Familia</th>
+                                    <th># miembros</th>
 		                </tr>
 					</thead>
 					
@@ -124,21 +103,23 @@
                         <script src="{{asset('js/ganar.js')}}"></script>
                         <script src="{{asset('js/tiempo.js')}}"></script>
                 	<script src="{{asset('js/bootstrap.datepicker.js')}}"></script>
-
-
 			
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
             <script src="{{asset('js/DT_bootstrap.js')}}"> </script>
-   
+            
+          
+ 
+ 
     <script type="text/javascript">
  
          var trselected; 
 	 var oTable;
          
         var values = [];
-                 
-            function recargar_celula()
+         
+ 
+                function recargar_celula()
             {
                 cambiar_red();
             }
@@ -152,7 +133,7 @@
                if(nombre!= '-1')
                {
                  var rutas = route.replace('name',nombre);
-               
+                                
                  $.ajax(
                         {url : rutas,
                          dataType:"json",
@@ -160,153 +141,66 @@
                         async: false,
                         }
                         ).done(doces); 
-
-                    cambiar_doce();
-                    var name = $("#red_lista option:selected").val();  
-
-                   var route = '{{path('servicio_lider_sin',{'red': 'name'})}}';
-            
-                var rutas = route.replace('name',name);
-                               
-                get_tabla(rutas);
                }
+               cambiar_doce();
             }
             
             function doces(data)
             {
                $('#doce_lista').empty();
-               
-               var doce = '{{doce}}';
-               
-               var cadena='';
+               $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
 
-              $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
-
+               var leader = '{{lider}}';
+               var cadena = '';
+               
                for(var i=0; i<data.length ; i++)   
                { 
                    
                 $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#doce_lista');
                 
-                if(data[i].id==doce)
-                    cadena=data[i].nombre+' '+data[i].apellidos;
-               } 
-               
-                {% if (is_granted('ROLE_LIDER144'))%}
-                 
-                 if(doce.length>0)
+                 if(leader==data[i].id)
                  {
-                     
-                    $('#doce_lista').empty();
-                    
-                    $('<option value='+doce+'>'+cadena+'</option>').appendTo('#doce_lista');
-                 
+                     cadena= data[i].nombre+' '+data[i].apellidos;
                  }
+               }
                
+               {% if (is_granted('ROLE_LIDER12'))%}
+                   
+                   if(leader.length>0)
+                   {
+                       $('#doce_lista').empty();
+                       $('<option value='+leader+'>'+cadena+'</option>').appendTo('#doce_lista');
+
+                   }
                {% endif %}
+               
+               $('#padre').val($("#doce_lista option:selected").val());
             }
             function cambiar_doce()
             {
-               $('#abuelo').val($("#doce_lista option:selected").val());
-
-               var net = $("#red_lista option:selected").val();
-               var nombre = $("#doce_lista option:selected").val();  
-               
-               if(nombre.length >0)
-               {
-               
-                    var route = '{{path('servicio_administrar_ciento_red',{'red': 'name','lider':':led'})}}';
-               
-                    route = route.replace('name',net);
-                    route = route.replace(':led',nombre);
-
-                    $.ajax(
-                        {url : route,
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                        ).done(cientos); 
-               }
-            }
-            function cientos(data)
-            {
-                $('#ciento_lista').empty();
-                var ciento = '{{ciento}}';
-                var cadena='';
-               
-                $("<option value='-1'>Sin Lider</option>").appendTo('#ciento_lista');
-
-               for(var i=0; i<data.length ; i++)   
-               { 
-                   
-                $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#ciento_lista');
-               
-               
-                                console.log(data[i].id);
-
-               if(data[i].id==ciento)
-                    cadena=data[i].nombre+' '+data[i].apellidos;
-               } 
-               
-               {% if (is_granted('ROLE_LIDER144'))%}
-
-                 /*
-                 if(ciento.length>0)
-                 {
-                    console.log(ciento+' '+cadena);
-
-                     
-                    $('#ciento_lista').empty();
-                    
-                    $('<option value='+ciento+'>'+cadena+'</option>').appendTo('#ciento_lista');
-                 
-                 }
-                 */
-               {% endif %}
-                 
-                 
-               cambiar_ciento();
-            }
-            
-            function cambiar_ciento()
-            {
-                 
-                 var nombre = $('#ciento_lista option:selected').val();
-                 
-                 $('#padre').val(nombre);
-                 $('#abuelo').val($('#doce_lista option:selected').val());
-                 $('#redid').val($("#red_lista option:selected").val());
-            
-              
-            }
-            
-            
-         function cargar_datos()
-         {
-             var net = $('#red_lista option:selected').val();
-                var date1 =  $("#desde").val().split('/');
-                var date2 =  $("#hasta").val().split('/');
-                var desde = date1[2] + '-' + date1[1] + '-' + date1[0];
-                var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
-                                var doce = $('#doce_lista option:selected').val();
-                var padre = $('#ciento_lista option:selected').val();
+                 var nombre = $("#doce_lista option:selected").val();                  
                 
+               var name = $("#red_lista option:selected").val();  
+            
+            }
+            
+            
+         function cargar_datos(){
                 
-                var url = "{{path('servicio_nuevos_por_red_ciento',{'red':'net','inicio':'ini','fin':':fini',
-'doce':'dozen','padre':'father'})}}";
+                var net = $('#red_lista option:selected').val();
+             
+                var lider = $('#doce_lista option:selected').val();
+                                
+                var url = "{{path('_enviar_lista_celula_lider12_red',{'red':'net','lider':':padre'})}}";
                 url = url.replace('net',net);
-                url = url.replace('ini',desde);
-                url = url.replace(':fini',hasta);
-              
+                url = url.replace(':padre',lider);
                 
-                if(net!='-1' && doce!='-1' && padre!='-1' && padre.length>0)
+                if(net!='-1' && lider!='-1' && lider.length>0)
                 {
-                    var ruta = "{{path('servicio_persona_id',{'id':'idx'})}}";
-                    ruta =  ruta.replace('idx',padre);
-                    
-                    url = url.replace('dozen',doce);
-                    url = url.replace('father',padre);
-                    
+                    var ruta = "{{path('servicio_red_encargado_doce',{'red':'net','id':'idx'})}}";
+                    ruta = ruta.replace('net', net);
+                    ruta =  ruta.replace('idx',lider);
+                                        
                     $.ajax(
                         {url : ruta,
                          dataType:"json",
@@ -316,47 +210,41 @@
                         ).done(function(data){
                                 for(var i=0; i<data.length; i++)
                                 {
-                                    $('#titulo_informe').text('Informe Ganar '+net+' 144: '+data[i].id+'-'+data[i].nombre+' '+data[i].apellidos);
+                                    $('#titulo_informe').text('Informe Enviar '+net+' 144: '+data[i].id+'-'+data[i].nombres)                                    
                                 }
                         });
                     
                      get_tabla(url);
                 }
-                else {
-                    $('#titulo_informe').text('Informe Ganar');
-                }
-         }
-         
+                else $('#titulo_informe').text('Informe Enviar');
+            }
 	$(document).ready(function() {
             
+            FechaActualT('desde');
+            FechaActualT('hasta');
             
-             FechaActualT('desde');
-             FechaActualT('hasta');
+            var rede = '{{red}}' ;
             
-             var rede = '{{red}}' ;
              
              $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
-             $("<option value='-1'>Sin Lider</option>").appendTo('#ciento_lista');
 
-
-                                      
              if(rede.length > 0)
              {
                  $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
-                 
-                cambiar_red();
              }
              else
              initRed('{{path('servicio_red_sin')}}');
-            
-                    
+         
+            cambiar_red();
+                         
+                         
+
              $('#select').css({'display':'none'});
              
              
-             $('#doce_lista').change(cambiar_doce);
-             
             $(".rango").change(cargar_datos);
 
+            cargar_datos();
 
             $("#pdfbutton").click(function(event) {
                 $("#persona th").css("width","auto");
@@ -405,17 +293,21 @@
                 "bDestroy": true,
                 "sAjaxSource": url,
                 "aoColumns": [
-                    { "mDataProp": "nombres" },
+                    { "mDataProp": "id"},
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos"},
                     { "mDataProp": "edad" },
+                    { "mDataProp": "nacimiento" },
                     { "mDataProp": "dni" },
-                    { "mDataProp": "estado" },
-                    { "mDataProp": "telefono"},
-                    { "mDataProp": "visita"},
+                    { "mDataProp": "telef"},
                     { "mDataProp":"direccion"},
-                    { "mDataProp": "referencia"},
-                    { "mDataProp": "conversion"},
-                    { "mDataProp": "peticion"},
-                    { "mDataProp": "lugar"}
+                    { "mDataProp": "creacion"},
+                    { "mDataProp": "dia"},
+                    { "mDataProp": "hora"},
+                    { "mDataProp": "tipo"},
+                    { "mDataProp": "familia"},
+                    { "mDataProp": "telefono"},
+                    { "mDataProp": "miembros"}
                 ],
 		"aaSorting": [ [0,'asc']],//por consultar el tipo de orden
 		"aoColumnDefs": [

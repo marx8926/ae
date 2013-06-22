@@ -41,6 +41,14 @@ _enviar_lista_celula_tabla_red:
   pattern: /enviar_lista_celula_tabla_red/{red}/{tipo}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaTabla_red}
   
+_enviar_lista_celula_lider_red:
+  pattern: /enviar_lista_celula_lider_red/{red}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaLider_red}
+  
+_enviar_lista_celula_lider12_red:
+  pattern: /enviar_lista_celula_lider12_red/{red}/{lider}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaLider12_red}
+  
 _enviar_lista_celula_tabla_des:
   pattern: /enviar_lista_celula_tabla_des
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getListaCelulaTablaDes}
@@ -102,8 +110,7 @@ servicio_ofrenda_celula:
   defaults: {_controller: AEServiciosBundle:EnviarServicio:getOfrendaCelula}
   requirements:
    _method: POST
-   
-   
+    
 servicio_informe_enviar_semanal_pastor:
   pattern: /servicio_informe_enviar_semanal/{pastor}/{inicio}/{fin}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:informe_semanal_enviar_pastor}
@@ -115,8 +122,7 @@ servicio_informe_enviar_semanal_resumido:
   defaults: {_controller: AEServiciosBundle:EnviarServicio:informe_enviar_semanal_resumido}
   requirements:
     _method: POST
-  
-  
+    
 servicio_miembros_sin_discipulado:
   pattern: /serviciomiembro_sin_discipulado/{red}
   defaults: {_controller: AEServiciosBundle:EnviarServicio:miembrosindiscipulado}
@@ -130,4 +136,16 @@ servicio_celulas_discipulado_red:
   defaults: {_controller: AEServiciosBundle:EnviarServicio:celulas_discipulado}
   requirements:
     _method: POST
-   
+    
+    
+servicio_info_celula_red:
+  pattern: /info_celula_red/{red}/{tipo}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:info_celula_red}
+  requirements:
+    _method: POST
+  
+servicio_info_celula_red_lider:
+  pattern: /info_celula_red_lider/{red}/{lider}/{tipo}
+  defaults: {_controller: AEServiciosBundle:EnviarServicio:info_celula_red_lider}
+  requirements:
+    _method: POST

@@ -118,7 +118,7 @@
                                
                $("#pdfbutton").click(function(event) {
                 $("#persona th").css("width","auto");
-            	$("#content").val($("#persona").html());
+            	$("#content").val($("#final").html());
             	$("#title").val($("h3").html());
             	//$("#content").val($("#lol").html() + $("tbody").html());
                 $("#form").attr("action", "{{asset('extensiones/exportpdf.php')}}");
@@ -126,7 +126,7 @@
             });
 
             $("#excelbutton").click(function(event) {
-            	$("#content").val("<table>" + $("#persona").html() + "</table>");
+            	$("#content").val( $("#final").html() );
 		$("#form").attr("action", "{{asset('extensiones/exportexcel.php')}}");
 		$("#form").submit();
             });
@@ -177,8 +177,9 @@
 
 
 {% block content %}
-	<div class="span9">
-<h1>Informe Semanal de Consolidar</h1>
+<div class="row-fluid">
+    <div  class="span12">
+<h1>Informe Semanal de Enviar</h1>
 <br>
 <div class="form-horizontal">
 
@@ -201,7 +202,7 @@
 
 <div class="box">
 		<div class="box-head tabs">
-            <h3 id="titulo_informe" name="titulo_informe">Informe Semanal </h3>	
+            <h3 id="titulo_informe" name="titulo_informe">Informe Semanal de Enviar </h3>	
                 </div>
        
 
@@ -221,5 +222,5 @@
             
 	</div>
 </div>
-
+</div>
 {% endblock %}

@@ -48,18 +48,25 @@
         
             var logg = function(data)
             {
-                console.log(data);
             }
             $(document).ready(function() {
             	 
                 FechaActualT('inputFechaConversion');
                 
-                //init red
-                  initRed('{{path('servicio_red')}}');
+               var rede = '{{red}}' ;
+                                      
+             if(rede.length > 0)
+             {
+                 $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+             }
+             else
+             initRed('{{path('servicio_red_sin')}}');
                   
-               $("#tipo_celula").change(recargar_celula);               
+               $("#tipo_celula").change(celula_listar);
+               $("#doce_lista").change(celula_listar);     
+               $("#red_lista").change(recargar_celula);
                
-               
+               recargar_celula();
                
                $('#myForm').submit(function(event){
                    event.preventDefault();
@@ -111,7 +118,6 @@
                     });
                    }
                     
-            
                });
                
                
@@ -135,49 +141,86 @@
         function celula_listar()
         {
             var tipo = $("#tipo_celula option:selected").val();
-            var nombre = $("#red_lista option:selected").val();  
+            var nombre = $("#red_lista option:selected").val(); 
+            var lider = $("#doce_lista option:selected").val();
             
-            if(tipo==='0')
-            {
-                var route = '{{path('servicio_celula',{'id': 'name'})}}';
-            
-                        var rutas = route.replace('name',nombre);
-                 
-                        $.ajax(
-                        {url : rutas,
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
-                        ).done(celula);          
-            }
-            else
-            {
-               var route = '{{path('servicio_enviar_celula_discipulado',{'red': 'name'})}}';
+          
+            var route = '{{path('servicio_info_celula_red_lider',{'red': 'name','lider':':lider','tipo':':tip'})}}';
             
                         var rutas = route.replace('name',nombre);
+                        rutas = rutas.replace(':lider',lider);
+                        rutas = rutas.replace(':tip',tipo);
                  
-                        $.ajax(
-                        {url : rutas,
-                         dataType:"json",
-                        type: "POST",
-                        async: false,
-                        }
+                        if(lider!='-1' && lider.length>0)
+                        {
+                            $.ajax(
+                            {url : rutas,
+                            dataType:"json",
+                            type: "POST",
+                            async: false,
+                            }
                         ).done(celula);                  
-            }                 
+                        }
+                            
         }
            
         function recargar_celula()
         {
-                    var nombre = $("#red_lista option:selected").val();  
-                    if(nombre!=='-1')
-                       celula_listar();
-                    else {
-                        $('#celula_lista').empty();                             
-                            $("<option value='-1'>Sin Célula </option>").appendTo('#celula_lista');
-
-                    }
+          cambiar_red();           
         }
+        
+               
+            function cambiar_red()
+            {
+                var nombre = $("#red_lista option:selected").val();  
+            
+               var route = '{{path('servicio_administrar_doce_red',{'red': 'name'})}}';
+            
+               if(nombre!= '-1')
+               {
+                 var rutas = route.replace('name',nombre);
+                                
+                 $.ajax(
+                        {url : rutas,
+                         dataType:"json",
+                        type: "POST",
+                        async: false,
+                        }
+                        ).done(doces); 
+               }
+            }
+            
+            function doces(data)
+            {
+               $('#doce_lista').empty();
+               $("<option value='-1'>Sin Lider</option>").appendTo('#doce_lista');
+
+               var leader = '{{lider}}';
+               var cadena = '';
+               
+               for(var i=0; i<data.length ; i++)   
+               { 
+                   
+                $('<option value='+data[i].id+'>'+data[i].nombre+' '+data[i].apellidos+'</option>').appendTo('#doce_lista');
+                
+                 if(leader==data[i].id)
+                 {
+                     cadena= data[i].nombre+' '+data[i].apellidos;
+                 }
+               }
+               
+               {% if (is_granted('ROLE_LIDER12'))%}
+                   
+                   if(leader.length>0)
+                   {
+                       $('#doce_lista').empty();
+                       $('<option value='+leader+'>'+cadena+'</option>').appendTo('#doce_lista');
+
+                   }
+               {% endif %}
+               
+               $('#padre').val($("#doce_lista option:selected").val());
+            }
     </script>             
 {%endblock%}
 
@@ -199,6 +242,15 @@
                    
                         </select>
                     </div>
+                </div>
+                    
+                <div class="control-group">
+                    <label class="control-label" >Mis 12</label>
+                    <div class="controls">
+                        <select id="doce_lista" name="doce_lista" class="rango" >
+                        
+                        </select>
+                    </div>           
                 </div>
                     
                 <div class="control-group">

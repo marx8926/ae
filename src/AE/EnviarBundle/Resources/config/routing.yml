@@ -110,6 +110,22 @@ enviar_celulograma:
   pattern: /celulograma
   defaults: {_controller: AEEnviarBundle:Informe:celulograma}
   
+enviar_celulograma12:
+  pattern: /celulograma12
+  defaults: {_controller: AEEnviarBundle:Informe:celulograma12}
+  
+enviar_celulograma144:
+  pattern: /celulograma144
+  defaults: {_controller: AEEnviarBundle:Informe:celulograma144}
+  
+enviar_celulograma1728:
+  pattern: /celulograma1728
+  defaults: {_controller: AEEnviarBundle:Informe:celulograma1728}
+  
+enviar_celulograma20378:
+  pattern: /celulograma20378
+  defaults: {_controller: AEEnviarBundle:Informe:celulograma20378}
+  
 enviar_celulograma_up:
   pattern: /celulograma_up/{red}/{ini}
   defaults: {_controller: AEEnviarBundle:Informe:celulogramaUp}
@@ -164,3 +180,15 @@ enviar_informe_red:
 enviar_informe_resumido:
   pattern: /enviar_informe_resumido
   defaults: {_controller: AEEnviarBundle:Informe:informe_resumido}
+  
+enviar_informe_lider12:
+  pattern: /enviar_informe_lider12
+  defaults: {_controller: AEEnviarBundle:Informe:informe_lider12}
+  
+enviar_informe_lider144:
+  pattern: /enviar_informe_lider144
+  defaults: {_controller: AEEnviarBundle:Informe:informe_lider144}
+  
+enviar_informe_lider1728:
+  pattern: /enviar_informe_lider1728
+  defaults: {_controller: AEEnviarBundle:Informe:informe_lider1728}

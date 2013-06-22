@@ -338,6 +338,67 @@ class EnviarServicioController extends Controller
     }
     
     
+    public function getListaCelulaLider_redAction($red)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        $em->beginTransaction();
+        
+        try{
+        
+            
+            $sql = "select * from  info_celula_doce_red(:red)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red));
+            $todo = $smt->fetchAll();
+           
+            $em->commit();
+            $em->clear();
+
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse(array('aaData'=>$todo));
+    }
+    
+    
+    public function getListaCelulaLider12_redAction($red,$lider)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        $em->beginTransaction();
+        
+        try{
+        
+            
+            $sql = "select * from  info_celula_doce_red_lider(:red,:lider)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':lider'=>$lider));
+            $todo = $smt->fetchAll();
+           
+            $em->commit();
+            $em->clear();
+
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse(array('aaData'=>$todo));
+    }
+    
     public function getListaCelulaTablaDesAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -777,6 +838,7 @@ class EnviarServicioController extends Controller
       </div>
       <table class='table table-striped table-bordered'>
         <tr>
+                        <td>Codigo Célula: ".$todo['cid']."</td>
         		<td colspan='2'>Dirección: ".$todo['direccion']."</td>
         		<td>Tel. Anfitrión: ".$todo['ctel']."</td>
         		<td>Familia Anfitriona: ".$todo['familia']."</td>
@@ -785,7 +847,9 @@ class EnviarServicioController extends Controller
         		<td>Apertura: ". $todo['fecha_creacion']."</td>
         		<td>Tipo: ". ((strval($todo['ctipo'])=='0')?'Evangelistica':'Discipulado')."</td>
         		<td>Fecha Inicio: ".$ini." </td>
-        		<td>Fecha Final: ".$fin."</td>
+        		<td>Dia: ".$todo['dia']."</td>
+                        <td>Hora: ".$todo['hora']."</td>
+
         </tr>
 	</table>";
 
@@ -827,7 +891,9 @@ class EnviarServicioController extends Controller
         $finD = new \DateTime($inicio);
         $finD = $finD->modify('+14 weeks');
         
-        $fin = $finD->format('Y-m-d');        
+        $fin = $finD->format('Y-m-d');  
+        
+        $ini = new \DateTime($inicio);
         
         $em = $this->getDoctrine()->getEntityManager();
         $em->beginTransaction();
@@ -842,7 +908,6 @@ class EnviarServicioController extends Controller
             $smt->execute(array(':id'=>$id,':ini'=>$inicio,':fin'=>$fin));
  
             $redes = $smt->fetchAll();
-                       
                            
             $em->clear();
             
@@ -871,7 +936,16 @@ class EnviarServicioController extends Controller
             $lcesp= $smt2->fetchAll();
             $lcespF = $this->convertHash($lcesp);
             
+            
+            //fecha dicto celula
+            
+            $sql3 = " select * from info_fecha_celula(:cel)";
+            $smt3 = $em->getConnection()->prepare($sql3);
+            $smt3->execute(array(':cel'=>$id));
+            $celulas = $smt3->fetchAll();
             $em->clear();
+            
+            
             
             $todo = array();
                       
@@ -890,8 +964,7 @@ class EnviarServicioController extends Controller
                 $id_ini = $value['id'];
                 
                 if($id_ini!=$id_old)
-                {
-                    
+                {                    
                     if(count($fila)>0)
                         $todo[]=$fila;
                     
@@ -902,12 +975,14 @@ class EnviarServicioController extends Controller
                     $fila['telefono'] = (strlen($value['celular'])==0)?$value['telefono']:$value['celular'];
                     $fila['edad'] = $value['edad'];
                     
+                    //$fila['dicto'] = $value['fecha_dicto'];
+                    
                     for ($index = 0; $index < $num; $index++) {
                         $fila[$index]=NULL;
                     }
-                    $ind = 0;
-                    $fila[$ind] = ($value['estado']==TRUE)?TRUE:FALSE;
                     
+                    $ind = 0;
+                    $fila[$ind] = ($value['estado']==TRUE)?TRUE:FALSE;                    
                             
                     //leche espiritual
                     
@@ -922,7 +997,7 @@ class EnviarServicioController extends Controller
                     $fila['E']=NULL;
                     $fila['B']=NULL;
                     
-                    $eventos = $this->searchEvento($encbau,$id_ini);;
+                    $eventos = $this->searchEvento($encbau,$id_ini);
                     $fila['E'] = $eventos['E'];
                     $fila['B'] = $eventos['B'];
                     
@@ -942,7 +1017,9 @@ class EnviarServicioController extends Controller
                 $id_old = $id_ini;
             }
             if(count($fila)>0)
+            {
                 $todo[] = $fila;
+            }
             
             $em->clear();
             
@@ -952,17 +1029,14 @@ class EnviarServicioController extends Controller
             $em->rollback();
             $em->close();
             throw $exc;
-        }
-        
+        }        
         
       //convert to html 
         
         $result = "";
         
-        $num_cursos = count($cursos) + 3;
-        
+        $num_cursos = count($cursos) + 3;      
        
-        
         $result = $result."<div class='box-head tabs'>
             <h3>Asistencia</h3>	
                 </div>
@@ -991,10 +1065,10 @@ class EnviarServicioController extends Controller
 		<th>3</th>
 		<th>4</th>
 		<th>5</th>
-        <th>Leche Espiritual</th>
+        <th>Leche <br> Espiritual</th>
 		<th>Enc.</th>
 		<th>Bautismo</th>";
-        
+               
         $tempC = "";
         foreach ($cursos as $key => $value) {
             $tempC = $tempC."<th>". substr($value['titulo'], 0, 3)."<br>". substr($value['titulo'], 4,-1). "</th>";
@@ -1010,24 +1084,21 @@ class EnviarServicioController extends Controller
          foreach ($todo as $row) {
             
             $element = "<tr>";
-            foreach ($row as $value) {
-                
+            foreach ($row as $value) {                
                 
                 $element = $element."<td>";
                 
                 if($value!=NULL)
                 {
                     if($value==TRUE && strlen($value)==1)
-                      $element= $element."&#10004;";
+                      $element= $element."&#10004; ";
                     else if($value== -1)
                          $element=$element."x";
                         else
                         $element = $element.$value;
                 }
                 
-                $element = $element."</td>";
-
-                
+                $element = $element."</td>";         
             }
             
             $element = $element."</tr>";
@@ -1035,8 +1106,26 @@ class EnviarServicioController extends Controller
             $result = $result.$element;
         }
         
-        $result = $result."</table>";
-
+        $cant = count($celulas);
+        
+         $last = "
+            <tr> <td colspan='4'></td>";
+                
+        for($i=0; $i<$cant; $i++)
+        {
+            $fecha = new \DateTime($celulas[$i]['fecha_dicto']);
+            $last = $last."<td>".$fecha->format('d/m')."</td>";
+        }
+       
+        for($i=$cant; $i<20; $i++)
+        {
+            $last = $last."<td></td>";
+        }
+        
+        $last = $last."</tr>";
+        
+        $result = $result.$last
+                ."</table>";
     
        }
        
@@ -1146,7 +1235,7 @@ class EnviarServicioController extends Controller
     public function union_resultados_enviar(            
             $red,//$lideres,
             $doce,  $ciento, $mil, $celulas,
-$asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
+            $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
     {
         $out = array();
        
@@ -1165,6 +1254,7 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
         $totales['mil']=0;
         $totales['celulas']=0;
         $totales['asistencia_celula']=0;
+        $totales['informaron']=0;
         $totales['tumpis'] =0;
         $totales['nuevos']=0;
         $totales['nueva_cell']=0;
@@ -1195,6 +1285,9 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
             
             $temp['asistencia_celula'] = $asistencia[$value['red']]['asistencia'];            
             $totales['asistencia_celula']+=$temp['asistencia_celula'];
+            
+            $temp['informaron'] = $asistencia[$value['red']]['informaron'];            
+            $totales['informaron']+=$temp['informaron'];
             
             $tump =$tumpis[$value['red']]['asistencia'];
             $temp['tumpis'] = ($tump==NULL)?0:$tump;            
@@ -1355,6 +1448,7 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
 					<th>LIDERES <br> DE 144</th>
 					<th>LIDERES <br> DE 1278</th>
                                         <th>CÉLULAS</th>
+                                        <th>INFORMARON</th>
                                         <th>ASISTENCIA <br> CÉLULAS</th>
                                         <th>ASISTENCIA <br> TUMPIS</th>
                                         
@@ -1376,10 +1470,11 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
             $result = $result.$linea;
         }
         
-        $final = "<tfoot><tr>
+        $final = "<tr>
 						<th colspan='2'>RESUMEN</th>
 						<th colspan='3'>TOTAL DE LIDERES</th>
 						 <th colspan='1'>CÉLULAS</td>
+                                                 <th>INFORMARON </th>
                                                 <th>ASISTENCIA <br> CÉLULAS</th>
                                                 <th>ASISTENCIA <br> TUMPIS</th>
                                         
@@ -1396,8 +1491,8 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
         $ultimo = end($todo);
 
         $final = $final.($ultimo['doce']+$ultimo['ciento']+$ultimo['mil'])."</td><td colspan='1'> ".$ultimo['celulas'].
-                 "</td><td>".$ultimo['asistencia_celula']."</td><td>".$ultimo['tumpis']."</td><td>".$ultimo['nuevos']."</td><td>".$ultimo['nueva_cell'].
-               "</td><td>".$ultimo['ofrenda']."</td> </tr> </tfoot>";
+                 "</td><td>".$ultimo['asistencia_celula']."</td><td>".$ultimo['informaron']."</td><td>".$ultimo['tumpis']."</td><td>".$ultimo['nuevos']."</td><td>".$ultimo['nueva_cell'].
+               "</td><td>".$ultimo['ofrenda']."</td> </tr> ";
         
             
         
@@ -1738,4 +1833,69 @@ $asistencia, $tumpis, $nuevos, $nueva_cell,$ofrenda            )
         
         return new Response($result);
     }
+    
+    
+    public function info_celula_redAction($red, $tipo)
+    {
+    
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        $em->beginTransaction();
+        
+        try{
+        
+            $sql = "select * from  info_celula_por_red(:red,:tipo)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':tipo'=>$tipo));
+            $todo = $smt->fetchAll();
+           
+            $em->commit();
+            $em->clear();
+
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse($todo);
+    
+    }
+
+     
+    public function info_celula_red_liderAction($red, $lider, $tipo)
+    {    
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $todo = array();
+        $em->beginTransaction();
+        
+        try{
+        
+            $sql = "select * from  info_celula_por_red_lider(:red,:lider,:tip)";
+            $smt = $em->getConnection()->prepare($sql);
+            $smt->execute(array(':red'=>$red,':lider'=>$lider,':tip'=>$tipo
+                    ));
+            $todo = $smt->fetchAll();
+           
+            $em->commit();
+            $em->clear();
+
+        }
+        catch(Exception $e)
+        {
+            $em->rollback();
+            $em->close();
+            
+            throw $e;
+        }
+        
+        return new JsonResponse($todo);
+    
+    }
+    
 }

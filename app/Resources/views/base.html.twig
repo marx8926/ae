@@ -465,17 +465,79 @@
 						</a>
 					</li>
                                         
-                                        <li>
-                                            <a href="{{path('enviar_informe_red')}}">
-                                             Informe Semanal por Pastor
-                                            </a>
-                                        </li>
                                         
-                                        <li>
-                                            <a href="{{path('enviar_informe_resumido')}}">
-                                             Informe General de Enviar
-                                            </a>
-                                        </li>
+                                       
+					<li>
+						<a href="#" class='light toggle-collapsed'>
+							Informes
+							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
+						</a>
+						<ul class='collapsed-nav closed dentro'>
+							
+                                                        
+                                                        {% if (is_granted('ROLE_LIDER_RED') ) %}
+
+                                                        <li>
+                                                            <a href="{{path('enviar_informe_lider12')}}" >
+                                                             Informe Lideres 12
+                                                            </a>
+                                                        </li>
+                                                        
+                                                        <li>
+                                                            <a href="{{path('enviar_celulograma12')}}" >
+                                                             Celulograma Lider de Red
+                                                            </a>
+                                                        </li>
+                                                        {% endif %}
+                                                        
+                                                        {% if (is_granted('ROLE_LIDER12'))%}
+                                                        <li>
+                                                            <a href="{{path('enviar_informe_lider144')}}">
+                                                             Informe Lideres 144
+                                                            </a>
+                                                        </li>
+                                                        
+                                                         <li>
+                                                            <a href="{{path('enviar_celulograma144')}}" >
+                                                             Celulograma Lider 12
+                                                            </a>
+                                                        </li>
+                                                        {% endif %}
+                                                        
+                                                        {% if(is_granted('ROLE_LIDER144')) %}
+                                                         <li>
+                                                            <a href="{{path('enviar_informe_lider1728')}}">
+                                                             Informe Lideres 1728
+                                                            </a>
+                                                        </li>
+                                                        
+                                                        <li>
+                                                            <a href="{{path('enviar_celulograma1728')}}" >
+                                                             Celulograma Lider 144
+                                                            </a>
+                                                        </li>
+                                                        
+                                                        <li>
+                                                            <a href="{{path('enviar_celulograma20378')}}" >
+                                                             Celulograma Lider 20378
+                                                            </a>
+                                                        </li>
+                                                        {% endif %}
+                                                                                                                
+                                                    <li>
+                                                        <a href="{{path('enviar_informe_red')}}">
+                                                        Informe Semanal por Pastor
+                                                        </a>
+                                                    </li>
+                                        
+                                                    <li>
+                                                        <a href="{{path('enviar_informe_resumido')}}">
+                                                        Informe General de Enviar
+                                                        </a>
+                                                    </li>   
+						</ul>
+					</li>
+				
                                         
                                        {% endif %}
 

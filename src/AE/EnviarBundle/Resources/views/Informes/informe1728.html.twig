@@ -16,20 +16,6 @@
 <div class="span12" >
 	<h1>Informe de Nuevos Convertidos 1728</h1>
         
-        <div class="control-group">
-            <label class="control-label" >Desde</label>
-            <div class="controls">
-                <input type="text" class="datepick rango" id="desde" name="desde" required>
-            </div>
-        </div>
-        
-        
-         <div class="control-group">
-            <label class="control-label" >Hasta</label>
-            <div class="controls">
-                <input type="text" class="datepick rango" id="hasta" name="hasta" required>
-            </div>
-        </div>
         
         <div class="control-group">
             <label class="control-label" >Red</label>
@@ -60,7 +46,7 @@
         
 	<div class="box">
 		<div class="box-head tabs">
-            <h3 id="titulo_informe" name="titulo_informe">Informe Ganar </h3>	
+            <h3 id="titulo_informe" name="titulo_informe">Informe Enviar </h3>	
                 </div>
        
 
@@ -75,19 +61,23 @@
             	<table cellpadding="0" cellspacing="0" border="0" class="display table table-striped dataTable table-bordered"  id="persona" name="persona">
             		<thead id='lol'>
                 		<tr>
-		                   <th>Nombres</th>
+		                   <th>ID Cell</th>
+		                    <th>Nombres</th>
+                     		    <th>Apellidos</th>
 		                    <th width="5%">Edad</th>
+                                    <th>Nacimiento</th>
 		                    <th>DNI</th>
-		                    <th width="6%">Estado</th>
 		                    <th width="6%">Telefono</th>
-                                    <th>Visita</th>
                                     <th>Direccion</th>
-                                    <th>Referencia</th>
-                                    <th width="8%">Conversión</th>
-                                    <th>Petición</th>
-                                    <th width="8%">Lugar</th>
+                                    <th>Fecha de <br> Apertura </th>
+                                    <th>Día de la <br> Célula</th>
+                                    <th>Hora</th>
+                                    <th>Tipo de <br> Célula</th>
+                                    <th>Familia <br> Anfitriona</th>
+                                    <th>Telf. <br> Familia</th>
+                                    <th># miembros</th>
 		                </tr>
-					</thead>
+			</thead>
 					
 	
     			</table>
@@ -284,19 +274,15 @@
          function cargar_datos()
          {
              var net = $('#red_lista option:selected').val();
-                var date1 =  $("#desde").val().split('/');
-                var date2 =  $("#hasta").val().split('/');
-                var desde = date1[2] + '-' + date1[1] + '-' + date1[0];
-                var hasta = date2[2] + '-' + date2[1] + '-' + date2[0];
-                                var doce = $('#doce_lista option:selected').val();
+             
+              var doce = $('#doce_lista option:selected').val();
                 var padre = $('#ciento_lista option:selected').val();
                 
                 
-                var url = "{{path('servicio_nuevos_por_red_ciento',{'red':'net','inicio':'ini','fin':':fini',
-'doce':'dozen','padre':'father'})}}";
+                var url = "{{path('_enviar_lista_celula_lider12_red',{'red':'net','lider':':padre'})}}";
                 url = url.replace('net',net);
-                url = url.replace('ini',desde);
-                url = url.replace(':fini',hasta);
+                url = url.replace(':padre',padre);
+                
               
                 
                 if(net!='-1' && doce!='-1' && padre!='-1' && padre.length>0)
@@ -316,14 +302,14 @@
                         ).done(function(data){
                                 for(var i=0; i<data.length; i++)
                                 {
-                                    $('#titulo_informe').text('Informe Ganar '+net+' 144: '+data[i].id+'-'+data[i].nombre+' '+data[i].apellidos);
+                                   $('#titulo_informe').text('Informe Enviar '+net+' 1728: '+data[i].id+'-'+data[i].nombre+' '+data[i].apellidos);
                                 }
                         });
                     
                      get_tabla(url);
                 }
                 else {
-                    $('#titulo_informe').text('Informe Ganar');
+                    $('#titulo_informe').text('Informe Enviar');
                 }
          }
          
@@ -356,6 +342,7 @@
              $('#doce_lista').change(cambiar_doce);
              
             $(".rango").change(cargar_datos);
+            cargar_datos();
 
 
             $("#pdfbutton").click(function(event) {
@@ -405,17 +392,21 @@
                 "bDestroy": true,
                 "sAjaxSource": url,
                 "aoColumns": [
-                    { "mDataProp": "nombres" },
+                    { "mDataProp": "id"},
+                    { "mDataProp": "nombre" },
+                    { "mDataProp": "apellidos"},
                     { "mDataProp": "edad" },
+                    { "mDataProp": "nacimiento" },
                     { "mDataProp": "dni" },
-                    { "mDataProp": "estado" },
-                    { "mDataProp": "telefono"},
-                    { "mDataProp": "visita"},
+                    { "mDataProp": "telef"},
                     { "mDataProp":"direccion"},
-                    { "mDataProp": "referencia"},
-                    { "mDataProp": "conversion"},
-                    { "mDataProp": "peticion"},
-                    { "mDataProp": "lugar"}
+                    { "mDataProp": "creacion"},
+                    { "mDataProp": "dia"},
+                    { "mDataProp": "hora"},
+                    { "mDataProp": "tipo"},
+                    { "mDataProp": "familia"},
+                    { "mDataProp": "telefono"},
+                    { "mDataProp": "miembros"}
                 ],
 		"aaSorting": [ [0,'asc']],//por consultar el tipo de orden
 		"aoColumnDefs": [
