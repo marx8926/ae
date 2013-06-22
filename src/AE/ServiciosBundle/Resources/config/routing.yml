@@ -197,3 +197,7 @@ servicio_persona_id:
   defaults: {_controller: AEServiciosBundle:Default:personaid}
   requirements:
     _method: POST
+    
+servicio_load_datos:
+  pattern: /load_datos
+  defaults: { _controller: AEServiciosBundle:Default:load_datos}

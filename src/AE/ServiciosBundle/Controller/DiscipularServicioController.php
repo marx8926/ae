@@ -869,4 +869,7 @@ class DiscipularServicioController extends Controller
     					</table>";
     	return new Response($result);
     }
+    
+    
+   
 }

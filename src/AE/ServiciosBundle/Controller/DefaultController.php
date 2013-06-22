@@ -12,6 +12,8 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use AE\DataBundle\Entity\Persona;
 use AE\DataBundle\Entity\Miembro;
+use AE\DataBundle\Entity\NuevoConvertido;
+use AE\DataBundle\Entity\Ubicacion;
 
 
 class DefaultController extends Controller
@@ -1044,5 +1046,173 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        
        return new JsonResponse($todo);
    }
+   
+    public function load_datosAction()
+    {
+        
+        getcwd();
+        
+        chdir('csv');
+        
+        $path = getcwd()."/clm1.csv";
+        
+        $handle = fopen($path, "r");
+        
+        $todo = array();
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        
+        $primera = fgetcsv($handle, 0, ",");
+        
+        $em->beginTransaction();
+        
+        $prev_div = $em->getRepository('AEDataBundle:Ubigeo');
+        $ubigeo = $prev_div->findOneBy(array('id'=>1807));
+        
+        
+        $redes = $em->getRepository('AEDataBundle:Red');
+        
+        $lugares = $em->getRepository('AEDataBundle:Lugar');
+        $lugar = $lugares->findOneBy(array('nombre'=>'Coliseo'));
+        
+        $cont =0;
+        while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+            $todo[] = $data;
+        
+            $cont++;
+            //registro de ubicacion 
+            
+            $ubiq = new Ubicacion();
+            $ubiq->setDireccion($data[5]);
+            $ubiq->setReferencia($data[5]);
+            $ubiq->setLatitud(-8.097944);
+            $ubiq->setLongitud(-79.03704479999999);
+            $ubiq->setIdUbigeo($ubigeo);
+            
+            $em->persist($ubiq);
+            $em->flush();
+            
+            
+            $persona = new Persona();
+            
+            $persona->setDni($data[0]);
+            $persona->setNombre($data[1]);
+            $persona->setApellidos($data[2]);
+            
+            //sexo
+            if($data[3]=='M')
+                $persona->setSexo(1);
+            else $persona->setSexo(2);
+            
+            $persona->setCelular($data[6]);
+            $persona->setOcupacion($data[7]);
+            
+            $est=0;
+            if(strcmp($data[8],'S')==0)
+                    $est=0;
+                    
+            if(strcmp($data[8],'C')==0)
+                    $est=1;
+            if(strcmp($data[8],'S')==0)
+                    $est=0;
+            if(strcmp($data[8],'CN')==0)
+                    $est=2;
+            
+            if(strcmp($data[8],'VD')==0)
+                    $est=3;
+            
+            if(strcmp($data[8],'SP')==0)
+                    $est=4; 
+            
+            if(strcmp($data[8],'MS')==0)
+                    $est=5;
+            
+            $persona->setEstadoCivil($est);
+            
+            $nac = NULL;
+            //fecha nacimiento
+            if(substr_count($data[9],'/')==2)
+            {
+                //$fecha_a =explode('/', $data[9],3);
+                //$fecha = $fecha_a[2].'-'.$fecha_a[1].'-'.$fecha_a[0];
+                $nac = new \DateTime($data[9]);
+            }
+            else
+            {
+                $nac = new \DateTime('1980-01-01');
+            }
+            
+            $persona->setFechaNacimiento($nac);
+            
+            
+            //edad
+            
+            $datetime1 = new \DateTime();
+            $interval = $datetime1->diff($nac);
+            
+            $persona->setEdad(intval($interval->format('%y')));
+            
+            $persona->setWebsite(NULL);
+            $persona->setIdUbicacion($ubiq);
+            
+            $em->persist($persona);
+            $em->flush();
+            
+            
+            $nuevo_con = new NuevoConvertido();
+            $miembro = new Miembro();
+            //conversion
+               $conv = NULL;
+            //fecha nacimiento
+            if(substr_count($data[10],'/')==2)
+            {
+                $fecha_a =explode('/', $data[10],3);
+                $fecha = $fecha_a[2].'-'.$fecha_a[1].'-'.$fecha_a[0];
+                $conv = new \DateTime($fecha);
+            }
+            else
+            {
+                $conv = new \DateTime('2000-01-01');
+            }
+            
+            //registro nuevo convertido
+          
+            $nuevo_con->setConsolidado(FALSE);
+            $nuevo_con->setDia("Lunes");
+            $nuevo_con->setHora(new \DateTime());
+            $nuevo_con->setFechaConversion($conv);
+            $nuevo_con->setId($persona);
+            $nuevo_con->setIdCelula(NULL);
+            $nuevo_con->setIdLugar($lugar);
+            
+            $red = $redes->findOneBy(array('id'=>$data[3]));
+            
+            $nuevo_con->setIdRed($red);
+            $nuevo_con->setPeticion("");
+            
+            $em->persist($nuevo_con);
+            $em->flush();
+            
+            //miembro
+            
+            $miembro->setActivo(TRUE);
+            $miembro->setAptoConsolidar(FALSE);
+            $miembro->setFechaObtencion($conv);
+            $miembro->setIdRed($red);
+            $miembro->setId($persona);
+            $miembro->setIdCelula(NULL);
+            
+            $em->persist($miembro);
+            $em->flush();
+            
+          }
+          
+        $em->commit();
+        
+        fclose($handle);
+        
+        return new JsonResponse($cont);
+    }
    
 }
