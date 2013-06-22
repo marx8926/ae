@@ -461,7 +461,8 @@ class EnviarServicioController extends Controller
     
     public function getListaCelulaRedTipoAction($red, $tipo)
     {
-      
+       $securityContext = $this->get('security.context');
+
        
        $em = $this->getDoctrine()->getEntityManager();
        
@@ -469,10 +470,35 @@ class EnviarServicioController extends Controller
        
        try
        {
+           
+         if($securityContext->isGranted('ROLE_LIDER_RED'))
+         {
           $sql = "select *from  celulas_por_red(:red,:tip)";
           $smt = $em->getConnection()->prepare($sql);
           $smt->execute(array(':red'=>$red,':tip'=>$tipo));
           
+         }
+         else
+         {
+             if($securityContext->isGranted('ROLE_LIDERSIN'))
+             {
+                    $persona = $securityContext->getToken()->getUser()->getIdPersona();
+                    
+                    if($persona==NULL)
+                    {
+                        $sql = "select *from  celulas_por_red(:red,:tip)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':red'=>$red,':tip'=>$tipo));
+                    }
+                    else
+                    {
+                        $sql = "select *from  celulas_por_red_lider(:red,:tip,:lider)";
+                        $smt = $em->getConnection()->prepare($sql);
+                        $smt->execute(array(':red'=>$red,':tip'=>$tipo,':lider'=>$persona->getId()));
+                    }
+
+             }
+         }
           $todo = $smt->fetchAll();
           $em->clear();
           

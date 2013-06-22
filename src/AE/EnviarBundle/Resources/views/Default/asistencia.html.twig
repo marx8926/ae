@@ -19,7 +19,7 @@
         	<div class="control-group">
             	<label class="control-label" >Red</label>
                 <div class="controls">
-                	<select id="redes_lista" name="redes_lista"></select>
+                	<select id="red_lista" name="red_lista"></select>
                 </div>
             </div>
             <div class="control-group">
@@ -27,7 +27,7 @@
                 <div class="controls">
                 	<select id="tipo_list" name="tipo_list">
                     	<option value="0">Evangelistica</option>
-                        <option value="1">Mentoreo</option>
+                        <option value="1">Discipulado</option>
                     </select>
                	</div>
             </div>
@@ -105,6 +105,7 @@
 			<script src="{{asset('js/custom.js')}}"></script>
                         <script src="{{asset('js/functiongen.js')}}"></script>
                         <script src="{{asset('js/tablasfeatures.js')}}"></script>
+                        <script src="{{asset('js/ganar.js')}}"></script>
 	
 			<script src="https://www.google.com/jsapi"></script>
             <!--[if lt IE 9]> <script type="text/javascript" src="/net/public/js/html5.js"></script><![endif]-->              
@@ -119,7 +120,6 @@
         
         var funcion = function(data)
             {
-                console.log(data);
                 if(data.responseCode==200)
                 {
                     alert('Registro Completado');
@@ -158,52 +158,50 @@
   
         }
         
+        function recargar_celula()
+        {
+            cargar_datos();
+        }
+        
+        function cargar_datos()
+        {
+           $('#red_id').val($('#red_lista').val());
+                                        
+            var url = "{{path('_enviar_lista_celula_red_tipo',{'red':':red','tipo':':tipo'})}}";
+                
+            var net = $('#red_lista option:selected').val();
+            if(net!='-1' && net.length>0)
+            {
+                url = url.replace(':red',$('#red_lista option:selected').val());
+                url = url.replace(':tipo',$('#tipo_list option:selected').val());
+                ajaxResposeData("tabla_celulas",url); 
+            }
+        }
 	$(document).ready(function() {
             
              var url1 = '{{path('_enviar_lista_red')}}';
              $('#tema_cell').css({display:'none'});
              $('#asistencia').css({display:'none'});
-   
-             $.ajax(
-                {
-                    url: url1,
-                    async: false,
-                    type: "POST",
-                }).done(function(data){
-                $('#redes_lista').html(data);
-                //$(data).appendTo('#redes_lista');
-            });
+
+            var rede = '{{red}}' ;
+            
+              if(rede.length > 0)
+             {
+                 $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+             }             
+             else
+             initRed('{{path('servicio_red_sin')}}');
+            
             
             
                 var url = "{{path('_enviar_lista_celula_red_tipo',{'red':':red','tipo':':tipo'})}}";
                 
-		$("#redes_lista").change(function(){
-                                        $('#red_id').val($('#redes_lista').val());
-                                        
-                                        url = "{{path('_enviar_lista_celula_red_tipo',{'red':':red','tipo':':tipo'})}}";
-                                        
-                                        url = url.replace(':red',$('#redes_lista option:selected').val());
-                                        url = url.replace(':tipo',$('#tipo_list option:selected').val());
-					ajaxResposeData("tabla_celulas",url);
-				});
+		$("#redes_lista").change(cargar_datos);
                                 
-                $("#tipo_list").change(function(){  
-                                        
-                                        $('#tip_cell').val($('#tipo_list option:selected').val());
-                                        
-                                        url = "{{path('_enviar_lista_celula_red_tipo',{'red':':red','tipo':':tipo'})}}";
-                                        url = url.replace(':red',$('#redes_lista option:selected').val());
-                                        url = url.replace(':tipo',$('#tipo_list option:selected').val());
-					ajaxResposeData("tabla_celulas",url);
-				});
+                $("#tipo_list").change(cargar_datos);
                                 
-                $('#red_id').val($('#redes_lista').val());
-                $('#tip_cell').val($('#tipo_list option:selected').val());
-
-                url = url.replace(':red',$('#redes_lista').val());
-                url = url.replace(':tipo',$('#tipo_list').val());
                 
-		ajaxResposeData("tabla_celulas",url);
+                cargar_datos();
                 
                 $('#tema tbody').click(function(event){
                     $(oTable.fnSettings().aoData).each(function(){
@@ -227,12 +225,7 @@
                     $('#titulocell').val(values[1]);
                     $('#dictaco_cell').val(values[5]);
                     
-                    
-         
-                    
                 });
-                
-
                 
        	 });
          
@@ -242,7 +235,6 @@
              
             url = url.replace(':id',celula);
                          
-            console.log(url);
              /* Build the DataTable with third column using our custom sort functions */
             oTable = $('#tema').dataTable( {
                                     

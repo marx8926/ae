@@ -16,10 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\TransactionRequiredException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+
 
 class ClaseController extends Controller
 {
@@ -164,9 +162,9 @@ class ClaseController extends Controller
                   
                        for($i=0; $i < $n; $i++)
                        {                          
-                          $sql ="INSERT INTO clase_cell(
-            ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula
-            ) VALUES (:ofr, :fd, :ih, :cell, :tce) returning id";
+                          $sql ="INSERT INTO clase_cell(ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula)  
+	select :ofr, :fd,:ih, :cell, :tce WHERE NOT EXISTS ( SELECT ofrenda, fecha_dicto,id_horario,
+	 id_celula, id_tema_celula from clase_cell  where id_celula=:cell and id_tema_celula=:tce ) returning id ";
                           
                           $smt = $em->getConnection()->prepare($sql);
                           
@@ -195,9 +193,9 @@ class ClaseController extends Controller
                         $celula = $smt1->fetch();
                         $em->clear();
                         
-                        $sql ="INSERT INTO clase_cell(
-            ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula
-            ) VALUES (:ofr, :fd, :ih, :cell, :tce) returning id";
+                        $sql ="INSERT INTO clase_cell(ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula)  
+	select :ofr, :fd,:ih, :cell, :tce WHERE NOT EXISTS ( SELECT ofrenda, fecha_dicto,id_horario,
+	 id_celula, id_tema_celula from clase_cell  where id_celula=:cell and id_tema_celula=:tce ) returning id ";
                           
                           $smt = $em->getConnection()->prepare($sql);
                           
@@ -247,9 +245,9 @@ class ClaseController extends Controller
                        
                        for($i=0; $i < $n; $i++)
                        {                          
-                          $sql ="INSERT INTO clase_cell(
-            ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula
-            ) VALUES (:ofr, :fd, :ih, :cell, :tce) returning id";
+                          $sql ="INSERT INTO clase_cell(ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula)  
+	select :ofr, :fd,:ih, :cell, :tce WHERE NOT EXISTS ( SELECT ofrenda, fecha_dicto,id_horario,
+	 id_celula, id_tema_celula from clase_cell  where id_celula=:cell and id_tema_celula=:tce ) returning id ";
                           
                           $smt = $em->getConnection()->prepare($sql);
                           
@@ -275,9 +273,9 @@ class ClaseController extends Controller
                         
                         $celula = $smt1->fetch();
                         
-                        $sql ="INSERT INTO clase_cell(
-            ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula
-            ) VALUES (:ofr, :fd, :ih, :cell, :tce) returning id";
+                        $sql ="INSERT INTO clase_cell(ofrenda, fecha_dicto, id_horario, id_celula, id_tema_celula)  
+	select :ofr, :fd,:ih, :cell, :tce WHERE NOT EXISTS ( SELECT ofrenda, fecha_dicto,id_horario,
+	 id_celula, id_tema_celula from clase_cell  where id_celula=:cell and id_tema_celula=:tce ) returning id ";
                           
                           $smt = $em->getConnection()->prepare($sql);
                           

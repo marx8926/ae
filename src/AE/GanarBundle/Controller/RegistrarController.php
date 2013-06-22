@@ -17,9 +17,7 @@ class RegistrarController extends Controller
         
     public function personaAction()
     {
-        
-        
-
+    
         $securityContext = $this->get('security.context');
         
         if($securityContext->isGranted('ROLE_LIDERSIN'))
