@@ -1056,7 +1056,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
         
         set_time_limit ( 600 );
         
-        $path = getcwd().$nombre;
+        $path = getcwd()."/".$nombre;
         
         $handle = fopen($path, "r");
         
