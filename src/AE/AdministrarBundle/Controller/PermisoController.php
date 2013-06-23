@@ -403,12 +403,11 @@ class PermisoController extends Controller
                    $i_pass = $datos['inputPassword'];
            
            
+           
            $em->beginTransaction();
            
            try {
                
-               
-                 
           
                 $prev = $em->getRepository('AEDataBundle:Persona');
                 $persona = $prev->findOneBy(array('id'=>$id));
@@ -528,6 +527,7 @@ class PermisoController extends Controller
                         $em->flush(); 
                     }
 
+                    
                     
                     //lider de red
                    $como = $em->getRepository('AEDataBundle:LiderRed');
@@ -875,6 +875,7 @@ class PermisoController extends Controller
                      $em->flush(); 
                 }
                 
+                
                $rol = $con->findOneBy(array('nombre'=>'ROLE_ADMIN')); 
                
                 $lista = $usuario->getIdRol();
@@ -921,6 +922,7 @@ class PermisoController extends Controller
                      $smt->execute(array(':id'=>$id, ':ti'=>$key));
                      $result = $smt->fetch();
                      
+                
                      
                     if($key==0)
                         $rol = $con->findOneBy(array('nombre'=>'ROLE_GANAR')); 
@@ -979,7 +981,14 @@ class PermisoController extends Controller
                     }
                    
                }
-          
+    
+               /*
+                * $return=array("responseCode"=>200,  "greeting"=>'bad');   
+                *
+            $return=json_encode($return);//jscon encode the array        
+            return new Response($return,200,array('Content-Type'=>'application/json'));//make sure it has the correct content type       
+    */
+                $usuario->setEnabled(TRUE);
                $em->persist($usuario);
                $em->flush();
                        
