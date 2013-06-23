@@ -164,11 +164,13 @@
 				<ul class='collapsed-nav closed'>
 					
                                      {% if is_granted('ROLE_LIDER_RED') %}
+					<!--
                                         <li>
 						<a href="{{path('consolidar_registro')}}">
 							Registrar Consolidador
 						</a>
 					</li>
+					-->
                                         <li>
                                             <a href="{{path('consolidar_modificar')}}" >
                                                 Activar/Desactivar Consolidador
@@ -485,7 +487,7 @@
                                                         
                                                         <li>
                                                             <a href="{{path('enviar_celulograma12')}}" >
-                                                             Celulograma Lider de Red
+                                                             Celulograma Lider 12
                                                             </a>
                                                         </li>
                                                         {% endif %}
@@ -499,7 +501,7 @@
                                                         
                                                          <li>
                                                             <a href="{{path('enviar_celulograma144')}}" >
-                                                             Celulograma Lider 12
+                                                             Celulograma Lider 144
                                                             </a>
                                                         </li>
                                                         {% endif %}
@@ -513,7 +515,7 @@
                                                         
                                                         <li>
                                                             <a href="{{path('enviar_celulograma1728')}}" >
-                                                             Celulograma Lider 144
+                                                             Celulograma Lider 1728
                                                             </a>
                                                         </li>
                                                         
@@ -557,6 +559,7 @@
                                             </a>
                                         </li>
                                         {% endif %}
+<!--
                                  			{% if is_granted('ROLE_ADMIN')%}
         				<li>
 						<a href="{{path('administrar_iglesia')}}">
@@ -568,6 +571,7 @@
 							Modificar Iglesia
 						</a>
 					</li>
+-->
                                         
                                         {% endif %}
                                         
@@ -619,21 +623,25 @@
 							Líderes de Red
 						</a>
 					</li>
+<!--
 					<li>
 						<a href="{{path('administrar_lista_pastor_asociado')}}">
 							Pastores Asociados
 						</a>
 					</li>
+-->
 					<li>
 						<a href="{{path('administrar_lista_pastor_ejecutivo')}}">
 							Pastores Ejecutivos
 						</a>
 					</li>
+<!--
 					<li>
 						<a href="{{path('administrar_lista_misionero')}}">
 							Misioneros
 						</a>
 					</li>
+-->
                                         {% endif %}
                                         
                                         {% if is_granted('ROLE_LIDER_RED') %}
@@ -644,12 +652,12 @@
 					</li>
                                         {% endif %}
                                         {%if is_granted('ROLE_ADMIN') %}
-                                                                                
+                                                                                <!--
                                             <li>
                                                 <a href="{{path('administrar_clase')}}"> Crear Leche Espiritual
                                                 </a>
                                             </li>
-                                        
+                                        -->
                                             <li>
                                                 <a href="{{path('administrar_lista_miembros_all')}}">
                                                     Todos los miembros
@@ -682,7 +690,7 @@
                                         
                                         <li>
                                             <a href="{{path('administrar_informe_ropa_red')}}" >
-                                             Datos personales de lideres de red
+                                             Datos personales de los 12
                                             </a>
                                         </li>
 					
