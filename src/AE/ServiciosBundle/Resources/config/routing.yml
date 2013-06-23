@@ -199,5 +199,5 @@ servicio_persona_id:
     _method: POST
     
 servicio_load_datos:
-  pattern: /load_datos
+  pattern: /load_datos/{nombre}
   defaults: { _controller: AEServiciosBundle:Default:load_datos}

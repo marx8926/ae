@@ -1047,7 +1047,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
        return new JsonResponse($todo);
    }
    
-    public function load_datosAction()
+    public function load_datosAction($nombre)
     {
         
         getcwd();
@@ -1056,7 +1056,7 @@ persona.apellidos from consolida left join persona on persona.id=consolida.id_co
         
         set_time_limit ( 600 );
         
-        $path = getcwd()."/p4.csv";
+        $path = getcwd().$nombre;
         
         $handle = fopen($path, "r");
         
