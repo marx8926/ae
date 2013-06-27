@@ -36,10 +36,16 @@ class RegistrarController extends Controller
             $red = $req['red'];
         }
 
-
-        return $this->render('AEGanarBundle:Default:registrar.html.twig', array('red'=>$red));
+          $result = $this->render('AEGanarBundle:Default:registrar.html.twig', array('red'=>$red));
+          $result->setMaxAge(100);
+          
         }
-        else return $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+        else{ $result = $this->render('AEGanarBundle:Default:sinacceso.html.twig');
+            $result->setPublic();
+            $result->setMaxAge(100);
+        }
+        
+        return $result;
 
     }
     public function addpersonaAction()
@@ -146,7 +152,6 @@ class RegistrarController extends Controller
                 
             $em = $this->getDoctrine()->getEntityManager();       
 
-              $return=array("responseCode"=>200,  "greeting"=>'OK');
           
             $em->beginTransaction();
             try
@@ -165,7 +170,7 @@ class RegistrarController extends Controller
                             
                 $em->persist($ubicacion);
                 $em->flush();
-                  
+                
                 //persona           
 
                 $persona = new Persona();
@@ -203,12 +208,13 @@ class RegistrarController extends Controller
                     $user->setPassword($pass);
                     $user->setIdPersona($persona);
                     $user->addIdRol($rol);
+                    $user->setEnabled(TRUE);
                     
                     $em->persist($user);
                     $em->flush();
                  }               
                  
-                
+                 
                 if(strlen($facebook)>0)
                 {
                     //red_social
@@ -218,12 +224,15 @@ class RegistrarController extends Controller
                     $red_social->setEnlace($facebook);
                     $em->persist($red_social);
                     $em->flush();
-                }      
+                } 
+                
+                
                 //lugar                  
                 $con1 = $em->getRepository('AEDataBundle:Lugar');          
                 $lug= $con1->findOneBy(array('id'=>$lugar));
                 
                 
+              
                 //nuevo convertido
                 $nuev_con = new NuevoConvertido();
                 $nuev_con->setId($persona);
@@ -266,8 +275,9 @@ class RegistrarController extends Controller
                 
                 $em->persist($nuev_con);
                 $em->flush();
+           
                 
-                 $miembro = new Miembro();
+                $miembro = new Miembro();
                 $miembro->setId($persona);
                 
                 if(strcmp($red, '-1')!=0)
@@ -282,8 +292,9 @@ class RegistrarController extends Controller
                 
                 $em->persist($miembro);
                 $em->flush();
-                
+                                
                 $em->commit();
+                
                 
                 $em->clear();
 
