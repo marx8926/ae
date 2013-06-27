@@ -11,7 +11,11 @@ class DefaultController extends Controller
 {
      public function indexAction()
     {
-               return $this->redirect($this->generateUrl('ingreso'));
+               $resultado = $this->redirect($this->generateUrl('ingreso'));
+               $resultado->setMaxAge(60);
+               $resultado->setPublic();
+               
+               return $resultado;
 
     }
     
@@ -30,11 +34,17 @@ class DefaultController extends Controller
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
         }
  
-        return $this->render('AEloginBundle:Default:index.html.twig', array(
+        $resultado = $this->render('AEloginBundle:Default:index.html.twig', array(
             // last username entered by the user
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error'         => $error,
         ));
+        
+        $resultado->setMaxAge(60);
+        
+        $resultado->setPublic();
+        
+        return $resultado;
     }
     
     public function usuarioAction($user, $pass)
@@ -77,6 +87,7 @@ class DefaultController extends Controller
         $response = $this->render('AEloginBundle:Default:main.html.twig');
         
         $response->setSharedMaxAge(60);
+        $response->setPublic();
         
         return $response;
         }
