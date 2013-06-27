@@ -37,7 +37,11 @@ class GanarServicioController extends Controller
             throw $exc;
         }
 
-       return new JsonResponse($redes);
+       $resultado= new JsonResponse($redes);
+       $resultado->setMaxAge(60);
+       $resultado->setPublic();
+       
+       return $resultado;
     }
     
     
@@ -65,7 +69,11 @@ class GanarServicioController extends Controller
             throw $exc;
         }
 
-       return new JsonResponse($redes);
+       $resultado = new JsonResponse($redes);
+       $resultado->setMaxAge(60);
+       $resultado->setPublic();
+       return $resultado;
+       
     }
     
     public function regionAction()
@@ -95,7 +103,12 @@ class GanarServicioController extends Controller
             throw  $e;
         }
     
-        return new JsonResponse($redes); 
+        $resultado = new JsonResponse($redes); 
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+
+        return $resultado;
+        
     }
     
      public function lugarAction()
@@ -123,7 +136,11 @@ class GanarServicioController extends Controller
             throw $exc;
         }
 
-       return new JsonResponse($redes);
+        $resultado = new JsonResponse($redes); 
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+
+        return $resultado;
       }
       
     //celula id
@@ -151,8 +168,12 @@ class GanarServicioController extends Controller
             $em->close();
             throw $exc;
         }
+        
+        $resultado = new JsonResponse($redes); 
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
 
-       return new JsonResponse($redes);
+        return $resultado;
     }
     
     public function provinciaAction($id)
@@ -177,7 +198,11 @@ class GanarServicioController extends Controller
             throw $exc;
         }
 
-       return new JsonResponse($redes);         
+        $resultado = new JsonResponse($redes); 
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+
+        return $resultado;         
     }
     public function distritoAction($dep, $prov)
     {
@@ -211,7 +236,11 @@ class GanarServicioController extends Controller
              throw $exc;
          }
 
-       return new JsonResponse($redes);
+        $resultado = new JsonResponse($redes); 
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+
+        return $resultado;
     }
 
     public function listaconvertidosAction()
@@ -235,7 +264,11 @@ class GanarServicioController extends Controller
             throw $exc;
         }
         
-        return new JsonResponse(array('aaData'=>$redes));
+        $result = JsonResponse(array('aaData'=>$redes));
+        $result->setMaxAge(60);
+        $result->setPublic();
+
+        return $result;
     }
     
      public function listaconvertidos_ganadorAction()
@@ -259,7 +292,11 @@ class GanarServicioController extends Controller
             throw $exc;
         }
         
-        return new JsonResponse(array('aaData'=>$redes));
+        $resultado = new JsonResponse(array('aaData'=>$redes));
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+
+        return $resultado;
     }
     
     public function personaAction($id)
@@ -274,7 +311,10 @@ class GanarServicioController extends Controller
         $redes = $smt->fetch();
         $em->clear();
    
-       return new JsonResponse($redes);
+       $result = new JsonResponse($redes);
+       $result->setMaxAge(60);
+       $result->setPublic();
+       return $result;
     }
     
     public function ubigeoAction($id)
@@ -289,7 +329,10 @@ class GanarServicioController extends Controller
         $redes = $smt->fetchAll();
         $em->clear();
    
-       return new JsonResponse($redes);
+       $result = new JsonResponse($redes);
+       $result->setMaxAge(60);
+       $result->setPublic();
+       return $result;
        
     }
     
@@ -318,7 +361,12 @@ class GanarServicioController extends Controller
             $em->close();
             throw $e;
         }
-       return new JsonResponse($redes);
+       
+       $result = new JsonResponse($redes);
+       $result->setMaxAge(60);
+       $result->setPublic();
+       
+       return $result;
     }
     
     function getTablaGanarFechaAction($fecha1,$fecha2){
@@ -380,7 +428,10 @@ class GanarServicioController extends Controller
 						</tr>";
     		
     	$result = $result."</tbody></table>";
-    	return new Response($result);
+    	$resultado = new Response($result);
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+        return $resultado;
     }
     
     //tipo: 0 mujeres , 1 hombres , 2 otros
@@ -443,7 +494,11 @@ class GanarServicioController extends Controller
 						</tr>";
     		
     	$result = $result."</tbody></table>";
-    	return new Response($result);
+    	$resultado = new Response($result);
+        $resultado->setPublic();
+        $resultado->setMaxAge(60);
+        
+        return $resultado;
         
     }
     
@@ -523,7 +578,10 @@ class GanarServicioController extends Controller
 						</tr>";
     		
     	$result = $result."</tbody></table>";
-    	return new Response($result);
+    	$resultado = new Response($result);
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+        return $result;
     }
     
     public function convertido_Red_LugarAction($fecha1, $fecha2)
@@ -550,7 +608,10 @@ class GanarServicioController extends Controller
             $em->close();
             throw $e;
         }
-       return new JsonResponse(array('aaData'=>$redes));
+       $result = new JsonResponse(array('aaData'=>$redes));
+       $result->setMaxAge(60);
+       $result->setPublic();
+       return $result;
     }
     
     public function lideres_red_tipoAction($red, $tipo)
@@ -584,7 +645,10 @@ class GanarServicioController extends Controller
             $em->close();
             throw $e;
         }
-       return new Response("<select>".$result."</select>");
+       $resultado = new Response("<select>".$result."</select>");
+       $resultado->setMaxAge(60);
+       $resultado->setPublic();
+       return $resultado;
     }
     
     public function nuevos_red_liderAction($red, $inicio,$fini)
@@ -615,7 +679,10 @@ class GanarServicioController extends Controller
             $em->close();
             throw $e;
         }
-       return new JsonResponse(array('aaData'=>$redes));
+        $resultado = new JsonResponse(array('aaData'=>$redes));
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+        return $resultado;
     }
     
     public function nuevos_red_lider_doceAction($red, $inicio, $fin, $doce)
@@ -642,7 +709,11 @@ class GanarServicioController extends Controller
             $em->close();
             throw $e;
         }
-       return new JsonResponse(array('aaData'=>$redes)); 
+       $resultado = new JsonResponse(array('aaData'=>$redes)); 
+       $resultado->setPublic();
+       $resultado->setMaxAge(60);
+       return $resultado;
+       
     }
 
     
@@ -670,7 +741,11 @@ class GanarServicioController extends Controller
             $em->close();
             throw $e;
         }
-       return new JsonResponse(array('aaData'=>$redes)); 
+       $resultado = new JsonResponse(array('aaData'=>$redes)); 
+       $resultado->setMaxAge(30);
+       $resultado->setPublic();
+       return $resultado;
+       
     }
 
      public function nuevos_red_lider_milAction($red, $inicio, $fin, $doce, $ciento, $padre)
@@ -697,7 +772,10 @@ class GanarServicioController extends Controller
             $em->close();
             throw $e;
         }
-       return new JsonResponse(array('aaData'=>$redes)); 
+       $resultado = new JsonResponse(array('aaData'=>$redes)); 
+       $resultado->setMaxAge(60);
+       $resultado->setPublic();
+       return $resultado;
     }
     
     
@@ -834,7 +912,10 @@ class GanarServicioController extends Controller
             $em->close();
             throw $e;
         }
-       return new JsonResponse(array('aaData'=>$todo)); 
+       $result = new JsonResponse(array('aaData'=>$todo)); 
+       $result->setMaxAge(60);
+       $result->setPublic();
+       return $result;
     }
     
     
@@ -861,7 +942,10 @@ class GanarServicioController extends Controller
             throw $exc;
         }
         
-        return new JsonResponse(array('aaData'=>$redes));
+        $result = new JsonResponse(array('aaData'=>$redes));
+        $result->setMaxAge(60);
+        $result->setPublic();
+        return $result;
     }
 
      public function listaconvertidos_ganador_tiempoAction($inicio, $fin)
@@ -887,7 +971,10 @@ class GanarServicioController extends Controller
             throw $exc;
         }
         
-        return new JsonResponse(array('aaData'=>$redes));
+        $resultado = new JsonResponse(array('aaData'=>$redes));
+        $resultado->setMaxAge(60);
+        $resultado->setPublic();
+        return $resultado;
     }
 
      public function listaconvertidos_ganador_red_sinAction($red, $inicio, $fin)
@@ -913,7 +1000,11 @@ class GanarServicioController extends Controller
             throw $exc;
         }
         
-        return new JsonResponse(array('aaData'=>$redes));
+        $result = new JsonResponse(array('aaData'=>$redes));
+        $result->setMaxAge(60);
+        $result->setPublic();
+
+        return $result;
     }
 
      public function listaconvertidos_ganador_tiempo_sinAction($inicio, $fin)
@@ -939,7 +1030,10 @@ class GanarServicioController extends Controller
             throw $exc;
         }
         
-        return new JsonResponse(array('aaData'=>$redes));
+        $result = new JsonResponse(array('aaData'=>$redes));
+        $result->setMaxAge(60);
+        $result->setPublic();
+        return $result;
     }
 
  }
