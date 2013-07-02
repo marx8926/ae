@@ -4,7 +4,7 @@ imports:
     
 framework:
   session:
-    cookie_lifetime: 46400 # One day, cookie lifetime
+    cookie_lifetime: 4640 # One day, cookie lifetime
     gc_maxlifetime: 1800 # 30 minutes, session lifetime
     gc_probability: 5
     gc_divisor: 100

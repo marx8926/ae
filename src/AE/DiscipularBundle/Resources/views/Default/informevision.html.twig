@@ -64,8 +64,8 @@
                 	url = "{{path('_option_celula_red',{'idred':'idred'})}}";
                 	url = url.replace('idred',red);
                 	ajaxResposeDataPost("div_lider_option",url);
-
                 	var celula = $("#lider_select_option").val();
+                        
                 	if(typeof(celula)=== 'undefined')
                     	celula=null;
                 	url = "{{path('_tabla_informe_discipular',{'idcelula':'idcelula'})}}";
