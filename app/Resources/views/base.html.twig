@@ -72,15 +72,16 @@
 							Buscar
 						</a>
 					</li>
-                                        
-                                         <li>
+                                        {% endif %}
+                                        {% if ( is_granted('ROLE_GANAR') )%}
+
+                                        <li>
                                                 <a href="{{path('ganar_modificar_ganador')}}">
                                                     Modificar Ganador
                                                 </a>
                                         </li>
-                                        {% endif %}
                                         
-					
+					{% endif %}
                                        
 					<li>
 						<a href="#" class='light toggle-collapsed'>
@@ -453,21 +454,15 @@
 					</li>
                                         {% endif %}
                                         
-                                        {% if is_granted('ROLE_ENVIAR')%}
-					<li>
-						<a href="{{path('ae_servicios_homepage')}}">
-							Ubica Células
-						</a>
-					</li>
-                                        {% endif %}
-                                        {% if is_granted('ROLE_LIDER')%}
+                                        
+                                        {% if is_granted('ROLE_LIDER_RED')%}
 					<li>
 						<a href="{{path('enviar_celulograma')}}">
 							Celulograma
 						</a>
 					</li>
                                         
-                                        
+                                        {% endif%}
                                        
 					<li>
 						<a href="#" class='light toggle-collapsed'>
@@ -525,6 +520,10 @@
                                                             </a>
                                                         </li>
                                                         {% endif %}
+                                                        
+                                                                                                                {% if(is_granted('ROLE_LIDER144')) %}
+                                                {% if is_granted('ROLE_ENVIAR')%}
+
                                                                                                                 
                                                     <li>
                                                         <a href="{{path('enviar_informe_red')}}">
@@ -536,7 +535,9 @@
                                                         <a href="{{path('enviar_informe_resumido')}}">
                                                         Informe General de Enviar
                                                         </a>
-                                                    </li>   
+                                                    </li>
+                                                    
+                                                {% endif %}
 						</ul>
 					</li>
 				
