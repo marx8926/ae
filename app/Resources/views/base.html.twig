@@ -46,7 +46,7 @@
 </div>
 <div class="main">
 	<div class="navi">
-		<ul class='main-nav'>
+            <ul class='main-nav'>
 			<li class='active'>
 				<a href="{{path('main')}}" class='light'>
 					<div class="ico"><i class="icon-home icon-white"></i></div>
@@ -59,7 +59,7 @@
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
-                                      {% if (is_granted('ROLE_LIDERSIN')) %}
+                                      {% if (is_granted('ROLE_USER')) %}
 					<li>
 						<a href="{{path('ganar_persona')}}">
 							Registrar
@@ -151,13 +151,9 @@
 						</ul>
 					</li>
 				
-                                        {% if ( (is_granted('ROLE_ADMIN') or is_granted('ROLE_GANAR')) or (is_granted('ROLE_PASTOR_ASOCIADO') or is_granted('ROLE_PASTOR_EJECUTIVO')) ) %}
-
-                                          {% endif %}
-
                                         </ul>
 			</li>
-			<li>
+                        <li>
 				<a class='light toggle-collapsed'>
 					Consolidar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
@@ -249,7 +245,6 @@
                                         </li>
                                      {% endif %}
                                         
-                                     {% if is_granted('ROLE_CONSOLIDADOR')%}
                                         <li>
                                             <a href="#" class='light toggle-collapsed'>
 							Informes
@@ -282,11 +277,15 @@
                                                                 </a>
                                                         </li>
                                                         -->
+                                                       {% if is_granted('ROLE_CONSOLIDADOR')%}
+
                                                         <li>
                                                             <a href="{{path('consolidado_informe_detallado')}}">
                                                             Informe Detallado
                                                             </a>
                                                         </li>
+                                                       {% endif %}                                           
+
                                                         {% if is_granted('ROLE_CONSOLIDAR')%}
                                                         <li>
                                                             <a href="{{path('consolidado_informe_resumido')}}">
@@ -298,10 +297,10 @@
                                             
                                        
                                         </li>
-                                     {% endif %}                                           
 				</ul>
 			</li>
-			<li>
+            
+                        <li>
 				<a class='light toggle-collapsed'>
 					Discipular
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
@@ -380,23 +379,24 @@
                                        {% endif %}
 				</ul>
 			</li>
-			<li>
+                        
+                        	<li>
 				<a class='light toggle-collapsed'>
 					Enviar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
 				<ul class='collapsed-nav closed'>
-                                        {% if is_granted('ROLE_LIDER_RED')%}
+                                        {% if is_granted('ROLE_LIDER_RED') %}
 					<li>
 						<a href="{{path('enviar_celula')}}">
 							Crear Célula
 						</a>
 					</li>
                                         {% endif %}
-                                        {% if is_granted('ROLE_LIDER_RED')%}
+                                        {% if is_granted('ROLE_LIDER_RED') %}
 					<li>
 						<a href="{{path('enviar_busqueda_celula')}}">
-							Lista de Células 
+							Lista Células 
 						</a>
 					</li>
                                         
@@ -411,7 +411,7 @@
                                             </a>
                                         </li>
                                         {% endif %}
-                                        {% if is_granted('ROLE_ENVIAR')%}
+                                        {% if is_granted('ROLE_ENVIAR') %}
                                         <li>
                                             <a href="{{path('enviar_activar_vista')}}">
                                                 Reactivar Células
@@ -446,7 +446,7 @@
                                         </li>
                                         
                                         {% endif %}
-                                        {% if is_granted('ROLE_LIDERSIN')%}
+                                        {% if is_granted('ROLE_LIDERSIN') %}
 					<li>
 						<a href="{{path('enviar_asistencia')}}">
 							Registro de Asistencia
@@ -455,14 +455,14 @@
                                         {% endif %}
                                         
                                         
-                                        {% if is_granted('ROLE_LIDER_RED')%}
+                                        {% if is_granted('ROLE_ENVIAR') %}
 					<li>
 						<a href="{{path('enviar_celulograma')}}">
 							Celulograma
 						</a>
 					</li>
                                         
-                                        {% endif%}
+                                        {% endif %}
                                        
 					<li>
 						<a href="#" class='light toggle-collapsed'>
@@ -521,8 +521,8 @@
                                                         </li>
                                                         {% endif %}
                                                         
-                                                                                                                {% if(is_granted('ROLE_LIDER144')) %}
-                                                {% if is_granted('ROLE_ENVIAR')%}
+
+                                                {% if is_granted('ROLE_ENVIAR') %}
 
                                                                                                                 
                                                     <li>
@@ -541,42 +541,25 @@
 						</ul>
 					</li>
 				
-                                        
-                                       {% endif %}
 
 				</ul>
 			</li>
-			<li>
-				<a class='light toggle-collapsed'>
+                        <li>
+                        <a class='light toggle-collapsed'>
 					Administrar
 					<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
 				</a>
-				<ul class='collapsed-nav closed'>
-                                    
-                                        {% if(is_granted('ROLE_USER'))%}
+                        <ul class='collapsed-nav closed'>
+                        
+                            {% if(is_granted('ROLE_USER'))%}
                                         <li>
                                             <a href="{{path('administrar_cambiar_usuario')}}">
                                             Cambiar Usuario
                                             </a>
                                         </li>
-                                        {% endif %}
-<!--
-                                 			{% if is_granted('ROLE_ADMIN')%}
-        				<li>
-						<a href="{{path('administrar_iglesia')}}">
-							Registrar Iglesia
-						</a>
-					</li>
-					<li>
-						<a href="{{path('administrar_modiglesia')}}">
-							Modificar Iglesia
-						</a>
-					</li>
--->
+                            {% endif %}
                                         
-                                        {% endif %}
-                                        
-                                        {% if is_granted('ROLE_PASTOR_ASOCIADO')%}
+                             {% if is_granted('ROLE_PASTOR_ASOCIADO')%}
 					<li>
 						<a href="{{path('administrar_red')}}">
 							Registrar Red
@@ -587,9 +570,9 @@
                                             <a href="{{path('administrar_lista_redes')}}">Lista de Redes</a>
                                         </li>
                                         
-                                         {% endif %}
+                             {% endif %}
                                         
-					{% if is_granted('ROLE_ADMIN') %}
+                                        {% if is_granted('ROLE_ADMIN') %}
 					<li>
 						<a href="{{path('administrar_mod_permisos')}}">
 							Permisos
@@ -614,9 +597,10 @@
 							Registrar 1728
 						</a>
 					</li>
+                                        </ul>
+
                                         {% endif %}
 
-                                        </ul>
                                         
                                         {% if is_granted('ROLE_PASTOR_ASOCIADO')%}
 					<li>
@@ -644,21 +628,18 @@
 					</li>
 -->
                                         {% endif %}
+
                                         
-                                        {% if is_granted('ROLE_LIDER_RED') %}
+                                         {% if is_granted('ROLE_LIDER_RED') %}
 					<li>
 						<a href="{{path('administrar_lista_miembros')}}">
 							Lista Miembros/Red
 						</a>
 					</li>
                                         {% endif %}
+                                        
                                         {%if is_granted('ROLE_ADMIN') %}
-                                                                                <!--
-                                            <li>
-                                                <a href="{{path('administrar_clase')}}"> Crear Leche Espiritual
-                                                </a>
-                                            </li>
-                                        -->
+                                             
                                             <li>
                                                 <a href="{{path('administrar_lista_miembros_all')}}">
                                                     Todos los miembros
@@ -669,8 +650,8 @@
                                                 <a href="{{path('administrar_lista_usuario')}}">Lista de Usuarios</a>
                                             </li>
                                         {% endif %}
-                                        
-                                        {% if is_granted('ROLE_LIDER_RED')%}
+                             
+                                         {% if is_granted('ROLE_LIDER_RED')%}
                                         <li>
                                             <a href="{{path('administrar_asistencia_culto')}}">
                                              Registrar Asistencia Culto
@@ -707,7 +688,8 @@
                                             </a>
                                         </li>
                                         {% endif %}
-					<li>
+                                        
+                                        <li>
 						<a href="#" class='light toggle-collapsed'>
 							Eventos
 							<img src="{{ asset('img/toggle-subnav-down.png') }}" alt="">
@@ -721,7 +703,7 @@
 							</li>
                                                         
                                                      {% endif %}
-                                                     {% if is_granted('ROLE_LIDER_RED') %}
+                                                     {% if is_granted('ROLE_ADMIN') %}
 							<li>
 								<a href="{{path('administrar_ver_eventos')}}">
 									Asistencia Eventos
@@ -730,11 +712,9 @@
                                                      {% endif %}
 						</ul>
 					</li>
-
-				</ul>
-			</li>
-		
                         </ul>
+                        </li>
+              </ul>
 	</div>
 	<div class="container-fluid">
 		<div class="content">
