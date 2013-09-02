@@ -28,6 +28,8 @@
   	<script src="{{asset('js/jquery.inputmask.min.js')}}"></script>
         <script src="{{asset('js/mapa.js')}}"></script>
         <script src="{{asset('js/ganar.js')}}"></script>
+        <script src="{{asset('js/functiongen.js')}}"> </script>
+
            
             
             <script type="text/javascript">
@@ -35,15 +37,23 @@
                   //init red
                   
                   var rede = '{{red}}';
-                  
+                  {% if is_granted('ROLE_LIDER_RED')%}
+                       $("#tip_red").change(change_tipo);
+
+                  {% endif %}
+
                   {% if is_granted('ROLE_GANAR') %}
                     initRed('{{path('servicio_red_sin')}}');
                                      
                   {% else %}                      
                       
                       if(rede.length ===0)
-                      $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
-                      else $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                          $("<option value='-1'>Sin red </option>").appendTo('#red_lista');
+                      else {
+                          $("<option value='"+rede+"'>"+rede+"</option>").appendTo('#red_lista');
+                         
+                            recargar_celula();
+                      }
 
                       $("<option value='-1'>Sin  Celula </option>").appendTo('#celula_lista');
 
@@ -63,7 +73,7 @@
                     //get the url for the form
                     var url=$("#myForm").attr("action");                     
                     //start send the post request 
-                    //console.log($("#myForm").serialize());
+                    console.log($("#myForm").serialize());
                     $.post(url,{
                         formName:$("#myForm").serialize(),
                         other:"attributes"
@@ -91,7 +101,38 @@
                   mapeo_position('lat','lng','addresspicker_map','map');     
                   //dibujar_mapa('map','lat','lng','addresspicker_map');
             });
+            /** inicio ganador por */
+             function listas(entrada)
+                {
+                    var rede = $('#red_lista').val();
 
+                    console.log('lista redes '+rede+' '+entrada);
+                    if(rede!='-1')
+                    switch(entrada)
+                    {                        
+                        case 0: //lider de red
+                            
+                            ajaxListPost('{{path('_enviar_lista_lider_red_cell')}}','ids',rede);
+                            break;
+                        case 1: //pastor ejecutivo
+                            ajaxListPost('{{path('_enviar_lista_pastor_ejecutivo_cell')}}','ids',rede);
+                            break;
+                        case 2: //misioneros
+                            ajaxListPost('{{path('_enviar_lista_misionero_cell')}}','ids',rede);
+                            break;
+                            
+                        case 3: //lideres
+                            ajaxListPost('{{path('_enviar_lista_lideres_cell')}}','ids',rede);
+                            break;
+                    }        
+                            
+                }
+                function change_tipo()
+                {
+                    var valor = $('#tip_red').val();
+                    listas(parseInt(valor));
+                }
+                /**fin ganado por **/
             function recargar_celula()
             {
                 var nombre = $("#red_lista option:selected").val();  
@@ -99,7 +140,7 @@
                  var route = '{{path('servicio_celula',{'id': 'name'})}}';
             
                  var rutas = route.replace('name',nombre);
-                 
+                 change_tipo();
                 
                  $.ajax(
                         {url : rutas,
@@ -152,7 +193,7 @@
             
 {% block content %}
     <div class="span9" id="registro_form">
-    <h1>Registrar Usuario</h1>
+    <h1>Registrar Nuevo</h1>
     <br>
         <form class="form-horizontal" action="{{path('ganar_addpersona')}}" method="POST" id="myForm">
            
@@ -376,6 +417,30 @@
                 </select>
             </div>
         </div>
+        
+        {% if is_granted('ROLE_LIDER_RED') %}
+
+        <div class="control-group">
+                <label class="control-label">Ganado por</label>
+                    <div class="controls">
+                         <select id="tip_red" name="tip_red" required>
+                                <option value="0">Lider de red</option>                                
+                                <option value="1">Pastor Ejecutivo</option>
+                                <option value="2">Misionero</option>
+                                <option value="3">Lider</option>
+                            </select>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">Ganador por:</label>
+                    <div class="controls">
+                        <select id="ids" name="ids" required >
+                        
+                        </select>
+                    </div>
+                </div>
+        {% endif %}
         <div class="control-group">
             <label class="control-label">Fecha de Conversión (*)</label>
             <div class="controls">

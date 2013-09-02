@@ -92,6 +92,7 @@ class RegistrarController extends Controller
             $dia = NULL;
             $hora = NULL;
             $ganador = NULL;
+            $ids = NULL;
 
         if($name!=NULL){
 
@@ -262,7 +263,14 @@ class RegistrarController extends Controller
                 $nuev_con->setHora(new \DateTime($hora));
                 
 
-                if($securityContext->isGranted('ROLE_PROFESOR') || $securityContext->isGranted('ROLE_LIDERSIN') ||
+                if($securityContext->isGranted('ROLE_LIDER_RED'))
+                {             
+                    $ids = $datos['ids'];
+
+                    $nuev_con->setGanador($ids);
+  
+                }
+                else if($securityContext->isGranted('ROLE_PROFESOR') || $securityContext->isGranted('ROLE_LIDERSIN') ||
                         $securityContext->isGranted('ROLE_CONSOLIDADOR'))
                 {
                     $ganador = $securityContext->getToken()->getUser()->getIdPersona();
