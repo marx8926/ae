@@ -1,10 +1,10 @@
 parameters:
   database_driver: pdo_pgsql
-  database_host: 127.0.0.1
+  database_host: actumbes.cmx8bf9qpm5t.us-east-1.rds.amazonaws.com
   database_port: 5432
   database_name: AC
-  database_user: postgres
-  database_password: 'cs*marx*26041989'
+  database_user: actumbes
+  database_password: 'lQO8r4VH36Xz58Z'
   mailer_transport: gmail
   mailer_encryption: ssl
   mailer_auth_mode: login
